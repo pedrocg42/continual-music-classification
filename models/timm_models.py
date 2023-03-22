@@ -1,6 +1,6 @@
-from timm import create_model
-import torch.nn as nn
 import torch
+import torch.nn as nn
+from timm import create_model
 
 
 class ClassificationTimmModel(nn.Module):

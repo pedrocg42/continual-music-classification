@@ -1,26 +1,23 @@
-# Datasets
-from datasets import GTZANDataset
-
-# Datasets
-from datasets import GTZANDataset
-from datasets import SimpleMusicPipeline
-
-# Architecture
-from models import TimmMobileNetV3
-from models import TimmMobileViTV2
+# Losses
+from torch.nn import CrossEntropyLoss
 
 # Optimizers
 from torch.optim import AdamW
 
-# Losses
-from torch.nn import CrossEntropyLoss
-
 # Metrics
 from torchmetrics import F1Score, Precision, Recall
 
+# Datasets
+from datasets import GTZANDataset, SimpleMusicPipeline
+
+# Experiment Trakcer
+from experiment_tracker import TensorboardExperimentTracker
+
+# Architecture
+from models import TimmMobileNetV3, TimmMobileViTV2
 
 gtzan_mobilenetv2 = {
-    "name": "gtzan_mobilenetv2",
+    "experiment_name": "gtzan_mobilenetv2",
     # data
     "dataset_class": GTZANDataset,
     "sample_rate": 20050,
@@ -57,4 +54,6 @@ gtzan_mobilenetv2 = {
             "Recall": Recall(task="multiclass", average="macro", num_classes=10),
         },
     },
+    # experiment tracker
+    "experiment_tracker_class": TensorboardExperimentTracker,
 }
