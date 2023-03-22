@@ -57,3 +57,11 @@ gtzan_mobilenetv2 = {
     # experiment tracker
     "experiment_tracker_class": TensorboardExperimentTracker,
 }
+
+gtzan_mobilevitv2 = gtzan_mobilenetv2.copy()
+gtzan_mobilevitv2.update(
+    {
+        # architecture
+        "architecture": TimmMobileViTV2,
+    }
+)
