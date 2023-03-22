@@ -43,7 +43,7 @@ class GTZANDataset(data.Dataset):
         self.split_config = split_config
         self.hop_length = hop_length
         self.length_spectrogram = length_spectrogram
-        self.chunk_lengh = self.hop_length * self.length_spectrogram
+        self.chunk_lengh = self.hop_length * self.length_spectrogram - 1
         self.augment = augment
 
         self._get_songs()
@@ -74,12 +74,16 @@ class GTZANDataset(data.Dataset):
 
     def _adjust_audio_length(self, wav: torch.Tensor) -> torch.Tensor:
         if self.split == "train":
-            random_index = np.random.randint(0, wav.shape[-1] - self.chunk_lengh - 1)
-            return wav[:, random_index : random_index + self.chunk_lengh - 1]
+            random_index = np.random.randint(0, wav.shape[-1] - self.chunk_lengh)
+            return wav[:, random_index : random_index + self.chunk_lengh], 1
         else:
-            return torch.reshape(
-                wav[: self.chunk_lengh * (wav.shape[-1] // self.chunk_lengh)],
-                (-1, 1, self.chunk_lengh),
+            num_chunks = wav.shape[-1] // self.chunk_lengh
+            return (
+                torch.reshape(
+                    wav[0, : self.chunk_lengh * num_chunks],
+                    (-1, 1, self.chunk_lengh),
+                ),
+                num_chunks,
             )
 
     def __getitem__(self, index):
@@ -91,11 +95,19 @@ class GTZANDataset(data.Dataset):
         audio_filename_path = os.path.join(
             self.dataset_path, "genres", song.split(".")[0], song
         )
-        wav, _ = torchaudio.load(audio_filename_path)
+        try:
+            wav, _ = torchaudio.load(audio_filename_path)
+            wav, num_chunks = self._adjust_audio_length(wav)
+        except:
+            return (
+                torch.zeros((1, self.chunk_lengh)),
+                torch.tensor(self.genres[label]),
+            )
 
-        wav = self._adjust_audio_length(wav)
-
-        return wav, torch.tensor(self.genres[label])
+        if self.split == "train":
+            return wav, torch.tensor(self.genres[label])
+        else:
+            return wav, torch.tensor(self.genres[label]).repeat(num_chunks)
 
     def __len__(self):
         return len(self.songs[self.split]["songs"])
@@ -107,6 +119,7 @@ class GTZANDataset(data.Dataset):
             shuffle=True if (self.split == "train") else False,
             drop_last=False,
             num_workers=num_workers,
+            pin_memory=True,
         )
         return data_loader
 
