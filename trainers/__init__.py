@@ -1,5 +1,3 @@
-from trainers.music_gender_classification_trainer import (
-    MusicGenderClassificationTrainer,
-)
+from trainers.trainer import Trainer
 
-__all__ = ["MusicGenderClassificationTrainer"]
+__all__ = ["Trainer"]
