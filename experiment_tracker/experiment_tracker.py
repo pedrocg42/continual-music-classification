@@ -2,8 +2,12 @@ from abc import ABC, abstractmethod
 
 
 class ExperimentTracker(ABC):
-    def __init__(self, experiment_name: str, **kwargs) -> None:
-        self.experiment_name = experiment_name
+    def __init__(self, **kwargs) -> None:
+        self.experiment_name = None
+
+    @abstractmethod
+    def configure(self):
+        pass
 
     @abstractmethod
     def log_metric(self):
