@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from models import TorchBaseModel
+from models.torch_base_model import TorchBaseModel
 from models.encoders import ResNet50Encoder
 
 

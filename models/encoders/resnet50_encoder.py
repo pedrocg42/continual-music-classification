@@ -1,8 +1,6 @@
 import torch
 import torch.nn as nn
 
-from models import TorchBaseModel
-
 
 class ResNet50Encoder(nn.Module):
     def __init__(self, pretrained: bool = True, **kwargs) -> None:
