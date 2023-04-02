@@ -9,6 +9,7 @@ import config
 from criterias import Criteria
 from experiment_tracker import ExperimentTracker
 from loopers import Looper
+from model_savers import ModelSaver
 from models import TrainModel
 from optimizers import Optimizer
 from train_data_sources import TrainDataSource
@@ -26,6 +27,7 @@ class MusicGenderClassificationLooper(Looper):
         criteria: Criteria,
         optimizer: Optimizer,
         experiment_tracker: ExperimentTracker,
+        model_saver: ModelSaver,
         metrics: dict,
     ) -> None:
         super().__init__()
@@ -49,12 +51,16 @@ class MusicGenderClassificationLooper(Looper):
         # Experiment tracker
         self.experiment_tracker = experiment_tracker
 
+        # Model saver
+        self.model_saver = model_saver
+
     def configure(self, **kwargs):
         self.optimizer.configure(self.model.parameters(), **kwargs)
         self.experiment_tracker.configure(**kwargs)
         self.train_data_transform.to(config.device)
         self.val_data_transform.to(config.device)
         self.model.to(config.device)
+        self.model_saver.configure(self.model, **kwargs)
 
     def log_start(self):
         print(self.model)
@@ -158,9 +164,3 @@ class MusicGenderClassificationLooper(Looper):
                 self.experiment_tracker.log_metric(
                     f"{metric_name}/Val", metric_result, epoch
                 )
-
-    def save_model(self):
-        torch.save(
-            self.model.state_dict(),
-            os.path.join(config.models_path, f"{self.experiment_name}.pt"),
-        )
