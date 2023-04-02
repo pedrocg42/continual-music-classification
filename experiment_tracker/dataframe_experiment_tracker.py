@@ -37,10 +37,16 @@ class DataframeExperimentTracker(ExperimentTracker):
             "task_name": task_name,
         }
         for metric_name, metric_value in metrics.items():
-            row[metric_name] = metric_value
+            row[metric_name] = metric_value.numpy()
+        row = pd.Series(row)
 
+        self.add_row(row)
+        self.save_results()
+
+    def add_row(self, row: dict):
+        row = pd.Series(row)
         if len(self.dataframe) == 0:
-            self.dataframe = pd.DataFrame(row)
+            self.dataframe = pd.DataFrame([row])
         else:
             self.dataframe = pd.concat(
                 [
@@ -49,8 +55,6 @@ class DataframeExperimentTracker(ExperimentTracker):
                 ],
                 ignore_index=True,
             )
-
-        self.save_results()
 
     def save_results(self):
         logger.info(f"Saving results to {self.dataframe_path}")
