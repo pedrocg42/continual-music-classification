@@ -39,9 +39,11 @@ class Trainer(ABC):
         self.looper.log_start()
         for epoch in range(self.num_epochs):
             results = self.looper.train_epoch(epoch=epoch)
-            self.looper.log_train_epoch(results, epoch)
+            metrics = self.looper.extract_metrics(results)
+            self.looper.log_metrics(metrics, epoch)
             results = self.looper.val_epoch(epoch)
-            self.looper.log_val_epoch(results, epoch)
+            metrics = self.looper.extract_metrics(results, mode="val")
+            self.looper.log_metrics(metrics, epoch, mode="val")
             self.looper.model_saver.save_model()
             if self.early_stopping():
                 break

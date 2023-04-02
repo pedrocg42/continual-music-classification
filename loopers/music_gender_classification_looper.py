@@ -105,8 +105,16 @@ class MusicGenderClassificationLooper(Looper):
         logger.info(f"Validation epoch {epoch + 1}")
         self.model.eval()
         results_epoch = []
+        pbar = tqdm(self.val_data_source, colour="green")
         for waveforms, labels in tqdm(self.val_data_source, colour="green"):
             results_epoch.append(self.val_batch(waveforms, labels))
+            pbar.set_postfix(
+                {
+                    "loss": np.mean(
+                        [result_epoch["loss"].numpy() for result_epoch in results_epoch]
+                    )
+                }
+            )
         return results_epoch
 
     @torch.no_grad()
@@ -127,40 +135,26 @@ class MusicGenderClassificationLooper(Looper):
             labels=labels.detach().cpu(),
         )
 
-    def log_train_epoch(self, results_epoch: list[dict], epoch: int):
-        avg_loss = np.array(
+    def extract_metrics(self, results_epoch: list[dict], mode: str = "train"):
+        preds = torch.vstack(
+            [results_batch["preds"] for results_batch in results_epoch]
+        )
+        labels = torch.hstack(
+            [results_batch["labels"] for results_batch in results_epoch]
+        )
+        metrics_results = {}
+        metrics_results["loss"] = np.array(
             [results_batch["loss"] for results_batch in results_epoch]
         ).mean()
-        self.experiment_tracker.log_metric("Loss/Train", avg_loss, epoch)
+        for metric_name, metric in self.metrics[mode].items():
+            metrics_results[metric_name] = metric(preds, labels).cpu().item().numpy()
 
-        if self.metrics.get("train", None) is not None:
-            preds = torch.vstack(
-                [results_batch["preds"] for results_batch in results_epoch]
-            )
-            labels = torch.hstack(
-                [results_batch["labels"] for results_batch in results_epoch]
-            )
-            for metric_name, metric in self.metrics["train"].items():
-                metric_result = metric(preds, labels)
-                self.experiment_tracker.log_metric(
-                    f"{metric_name}/Train", metric_result, epoch
-                )
+        return metrics_results
 
-    def log_val_epoch(self, results_epoch: list[dict], epoch: int):
-        avg_loss = np.array(
-            [results_batch["loss"] for results_batch in results_epoch]
-        ).mean()
-        self.experiment_tracker.log_metric("Loss/Val", avg_loss, epoch)
-
-        if self.metrics.get("val", None) is not None:
-            preds = torch.vstack(
-                [results_batch["preds"] for results_batch in results_epoch]
+    def log_metrics(
+        self, metrics_results: dict[str, float], epoch: int, mode: str = "train"
+    ):
+        for metric_name, metric_result in metrics_results.items():
+            self.experiment_tracker.log_metric(
+                f"{metric_name.title()}/{mode}", metric_result, epoch
             )
-            labels = torch.hstack(
-                [results_batch["labels"] for results_batch in results_epoch]
-            )
-            for metric_name, metric in self.metrics["val"].items():
-                metric_result = metric(preds, labels)
-                self.experiment_tracker.log_metric(
-                    f"{metric_name}/Val", metric_result, epoch
-                )
