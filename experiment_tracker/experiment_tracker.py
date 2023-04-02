@@ -12,3 +12,6 @@ class ExperimentTracker(ABC):
     @abstractmethod
     def log_metric(self):
         pass
+
+    def log_metrics(self):
+        pass
