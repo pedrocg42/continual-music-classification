@@ -1,7 +1,7 @@
 from fire import Fire
 
-from utils import parse_experiment
 from trainers import Trainer
+from utils import parse_experiment
 
 
 def train(experiment_name: str, trainer: Trainer):

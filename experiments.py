@@ -5,7 +5,7 @@ from torchmetrics import F1Score, Precision, Recall
 from criterias import TorchCrossEntropyCriteria
 
 # Datasets
-from datasets import GTZANDataset, SimpleMusicPipeline
+from datasets import GTZANDataset
 
 # Experiment Trakcer
 from experiment_tracker import TensorboardExperimentTracker
@@ -13,15 +13,23 @@ from experiment_tracker import TensorboardExperimentTracker
 # Looper
 from loopers import MusicGenderClassificationLooper
 
+# Model Savers
+from model_savers import MusicGenderClassificationModelSaver
+
 # Architecture
 from models import TimmMobileNetV3, TimmMobileViTV2
 
 # Optmizers
 from optimizers import TorchAdamWOptimizer
+
+# Data Transforms
+from train_data_transforms import SimpleMusicPipeline
+
+# Trainers
 from trainers import Trainer
 
-gtzan_mobilenetv2 = {
-    "experiment_name": "gtzan_mobilenetv2",
+gtzan_mobilenetv2_naive = {
+    "experiment_name": "gtzan_mobilenetv2_naive",
     # data
     "train": {
         "trainer": Trainer(
@@ -73,6 +81,7 @@ gtzan_mobilenetv2 = {
                     },
                 },
                 experiment_tracker=TensorboardExperimentTracker(),
+                model_saver=MusicGenderClassificationModelSaver(),
             ),
         ),
     },

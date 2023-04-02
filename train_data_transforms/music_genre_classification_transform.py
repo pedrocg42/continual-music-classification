@@ -1,10 +1,16 @@
 import torch.nn as nn
 from torch import Tensor
-from torchaudio.transforms import (FrequencyMasking, MelScale, MelSpectrogram,
-                                   Resample, Spectrogram, TimeMasking,
-                                   TimeStretch)
+from torchaudio.transforms import (
+    FrequencyMasking,
+    MelScale,
+    MelSpectrogram,
+    Resample,
+    Spectrogram,
+    TimeMasking,
+    TimeStretch,
+)
 
-from train_data_transforms import TrainDataTransform
+from train_data_transforms.train_data_transform import TrainDataTransform
 
 
 class SimpleMusicPipeline(nn.Module, TrainDataTransform):
@@ -46,6 +52,9 @@ class SimpleMusicPipeline(nn.Module, TrainDataTransform):
             spec = self.spectrogram_augmentation(spec)
 
         return spec
+
+    def transform(self, *args, **kwargs):
+        return self.forward(*args, **kwargs)
 
 
 # Define custom feature extraction pipeline.
