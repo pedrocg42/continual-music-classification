@@ -31,6 +31,13 @@ from train_data_transforms import SimpleMusicPipeline
 # Trainers
 from trainers import Trainer
 
+data_transform = SimpleMusicPipeline(
+    sample_rate=20050,
+    n_fft=1024,
+    win_length=None,
+    hop_length=512,
+    n_mels=128,
+)
 gtzan_mobilenetv2_naive = {
     "experiment_name": "gtzan_mobilenetv2_naive",
     "experiment_type": "Baseline",
@@ -48,20 +55,8 @@ gtzan_mobilenetv2_naive = {
                 val_data_source=GTZANDataset(
                     split="val", hop_length=512, length_spectrogram=128
                 ),
-                train_data_transform=SimpleMusicPipeline(
-                    sample_rate=20050,
-                    n_fft=1024,
-                    win_length=None,
-                    hop_length=512,
-                    n_mels=128,
-                ),
-                val_data_transform=SimpleMusicPipeline(
-                    sample_rate=20050,
-                    n_fft=1024,
-                    win_length=None,
-                    hop_length=512,
-                    n_mels=128,
-                ),
+                train_data_transform=data_transform,
+                val_data_transform=data_transform,
                 train_model=TimmMobileNetV3(num_classes=10, pretrained=True),
                 criteria=TorchCrossEntropyCriteria(),
                 optimizer=TorchAdamWOptimizer(lr=3e-4),
@@ -97,6 +92,7 @@ gtzan_mobilenetv2_naive = {
             data_source=GTZANDataset(
                 split="val", hop_length=512, length_spectrogram=128
             ),
+            data_transform=data_transform,
             metrics={
                 "F1 Score": F1Score(task="multiclass", num_classes=10),
                 "Precision": Precision(
