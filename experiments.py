@@ -5,7 +5,7 @@ from torchmetrics import F1Score, Precision, Recall
 from criterias import TorchCrossEntropyCriteria
 
 # Datasets
-from datasets import GTZANDataset
+from train_data_sources import GTZANDataset
 
 # Evaluator
 from evaluators import Evaluator
@@ -38,10 +38,10 @@ data_transform = SimpleMusicPipeline(
     hop_length=512,
     n_mels=128,
 )
-gtzan_mobilenetv2_naive = {
-    "experiment_name": "gtzan_mobilenetv2_naive",
+gtzan_mobilenetv2_cumulative = {
+    "experiment_name": "gtzan_mobilenetv2_cumulative",
     "experiment_type": "Baseline",
-    "experiment_subtype": "Naive",
+    "experiment_subtype": "Cumulative",
     # data
     "train": {
         "trainer": Trainer(

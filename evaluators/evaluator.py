@@ -37,6 +37,7 @@ class Evaluator(ABC):
             experiment_name=experiment_name,
             experiment_type=experiment_type,
             experiment_subtype=experiment_subtype,
+            dataset_name=self.data_source.name,
         )
         self.model_saver.configure(self.model, experiment_name=experiment_name)
         self.model_saver.load_model()

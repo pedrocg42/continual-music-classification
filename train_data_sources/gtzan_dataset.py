@@ -1,5 +1,4 @@
 import os
-import random
 
 import numpy as np
 import pandas as pd
@@ -35,6 +34,7 @@ class GTZANDataset(data.Dataset):
         split_config: dict = {"train": 0.7, "val": 0.1, "test": 0.2},
         **kwargs
     ):
+        self.name = "GTZAN"
         self.dataset_path = config.dataset_path
         self.sr = 22050
         self.genres = GTZAN_GENRES

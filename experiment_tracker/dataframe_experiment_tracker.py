@@ -19,19 +19,31 @@ class DataframeExperimentTracker(ExperimentTracker):
         )
 
     def configure(
-        self, experiment_name: str, experiment_type: str, experiment_subtype: str
+        self,
+        experiment_name: str,
+        experiment_type: str,
+        experiment_subtype: str,
+        dataset_name: str,
     ):
         self.experiment_name = experiment_name
         self.experiment_type = experiment_type
         self.experiment_subtype = experiment_subtype
+        self.dataset_name = dataset_name
 
     def log_metrics(
-        self, metrics: str, cv_fold: int = 0, task_number: int = 0, task_name: str = ""
+        self,
+        metrics: str,
+        cv_fold: int = 0,
+        task_number: int = 0,
+        task_name: str = "",
+        train_subdataset_name: str = "",
     ):
         row = {
             "experiment_name": self.experiment_name,
             "experiment_type": self.experiment_type,
             "experiment_subtype": self.experiment_subtype,
+            "train_dataset_name": self.dataset_name,
+            "train_subdataset_name": train_subdataset_name,
             "cv_fold": cv_fold,
             "task_number": task_number,
             "task_name": task_name,
