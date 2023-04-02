@@ -3,12 +3,10 @@ from abc import ABC, abstractmethod
 from models import TrainModel
 
 
-class TrainModelSaver(ABC):
-    def __init__(
-        self, model: TrainModel, output_folder: str, final_export: bool = True, **kwargs
-    ):
-        self.model: TrainModel = model
-        self.output_folder: str = output_folder
+class ModelSaver(ABC):
+    @abstractmethod
+    def configure(self, model: int, **kwargs):
+        return NotImplementedError
 
     @abstractmethod
     def save_model(self, epoch: int, metric: float = None):

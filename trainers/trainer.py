@@ -1,6 +1,8 @@
 from abc import ABC
-from loopers import Looper
+
 from loguru import logger
+
+from loopers import Looper
 
 
 class Trainer(ABC):
@@ -17,6 +19,6 @@ class Trainer(ABC):
             self.looper.log_train_epoch(results, epoch)
             results = self.looper.val_epoch(epoch)
             self.looper.log_val_epoch(results, epoch)
-            self.looper.save_model()
+            self.looper.model_saver.save_model()
             if self.looper.early_stopping:
                 break
