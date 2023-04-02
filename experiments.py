@@ -20,7 +20,7 @@ from loopers import MusicGenderClassificationLooper
 from model_savers import MusicGenderClassificationModelSaver
 
 # Architecture
-from models import TimmMobileNetV3, TimmMobileViTV2
+from models import TorchClassificationModel
 
 # Optmizers
 from optimizers import TorchAdamWOptimizer
@@ -38,10 +38,10 @@ data_transform = SimpleMusicPipeline(
     hop_length=512,
     n_mels=128,
 )
-gtzan_mobilenetv2_cumulative = {
+gtzan_mobilenetv2_joint = {
     "experiment_name": "gtzan_mobilenetv2_cumulative",
     "experiment_type": "Baseline",
-    "experiment_subtype": "Cumulative",
+    "experiment_subtype": "Joint",
     # data
     "train": {
         "trainer": Trainer(
@@ -50,16 +50,16 @@ gtzan_mobilenetv2_cumulative = {
             early_stopping_metric="F1 Score",
             looper=MusicGenderClassificationLooper(
                 train_data_source=GTZANDataset(
-                    split="train",
-                    hop_length=512,
-                    length_spectrogram=128,
-                ).get_dataloader(batch_size=128, num_workers=2),
+                    split="train", hop_length=512, length_spectrogram=128
+                ).get_dataloader(batch_size=32, num_workers=0),
                 val_data_source=GTZANDataset(
                     split="val", hop_length=512, length_spectrogram=128
                 ),
                 train_data_transform=data_transform,
                 val_data_transform=data_transform,
-                train_model=TimmMobileNetV3(num_classes=10, pretrained=True),
+                train_model=TorchClassificationModel(
+                    encoder_name="dino_resnet50", pretrained=True, num_classes=10
+                ),
                 criteria=TorchCrossEntropyCriteria(),
                 optimizer=TorchAdamWOptimizer(lr=3e-4),
                 metrics={
@@ -89,7 +89,9 @@ gtzan_mobilenetv2_cumulative = {
     },
     "evaluate": {
         "evaluator": Evaluator(
-            model=TimmMobileNetV3(num_classes=10, pretrained=True),
+            model=TorchClassificationModel(
+                encoder_name="dino_resnet50", pretrained=True, num_classes=10
+            ),
             model_saver=MusicGenderClassificationModelSaver(),
             data_source=GTZANDataset(
                 split="val", hop_length=512, length_spectrogram=128
