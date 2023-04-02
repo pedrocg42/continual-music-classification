@@ -7,8 +7,11 @@ from criterias import TorchCrossEntropyCriteria
 # Datasets
 from datasets import GTZANDataset
 
+# Evaluator
+from evaluators import Evaluator
+
 # Experiment Trakcer
-from experiment_tracker import TensorboardExperimentTracker
+from experiment_tracker import DataframeExperimentTracker, TensorboardExperimentTracker
 
 # Looper
 from loopers import MusicGenderClassificationLooper
@@ -30,10 +33,12 @@ from trainers import Trainer
 
 gtzan_mobilenetv2_naive = {
     "experiment_name": "gtzan_mobilenetv2_naive",
+    "experiment_type": "Baseline",
+    "experiment_subtype": "Naive",
     # data
     "train": {
         "trainer": Trainer(
-            num_epochs=100,
+            num_epochs=5,
             looper=MusicGenderClassificationLooper(
                 train_data_source=GTZANDataset(
                     split="train",
@@ -85,5 +90,21 @@ gtzan_mobilenetv2_naive = {
             ),
         ),
     },
-    "evaluate": {},
+    "evaluate": {
+        "evaluator": Evaluator(
+            model=TimmMobileNetV3(num_classes=10, pretrained=True),
+            model_saver=MusicGenderClassificationModelSaver(),
+            data_source=GTZANDataset(
+                split="val", hop_length=512, length_spectrogram=128
+            ),
+            metrics={
+                "F1 Score": F1Score(task="multiclass", num_classes=10),
+                "Precision": Precision(
+                    task="multiclass", average="macro", num_classes=10
+                ),
+                "Recall": Recall(task="multiclass", average="macro", num_classes=10),
+            },
+            experiment_tracker=DataframeExperimentTracker(),
+        ),
+    },
 }
