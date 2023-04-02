@@ -1,6 +1,7 @@
-from models import TorchBaseModel
 import torch
 import torch.nn as nn
+
+from models import TorchBaseModel
 
 
 class ResNet50Encoder(nn.Module):

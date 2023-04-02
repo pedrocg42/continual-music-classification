@@ -4,9 +4,6 @@ from torchmetrics import F1Score, Precision, Recall
 # Criterias
 from criterias import TorchCrossEntropyCriteria
 
-# Datasets
-from train_data_sources import GTZANDataset
-
 # Evaluator
 from evaluators import Evaluator
 
@@ -24,6 +21,9 @@ from models import TorchClassificationModel
 
 # Optmizers
 from optimizers import TorchAdamWOptimizer
+
+# Datasets
+from train_data_sources import GTZANDataset
 
 # Data Transforms
 from train_data_transforms import SimpleMusicPipeline

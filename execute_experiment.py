@@ -1,8 +1,8 @@
 from fire import Fire
 
 from evaluators import Evaluator
-from trainers import Trainer
 from my_utils import parse_experiment
+from trainers import Trainer
 
 
 def train(experiment_name: str, trainer: Trainer):

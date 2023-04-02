@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import torch
 import torchaudio
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader, Dataset
 
 import config
 
