@@ -2,7 +2,7 @@ from fire import Fire
 
 from evaluators import Evaluator
 from trainers import Trainer
-from utils import parse_experiment
+from my_utils import parse_experiment
 
 
 def train(experiment_name: str, trainer: Trainer):
