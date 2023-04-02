@@ -45,7 +45,9 @@ gtzan_mobilenetv2_cumulative = {
     # data
     "train": {
         "trainer": Trainer(
-            num_epochs=5,
+            num_epochs=200,
+            early_stopping_patience=10,
+            early_stopping_metric="F1 Score",
             looper=MusicGenderClassificationLooper(
                 train_data_source=GTZANDataset(
                     split="train",
