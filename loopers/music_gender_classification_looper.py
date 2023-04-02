@@ -33,9 +33,11 @@ class MusicGenderClassificationLooper(Looper):
         super().__init__()
 
         self.train_data_source = train_data_source
+        self.tran_data_loader = None
         self.train_data_transform = train_data_transform
 
         self.val_data_source = val_data_source
+        self.val_data_loader = None
         self.val_data_transform = val_data_transform
 
         self.model = train_model
@@ -53,14 +55,26 @@ class MusicGenderClassificationLooper(Looper):
         # Model saver
         self.model_saver = model_saver
 
-    def configure(self, **kwargs):
-        self.optimizer.configure(self.model.parameters(), **kwargs)
-        self.experiment_tracker.configure(**kwargs)
-        self.train_data_source = self.train_data_source
+    def configure(
+        self, experiment_name: str, task: str = "all", cross_val_id: int = 0, **kwargs
+    ):
+        # Configure with model and experiment name
+        self.optimizer.configure(self.model.parameters())
+        self.experiment_tracker.configure(experiment_name=experiment_name)
+        self.model_saver.configure(self.model, experiment_name=experiment_name)
+
+        # Configure data loaders
+        self.train_data_loader = self.train_data_source.get_dataloader(
+            task=task, cross_val_id=cross_val_id, **kwargs
+        )
+        self.val_data_loader = self.val_data_source.get_dataset(
+            task=task, cross_val_id=cross_val_id, **kwargs
+        )
+
+        # Move to device
         self.train_data_transform.to(config.device)
         self.val_data_transform.to(config.device)
         self.model.to(config.device)
-        self.model_saver.configure(self.model, **kwargs)
 
     def log_start(self):
         print(self.model)
@@ -72,7 +86,7 @@ class MusicGenderClassificationLooper(Looper):
         logger.info(f"Training epoch {epoch + 1}")
         self.model.train()
         results_epoch = []
-        pbar = tqdm(self.train_data_source, colour="green")
+        pbar = tqdm(self.train_data_loader, colour="green")
         for waveforms, labels in pbar:
             results_epoch.append(self.train_batch(waveforms, labels))
             self.update_pbar(pbar, results_epoch)
@@ -107,7 +121,7 @@ class MusicGenderClassificationLooper(Looper):
         logger.info(f"Validation epoch {epoch + 1}")
         self.model.eval()
         results_epoch = []
-        pbar = tqdm(self.val_data_source, colour="magenta")
+        pbar = tqdm(self.val_data_loader, colour="magenta")
         for waveforms, labels in pbar:
             results_epoch.append(self.val_batch(waveforms, labels))
             self.update_pbar(pbar, results_epoch)
