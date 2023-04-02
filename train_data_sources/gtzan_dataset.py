@@ -5,7 +5,7 @@ import pandas as pd
 import torch
 import torchaudio
 from torch.utils.data import DataLoader, Dataset
-from train_data_sources import TrainDataSource
+from train_data_sources.train_data_source import TrainDataSource
 
 import config
 

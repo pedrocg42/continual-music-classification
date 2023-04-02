@@ -23,7 +23,7 @@ from models import TorchClassificationModel
 from optimizers import TorchAdamWOptimizer
 
 # Datasets
-from train_data_sources import GTZANDataset
+from train_data_sources import GtzanDataSource
 
 # Data Transforms
 from train_data_transforms import SimpleMusicPipeline
@@ -67,11 +67,17 @@ gtzan_mobilenetv2_joint = {
             early_stopping_patience=10,
             early_stopping_metric="F1 Score",
             looper=MusicGenderClassificationLooper(
-                train_data_source=GTZANDataset(
-                    split="train", hop_length=512, length_spectrogram=128
-                ).get_dataloader(batch_size=32, num_workers=0),
-                val_data_source=GTZANDataset(
-                    split="val", hop_length=512, length_spectrogram=128
+                train_data_source=GtzanDataSource(
+                    split="train",
+                    num_cross_val_splits=5,
+                    hop_length=512,
+                    length_spectrogram=128,
+                ),
+                val_data_source=GtzanDataSource(
+                    split="val",
+                    num_cross_val_splits=5,
+                    hop_length=512,
+                    length_spectrogram=128,
                 ),
                 train_data_transform=data_transform,
                 val_data_transform=data_transform,
@@ -111,8 +117,11 @@ gtzan_mobilenetv2_joint = {
                 encoder_name="dino_resnet50", pretrained=True, num_classes=10
             ),
             model_saver=MusicGenderClassificationModelSaver(),
-            data_source=GTZANDataset(
-                split="val", hop_length=512, length_spectrogram=128
+            data_source=GtzanDataSource(
+                split="test",
+                num_cross_val_splits=5,
+                hop_length=512,
+                length_spectrogram=128,
             ),
             data_transform=data_transform,
             metrics={
