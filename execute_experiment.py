@@ -1,5 +1,6 @@
 from fire import Fire
 
+from evaluators import Evaluator
 from trainers import Trainer
 from utils import parse_experiment
 
@@ -8,8 +9,8 @@ def train(experiment_name: str, trainer: Trainer):
     trainer.train(experiment_name)
 
 
-def evaluate(experiment_name: str, evaluator):
-    pass
+def evaluate(experiment_name: str, evaluator: Evaluator):
+    evaluator.evaluate(experiment_name)
 
 
 @parse_experiment
