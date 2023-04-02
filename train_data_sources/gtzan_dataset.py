@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import torch
 import torchaudio
-from torch.utils import data
+from torch.utils.data import Dataset, DataLoader
 
 import config
 
@@ -24,7 +24,7 @@ GTZAN_GENRES = {
 }
 
 
-class GTZANDataset(data.Dataset):
+class GTZANDataset(Dataset):
     def __init__(
         self,
         split: str,
@@ -113,7 +113,7 @@ class GTZANDataset(data.Dataset):
         return len(self.songs[self.split]["songs"])
 
     def get_dataloader(self, batch_size: int = 32, num_workers: int = 0):
-        data_loader = data.DataLoader(
+        data_loader = DataLoader(
             dataset=self,
             batch_size=batch_size,
             shuffle=True if (self.split == "train") else False,
@@ -122,10 +122,3 @@ class GTZANDataset(data.Dataset):
             pin_memory=True,
         )
         return data_loader
-
-
-if __name__ == "__main__":
-    dataset = GTZANDataset(split="train", hop_length=512, length_spectrogram=128)
-
-    for item in dataset:
-        print("another item")
