@@ -11,11 +11,11 @@ class TensorboardExperimentTracker(ExperimentTracker):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
-        logger.info(" > Creating TensorBoard writer")
         self.writer = None
 
     def configure(self, experiment_name: str):
         self.experiment_name = experiment_name
+        logger.info(" > Creating TensorBoard writer")
         self.writer = SummaryWriter(
             log_dir=os.path.join(config.logs_path, self.experiment_name)
         )
