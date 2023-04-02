@@ -9,11 +9,11 @@ class ModelSaver(ABC):
         return NotImplementedError
 
     @abstractmethod
-    def save_model(self, epoch: int, metric: float = None):
+    def save_model(self, **kwargs):
         return NotImplementedError
 
     @abstractmethod
-    def load_model(self, model: TrainModel, checkpoint_file: str):
+    def load_model(self, **kwargs):
         return NotImplementedError
 
     @abstractmethod
