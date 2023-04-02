@@ -4,8 +4,6 @@ from loguru import logger
 
 from loopers import Looper
 
-import numpy as np
-
 
 class Trainer(ABC):
     def __init__(
@@ -26,12 +24,14 @@ class Trainer(ABC):
         if metrics[self.early_stopping_metric] > self.best_metric:
             self.best_metric = metrics[self.early_stopping_metric]
             self.patience_epochs = 0
+            self.looper.model_saver.save_model()
         else:
             self.patience_epochs += 1
 
         if self.patience_epochs >= self.early_stopping_patience:
             logger.info("Early stopping")
             return True
+        return False
 
     def train(self, experiment_name: str):
         logger.info(f"Started training process of experiment {experiment_name}")
@@ -44,6 +44,5 @@ class Trainer(ABC):
             results = self.looper.val_epoch(epoch)
             metrics = self.looper.extract_metrics(results, mode="val")
             self.looper.log_metrics(metrics, epoch, mode="val")
-            self.looper.model_saver.save_model()
-            if self.early_stopping():
+            if self.early_stopping(metrics):
                 break
