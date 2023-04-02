@@ -31,7 +31,6 @@ class MusicGenderClassificationLooper(Looper):
         metrics: dict,
     ) -> None:
         super().__init__()
-        logger.info(f"Training experiment: {self.experiment_name}")
 
         self.train_data_source = train_data_source
         self.train_data_transform = train_data_transform
@@ -57,6 +56,7 @@ class MusicGenderClassificationLooper(Looper):
     def configure(self, **kwargs):
         self.optimizer.configure(self.model.parameters(), **kwargs)
         self.experiment_tracker.configure(**kwargs)
+        self.train_data_source = self.train_data_source
         self.train_data_transform.to(config.device)
         self.val_data_transform.to(config.device)
         self.model.to(config.device)
@@ -72,8 +72,10 @@ class MusicGenderClassificationLooper(Looper):
         logger.info(f"Training epoch {epoch + 1}")
         self.model.train()
         results_epoch = []
-        for waveforms, labels in tqdm(self.train_data_source, colour="green"):
+        pbar = tqdm(self.train_data_source, colour="green")
+        for waveforms, labels in pbar:
             results_epoch.append(self.train_batch(waveforms, labels))
+            self.update_pbar(pbar, results_epoch)
         return results_epoch
 
     def train_batch(self, waveforms: torch.Tensor, labels: torch.Tensor):
@@ -105,16 +107,10 @@ class MusicGenderClassificationLooper(Looper):
         logger.info(f"Validation epoch {epoch + 1}")
         self.model.eval()
         results_epoch = []
-        pbar = tqdm(self.val_data_source, colour="green")
-        for waveforms, labels in tqdm(self.val_data_source, colour="green"):
+        pbar = tqdm(self.val_data_source, colour="magenta")
+        for waveforms, labels in pbar:
             results_epoch.append(self.val_batch(waveforms, labels))
-            pbar.set_postfix(
-                {
-                    "loss": np.mean(
-                        [result_epoch["loss"].numpy() for result_epoch in results_epoch]
-                    )
-                }
-            )
+            self.update_pbar(pbar, results_epoch)
         return results_epoch
 
     @torch.no_grad()
@@ -147,7 +143,7 @@ class MusicGenderClassificationLooper(Looper):
             [results_batch["loss"] for results_batch in results_epoch]
         ).mean()
         for metric_name, metric in self.metrics[mode].items():
-            metrics_results[metric_name] = metric(preds, labels).cpu().item().numpy()
+            metrics_results[metric_name] = metric(preds, labels).item()
 
         return metrics_results
 
@@ -158,3 +154,8 @@ class MusicGenderClassificationLooper(Looper):
             self.experiment_tracker.log_metric(
                 f"{metric_name.title()}/{mode}", metric_result, epoch
             )
+
+    def update_pbar(self, pbar: tqdm, results_epoch: dict[str, float]):
+        pbar.set_postfix(
+            {"loss": np.mean([result_epoch["loss"] for result_epoch in results_epoch])}
+        )
