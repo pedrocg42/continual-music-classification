@@ -31,6 +31,24 @@ from train_data_transforms import SimpleMusicPipeline
 # Trainers
 from trainers import Trainer
 
+scenario1 = [
+    "blues",
+    "classical",
+    "country",
+    "disco",
+    "hiphop",
+    "jazz",
+    "metal",
+    "pop",
+    "reggae",
+    "rock",
+]
+
+
+###############################################################
+###########                BASELINES                ###########
+###############################################################
+
 data_transform = SimpleMusicPipeline(
     sample_rate=20050,
     n_fft=1024,
@@ -108,3 +126,8 @@ gtzan_mobilenetv2_joint = {
         ),
     },
 }
+
+
+###############################################################
+###########                BASELINES                ###########
+###############################################################
