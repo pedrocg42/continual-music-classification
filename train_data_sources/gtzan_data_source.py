@@ -2,58 +2,15 @@ import os
 
 import numpy as np
 import pandas as pd
-import torch
-import torchaudio
 from torch.utils.data import DataLoader, Dataset
-from train_data_sources.train_data_source import TrainDataSource
 
 import config
+from train_data_sources.music_genre_classification_dataset import (
+    MusicGenreClassificationDataset,
+)
+from train_data_sources.train_data_source import TrainDataSource
 
 np.random.seed(config.seed)
-
-
-class MusicGenreClassificationDataset(Dataset):
-    def __init__(self, songs: list, labels: list, split: str, **kwargs):
-        self.songs = songs
-        self.labels = labels
-        self.split = split
-
-    def __getitem__(self, index):
-        # Get info
-        song_path = self.songs[index]
-        label = self.labels[index]
-
-        # Get audio
-        try:
-            wav, _ = torchaudio.load(song_path)
-            wav, num_chunks = self._adjust_audio_length(wav)
-        except:
-            return (
-                torch.zeros((1, self.chunk_lengh)),
-                torch.tensor(self.genres[label]),
-            )
-
-        if self.split == "train":
-            return wav, torch.tensor(self.genres[label])
-        else:
-            return wav, torch.tensor(self.genres[label]).repeat(num_chunks)
-
-    def __len__(self):
-        return len(self.songs[self.split]["songs"])
-
-    def _adjust_audio_length(self, wav: torch.Tensor) -> torch.Tensor:
-        if self.split == "train":
-            random_index = np.random.randint(0, wav.shape[-1] - self.chunk_lengh)
-            return wav[:, random_index : random_index + self.chunk_lengh], 1
-        else:
-            num_chunks = wav.shape[-1] // self.chunk_lengh
-            return (
-                torch.reshape(
-                    wav[0, : self.chunk_lengh * num_chunks],
-                    (-1, 1, self.chunk_lengh),
-                ),
-                num_chunks,
-            )
 
 
 GTZAN_GENRES = [
@@ -169,23 +126,23 @@ class GtzanDataSource(TrainDataSource):
         self.labels_splits["val"] = np.concatenate(self.labels_splits["val"])
         self.labels_splits["test"] = np.concatenate(self.labels_splits["test"])
 
-    def get_dataset(self, task: str = "all", cross_val_id: int = 0) -> Dataset:
+    def get_dataset(self, task: str = None, cross_val_id: int = 0) -> Dataset:
         self.cross_val_split(cross_val_id=cross_val_id)
 
         songs = self.songs_splits[self.split]
         labels = self.labels_splits[self.split]
 
-        if task is not "all":
+        if task is not None:
             songs = songs[labels == self.genres_to_index[task]]
             labels = labels[labels == self.genres_to_index[task]]
 
         return MusicGenreClassificationDataset(
-            songs=songs, labels=labels, split=self.split
+            songs=songs, labels=labels, split=self.split, chunk_length=self.chunk_lengh
         )
 
     def get_dataloader(
         self,
-        task: str = "all",
+        task: str = None,
         cross_val_id: int = 0,
         batch_size: int = 32,
         num_workers: int = 0,
