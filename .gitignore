@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # Results
-results/
+results*/
 
 # Batch files
 *.bat
