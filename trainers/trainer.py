@@ -24,6 +24,7 @@ class Trainer(ABC):
         self.best_metric = 0
         self.patience_epochs = 0
         self.looper.configure_task(cross_val_id=cross_val_id)
+        self.looper.model.initialize()
 
     def early_stopping(self, metrics: dict):
         if metrics[self.early_stopping_metric] > self.best_metric:
