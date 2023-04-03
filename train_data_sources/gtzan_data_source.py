@@ -133,8 +133,13 @@ class GtzanDataSource(TrainDataSource):
         labels = self.labels_splits[self.split]
 
         if task is not None:
-            songs = songs[labels == self.genres_to_index[task]]
-            labels = labels[labels == self.genres_to_index[task]]
+            if isinstance(task, str):
+                songs = songs[labels == self.genres_to_index[task]]
+                labels = labels[labels == self.genres_to_index[task]]
+            elif isinstance(task, list):
+                task = [self.genres_to_index[genre] for genre in task]
+                songs = songs[np.isin(labels, task)]
+                labels = labels[np.isin(labels, task)]
 
         return MusicGenreClassificationDataset(
             songs=songs, labels=labels, split=self.split, chunk_length=self.chunk_lengh
