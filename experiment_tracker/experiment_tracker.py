@@ -5,7 +5,6 @@ class ExperimentTracker(ABC):
     def __init__(self, **kwargs) -> None:
         self.experiment_name = None
 
-    @abstractmethod
     def configure(self):
         pass
 
