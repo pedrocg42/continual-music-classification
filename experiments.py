@@ -5,7 +5,7 @@ from torchmetrics import F1Score, Precision, Recall
 from criterias import TorchCrossEntropyCriteria
 
 # Evaluator
-from evaluators import Evaluator
+from evaluators import TasksEvaluator
 
 # Experiment Trakcer
 from experiment_tracker import DataframeExperimentTracker, TensorboardExperimentTracker
@@ -57,14 +57,15 @@ data_transform = SimpleMusicPipeline(
     n_mels=128,
 )
 gtzan_mobilenetv2_joint = {
-    "experiment_name": "gtzan_mobilenetv2_cumulative",
+    "experiment_name": "gtzan_mobilenetv2_joint",
     "experiment_type": "Baseline",
     "experiment_subtype": "Joint",
+    "num_cross_val_splits": 5,
     # data
     "train": {
         "trainer": Trainer(
             num_epochs=200,
-            early_stopping_patience=10,
+            early_stopping_patience=20,
             early_stopping_metric="F1 Score",
             looper=MusicGenderClassificationLooper(
                 train_data_source=GtzanDataSource(
@@ -112,7 +113,19 @@ gtzan_mobilenetv2_joint = {
         ),
     },
     "evaluate": {
-        "evaluator": Evaluator(
+        "evaluator": TasksEvaluator(
+            tasks=[
+                "blues",
+                "classical",
+                "country",
+                "disco",
+                "hiphop",
+                "jazz",
+                "metal",
+                "pop",
+                "reggae",
+                "rock",
+            ],
             model=TorchClassificationModel(
                 encoder_name="dino_resnet50", pretrained=True, num_classes=10
             ),
@@ -138,5 +151,5 @@ gtzan_mobilenetv2_joint = {
 
 
 ###############################################################
-###########                BASELINES                ###########
+###########                CONTINUAL                ###########
 ###############################################################
