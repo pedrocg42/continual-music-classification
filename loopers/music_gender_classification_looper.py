@@ -55,26 +55,39 @@ class MusicGenderClassificationLooper(Looper):
         # Model saver
         self.model_saver = model_saver
 
-    def configure(
-        self, experiment_name: str, task: str = "all", cross_val_id: int = 0, **kwargs
-    ):
-        # Configure with model and experiment name
-        self.optimizer.configure(self.model.parameters())
-        self.experiment_tracker.configure(experiment_name=experiment_name)
-        self.model_saver.configure(self.model, experiment_name=experiment_name)
-
-        # Configure data loaders
-        self.train_data_loader = self.train_data_source.get_dataloader(
-            task=task, cross_val_id=cross_val_id, **kwargs
-        )
-        self.val_data_loader = self.val_data_source.get_dataset(
-            task=task, cross_val_id=cross_val_id, **kwargs
-        )
+    def configure(self, experiment_name: str):
+        self.experiment_name = experiment_name
 
         # Move to device
         self.train_data_transform.to(config.device)
         self.val_data_transform.to(config.device)
+
+    def configure_task(self, cross_val_id: int, task: str = None):
+        # Configure model
+        self.model.initialize()
         self.model.to(config.device)
+
+        # Configure with model and experiment name
+        self.optimizer.configure(self.model.parameters())
+
+        # Configure data loaders
+        self.train_data_loader = self.train_data_source.get_dataloader(
+            cross_val_id=cross_val_id, task=task
+        )
+        self.val_data_loader = self.val_data_source.get_dataset(
+            cross_val_id=cross_val_id, task=task
+        )
+
+        # Configure output components
+        self.model_saver.configure(
+            self.model,
+            experiment_name=self.experiment_name,
+            cross_val_id=cross_val_id,
+            task=task,
+        )
+        self.experiment_tracker.configure_task(
+            experiment_name=self.experiment_name, cross_val_id=cross_val_id, task=task
+        )
 
     def log_start(self):
         print(self.model)
