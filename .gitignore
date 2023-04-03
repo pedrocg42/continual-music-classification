@@ -130,3 +130,9 @@ dmypy.json
 
 # Results
 results/
+
+# Batch files
+*.bat
+
+# tools
+tools/data_augmentation.ipynb
