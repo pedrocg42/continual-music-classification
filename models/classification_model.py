@@ -33,12 +33,15 @@ class TorchClassificationModel(TorchBaseModel):
         self.dropout = dropout
         self.head_config = head_config
 
+        self.initialize()
+
+    def initialize(self):
         if self.encoder_name == "dino_resnet50":
             encoder_class = ResNet50Encoder
         else:
             raise NotImplementedError("Please select an implemented backbone")
 
-        self.encoder = encoder_class(pretrained=self.pretrained, **kwargs)
+        self.encoder = encoder_class(pretrained=self.pretrained)
 
         head = []
         if self.pooling_type == "avg":
