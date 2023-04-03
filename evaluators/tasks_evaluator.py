@@ -74,31 +74,30 @@ class TasksEvaluator(ABC):
         results = []
         for waveforms, labels in tqdm(data_loader, colour="green"):
             waveforms = waveforms.to(config.device)
-            labels = labels.to(config.device)
 
             # Inference
             spectrograms = self.data_transform(waveforms)
             preds = self.model(spectrograms.repeat(1, 3, 1, 1))
 
             # For each song we select the most repeated class
-            # preds = preds.detach().cpu().numpy()
-            # unique_values, unique_counts = np.unique(preds, return_counts=True)
+            pred = torch.mode(preds.detach().cpu().argmax(dim=1))[0]
+            label = labels[0] if len(labels.shape) > 0 else labels
 
             results.append(
                 dict(
-                    preds=preds.detach().cpu(),
-                    labels=labels.detach().cpu(),
+                    preds=pred,
+                    labels=label,
                 )
             )
         return results
 
     def extract_metrics(self, results: list[dict]) -> dict:
         metrics = {}
-        preds = torch.vstack([result["preds"] for result in results])
+        preds = torch.hstack([result["preds"] for result in results])
         labels = torch.hstack([result["labels"] for result in results])
         for metric_name, metric in self.metrics.items():
             metric_result = metric(preds, labels)
-            metrics[metric_name] = metric_result
+            metrics[metric_name] = metric_result.numpy()
         return metrics
 
     def evaluate(
@@ -117,23 +116,11 @@ class TasksEvaluator(ABC):
         )
 
         for cross_val_id in range(self.num_cross_val_splits):
+            logger.info(f"Started evaluation of cross validation split {cross_val_id}")
             self.configure_task(cross_val_id=cross_val_id)
-            self.experiment_tracker.configure_task(
-                cross_val_id=cross_val_id, task_name="all"
-            )
-            # Extracting results on the whole dataset
+            self.experiment_tracker.configure_task(cross_val_id=cross_val_id)
+            # Extracting results
             data_loader = self.data_source.get_dataset(cross_val_id=cross_val_id)
             results = self.predict(data_loader)
             metrics = self.extract_metrics(results)
-            self.experiment_tracker.log_metrics(metrics)
-            # Extracting results for each task
-            for task in tqdm(self.tasks, colour="green"):
-                data_loader = self.data_source.get_dataset(
-                    cross_val_id=cross_val_id, task=task
-                )
-                results = self.predict(data_loader)
-                metrics = self.extract_metrics(results)
-                self.experiment_tracker.configure_task(
-                    cross_val_id=cross_val_id, task_name=task
-                )
-                self.experiment_tracker.log_metrics(metrics)
+            self.experiment_tracker.log_tasks_metrics(metrics, self.tasks)
