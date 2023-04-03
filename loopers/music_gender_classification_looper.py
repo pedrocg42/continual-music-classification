@@ -40,6 +40,10 @@ class MusicGenderClassificationLooper(Looper):
         self.val_data_loader = None
         self.val_data_transform = val_data_transform
 
+        # Move to device
+        self.train_data_transform.to(config.device)
+        self.val_data_transform.to(config.device)
+
         self.model = train_model
 
         # Configure optimizer and criteria (loss function)
@@ -58,15 +62,11 @@ class MusicGenderClassificationLooper(Looper):
     def configure(self, experiment_name: str):
         self.experiment_name = experiment_name
 
-        # Move to device
-        self.train_data_transform.to(config.device)
-        self.val_data_transform.to(config.device)
-
-    def configure_task(self, cross_val_id: int, task: str = None):
         # Configure model
         self.model.initialize()
         self.model.to(config.device)
 
+    def configure_task(self, cross_val_id: int, task: str = None):
         # Configure with model and experiment name
         self.optimizer.configure(self.model.parameters())
 
