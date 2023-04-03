@@ -22,7 +22,7 @@ class MusicGenderClassificationModelSaver(ABC):
         self.model = model
         self.experiment_name = experiment_name
         self.cross_val_id = cross_val_id
-        self.task = task
+        self.task = "-".join(task) if isinstance(task, list) else task
         self.build_output_path()
 
     def build_output_path(self):

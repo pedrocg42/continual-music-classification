@@ -18,7 +18,7 @@ class TensorboardExperimentTracker(ExperimentTracker):
     ):
         self.experiment_name = experiment_name
         self.cross_val_id = cross_val_id
-        self.task = task
+        self.task = "-".join(task) if isinstance(task, list) else task
         self.build_model_name()
 
         logger.info(" > Creating TensorBoard writer")

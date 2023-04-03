@@ -35,12 +35,14 @@ class DataframeExperimentTracker(ExperimentTracker):
         cross_val_id: int,
         train_task_number: int = 0,
         train_task_name: str = "all",
-        task_number: int = 0,
     ):
         self.cross_val_id = cross_val_id
         self.train_task_number = train_task_number
-        self.train_task_name = train_task_name
-        self.task_number = task_number
+        self.train_task_name = (
+            "-".join(train_task_name)
+            if isinstance(train_task_name, list)
+            else train_task_name
+        )
 
         self.row = {
             "experiment_name": self.experiment_name,
