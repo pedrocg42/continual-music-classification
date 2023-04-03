@@ -21,7 +21,7 @@
             "justMyCode": true,
             "args": [
                 "--experiment",
-                "gtzan_mobilenetv2_joint"
+                "gtzan_mobilenetv2_scenario1"
             ]
         }
     ]

@@ -31,9 +31,8 @@ from trainers import Trainer, ContinualLearningTrainer
 # Evaluator
 from evaluators import TasksEvaluator, ContinualLearningTasksEvaluator
 
-
 ###############################################################
-###########                BASELINES                ###########
+###########           GENERIC COMPONENTS            ###########
 ###############################################################
 
 data_transform = SimpleMusicPipeline(
@@ -43,6 +42,11 @@ data_transform = SimpleMusicPipeline(
     hop_length=512,
     n_mels=128,
 )
+
+###############################################################
+###########                BASELINES                ###########
+###############################################################
+
 gtzan_mobilenetv2_joint = {
     "experiment_name": "gtzan_mobilenetv2_joint",
     "experiment_type": "Baseline",
@@ -77,24 +81,24 @@ gtzan_mobilenetv2_joint = {
                 metrics={
                     "train": {
                         "F1 Score": F1Score(
-                            task="multiclass", average="macro", num_classes=10
+                            task="multiclass", average="micro", num_classes=10
                         ),
                         "Precision": Precision(
-                            task="multiclass", average="macro", num_classes=10
+                            task="multiclass", average="micro", num_classes=10
                         ),
                         "Recall": Recall(
-                            task="multiclass", average="macro", num_classes=10
+                            task="multiclass", average="micro", num_classes=10
                         ),
                     },
                     "val": {
                         "F1 Score": F1Score(
-                            task="multiclass", average="macro", num_classes=10
+                            task="multiclass", average="micro", num_classes=10
                         ),
                         "Precision": Precision(
-                            task="multiclass", average="macro", num_classes=10
+                            task="multiclass", average="micro", num_classes=10
                         ),
                         "Recall": Recall(
-                            task="multiclass", average="macro", num_classes=10
+                            task="multiclass", average="micro", num_classes=10
                         ),
                     },
                 },
