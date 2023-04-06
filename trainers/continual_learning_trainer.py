@@ -22,13 +22,21 @@ class ContinualLearningTrainer(ABC):
         self.best_metric = 0
         self.patience_epochs = 0
 
-    def initialize(self, cross_val_id: int, task: str | list[str]):
+    def configure_cv(self, cross_val_id: int):
+        self.looper.initialize_model()
+
+    def configure_task(
+        self, cross_val_id: int, task: str | list[str], continual_learning: bool = False
+    ):
         self.best_metric = 0
         self.patience_epochs = 0
+        if not continual_learning:
+            self.looper.initialize_model()
         self.looper.configure_task(cross_val_id=cross_val_id, task=task)
+        self.looper.log_start()
 
-    def early_stopping(self, metrics: dict):
-        if metrics[self.early_stopping_metric] > self.best_metric:
+    def early_stopping(self, metrics: dict, epoch: int = 0):
+        if metrics[self.early_stopping_metric] > self.best_metric or epoch == 0:
             self.best_metric = metrics[self.early_stopping_metric]
             self.patience_epochs = 0
             self.looper.model_saver.save_model()
@@ -42,10 +50,11 @@ class ContinualLearningTrainer(ABC):
 
     def train(self, experiment_name: str, num_cross_val_splits: int = 1):
         logger.info(f"Started training process of experiment {experiment_name}")
-        self.looper.configure(experiment_name)
+        self.looper.configure_experiment(experiment_name)
         for cross_val_id in range(num_cross_val_splits):
+            self.configure_cv(cross_val_id)
             for task in self.tasks:
-                self.initialize(cross_val_id, task=task)
+                self.configure_task(cross_val_id, task)
                 if self.looper.model_saver.model_exists():
                     logger.info(
                         f"Model already exists for cross_val_id {cross_val_id} and task {task}"
@@ -59,5 +68,5 @@ class ContinualLearningTrainer(ABC):
                     results = self.looper.val_epoch(epoch)
                     metrics = self.looper.extract_metrics(results, mode="val")
                     self.looper.log_metrics(metrics, epoch, mode="val")
-                    if self.early_stopping(metrics):
+                    if self.early_stopping(metrics, epoch):
                         break

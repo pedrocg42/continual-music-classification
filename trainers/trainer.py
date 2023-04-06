@@ -2,6 +2,7 @@ from abc import ABC
 
 from loguru import logger
 
+import config
 from loopers import Looper
 
 
@@ -20,11 +21,12 @@ class Trainer(ABC):
         self.best_metric = 0
         self.patience_epochs = 0
 
-    def initialize(self, cross_val_id: int):
+    def configure_cv(self, cross_val_id: int):
         self.best_metric = 0
         self.patience_epochs = 0
+        self.looper.initialize_model()
         self.looper.configure_task(cross_val_id=cross_val_id)
-        self.looper.model.initialize()
+        self.looper.log_start()
 
     def early_stopping(self, metrics: dict):
         if metrics[self.early_stopping_metric] > self.best_metric:
@@ -41,13 +43,12 @@ class Trainer(ABC):
 
     def train(self, experiment_name: str, num_cross_val_splits: int = 1):
         logger.info(f"Started training process of experiment {experiment_name}")
-        self.looper.configure(experiment_name)
+        self.looper.configure_experiment(experiment_name)
         for cross_val_id in range(num_cross_val_splits):
-            self.initialize(cross_val_id)
+            self.configure_cv(cross_val_id)
             if self.looper.model_saver.model_exists():
                 logger.info(f"Model already exists for cross_val_id {cross_val_id}")
                 continue
-            self.looper.log_start()
             for epoch in range(self.num_epochs):
                 results = self.looper.train_epoch(epoch=epoch)
                 metrics = self.looper.extract_metrics(results)
