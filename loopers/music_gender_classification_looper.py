@@ -59,17 +59,18 @@ class MusicGenderClassificationLooper(Looper):
         # Model saver
         self.model_saver = model_saver
 
-    def configure(self, experiment_name: str):
+    def configure_experiment(self, experiment_name: str):
         self.experiment_name = experiment_name
 
+    def initialize_model(self):
         # Configure model
         self.model.initialize()
         self.model.to(config.device)
 
-    def configure_task(self, cross_val_id: int, task: str = None):
         # Configure with model and experiment name
         self.optimizer.configure(self.model.parameters())
 
+    def configure_task(self, cross_val_id: int, task: str = None):
         # Configure data loaders
         self.train_data_loader = self.train_data_source.get_dataloader(
             cross_val_id=cross_val_id, task=task
