@@ -132,7 +132,7 @@ class GtzanDataSource(TrainDataSource):
         songs = self.songs_splits[self.split]
         labels = self.labels_splits[self.split]
 
-        if task is not None:
+        if task is not None and task != "all":
             if isinstance(task, str):
                 songs = songs[labels == self.genres_to_index[task]]
                 labels = labels[labels == self.genres_to_index[task]]
