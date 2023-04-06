@@ -1,10 +1,8 @@
 import torch
 import torch.nn as nn
 
-from torchvision.models import resnet50, ResNet50_Weights
 
-
-class ResNet50Encoder(nn.Module):
+class ResNet50DinoEncoder(nn.Module):
     def __init__(
         self, pretrained: bool = True, one_channel: bool = True, **kwargs
     ) -> None:
@@ -12,8 +10,8 @@ class ResNet50Encoder(nn.Module):
 
         self.pretrained = pretrained
         self.one_channel = one_channel
-        self.encoder_raw = resnet50(
-            weights=ResNet50_Weights.IMAGENET1K_V2 if self.pretrained else None
+        self.encoder_raw = torch.hub.load(
+            "facebookresearch/dino:main", "dino_resnet50", pretrained=self.pretrained
         )
 
         self.encoder = nn.Sequential(

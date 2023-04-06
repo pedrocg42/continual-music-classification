@@ -115,7 +115,7 @@ class MusicGenderClassificationLooper(Looper):
 
         # Inference
         spectrograms = self.train_data_transform(waveforms, augment=True)
-        preds = self.model(spectrograms.repeat(1, 3, 1, 1))
+        preds = self.model(spectrograms)
 
         # Compute loss
         loss = self.criteria(preds, labels)
@@ -148,7 +148,7 @@ class MusicGenderClassificationLooper(Looper):
 
         # Inference
         spectrograms = self.val_data_transform(waveforms)
-        preds = self.model(spectrograms.repeat(1, 3, 1, 1))
+        preds = self.model(spectrograms)
 
         # Compute loss
         loss = self.criteria(preds, labels)
