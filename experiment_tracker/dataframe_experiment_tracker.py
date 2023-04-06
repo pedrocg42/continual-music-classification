@@ -54,15 +54,15 @@ class DataframeExperimentTracker(ExperimentTracker):
             "train_task_name": self.train_task_name,
         }
 
-    def log_metrics(
+    def log_task_metrics(
         self,
         metrics: str,
         task: str = None,
     ):
         row = self.row.copy()
-        row["task_name"] = task
+        row["task_name"] = task if isinstance(task, str) else "-".join(task)
         for metric_name, metric_value in metrics.items():
-            row[metric_name] = metric_value.numpy()
+            row[metric_name] = metric_value
         row = pd.Series(row)
 
         self.add_row(row)
