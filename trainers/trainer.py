@@ -2,7 +2,6 @@ from abc import ABC
 
 from loguru import logger
 
-import config
 from loopers import Looper
 
 
