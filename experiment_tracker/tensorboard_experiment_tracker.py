@@ -8,9 +8,10 @@ from experiment_tracker.experiment_tracker import ExperimentTracker
 
 
 class TensorboardExperimentTracker(ExperimentTracker):
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, logs_folder: str = config.logs_path, **kwargs) -> None:
         super().__init__(**kwargs)
 
+        self.logs_folder = logs_folder
         self.writer = None
 
     def configure_task(
@@ -23,7 +24,7 @@ class TensorboardExperimentTracker(ExperimentTracker):
 
         logger.info(" > Creating TensorBoard writer")
         self.writer = SummaryWriter(
-            log_dir=os.path.join(config.logs_path, self.model_name)
+            log_dir=os.path.join(self.logs_folder, self.model_name)
         )
 
     def build_model_name(
