@@ -56,7 +56,7 @@ gtzan_mobilenetv2_joint = {
     "train": {
         "trainer": Trainer(
             num_epochs=200,
-            early_stopping_patience=20,
+            early_stopping_patience=40,
             early_stopping_metric="F1 Score",
             looper=MusicGenderClassificationLooper(
                 train_data_source=GtzanDataSource(
@@ -163,13 +163,13 @@ gtzan_mobilenetv2_scenario1 = {
     "experiment_name": "gtzan_mobilenetv2_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "Naive",
-    "num_cross_val_splits": 1,
+    "num_cross_val_splits": 5,
     # data
     "train": {
         "trainer": ContinualLearningTrainer(
             tasks=scenario1,
             num_epochs=200,
-            early_stopping_patience=20,
+            early_stopping_patience=40,
             early_stopping_metric="F1 Score",
             looper=MusicGenderClassificationLooper(
                 train_data_source=GtzanDataSource(
