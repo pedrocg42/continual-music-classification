@@ -26,10 +26,22 @@ from train_data_sources import GtzanDataSource
 from train_data_transforms import SimpleMusicPipeline
 
 # Trainers
-from trainers import Trainer, ContinualLearningTrainer
+from trainers import ContinualLearningTrainer
 
 # Evaluator
-from evaluators import TasksEvaluator, ContinualLearningTasksEvaluator
+from evaluators import ContinualLearningTasksEvaluatorV2
+
+###############################################################
+###########                SCENARIOS                ###########
+###############################################################
+
+scenario1 = [
+    ["blues", "classical"],
+    ["country", "disco"],
+    ["hiphop", "jazz"],
+    ["metal", "pop"],
+    ["reggae", "rock"],
+]
 
 ###############################################################
 ###########           GENERIC COMPONENTS            ###########
@@ -54,7 +66,8 @@ gtzan_mobilenetv2_joint = {
     "num_cross_val_splits": 5,
     # data
     "train": {
-        "trainer": Trainer(
+        "trainer": ContinualLearningTrainer(
+            tasks=["all"],
             num_epochs=200,
             early_stopping_patience=40,
             early_stopping_metric="F1 Score",
@@ -108,7 +121,9 @@ gtzan_mobilenetv2_joint = {
         ),
     },
     "evaluate": {
-        "evaluator": TasksEvaluator(
+        "evaluator": ContinualLearningTasksEvaluatorV2(
+            train_tasks=["all"],
+            test_tasks=scenario1,
             model=TorchClassificationModel(
                 encoder_name="dino_resnet50", pretrained=True, num_classes=10
             ),
@@ -121,11 +136,11 @@ gtzan_mobilenetv2_joint = {
             ),
             data_transform=data_transform,
             metrics={
-                "F1 Score": F1Score(task="multiclass", average="none", num_classes=10),
+                "F1 Score": F1Score(task="multiclass", average="micro", num_classes=10),
                 "Precision": Precision(
-                    task="multiclass", average="none", num_classes=10
+                    task="multiclass", average="micro", num_classes=10
                 ),
-                "Recall": Recall(task="multiclass", average="none", num_classes=10),
+                "Recall": Recall(task="multiclass", average="micro", num_classes=10),
             },
             experiment_tracker=DataframeExperimentTracker(),
         ),
@@ -136,28 +151,7 @@ gtzan_mobilenetv2_joint = {
 ###############################################################
 ###########                CONTINUAL                ###########
 ###############################################################
-scenario1 = [
-    [
-        "blues",
-        "classical",
-    ],
-    [
-        "country",
-        "disco",
-    ],
-    [
-        "hiphop",
-        "jazz",
-    ],
-    [
-        "metal",
-        "pop",
-    ],
-    [
-        "reggae",
-        "rock",
-    ],
-]
+
 
 gtzan_mobilenetv2_scenario1 = {
     "experiment_name": "gtzan_mobilenetv2_scenario1",
@@ -221,8 +215,9 @@ gtzan_mobilenetv2_scenario1 = {
         ),
     },
     "evaluate": {
-        "evaluator": ContinualLearningTasksEvaluator(
-            tasks=scenario1,
+        "evaluator": ContinualLearningTasksEvaluatorV2(
+            train_tasks=scenario1,
+            test_tasks=scenario1,
             model=TorchClassificationModel(
                 encoder_name="dino_resnet50", pretrained=True, num_classes=10
             ),
@@ -235,11 +230,11 @@ gtzan_mobilenetv2_scenario1 = {
             ),
             data_transform=data_transform,
             metrics={
-                "F1 Score": F1Score(task="multiclass", average="none", num_classes=10),
+                "F1 Score": F1Score(task="multiclass", average="micro", num_classes=10),
                 "Precision": Precision(
-                    task="multiclass", average="none", num_classes=10
+                    task="multiclass", average="micro", num_classes=10
                 ),
-                "Recall": Recall(task="multiclass", average="none", num_classes=10),
+                "Recall": Recall(task="multiclass", average="micro", num_classes=10),
             },
             experiment_tracker=DataframeExperimentTracker(),
         ),
