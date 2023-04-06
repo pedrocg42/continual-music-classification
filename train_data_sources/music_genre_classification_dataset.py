@@ -23,10 +23,16 @@ class MusicGenreClassificationDataset(Dataset):
             wav, _ = torchaudio.load(song_path)
             wav, num_chunks = self._adjust_audio_length(wav)
         except:
-            return (
-                torch.zeros((1, self.chunk_lengh)),
-                torch.tensor(label),
-            )
+            if self.split == "train":
+                return (
+                    torch.zeros((1, self.chunk_lengh)),
+                    torch.tensor(label),
+                )
+            else:
+                return (
+                    torch.zeros((10, 1, self.chunk_lengh)),
+                    torch.tensor(label).long().repeat(10),
+                )
 
         if self.split == "train":
             return wav, torch.tensor(label).long()
