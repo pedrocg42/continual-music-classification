@@ -31,6 +31,11 @@ from trainers import ContinualLearningTrainer
 # Evaluator
 from evaluators import ContinualLearningTasksEvaluatorV2
 
+# Encoders
+from models.encoders import ResNet50DinoEncoder, ResNet50Encoder
+
+from copy import deepcopy
+
 ###############################################################
 ###########                SCENARIOS                ###########
 ###############################################################
@@ -59,8 +64,8 @@ data_transform = SimpleMusicPipeline(
 ###########                BASELINES                ###########
 ###############################################################
 
-gtzan_mobilenetv2_joint = {
-    "experiment_name": "gtzan_mobilenetv2_joint",
+gtzan_resnet50_joint = {
+    "experiment_name": "gtzan_resnet50_joint",
     "experiment_type": "Baseline",
     "experiment_subtype": "Joint",
     "num_cross_val_splits": 5,
@@ -87,7 +92,8 @@ gtzan_mobilenetv2_joint = {
                 train_data_transform=data_transform,
                 val_data_transform=data_transform,
                 train_model=TorchClassificationModel(
-                    encoder_name="dino_resnet50", pretrained=True, num_classes=10
+                    encoder=ResNet50Encoder(pretrained=True),
+                    num_classes=10,
                 ),
                 criteria=TorchCrossEntropyCriteria(),
                 optimizer=TorchAdamWOptimizer(lr=3e-4),
@@ -125,7 +131,97 @@ gtzan_mobilenetv2_joint = {
             train_tasks=["all"],
             test_tasks=scenario1,
             model=TorchClassificationModel(
-                encoder_name="dino_resnet50", pretrained=True, num_classes=10
+                encoder=ResNet50Encoder(pretrained=True),
+                num_classes=10,
+            ),
+            model_saver=MusicGenderClassificationModelSaver(),
+            data_source=GtzanDataSource(
+                split="test",
+                num_cross_val_splits=5,
+                hop_length=512,
+                length_spectrogram=128,
+            ),
+            data_transform=data_transform,
+            metrics={
+                "F1 Score": F1Score(task="multiclass", average="micro", num_classes=10),
+                "Precision": Precision(
+                    task="multiclass", average="micro", num_classes=10
+                ),
+                "Recall": Recall(task="multiclass", average="micro", num_classes=10),
+            },
+            experiment_tracker=DataframeExperimentTracker(),
+        ),
+    },
+}
+
+gtzan_resnet50dino_joint = {
+    "experiment_name": "gtzan_resnet50dino_joint",
+    "experiment_type": "Baseline",
+    "experiment_subtype": "Joint",
+    "num_cross_val_splits": 5,
+    # data
+    "train": {
+        "trainer": ContinualLearningTrainer(
+            tasks=["all"],
+            num_epochs=200,
+            early_stopping_patience=40,
+            early_stopping_metric="F1 Score",
+            looper=MusicGenderClassificationLooper(
+                train_data_source=GtzanDataSource(
+                    split="train",
+                    num_cross_val_splits=5,
+                    hop_length=512,
+                    length_spectrogram=128,
+                ),
+                val_data_source=GtzanDataSource(
+                    split="val",
+                    num_cross_val_splits=5,
+                    hop_length=512,
+                    length_spectrogram=128,
+                ),
+                train_data_transform=data_transform,
+                val_data_transform=data_transform,
+                train_model=TorchClassificationModel(
+                    encoder=ResNet50DinoEncoder(pretrained=True),
+                    num_classes=10,
+                ),
+                criteria=TorchCrossEntropyCriteria(),
+                optimizer=TorchAdamWOptimizer(lr=3e-4),
+                metrics={
+                    "train": {
+                        "F1 Score": F1Score(
+                            task="multiclass", average="micro", num_classes=10
+                        ),
+                        "Precision": Precision(
+                            task="multiclass", average="micro", num_classes=10
+                        ),
+                        "Recall": Recall(
+                            task="multiclass", average="micro", num_classes=10
+                        ),
+                    },
+                    "val": {
+                        "F1 Score": F1Score(
+                            task="multiclass", average="micro", num_classes=10
+                        ),
+                        "Precision": Precision(
+                            task="multiclass", average="micro", num_classes=10
+                        ),
+                        "Recall": Recall(
+                            task="multiclass", average="micro", num_classes=10
+                        ),
+                    },
+                },
+                experiment_tracker=TensorboardExperimentTracker(),
+                model_saver=MusicGenderClassificationModelSaver(),
+            ),
+        ),
+    },
+    "evaluate": {
+        "evaluator": ContinualLearningTasksEvaluatorV2(
+            train_tasks=["all"],
+            test_tasks=scenario1,
+            model=TorchClassificationModel(
+                encoder_name=ResNet50Encoder(pretrained=True), num_classes=10
             ),
             model_saver=MusicGenderClassificationModelSaver(),
             data_source=GtzanDataSource(
@@ -181,7 +277,7 @@ gtzan_mobilenetv2_scenario1 = {
                 train_data_transform=data_transform,
                 val_data_transform=data_transform,
                 train_model=TorchClassificationModel(
-                    encoder_name="dino_resnet50", pretrained=True, num_classes=10
+                    encoder_name=ResNet50Encoder(pretrained=True), num_classes=10
                 ),
                 criteria=TorchCrossEntropyCriteria(),
                 optimizer=TorchAdamWOptimizer(lr=3e-4),
@@ -219,7 +315,7 @@ gtzan_mobilenetv2_scenario1 = {
             train_tasks=scenario1,
             test_tasks=scenario1,
             model=TorchClassificationModel(
-                encoder_name="dino_resnet50", pretrained=True, num_classes=10
+                encoder_name=ResNet50Encoder(pretrained=True), num_classes=10
             ),
             model_saver=MusicGenderClassificationModelSaver(),
             data_source=GtzanDataSource(
