@@ -8,9 +8,9 @@ from models import TrainModel
 
 
 class MusicGenderClassificationModelSaver(ABC):
-    def __init__(self, output_folder: str = config.models_path, **kwargs):
+    def __init__(self, models_folder: str = config.models_path, **kwargs):
         self.model: TrainModel = None
-        self.output_folder = output_folder
+        self.models_folder = models_folder
 
     def configure(
         self,
@@ -20,13 +20,20 @@ class MusicGenderClassificationModelSaver(ABC):
         task: str = None,
     ):
         self.model = model
+
         self.experiment_name = experiment_name
+        self.output_folder = os.path.join(self.models_folder, self.experiment_name)
+        self.create_output_folder()
+
         self.cross_val_id = cross_val_id
         self.task = "-".join(task) if isinstance(task, list) else task
         self.build_output_path()
 
+    def create_output_folder(self):
+        os.makedirs(self.output_folder, exist_ok=True)
+
     def build_output_path(self):
-        self.output_path = os.path.join(config.models_path, f"{self.experiment_name}")
+        self.output_path = os.path.join(self.output_folder, f"{self.experiment_name}")
         self.output_path += (
             f"__cv_{self.cross_val_id}" if self.cross_val_id is not None else ""
         )
