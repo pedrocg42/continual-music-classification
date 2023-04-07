@@ -12,19 +12,19 @@ class ResNet50Encoder(nn.Module):
 
         self.pretrained = pretrained
         self.one_channel = one_channel
-        self.encoder_raw = resnet50(
+        encoder_raw = resnet50(
             weights=ResNet50_Weights.IMAGENET1K_V2 if self.pretrained else None
         )
 
         self.encoder = nn.Sequential(
-            self.encoder_raw.conv1,
-            self.encoder_raw.bn1,
-            self.encoder_raw.relu,
-            self.encoder_raw.maxpool,
-            self.encoder_raw.layer1,
-            self.encoder_raw.layer2,
-            self.encoder_raw.layer3,
-            self.encoder_raw.layer4,
+            encoder_raw.conv1,
+            encoder_raw.bn1,
+            encoder_raw.relu,
+            encoder_raw.maxpool,
+            encoder_raw.layer1,
+            encoder_raw.layer2,
+            encoder_raw.layer3,
+            encoder_raw.layer4,
         )
         self.encoder_output_size = 2048
 

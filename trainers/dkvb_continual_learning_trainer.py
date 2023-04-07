@@ -3,24 +3,20 @@ from abc import ABC
 from loguru import logger
 
 from loopers import Looper
+from trainers.continual_learning_trainer import ContinualLearningTrainer
 
 
-class ContinualLearningTrainer(ABC):
+class DkvbContinualLearningTrainer(ContinualLearningTrainer):
     def __init__(
         self,
-        tasks: list[str | list[str]],
-        looper: Looper,
-        num_epochs: int,
-        early_stopping_patience: int = 10,
-        early_stopping_metric: str = "F1 Score",
+        epochs_keys_init: int = 10,
+        freeze_decoder_after_first_epoch: bool = False,
+        **kwargs,
     ):
-        self.looper = looper
-        self.tasks = tasks
-        self.num_epochs = num_epochs
-        self.early_stopping_patience = early_stopping_patience
-        self.early_stopping_metric = early_stopping_metric
-        self.best_metric = 0
-        self.patience_epochs = 0
+        super().__init__(**kwargs)
+
+        self.epochs_keys_init = epochs_keys_init
+        self.freeze_decoder_after_first_epoch = freeze_decoder_after_first_epoch
 
     def configure_cv(self, cross_val_id: int):
         self.looper.initialize_model()
@@ -35,18 +31,9 @@ class ContinualLearningTrainer(ABC):
         self.looper.configure_task(cross_val_id=cross_val_id, task=task)
         self.looper.log_start()
 
-    def early_stopping(self, metrics: dict, epoch: int = 0):
-        if metrics[self.early_stopping_metric] > self.best_metric or epoch == 0:
-            self.best_metric = metrics[self.early_stopping_metric]
-            self.patience_epochs = 0
-            self.looper.model_saver.save_model()
-        else:
-            self.patience_epochs += 1
-
-        if self.patience_epochs >= self.early_stopping_patience:
-            logger.info("Early stopping")
-            return True
-        return False
+    def initialize_keys(self):
+        for epoch in range(self.epochs_keys_init):
+            self.looper.key_init_epoch(epoch=epoch)
 
     def train(self, experiment_name: str, num_cross_val_splits: int = 1):
         logger.info(f"Started training process of experiment {experiment_name}")
@@ -54,13 +41,18 @@ class ContinualLearningTrainer(ABC):
         for cross_val_id in range(num_cross_val_splits):
             self.configure_cv(cross_val_id)
             self.looper.log_start()
-            for task in self.tasks:
+            for task_num, task in enumerate(self.tasks):
                 self.configure_task(cross_val_id, task)
                 if self.looper.model_saver.model_exists():
                     logger.info(
                         f"Model already exists for cross_val_id {cross_val_id} and task {task}"
                     )
                     continue
+                if task_num == 0:
+                    self.initialize_keys()
+                if self.freeze_decoder_after_first_epoch and task_num == 1:
+                    logger.info("Freezing decoder")
+                    self.looper.model.freeze_decoder()
                 for epoch in range(self.num_epochs):
                     results = self.looper.train_epoch(epoch=epoch)
                     metrics = self.looper.extract_metrics(results)

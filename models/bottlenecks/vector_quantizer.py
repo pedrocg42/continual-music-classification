@@ -8,40 +8,37 @@ from vector_quantize_pytorch import VectorQuantize
 class VectorQuantizer(nn.Module):
     def __init__(
         self,
-        embedding_dim: int = 1024,
-        codebook_size: int = 8192,
-        num_codebooks: int = 1,
-        vq_decay: float = 0.99,
-        threshold_ema_dead_code: int = 2,
-        value_dimension: Union[int, str] = "same",
+        embedding_dim: int = 2048,
+        codes_per_codebook: int = 4096,
+        num_codebooks: int = 256,
+        vq_decay: float = 0.95,
+        threshold_ema_dead_code: int = 1e-4,
         **kwargs,
     ):
         super().__init__()
 
         self.embedding_dim = embedding_dim
-        self.codebook_size = codebook_size
+        self.codes_per_codebook = codes_per_codebook
         self.num_codebooks = num_codebooks
-        self.value_dimension = value_dimension
         self.vq_decay = vq_decay
         self.threshold_ema_dead_code = threshold_ema_dead_code
 
         # embedding dimension and number of key-value pairs must be divisible by number of codes
         assert (self.embedding_dim % self.num_codebooks) == 0
-        assert (self.codebook_size & self.num_codebooks) == 0
 
         self.vector_quantizer = VectorQuantize(
             dim=self.embedding_dim,
             codebook_dim=self.embedding_dim // self.num_codebooks,
-            codebook_size=self.codebook_size,
+            codebook_size=self.codes_per_codebook,
             heads=self.num_codebooks,
             separate_codebook_per_head=True,
             decay=self.vq_decay,
-            threshold_ema_dead_code=self.threshold_ema_dead_code,  # (0.8·batch-size·h·w·mz/num-pairs)
+            threshold_ema_dead_code=self.threshold_ema_dead_code,  # (0.1·batch-size·h·w/num-pairs)
         )
 
-    def forward(self, x):
+    def forward(self, embeddings):
         encoder_output_size = embeddings.shape[-1]
-        batch_size = x.size()[0]
+        batch_size = embeddings.size()[0]
 
         embeddings = torch.reshape(
             embeddings,

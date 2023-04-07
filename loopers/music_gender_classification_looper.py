@@ -98,7 +98,7 @@ class MusicGenderClassificationLooper(Looper):
 
     def train_epoch(self, epoch: int):
         logger.info(f"Training epoch {epoch + 1}")
-        self.model.train()
+        self.model.prepare_train()
         results_epoch = []
         pbar = tqdm(self.train_data_loader, colour="green")
         for waveforms, labels in pbar:
@@ -133,7 +133,7 @@ class MusicGenderClassificationLooper(Looper):
     @torch.no_grad()
     def val_epoch(self, epoch: int):
         logger.info(f"Validation epoch {epoch + 1}")
-        self.model.eval()
+        self.model.prepare_eval()
         results_epoch = []
         pbar = tqdm(self.val_data_loader, colour="magenta")
         for waveforms, labels in pbar:

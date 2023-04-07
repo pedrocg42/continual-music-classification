@@ -21,7 +21,7 @@
             "justMyCode": true,
             "args": [
                 "--experiment",
-                "gtzan_mobilenetv2_scenario1"
+                "gtzan_resnet50dino_joint"
             ]
         }
     ]

@@ -82,7 +82,7 @@ class ContinualLearningTasksEvaluatorV2:
 
             # Inference
             spectrograms = self.data_transform(waveforms)
-            preds = self.model(spectrograms.repeat(1, 3, 1, 1))
+            preds = self.model(spectrograms)
 
             # For each song we select the most repeated class
             pred = torch.mode(preds.detach().cpu().argmax(dim=1))[0]
