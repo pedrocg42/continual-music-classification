@@ -1,14 +1,19 @@
 # Metrics
+from copy import deepcopy
+
 from torchmetrics import F1Score, Precision, Recall
 
 # Criterias
 from criterias import TorchCrossEntropyCriteria
 
+# Evaluator
+from evaluators import ContinualLearningTasksEvaluatorV2
+
 # Experiment Trakcer
 from experiment_tracker import DataframeExperimentTracker, TensorboardExperimentTracker
 
 # Looper
-from loopers import MusicGenderClassificationLooper, DkvbMusicGenderClassificationLooper
+from loopers import DkvbMusicGenderClassificationLooper, MusicGenderClassificationLooper
 
 # Model Savers
 from model_savers import MusicGenderClassificationModelSaver
@@ -16,11 +21,11 @@ from model_savers import MusicGenderClassificationModelSaver
 # Architecture
 from models import TorchClassificationModel
 
+# Bottlenecks
+from models.bottlenecks import DKVB, VectorQuantizer
+
 # Encoders
 from models.encoders import ResNet50DinoEncoder, ResNet50Encoder
-
-# Bottlenecks
-from models.bottlenecks import VectorQuantizer, DKVB
 
 # Optmizers
 from optimizers import TorchAdamWOptimizer
@@ -33,12 +38,6 @@ from train_data_transforms import SimpleMusicPipeline
 
 # Trainers
 from trainers import ContinualLearningTrainer, DkvbContinualLearningTrainer
-
-# Evaluator
-from evaluators import ContinualLearningTasksEvaluatorV2
-
-from copy import deepcopy
-
 
 ###############################################################
 ###########                SCENARIOS                ###########

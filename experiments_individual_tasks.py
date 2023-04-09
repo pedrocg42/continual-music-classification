@@ -4,6 +4,9 @@ from torchmetrics import F1Score, Precision, Recall
 # Criterias
 from criterias import TorchCrossEntropyCriteria
 
+# Evaluator
+from evaluators import ContinualLearningTasksEvaluator, TasksEvaluator
+
 # Experiment Trakcer
 from experiment_tracker import DataframeExperimentTracker, TensorboardExperimentTracker
 
@@ -26,10 +29,7 @@ from train_data_sources import GtzanDataSource
 from train_data_transforms import SimpleMusicPipeline
 
 # Trainers
-from trainers import Trainer, ContinualLearningTrainer
-
-# Evaluator
-from evaluators import TasksEvaluator, ContinualLearningTasksEvaluator
+from trainers import ContinualLearningTrainer, Trainer
 
 ###############################################################
 ###########                SCENARIOS                ###########
