@@ -2,8 +2,7 @@ import os
 
 import torch
 
-# dataset_path = os.getenv("DATASET_PATH")  # path to where the dataset is saved
-dataset_path = "G:/Pedro/data/music/GTZAN"
+dataset_path = os.getenv("DATASET_PATH")  # path to where the dataset is saved
 
 seed = 42
 
