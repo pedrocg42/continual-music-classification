@@ -1,8 +1,8 @@
 from fire import Fire
 
-from evaluators import Evaluator
-from my_utils import parse_experiment
-from trainers import Trainer
+from music_genre_classification.evaluators import Evaluator
+from music_genre_classification.my_utils import parse_experiment
+from music_genre_classification.trainers import Trainer
 
 
 def train(experiment_name: str, num_cross_val_splits: int, trainer: Trainer):

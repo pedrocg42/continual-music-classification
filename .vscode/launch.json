@@ -21,7 +21,7 @@
             "justMyCode": true,
             "args": [
                 "--experiment",
-                "gtzan_resnet50dino_joint"
+                "MERT95M_joint_gtzan_all"
             ]
         }
     ]
