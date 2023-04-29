@@ -3,12 +3,12 @@ from loguru import logger
 from tqdm import tqdm
 
 import config
-from music_genre_classification.loopers.music_gender_classification_looper import (
-    MusicGenderClassificationLooper,
+from music_genre_classification.loopers.music_genre_classification_looper import (
+    MusicGenreClassificationLooper,
 )
 
 
-class DkvbMusicGenderClassificationLooper(MusicGenderClassificationLooper):
+class DkvbMusicGenreClassificationLooper(MusicGenreClassificationLooper):
     @torch.no_grad()
     def key_init_epoch(self, epoch: int):
         logger.info(f"Key initialization epoch {epoch + 1}")

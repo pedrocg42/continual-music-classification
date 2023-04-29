@@ -4,61 +4,13 @@ from loguru import logger
 from tqdm import tqdm
 
 import config
-from music_genre_classification.criterias import Criteria
-from music_genre_classification.experiment_tracker import ExperimentTracker
 from music_genre_classification.loopers import Looper
-from music_genre_classification.model_savers import ModelSaver
-from music_genre_classification.models import TrainModel
-from music_genre_classification.optimizers import Optimizer
-from music_genre_classification.train_data_sources import TrainDataSource
-from music_genre_classification.train_data_transforms import TrainDataTransform
 
 
-class MusicGenderClassificationLooper(Looper):
-    def __init__(
-        self,
-        train_data_source: TrainDataSource,
-        val_data_source: TrainDataSource,
-        train_data_transform: TrainDataTransform | None,
-        val_data_transform: TrainDataTransform | None,
-        train_model: TrainModel,
-        criteria: Criteria,
-        optimizer: Optimizer,
-        experiment_tracker: ExperimentTracker,
-        model_saver: ModelSaver,
-        metrics: dict,
-    ) -> None:
-        super().__init__()
-
-        self.train_data_source = train_data_source
-        self.tran_data_loader = None
-        self.train_data_transform = train_data_transform
-
-        self.val_data_source = val_data_source
-        self.val_data_loader = None
-        self.val_data_transform = val_data_transform
-
-        # Move to device
-        self.train_data_transform.to(config.device)
-        self.val_data_transform.to(config.device)
-
-        self.model = train_model
-
-        # Configure optimizer and criteria (loss function)
-        self.optimizer = optimizer
-        self.criteria = criteria
-
-        # Metrics
-        self.metrics = metrics
-
-        # Experiment tracker
-        self.experiment_tracker = experiment_tracker
-
-        # Model saver
-        self.model_saver = model_saver
-
-    def configure_experiment(self, experiment_name: str):
+class MusicGenreClassificationLooper(Looper):
+    def configure_experiment(self, experiment_name: str, batch_size: int):
         self.experiment_name = experiment_name
+        self.batch_size = batch_size
 
     def initialize_model(self):
         # Configure model
@@ -67,6 +19,10 @@ class MusicGenderClassificationLooper(Looper):
 
         # Configure with model and experiment name
         self.optimizer.configure(self.model.parameters())
+
+        # Move to device
+        self.train_data_transform.to(config.device)
+        self.val_data_transform.to(config.device)
 
     def configure_task(self, cross_val_id: int, task: str = None):
         # Configure data loaders
@@ -112,8 +68,8 @@ class MusicGenderClassificationLooper(Looper):
         self.optimizer.zero_grad()
 
         # Inference
-        spectrograms = self.train_data_transform(waveforms, augment=True)
-        preds = self.model(spectrograms)
+        transformed = self.train_data_transform(waveforms, augment=True)
+        preds = self.model(transformed)
 
         # Compute loss
         loss = self.criteria(preds, labels)

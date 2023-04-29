@@ -1,13 +1,15 @@
 from music_genre_classification.loopers.looper import Looper
+from music_genre_classification.loopers.looper_factory import LooperFactory
 from music_genre_classification.loopers.dkvb_music_gender_classification_looper import (
-    DkvbMusicGenderClassificationLooper,
+    DkvbMusicGenreClassificationLooper,
 )
-from music_genre_classification.loopers.music_gender_classification_looper import (
-    MusicGenderClassificationLooper,
+from music_genre_classification.loopers.music_genre_classification_looper import (
+    MusicGenreClassificationLooper,
 )
 
 __all__ = [
     "Looper",
-    "MusicGenderClassificationLooper",
-    "DkvbMusicGenderClassificationLooper",
+    "LooperFactory",
+    "MusicGenreClassificationLooper",
+    "DkvbMusicGenreClassificationLooper",
 ]
