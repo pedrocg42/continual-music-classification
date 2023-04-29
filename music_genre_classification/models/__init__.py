@@ -7,8 +7,10 @@ from music_genre_classification.models.timm_models import (
 )
 from music_genre_classification.models.torch_base_model import TorchBaseModel
 from music_genre_classification.models.train_model import TrainModel
+from music_genre_classification.models.train_model_factory import TrainModelFactory
 
 __all__ = [
+    "TrainModelFactory",
     "TrainModel",
     "TorchBaseModel",
     "TimmMobileNetV3",
