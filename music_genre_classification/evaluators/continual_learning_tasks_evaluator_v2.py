@@ -4,7 +4,7 @@ from torchmetrics import Metric
 from tqdm import tqdm
 
 import config
-from music_genre_classification.experiment_tracker import ExperimentTracker
+from music_genre_classification.experiment_trackers import ExperimentTracker
 from music_genre_classification.model_savers import ModelSaver
 from music_genre_classification.models import TrainModel
 from music_genre_classification.train_data_sources import TrainDataSource
