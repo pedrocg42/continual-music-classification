@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 ###############################################################
 ###########           GENERIC COMPONENTS            ###########
 ###############################################################
@@ -9,6 +11,7 @@ early_stopping_patience = 40
 early_stopping_metric = "F1 Score"
 epochs_keys_init = 10
 num_classes = 10
+batch_size = 8
 
 # Data sources
 train_gtzan_data_source = {
@@ -20,25 +23,18 @@ train_gtzan_data_source = {
         "length_spectrogram": 128,
     },
 }
-val_gtzan_data_source = train_gtzan_data_source.copy()
+val_gtzan_data_source = deepcopy(train_gtzan_data_source)
 val_gtzan_data_source["args"]["split"] = "val"
-test_gtzan_data_source = train_gtzan_data_source.copy()
+test_gtzan_data_source = deepcopy(train_gtzan_data_source)
 test_gtzan_data_source["args"]["split"] = "test"
 
 
 # Data transforms
-music2vec_data_transform = {
-    "name": "Music2VecDataTransform",
+mert_data_transform = {
+    "name": "MertDataTransform",
     "args": {
-        "resample_rate": 16000,
-        "sampling_rate": 16000,
-        "length_spectrogram": 128,
-        "hop_length": 512,
-        "num_mel_bins": 64,
-        "f_min": 50,
-        "f_max": 8000,
-        "normalize": True,
-        "augment": True,
+        "input_sample_rate": 22050,
+        "output_sample_rate": 24000,
     },
 }
 
@@ -70,12 +66,13 @@ train_model = {
     "name": "TorchClassificationModel",
     "args": {
         "encoder": {
-            "name": "Music2VecEncoder",
+            "name": "MertEncoder",
             "args": {
                 "pretrained": True,
             },
         },
         "num_classes": num_classes,
+        "freeze_encoder": True,
     },
 }
 
@@ -122,16 +119,16 @@ continual_learning_trainer = {
     "name": "ContinualLearningTrainer",
     "args": {
         "num_epochs": num_epochs,
+        "batch_size": batch_size,
         "early_stopping_patience": early_stopping_patience,
         "early_stopping_metric": early_stopping_metric,
-        "epochs_keys_init": epochs_keys_init,
         "looper": {
-            "name": "MusicGenderClassificationLooper",
+            "name": "MusicGenreClassificationLooper",
             "args": {
                 "train_data_source": train_gtzan_data_source,
                 "val_data_source": val_gtzan_data_source,
-                "train_data_transform": music2vec_data_transform,
-                "val_data_transform": music2vec_data_transform,
+                "train_data_transform": mert_data_transform,
+                "val_data_transform": mert_data_transform,
                 "train_model": train_model,
                 "criteria": {"name": "TorchCrossEntropyCriteria"},
                 "optimizer": {"name": "TorchAdamWOptimizer"},
@@ -153,7 +150,7 @@ continual_learning_evaluator = {
         "model": train_model,
         "model_saver": {"name": "MusicGenderClassificationModelSaver"},
         "data_source": test_gtzan_data_source,
-        "data_transform": music2vec_data_transform,
+        "data_transform": mert_data_transform,
         "metrics": gender_classification_metrics,
         "experiment_tracker": {"name": "DataframeExperimentTracker"},
     },
