@@ -1,11 +1,13 @@
 import torch
 import torch.nn as nn
+from music_genre_classification.models.encoders import EncoderFactory
+from music_genre_classification.models.bottlenecks import BottleneckFactory
 
 
 class TorchClassificationModel(nn.Module):
     def __init__(
         self,
-        encoder: nn.Module,
+        encoder: dict,
         num_classes: int,
         pooling_type: str = "max",
         dropout: float = 0.3,
@@ -26,12 +28,12 @@ class TorchClassificationModel(nn.Module):
         **kwargs
     ):
         super().__init__()
-        self.encoder = encoder
+        self.encoder = EncoderFactory.build(encoder)
         self.num_classes = num_classes
         self.pooling_type = pooling_type
         self.dropout = dropout
         self.head_config = head_config
-        self.bottleneck = bottleneck
+        self.bottleneck = BottleneckFactory.build(bottleneck)
         self.frozen_encoder = frozen_encoder
         self.frozen_decoder = frozen_decoder
 
