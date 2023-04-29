@@ -2,19 +2,21 @@ from abc import ABC
 
 from loguru import logger
 
-from music_genre_classification.loopers import Looper
+from music_genre_classification.loopers import Looper, LooperFactory
 
 
 class Trainer(ABC):
     def __init__(
         self,
-        looper: Looper,
+        looper: dict,
         num_epochs: int,
+        batch_size: int,
         early_stopping_patience: int = 10,
         early_stopping_metric: str = "F1 Score",
     ):
-        self.looper = looper
+        self.looper = LooperFactory.build(looper)
         self.num_epochs = num_epochs
+        self.batch_size = batch_size
         self.early_stopping_patience = early_stopping_patience
         self.early_stopping_metric = early_stopping_metric
         self.best_metric = 0

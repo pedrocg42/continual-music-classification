@@ -2,25 +2,17 @@ from abc import ABC
 
 from loguru import logger
 
-from music_genre_classification.loopers import Looper
+from music_genre_classification.trainers import Trainer
 
 
-class ContinualLearningTrainer(ABC):
+class ContinualLearningTrainer(Trainer):
     def __init__(
         self,
         tasks: list[str | list[str]],
-        looper: Looper,
-        num_epochs: int,
-        early_stopping_patience: int = 10,
-        early_stopping_metric: str = "F1 Score",
+        **kwargs,
     ):
-        self.looper = looper
+        super().__init__(**kwargs)
         self.tasks = tasks
-        self.num_epochs = num_epochs
-        self.early_stopping_patience = early_stopping_patience
-        self.early_stopping_metric = early_stopping_metric
-        self.best_metric = 0
-        self.patience_epochs = 0
 
     def configure_cv(self, cross_val_id: int):
         self.looper.initialize_model()
@@ -50,7 +42,7 @@ class ContinualLearningTrainer(ABC):
 
     def train(self, experiment_name: str, num_cross_val_splits: int = 1):
         logger.info(f"Started training process of experiment {experiment_name}")
-        self.looper.configure_experiment(experiment_name)
+        self.looper.configure_experiment(experiment_name, self.batch_size)
         for cross_val_id in range(num_cross_val_splits):
             self.configure_cv(cross_val_id)
             self.looper.log_start()
