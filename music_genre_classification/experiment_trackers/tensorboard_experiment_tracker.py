@@ -4,7 +4,7 @@ from loguru import logger
 from torch.utils.tensorboard import SummaryWriter
 
 import config
-from music_genre_classification.experiment_tracker.experiment_tracker import (
+from music_genre_classification.experiment_trackers.experiment_tracker import (
     ExperimentTracker,
 )
 

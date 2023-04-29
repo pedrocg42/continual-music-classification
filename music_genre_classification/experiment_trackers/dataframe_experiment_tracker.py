@@ -4,7 +4,7 @@ import pandas as pd
 from loguru import logger
 
 import config
-from music_genre_classification.experiment_tracker.experiment_tracker import (
+from music_genre_classification.experiment_trackers.experiment_tracker import (
     ExperimentTracker,
 )
 
