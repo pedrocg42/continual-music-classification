@@ -5,8 +5,8 @@ import pandas as pd
 from torch.utils.data import DataLoader, Dataset
 
 import config
-from music_genre_classification.train_data_sources.music_genre_classification_dataset import (
-    MusicGenreClassificationDataset,
+from music_genre_classification.train_data_sources.mert_genre_classification_dataset import (
+    MertGenreClassificationDataset,
 )
 from music_genre_classification.train_data_sources.train_data_source import (
     TrainDataSource,
@@ -30,14 +30,7 @@ GTZAN_GENRES = [
 
 
 class GtzanDataSource(TrainDataSource):
-    def __init__(
-        self,
-        split: str,
-        num_cross_val_splits: int = 5,
-        hop_length: int = 512,
-        length_spectrogram: int = 128,
-        **kwargs
-    ):
+    def __init__(self, split: str, num_cross_val_splits: int = 5, **kwargs):
         self.name = "GTZAN"
         self.dataset_path = config.dataset_path
         self.genres = GTZAN_GENRES
@@ -49,10 +42,8 @@ class GtzanDataSource(TrainDataSource):
         self.num_cross_val_splits = num_cross_val_splits
 
         # Audio parameters
-        self.sr = 22050
-        self.hop_length = hop_length
-        self.length_spectrogram = length_spectrogram
-        self.chunk_lengh = self.hop_length * self.length_spectrogram - 1
+        self.sample_rate = 22050
+        self.song_length = 30
 
         self._get_songs()
 
@@ -66,7 +57,7 @@ class GtzanDataSource(TrainDataSource):
         # Transform
         self.songs = np.array(
             [
-                os.path.join(self.dataset_path, "genres", song.split(".")[0], song)
+                os.path.join(self.dataset_path, song.split(".")[0], song)
                 for song in song_list
             ]
         )
@@ -143,8 +134,11 @@ class GtzanDataSource(TrainDataSource):
                 songs = songs[np.isin(labels, task)]
                 labels = labels[np.isin(labels, task)]
 
-        return MusicGenreClassificationDataset(
-            songs=songs, labels=labels, split=self.split, chunk_length=self.chunk_lengh
+        return MertGenreClassificationDataset(
+            songs=songs,
+            labels=labels,
+            audio_length=self.song_length,
+            input_sample_rate=self.sample_rate,
         )
 
     def get_dataloader(
