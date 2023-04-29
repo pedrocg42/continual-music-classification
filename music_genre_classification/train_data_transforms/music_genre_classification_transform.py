@@ -1,5 +1,6 @@
+import numpy as np
 import torch.nn as nn
-from torch import Tensor
+import torch
 from torchaudio.transforms import (
     FrequencyMasking,
     MelScale,
@@ -44,7 +45,21 @@ class SimpleMusicPipeline(nn.Module, TrainDataTransform):
             n_mels=self.n_mels,
         )
 
-    def forward(self, waveform: Tensor, augment: bool = False) -> Tensor:
+    def _adjust_audio_length(self, wav: torch.Tensor) -> torch.Tensor:
+        if self.split == "train":
+            random_index = np.random.randint(0, wav.shape[-1] - self.chunk_lengh)
+            return wav[:, random_index : random_index + self.chunk_lengh], 1
+        else:
+            num_chunks = wav.shape[-1] // self.chunk_lengh
+            return (
+                torch.reshape(
+                    wav[0, : self.chunk_lengh * num_chunks],
+                    (-1, 1, self.chunk_lengh),
+                ),
+                num_chunks,
+            )
+
+    def forward(self, waveform: torch.Tensor, augment: bool = False) -> torch.Tensor:
         if self.raw_audio_augmentation is not None and augment:
             waveform = self.raw_audio_augmentation(waveform)
 
@@ -90,7 +105,7 @@ class AudioResamplePipeline(nn.Module):
             n_mels=n_mel, sample_rate=resample_freq, n_stft=n_fft // 2 + 1
         )
 
-    def forward(self, waveform: Tensor) -> Tensor:
+    def forward(self, waveform: torch.Tensor) -> torch.Tensor:
         # Resample the input
         resampled = self.resample(waveform)
 
