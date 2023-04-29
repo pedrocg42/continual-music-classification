@@ -2,10 +2,11 @@ from fire import Fire
 
 from music_genre_classification.evaluators import Evaluator
 from music_genre_classification.my_utils import parse_experiment
-from music_genre_classification.trainers import Trainer
+from music_genre_classification.trainers import Trainer, TrainerFactory
 
 
 def train(experiment_name: str, num_cross_val_splits: int, trainer: Trainer):
+    trainer = TrainerFactory.build(trainer["name"], trainer["args"])
     trainer.train(experiment_name, num_cross_val_splits)
 
 
