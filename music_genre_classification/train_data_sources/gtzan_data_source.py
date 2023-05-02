@@ -30,7 +30,9 @@ GTZAN_GENRES = [
 
 
 class GtzanDataSource(TrainDataSource):
-    def __init__(self, split: str, num_cross_val_splits: int = 5, **kwargs):
+    def __init__(
+        self, split: str, num_cross_val_splits: int = 5, is_eval: bool = False, **kwargs
+    ):
         self.name = "GTZAN"
         self.dataset_path = config.dataset_path
         self.genres = GTZAN_GENRES
@@ -40,10 +42,12 @@ class GtzanDataSource(TrainDataSource):
         # Split parameters
         self.split = split
         self.num_cross_val_splits = num_cross_val_splits
+        self.is_eval = is_eval
 
         # Audio parameters
         self.sample_rate = 22050
         self.song_length = 30
+        self.chunk_length = 3
 
         self._get_songs()
 
@@ -137,7 +141,8 @@ class GtzanDataSource(TrainDataSource):
         return MertGenreClassificationDataset(
             songs=songs,
             labels=labels,
-            audio_length=self.song_length,
+            is_eval=self.is_eval,
+            audio_length=self.chunk_length,
             input_sample_rate=self.sample_rate,
         )
 

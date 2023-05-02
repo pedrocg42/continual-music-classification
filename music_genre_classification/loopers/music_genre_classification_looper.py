@@ -27,7 +27,7 @@ class MusicGenreClassificationLooper(Looper):
     def configure_task(self, cross_val_id: int, task: str = None):
         # Configure data loaders
         self.train_data_loader = self.train_data_source.get_dataloader(
-            cross_val_id=cross_val_id, task=task
+            cross_val_id=cross_val_id, task=task, batch_size=self.batch_size
         )
         self.val_data_loader = self.val_data_source.get_dataset(
             cross_val_id=cross_val_id, task=task
@@ -55,7 +55,7 @@ class MusicGenreClassificationLooper(Looper):
         self.model.prepare_train()
         results_epoch = []
         pbar = tqdm(self.train_data_loader, colour="green")
-        for waveforms, labels in pbar:
+        for i, (waveforms, labels) in enumerate(pbar):
             results_epoch.append(self.train_batch(waveforms, labels))
             self.update_pbar(pbar, results_epoch)
         return results_epoch
@@ -101,8 +101,8 @@ class MusicGenreClassificationLooper(Looper):
         labels = labels.to(config.device)
 
         # Inference
-        spectrograms = self.val_data_transform(waveforms)
-        preds = self.model(spectrograms)
+        transformed = self.val_data_transform(waveforms)
+        preds = self.model(transformed)
 
         # Compute loss
         loss = self.criteria(preds, labels)
@@ -124,7 +124,7 @@ class MusicGenreClassificationLooper(Looper):
         metrics_results["loss"] = np.array(
             [results_batch["loss"] for results_batch in results_epoch]
         ).mean()
-        for metric_name, metric in self.metrics[mode].items():
+        for metric_name, metric in self.metrics.items():
             metrics_results[metric_name] = metric(preds, labels).item()
 
         return metrics_results
