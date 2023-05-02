@@ -9,7 +9,7 @@ class TorchClassificationModel(nn.Module):
         self,
         encoder: dict,
         num_classes: int,
-        pooling_type: str = "max",
+        pooling_type: str = "mert_mean",
         dropout: float = 0.3,
         head_config: dict = [
             {"layer_type": "dropout"},
@@ -40,10 +40,12 @@ class TorchClassificationModel(nn.Module):
         self.initialize()
 
     def initialize_encoder(self):
-        if self.pooling_type == "avg":
+        if self.pooling_type == "mean":
             self.pooling = nn.AdaptiveAvgPool2d((1, 1))
         elif self.pooling_type == "max":
             self.pooling = nn.AdaptiveMaxPool2d((1, 1))
+        elif self.pooling_type == "mert_mean":
+            self.pooling = nn.AdaptiveAvgPool2d((1, self.encoder.encoder_output_size))
 
         if self.frozen_encoder:
             self.freeze_encoder()
@@ -84,13 +86,14 @@ class TorchClassificationModel(nn.Module):
         self.initialize_decoder()
 
     def forward(self, inputs: torch.Tensor):
-        output = self.encoder(inputs)
-        output = self.pooling(output)
+        with torch.no_grad():
+            outputs = self.encoder(inputs)
         if self.bottleneck is not None:
-            output = self.bottleneck(output)
-        output = self.decoder(output)
-        return output
-
+            outputs = self.bottleneck(outputs)
+        outputs = self.pooling(outputs)
+        outputs = self.decoder(outputs)
+        return outputs
+    
     def prepare_train(self):
         if self.frozen_encoder:
             self.encoder.eval()
