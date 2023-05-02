@@ -5,7 +5,9 @@ from copy import deepcopy
 ###########                SCENARIOS                ###########
 ###############################################################
 
-all_tasks = scenario1 = [
+all_tasks = ["all"]
+
+scenario1 = [
     ["blues", "classical"],
     ["country", "disco"],
     ["hiphop", "jazz"],

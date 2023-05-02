@@ -7,7 +7,7 @@ import config
 from music_genre_classification.models import TrainModel
 
 
-class MusicGenderClassificationModelSaver(ABC):
+class MusicGenreClassificationModelSaver(ABC):
     def __init__(self, models_folder: str = config.models_path, **kwargs):
         self.model: TrainModel = None
         self.models_folder = models_folder

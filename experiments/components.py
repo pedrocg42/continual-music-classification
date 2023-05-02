@@ -6,7 +6,7 @@ from copy import deepcopy
 
 # Training parameters
 num_cross_val_splits = 5
-num_epochs = 200
+num_epochs = 2
 early_stopping_patience = 40
 early_stopping_metric = "F1 Score"
 epochs_keys_init = 10
@@ -87,32 +87,32 @@ train_model_dkvb["args"]["frozen_encoder"] = True
 train_model_dkvb["args"]["bottleneck"] = dkvb
 
 # Metrics
-gender_classification_metrics = [
-        {
-            "name": "F1 Score",
-            "args": {
-                "task": "multiclass",
-                "average": "micro",
-                "num_classes": num_classes,
-            },
+genre_classification_metrics = [
+    {
+        "name": "F1 Score",
+        "args": {
+            "task": "multiclass",
+            "average": "micro",
+            "num_classes": num_classes,
         },
-        {
-            "name": "Precision",
-            "args": {
-                "task": "multiclass",
-                "average": "micro",
-                "num_classes": num_classes,
-            },
+    },
+    {
+        "name": "Precision",
+        "args": {
+            "task": "multiclass",
+            "average": "micro",
+            "num_classes": num_classes,
         },
-        {
-            "name": "Recall",
-            "args": {
-                "task": "multiclass",
-                "average": "micro",
-                "num_classes": num_classes,
-            },
+    },
+    {
+        "name": "Recall",
+        "args": {
+            "task": "multiclass",
+            "average": "micro",
+            "num_classes": num_classes,
         },
-    ]
+    },
+]
 
 
 # Trainer
@@ -133,9 +133,9 @@ continual_learning_trainer = {
                 "train_model": train_model,
                 "criteria": {"name": "TorchCrossEntropyCriteria"},
                 "optimizer": {"name": "TorchAdamWOptimizer"},
-                "metrics": gender_classification_metrics,
+                "metrics": genre_classification_metrics,
                 "experiment_tracker": {"name": "TensorboardExperimentTracker"},
-                "model_saver": {"name": "MusicGenderClassificationModelSaver"},
+                "model_saver": {"name": "MusicGenreClassificationModelSaver"},
             },
         },
     },
@@ -149,10 +149,10 @@ continual_learning_evaluator = {
         "train_tasks": None,
         "test_tasks": None,
         "model": train_model,
-        "model_saver": {"name": "MusicGenderClassificationModelSaver"},
+        "model_saver": {"name": "MusicGenreClassificationModelSaver"},
         "data_source": test_gtzan_data_source,
         "data_transform": mert_data_transform,
-        "metrics": gender_classification_metrics,
+        "metrics": genre_classification_metrics,
         "experiment_tracker": {"name": "DataframeExperimentTracker"},
     },
 }

@@ -5,11 +5,11 @@ from music_genre_classification.model_savers.model_saver import (
 
 class ModelSaverFactory:
     def build(config: dict) -> ModelSaver:
-        if config["name"] == "MusicGenderClassificationModelSaver":
+        if config["name"] == "MusicGenreClassificationModelSaver":
             from music_genre_classification.model_savers import (
-                MusicGenderClassificationModelSaver,
+                MusicGenreClassificationModelSaver,
             )
 
-            return MusicGenderClassificationModelSaver(**config.get("args", {}))
+            return MusicGenreClassificationModelSaver(**config.get("args", {}))
         else:
             raise ValueError(f"Unknown TrainDataSource type: {config['name']}")
