@@ -44,6 +44,8 @@ class ContinualLearningTrainer(Trainer):
         logger.info(f"Started training process of experiment {experiment_name}")
         self.looper.configure_experiment(experiment_name, self.batch_size)
         for cross_val_id in range(num_cross_val_splits):
+            if cross_val_id > 0:
+                return
             self.configure_cv(cross_val_id)
             self.looper.log_start()
             for task in self.tasks:

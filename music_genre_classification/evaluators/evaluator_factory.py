@@ -8,11 +8,11 @@ class EvaluatorFactory:
 
     @staticmethod
     def build(config: dict) -> Evaluator:
-        if config["name"] == "ContinualLearningTasksEvaluatorV2":
+        if config["name"] == "ContinualLearningEvaluator":
             from music_genre_classification.evaluators import (
-                ContinualLearningTasksEvaluatorV2,
+                ContinualLearningEvaluator,
             )
 
-            return ContinualLearningTasksEvaluatorV2(**config["args"])
+            return ContinualLearningEvaluator(**config["args"])
         else:
             raise Exception("No trainer named %s" % config["name"])

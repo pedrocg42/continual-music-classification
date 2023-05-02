@@ -7,7 +7,7 @@ import config
 from music_genre_classification.evaluators import Evaluator
 
 
-class ContinualLearningTasksEvaluatorV2(Evaluator):
+class ContinualLearningEvaluator(Evaluator):
     def __init__(
         self,
         train_tasks: list[str],
@@ -64,24 +64,23 @@ class ContinualLearningTasksEvaluatorV2(Evaluator):
             preds = self.model(transformed)
 
             # For each song we select the most repeated class
-            pred = torch.mean(preds.detach().cpu().mean(dim=1))
+            pred = preds.detach().cpu().mean(dim=1)
             label = labels[0] if len(labels.shape) > 0 else labels
 
             results.append(
                 dict(
-                    preds=pred,
-                    labels=label,
+                    pred=pred,
+                    label=label,
                 )
             )
         return results
 
     def extract_metrics(self, results: list[dict]) -> dict:
         metrics = {}
-        preds = torch.hstack([result["preds"] for result in results])
-        labels = torch.hstack([result["labels"] for result in results])
+        preds = torch.hstack([result["pred"] for result in results])
+        labels = torch.hstack([result["label"] for result in results])
         for metric_name, metric in self.metrics.items():
-            metric_result = metric(preds, labels)
-            metrics[metric_name] = metric_result.item()
+            metrics[metric_name] = metric(preds, labels).item()
         return metrics
 
     def evaluate(

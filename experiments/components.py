@@ -28,7 +28,7 @@ val_gtzan_data_source["args"]["split"] = "val"
 val_gtzan_data_source["args"]["is_eval"] = True
 test_gtzan_data_source = deepcopy(train_gtzan_data_source)
 test_gtzan_data_source["args"]["split"] = "test"
-val_gtzan_data_source["args"]["is_eval"] = True
+test_gtzan_data_source["args"]["is_eval"] = True
 
 
 # Data transforms
@@ -144,7 +144,7 @@ continual_learning_trainer = {
 
 # Evaluator
 continual_learning_evaluator = {
-    "name": "ContinualLearningTasksEvaluatorV2",
+    "name": "ContinualLearningEvaluator",
     "args": {
         "train_tasks": None,
         "test_tasks": None,
