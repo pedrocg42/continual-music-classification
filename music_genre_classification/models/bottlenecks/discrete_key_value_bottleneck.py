@@ -43,23 +43,27 @@ class DKVB(nn.Module):
         encoder_output_size = embeddings.shape[-1]
         batch_size = embeddings.size()[0]
 
-        embeddings = torch.reshape(
-            embeddings,
-            (embeddings.shape[0], self.embedding_dim, encoder_output_size**2),
-        )  # B, Dim, H, W -> B, Dim, N
-        embeddings = torch.permute(embeddings, (0, 2, 1))  # B, Dim, N -> B, N, Dim
+        four_dim_features = len(embeddings.size()) == 4
+
+        if four_dim_features:
+            embeddings = torch.reshape(
+                embeddings,
+                (embeddings.shape[0], self.embedding_dim, encoder_output_size**2),
+            )  # B, Dim, H, W -> B, Dim, N
+            embeddings = torch.permute(embeddings, (0, 2, 1))  # B, Dim, N -> B, N, Dim
 
         memories = self.dkvb(embeddings)
 
-        memories = torch.permute(memories, (0, 2, 1))  # B, N, Dim -> B, Dim, N
-        memories = torch.reshape(
-            memories,
-            (
-                batch_size,
-                self.embedding_dim,
-                encoder_output_size,
-                encoder_output_size,
-            ),
-        )  # B, Dim, N -> B, Dim, H, W
+        if four_dim_features:
+            memories = torch.permute(memories, (0, 2, 1))  # B, N, Dim -> B, Dim, N
+            memories = torch.reshape(
+                memories,
+                (
+                    batch_size,
+                    self.embedding_dim,
+                    encoder_output_size,
+                    encoder_output_size,
+                ),
+            )  # B, Dim, N -> B, Dim, H, W
 
         return memories
