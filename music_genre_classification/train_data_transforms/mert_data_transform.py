@@ -9,7 +9,7 @@ from transformers import Wav2Vec2FeatureExtractor
 class MertDataTransform(TrainDataTransform):
     def __init__(
         self,
-        input_sample_rate: int = 22050,
+        input_sample_rate: int,
         output_sample_rate: int = 24000,
     ):
         super().__init__()

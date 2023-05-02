@@ -18,7 +18,7 @@
             "request": "launch",
             "program": "execute_experiment.py",
             "console": "integratedTerminal",
-            "justMyCode": true,
+            "justMyCode": false,
             "args": [
                 "--experiment",
                 "MERT95M_joint_gtzan_all"

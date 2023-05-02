@@ -25,8 +25,10 @@ train_gtzan_data_source = {
 }
 val_gtzan_data_source = deepcopy(train_gtzan_data_source)
 val_gtzan_data_source["args"]["split"] = "val"
+val_gtzan_data_source["args"]["is_eval"] = True
 test_gtzan_data_source = deepcopy(train_gtzan_data_source)
 test_gtzan_data_source["args"]["split"] = "test"
+val_gtzan_data_source["args"]["is_eval"] = True
 
 
 # Data transforms
@@ -76,17 +78,16 @@ train_model = {
     },
 }
 
-train_model_vq = train_model.copy()
+train_model_vq = deepcopy(train_model)
 train_model_vq["args"]["frozen_encoder"] = True
 train_model_vq["args"]["bottleneck"] = vector_quantizer
 
-train_model_dkvb = train_model.copy()
+train_model_dkvb = deepcopy(train_model)
 train_model_dkvb["args"]["frozen_encoder"] = True
 train_model_dkvb["args"]["bottleneck"] = dkvb
 
 # Metrics
-gender_classification_metrics = (
-    [
+gender_classification_metrics = [
         {
             "name": "F1 Score",
             "args": {
@@ -111,8 +112,8 @@ gender_classification_metrics = (
                 "num_classes": num_classes,
             },
         },
-    ],
-)
+    ]
+
 
 # Trainer
 continual_learning_trainer = {
