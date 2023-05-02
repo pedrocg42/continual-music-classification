@@ -7,7 +7,9 @@ class BottleneckFactory:
     """
 
     def build(config: dict) -> Module:
-        if config["name"] == "DKVB":
+        if config is None:
+            return None
+        elif config["name"] == "DKVB":
             from music_genre_classification.models.bottlenecks import (
                 DKVB,
             )
