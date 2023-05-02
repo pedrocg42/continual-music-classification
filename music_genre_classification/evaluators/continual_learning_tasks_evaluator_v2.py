@@ -4,41 +4,20 @@ from torchmetrics import Metric
 from tqdm import tqdm
 
 import config
-from music_genre_classification.experiment_trackers import ExperimentTracker
-from music_genre_classification.model_savers import ModelSaver
-from music_genre_classification.models import TrainModel
-from music_genre_classification.train_data_sources import TrainDataSource
-from music_genre_classification.train_data_transforms import TrainDataTransform
+from music_genre_classification.evaluators import Evaluator
 
 
-class ContinualLearningTasksEvaluatorV2:
+class ContinualLearningTasksEvaluatorV2(Evaluator):
     def __init__(
         self,
         train_tasks: list[str],
         test_tasks: list[str],
-        model: TrainModel,
-        model_saver: ModelSaver,
-        data_source: TrainDataSource,
-        data_transform: TrainDataTransform,
-        metrics: dict[str, Metric],
-        experiment_tracker: ExperimentTracker,
+        **kwargs,
     ):
-        # Basic information
-        self.experiment_name = None
-        self.experiment_type = None
-        self.experiment_subtype = None
-        self.num_cross_val_splits = None
+        super().__init__(**kwargs)
+
         self.train_tasks = train_tasks
         self.test_tasks = test_tasks
-
-        # Components
-        self.model = model
-        self.model_saver = model_saver
-        self.data_source = data_source
-        self.data_loader = None
-        self.data_transform = data_transform
-        self.metrics = metrics
-        self.experiment_tracker = experiment_tracker
 
     def configure(
         self,
@@ -81,11 +60,11 @@ class ContinualLearningTasksEvaluatorV2:
             waveforms = waveforms.to(config.device)
 
             # Inference
-            spectrograms = self.data_transform(waveforms)
-            preds = self.model(spectrograms)
+            transformed = self.data_transform(waveforms)
+            preds = self.model(transformed)
 
             # For each song we select the most repeated class
-            pred = torch.mode(preds.detach().cpu().argmax(dim=1))[0]
+            pred = torch.mean(preds.detach().cpu().mean(dim=1))
             label = labels[0] if len(labels.shape) > 0 else labels
 
             results.append(

@@ -6,29 +6,37 @@ from torchmetrics import Metric
 from tqdm import tqdm
 
 import config
-from music_genre_classification.experiment_trackers import ExperimentTracker
-from music_genre_classification.model_savers import ModelSaver
-from music_genre_classification.models import TrainModel
-from music_genre_classification.train_data_sources import TrainDataSource
-from music_genre_classification.train_data_transforms import TrainDataTransform
+from music_genre_classification.experiment_trackers import ExperimentTrackerFactory
+from music_genre_classification.model_savers import ModelSaverFactory
+from music_genre_classification.models import TrainModelFactory
+from music_genre_classification.train_data_sources import TrainDataSourceFactory
+from music_genre_classification.train_data_transforms import TrainDataTransformFactory
+from music_genre_classification.metrics import MetricsFactory
 
 
 class Evaluator(ABC):
     def __init__(
         self,
-        model: TrainModel,
-        model_saver: ModelSaver,
-        data_source: TrainDataSource,
-        data_transform: TrainDataTransform,
-        metrics: dict[str, Metric],
-        experiment_tracker: ExperimentTracker,
+        model: dict,
+        model_saver: dict,
+        data_source: dict,
+        data_transform: dict,
+        metrics: list[dict],
+        experiment_tracker: dict,
     ):
-        self.model = model
-        self.model_saver = model_saver
-        self.data_source = data_source
-        self.data_transform = data_transform
-        self.metrics = metrics
-        self.experiment_tracker = experiment_tracker
+        # Basic information
+        self.experiment_name = None
+        self.experiment_type = None
+        self.experiment_subtype = None
+        self.num_cross_val_splits = None
+
+        # Components
+        self.model = TrainModelFactory.build(model)
+        self.model_saver = ModelSaverFactory.build(model_saver)
+        self.data_source = TrainDataSourceFactory.build(data_source)
+        self.data_transform = TrainDataTransformFactory.build(data_transform)
+        self.metrics = MetricsFactory.build(metrics)
+        self.experiment_tracker = ExperimentTrackerFactory.build(experiment_tracker)
 
     def configure(
         self, experiment_name: str, experiment_type: str, experiment_subtype: str
