@@ -1,12 +1,12 @@
 from fire import Fire
 
-from music_genre_classification.evaluators import Evaluator
 from music_genre_classification.my_utils import parse_experiment
-from music_genre_classification.trainers import Trainer, TrainerFactory
+from music_genre_classification.trainers import TrainerFactory
+from music_genre_classification.evaluators import EvaluatorFactory
 
 
-def train(experiment_name: str, num_cross_val_splits: int, trainer: Trainer):
-    trainer = TrainerFactory.build(trainer["name"], trainer["args"])
+def train(experiment_name: str, num_cross_val_splits: int, trainer: dict):
+    trainer = TrainerFactory.build(trainer)
     trainer.train(experiment_name, num_cross_val_splits)
 
 
@@ -15,8 +15,9 @@ def evaluate(
     experiment_type: str,
     experiment_subtype: str,
     num_cross_val_splits: int,
-    evaluator: Evaluator,
+    evaluator: dict,
 ):
+    evaluator = EvaluatorFactory.build(evaluator)
     evaluator.evaluate(
         experiment_name, experiment_type, experiment_subtype, num_cross_val_splits
     )
