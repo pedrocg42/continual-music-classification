@@ -21,10 +21,10 @@ all_tasks = scenario1 = [
 continual_learning_trainer_all = deepcopy(continual_learning_trainer)
 continual_learning_trainer_all["args"]["tasks"] = all_tasks
 
-continual_learning_trainer_scenario1 = continual_learning_trainer.copy()
+continual_learning_trainer_scenario1 = deepcopy(continual_learning_trainer)
 continual_learning_trainer_scenario1["args"]["tasks"] = scenario1
 
-continual_learning_vq_trainer_scenario1 = continual_learning_trainer_scenario1.copy()
+continual_learning_vq_trainer_scenario1 = deepcopy(continual_learning_trainer_scenario1)
 continual_learning_vq_trainer_scenario1["name"] = "DkvbContinualLearningTrainer"
 continual_learning_vq_trainer_scenario1["args"]["epochs_keys_init"] = epochs_keys_init
 continual_learning_vq_trainer_scenario1["args"][
@@ -37,7 +37,9 @@ continual_learning_vq_trainer_scenario1["args"]["looper"]["args"][
     "train_model"
 ] = train_model_vq
 
-continual_learning_dkvb_trainer_scenario1 = continual_learning_trainer_scenario1.copy()
+continual_learning_dkvb_trainer_scenario1 = deepcopy(
+    continual_learning_trainer_scenario1
+)
 continual_learning_dkvb_trainer_scenario1["name"] = "DkvbContinualLearningTrainer"
 continual_learning_dkvb_trainer_scenario1["args"]["epochs_keys_init"] = epochs_keys_init
 continual_learning_dkvb_trainer_scenario1["args"][
@@ -52,21 +54,21 @@ continual_learning_dkvb_trainer_scenario1["args"]["looper"]["args"][
 
 
 # Evaluators
-continual_learning_evaluator_all = continual_learning_evaluator.copy()
+continual_learning_evaluator_all = deepcopy(continual_learning_evaluator)
 continual_learning_evaluator_all["args"]["train_tasks"] = all_tasks
 continual_learning_evaluator_all["args"]["test_tasks"] = all_tasks
 
-continual_learning_evaluator_scenario1 = continual_learning_evaluator.copy()
+continual_learning_evaluator_scenario1 = deepcopy(continual_learning_evaluator)
 continual_learning_evaluator_scenario1["args"]["train_tasks"] = scenario1
 continual_learning_evaluator_scenario1["args"]["test_tasks"] = scenario1
 
-continual_learning_vq_evaluator_scenario1 = (
-    continual_learning_evaluator_scenario1.copy()
+continual_learning_vq_evaluator_scenario1 = deepcopy(
+    continual_learning_evaluator_scenario1
 )
 continual_learning_vq_evaluator_scenario1["args"]["model"] = train_model_vq
 
-continual_learning_dkvb_evaluator_scenario1 = (
-    continual_learning_evaluator_scenario1.copy()
+continual_learning_dkvb_evaluator_scenario1 = deepcopy(
+    continual_learning_evaluator_scenario1
 )
 continual_learning_dkvb_evaluator_scenario1["args"]["model"] = train_model_dkvb
 
