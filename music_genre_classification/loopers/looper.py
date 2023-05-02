@@ -6,6 +6,7 @@ from music_genre_classification.models import TrainModelFactory
 from music_genre_classification.optimizers import OptimizerFactory
 from music_genre_classification.train_data_sources import TrainDataSourceFactory
 from music_genre_classification.train_data_transforms import TrainDataTransformFactory
+from music_genre_classification.metrics import MetricsFactory
 
 
 class Looper(ABC):
@@ -41,7 +42,7 @@ class Looper(ABC):
         self.criteria = CriteriaFactory.build(criteria)
 
         # Metrics
-        self.metrics = metrics
+        self.metrics = MetricsFactory.build(metrics)
 
         # Experiment tracker
         self.experiment_tracker = ExperimentTrackerFactory.build(experiment_tracker)
