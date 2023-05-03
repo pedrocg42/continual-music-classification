@@ -99,6 +99,8 @@ class ContinualLearningEvaluator(Evaluator):
         )
 
         for cross_val_id in range(self.num_cross_val_splits):
+            if cross_val_id > 0:
+                break
             for task_num, task in enumerate(self.train_tasks):
                 logger.info(f"Started evaluation of task {task}")
                 self.configure_task(

@@ -43,9 +43,9 @@ mert_data_transform = {
 # Bottlenecks
 vector_quantizer = {
     "VectorQuantizer": {
-        "embedding_dim": 2048,
-        "codes_per_codebook": 4096,
-        "num_codebooks": 256,
+        "embedding_dim": 768,
+        "codes_per_codebook": 64,
+        "num_codebooks": 128,
         "vq_decay": 0.95,
         "threshold_ema_dead_code": 1e-4,
     }
@@ -54,9 +54,9 @@ vector_quantizer = {
 dkvb = {
     "name": "DKVB",
     "args": {
-        "embedding_dim": 2048,
-        "codes_per_codebook": 4096,
-        "num_codebooks": 256,
+        "embedding_dim": 768,
+        "codes_per_codebook": 64,
+        "num_codebooks": 128,
         "vq_decay": 0.95,
         "threshold_ema_dead_code": 1e-4,
     },
