@@ -153,8 +153,8 @@ Mert95mDkvb_joint_gtzan_all = {
 }
 
 # Continual Learning scenario 1
-Mert95m_joint_gtzan_scenario1 = {
-    "experiment_name": "Mert95m_joint_gtzan_scenario1",
+Mert95m_cl_gtzan_scenario1 = {
+    "experiment_name": "Mert95m_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "Baseline",
     "num_cross_val_splits": num_cross_val_splits,
@@ -167,8 +167,8 @@ Mert95m_joint_gtzan_scenario1 = {
     },
 }
 
-Mert95mVq_joint_gtzan_scenario1 = {
-    "experiment_name": "Mert95mVq_joint_gtzan_scenario1",
+Mert95mVq_cl_gtzan_scenario1 = {
+    "experiment_name": "Mert95mVq_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "VQ",
     "num_cross_val_splits": num_cross_val_splits,
@@ -181,8 +181,8 @@ Mert95mVq_joint_gtzan_scenario1 = {
     },
 }
 
-Mert95mDkvb_joint_gtzan_scenario1 = {
-    "experiment_name": "Mert95mDkvb_joint_gtzan_scenario1",
+Mert95mDkvb_cl_gtzan_scenario1 = {
+    "experiment_name": "Mert95mDkvb_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "DKVB",
     "num_cross_val_splits": num_cross_val_splits,
