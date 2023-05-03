@@ -50,34 +50,13 @@ continual_learning_dkvb_trainer_all["args"]["looper"]["args"][
 continual_learning_trainer_scenario1 = deepcopy(continual_learning_trainer)
 continual_learning_trainer_scenario1["args"]["tasks"] = scenario1
 
-continual_learning_vq_trainer_scenario1 = deepcopy(continual_learning_trainer_scenario1)
-continual_learning_vq_trainer_scenario1["name"] = "DkvbContinualLearningTrainer"
-continual_learning_vq_trainer_scenario1["args"]["epochs_keys_init"] = epochs_keys_init
-continual_learning_vq_trainer_scenario1["args"][
-    "freeze_decoder_after_first_epoch"
-] = False
-continual_learning_vq_trainer_scenario1["args"]["looper"][
-    "name"
-] = "DkvbMusicGenreClassificationLooper"
-continual_learning_vq_trainer_scenario1["args"]["looper"]["args"][
-    "train_model"
-] = train_model_vq
+continual_learning_vq_trainer_scenario1 = deepcopy(continual_learning_vq_trainer_all)
+continual_learning_vq_trainer_scenario1["args"]["tasks"] = scenario1
 
 continual_learning_dkvb_trainer_scenario1 = deepcopy(
-    continual_learning_trainer_scenario1
+    continual_learning_dkvb_trainer_all
 )
-continual_learning_dkvb_trainer_scenario1["name"] = "DkvbContinualLearningTrainer"
-continual_learning_dkvb_trainer_scenario1["args"]["epochs_keys_init"] = epochs_keys_init
-continual_learning_dkvb_trainer_scenario1["args"][
-    "freeze_decoder_after_first_epoch"
-] = True
-continual_learning_dkvb_trainer_scenario1["args"]["looper"][
-    "name"
-] = "DkvbMusicGenreClassificationLooper"
-continual_learning_dkvb_trainer_scenario1["args"]["looper"]["args"][
-    "train_model"
-] = train_model_dkvb
-
+continual_learning_dkvb_trainer_scenario1["args"]["tasks"] = scenario1
 
 # Evaluators
 continual_learning_evaluator_all = deepcopy(continual_learning_evaluator)
