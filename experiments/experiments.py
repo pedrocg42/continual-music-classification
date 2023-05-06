@@ -87,7 +87,7 @@ continual_learning_dkvb_evaluator_scenario1["args"]["model"] = train_model_dkvb
 ###########               EXPERIMENTS               ###########
 ###############################################################
 
-# Baselines joint
+###########                BASELINES                ###########
 
 Mert95m_joint_gtzan_all = {
     "experiment_name": "Mert95m_joint_gtzan_all",
@@ -131,7 +131,10 @@ Mert95mDkvb_joint_gtzan_all = {
     },
 }
 
-# Continual Learning scenario 1
+###########            CONTINUAL LEARNING           ###########
+
+# SCENARIO 1
+
 Mert95m_cl_gtzan_scenario1 = {
     "experiment_name": "Mert95m_cl_gtzan_scenario1",
     "experiment_type": "CL",
