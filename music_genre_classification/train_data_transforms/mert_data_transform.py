@@ -26,5 +26,5 @@ class MertDataTransform(TrainDataTransform):
         inputs = {"input_values": inputs, "attention_mask": torch.ones(len(inputs))}
         return inputs
 
-    def to(self, *args, **kwargs) -> None:
-        pass
+    def to(self, device: torch.device, **kwargs) -> None:
+        self.resampler.to(device)
