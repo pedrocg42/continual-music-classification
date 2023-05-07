@@ -37,18 +37,19 @@ class ContinualLearningEvaluator(Evaluator):
             dataset_name=self.data_source.name,
         )
 
-    def configure_task(self, cross_val_id: int, task_num: int, task: str):
+    def configure_task(self, cross_val_id: int, task_id: int, task: str):
         self.model_saver.configure(
             self.model,
             experiment_name=self.experiment_name,
             cross_val_id=cross_val_id,
+            task_id=task_id,
             task=task,
         )
         self.model_saver.load_model()
         self.model.to(config.device)
         self.experiment_tracker.configure_task(
             cross_val_id=cross_val_id,
-            train_task_number=task_num,
+            train_task_number=task_id,
             train_task_name=task,
         )
 
@@ -101,12 +102,12 @@ class ContinualLearningEvaluator(Evaluator):
         )
 
         for cross_val_id in range(self.num_cross_val_splits):
-            if self.debug and cross_val_id > 0:
+            if cross_val_id > 0 or self.debug and cross_val_id > 0:
                 break
-            for task_num, task in enumerate(self.train_tasks):
+            for task_id, task in enumerate(self.train_tasks):
                 logger.info(f"Started evaluation of task {task}")
                 self.configure_task(
-                    cross_val_id=cross_val_id, task_num=task_num, task=task
+                    cross_val_id=cross_val_id, task_id=task_id, task=task
                 )
                 # Extracting results for all tasks
                 data_loader = self.data_source.get_dataset(cross_val_id=cross_val_id)

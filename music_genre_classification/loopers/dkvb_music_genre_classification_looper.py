@@ -9,11 +9,20 @@ from music_genre_classification.loopers.music_genre_classification_looper import
 
 
 class DkvbMusicGenreClassificationLooper(MusicGenreClassificationLooper):
+    def configure_task(self, cross_val_id: int, task_id: int, task: str | list[str]):
+        super().configure_task(cross_val_id, task_id, task)
+        if task_id > 0:
+            self.model_saver.load_task_model(task_id - 1)
+
     @torch.no_grad()
     def key_init_epoch(self, epoch: int):
         logger.info(f"Key initialization epoch {epoch + 1}")
         self.model.prepare_keys_initialization()
-        pbar = tqdm(self.train_data_loader, colour="#5ee0f7")
+        pbar = tqdm(
+            self.train_data_loader,
+            colour="#5ee0f7",
+            total=self.max_steps if self.debug else len(self.train_data_loader),
+        )
         for i, (waveforms, _) in enumerate(pbar):
             if self.debug and i == self.max_steps:
                 break

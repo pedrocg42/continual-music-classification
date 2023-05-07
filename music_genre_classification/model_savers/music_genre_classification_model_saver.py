@@ -17,7 +17,8 @@ class MusicGenreClassificationModelSaver(ABC):
         model: TrainModel,
         experiment_name: str,
         cross_val_id: int = None,
-        task: str = None,
+        task: str | list[str] = None,
+        task_id: int = None,
     ):
         self.model = model
 
@@ -27,24 +28,32 @@ class MusicGenreClassificationModelSaver(ABC):
 
         self.cross_val_id = cross_val_id
         self.task = "-".join(task) if isinstance(task, list) else task
-        self.build_output_path()
+        self.task_id = task_id
+        self.output_path = self.build_output_path(self.cross_val_id, self.task_id)
 
     def create_output_folder(self):
         os.makedirs(self.output_folder, exist_ok=True)
 
-    def build_output_path(self):
-        self.output_path = os.path.join(self.output_folder, f"{self.experiment_name}")
-        self.output_path += (
-            f"__cv_{self.cross_val_id}" if self.cross_val_id is not None else ""
-        )
-        self.output_path += f"__task_{self.task}" if self.task is not None else ""
-        self.output_path += f".pt"
+    def build_output_path(self, cross_val_id: int = None, task_id: int = None):
+        output_path = os.path.join(self.output_folder, f"{self.experiment_name}")
+        output_path += f"__cv_{cross_val_id}" if cross_val_id is not None else ""
+        output_path += f"__task_{task_id}" if task_id is not None else ""
+        output_path += f".pt"
+        return output_path
 
-    def save_model(self):
-        torch.save(self.model.state_dict(), self.output_path)
+    def save_model(self, output_path: str = None):
+        if output_path is None:
+            output_path = self.output_path
+        torch.save(self.model.state_dict(), output_path)
 
-    def load_model(self):
-        self.model.load_state_dict(torch.load(self.output_path))
+    def load_model(self, output_path: str = None):
+        if output_path is None:
+            output_path = self.output_path
+        self.model.load_state_dict(torch.load(output_path))
+
+    def load_task_model(self, task_id: int):
+        output_path = self.build_output_path(self.cross_val_id, task_id)
+        self.load_model(output_path)
 
     def check_if_already_exported(self, **kwargs) -> bool:
         return NotImplementedError

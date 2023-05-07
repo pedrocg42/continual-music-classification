@@ -24,7 +24,7 @@ class MusicGenreClassificationLooper(Looper):
         self.train_data_transform.to(config.device)
         self.val_data_transform.to(config.device)
 
-    def configure_task(self, cross_val_id: int, task: str = None):
+    def configure_task(self, cross_val_id: int, task_id: int, task: str = None):
         # Configure data loaders
         self.train_data_loader = self.train_data_source.get_dataloader(
             cross_val_id=cross_val_id, task=task, batch_size=self.batch_size
@@ -38,10 +38,14 @@ class MusicGenreClassificationLooper(Looper):
             self.model,
             experiment_name=self.experiment_name,
             cross_val_id=cross_val_id,
+            task_id=task_id,
             task=task,
         )
         self.experiment_tracker.configure_task(
-            experiment_name=self.experiment_name, cross_val_id=cross_val_id, task=task
+            experiment_name=self.experiment_name,
+            cross_val_id=cross_val_id,
+            task_id=task_id,
+            task=task,
         )
 
     def log_start(self):
@@ -54,7 +58,11 @@ class MusicGenreClassificationLooper(Looper):
         logger.info(f"Training epoch {epoch + 1}")
         self.model.prepare_train()
         results_epoch = []
-        pbar = tqdm(self.train_data_loader, colour="green")
+        pbar = tqdm(
+            self.train_data_loader,
+            colour="green",
+            total=self.max_steps if self.debug else len(self.train_data_loader),
+        )
         for i, (waveforms, labels) in enumerate(pbar):
             if self.debug and i > self.max_steps:
                 break
@@ -91,7 +99,11 @@ class MusicGenreClassificationLooper(Looper):
         logger.info(f"Validation epoch {epoch + 1}")
         self.model.prepare_eval()
         results_epoch = []
-        pbar = tqdm(self.val_data_loader, colour="magenta")
+        pbar = tqdm(
+            self.val_data_loader,
+            colour="magenta",
+            total=self.max_steps if self.debug else len(self.val_data_loader),
+        )
         for i, (waveforms, labels) in enumerate(pbar):
             if self.debug and i > self.max_steps:
                 break
