@@ -6,7 +6,7 @@ from copy import deepcopy
 
 # Training parameters
 num_cross_val_splits = 5
-num_epochs = 2
+num_epochs = 200
 early_stopping_patience = 40
 early_stopping_metric = "F1 Score"
 epochs_keys_init = 10
@@ -115,10 +115,11 @@ genre_classification_metrics = [
 ]
 
 
-# Trainer
+# Trainers
 continual_learning_trainer = {
-    "name": "ContinualLearningTrainer",
+    "name": "DkvbContinualLearningTrainer",
     "args": {
+        "tasks": None,
         "num_epochs": num_epochs,
         "batch_size": batch_size,
         "early_stopping_patience": early_stopping_patience,
@@ -141,8 +142,26 @@ continual_learning_trainer = {
     },
 }
 
+continual_learning_dkvb_trainer = deepcopy(continual_learning_trainer)
+continual_learning_dkvb_trainer["args"].update(
+    {
+        "epochs_keys_init": 10,
+        "freeze_decoder_after_first_episode": True,
+    }
+)
+continual_learning_dkvb_trainer["args"]["looper"][
+    "name"
+] = "DkvbMusicGenreClassificationLooper"
+continual_learning_dkvb_trainer["args"]["looper"]["args"][
+    "train_model"
+] = train_model_dkvb
 
-# Evaluator
+continual_learning_vq_trainer = deepcopy(continual_learning_dkvb_trainer)
+continual_learning_vq_trainer["args"]["freeze_decoder_after_first_episode"] = False
+continual_learning_vq_trainer["args"]["looper"]["args"]["train_model"] = train_model_vq
+
+
+# Evaluators
 continual_learning_evaluator = {
     "name": "ContinualLearningEvaluator",
     "args": {
@@ -156,3 +175,9 @@ continual_learning_evaluator = {
         "experiment_tracker": {"name": "DataframeExperimentTracker"},
     },
 }
+
+continual_learning_evaluator_vq = deepcopy(continual_learning_evaluator)
+continual_learning_evaluator_vq["args"]["model"] = train_model_vq
+
+continual_learning_evaluator_dkvb = deepcopy(continual_learning_evaluator)
+continual_learning_evaluator_dkvb["args"]["model"] = train_model_dkvb
