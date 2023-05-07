@@ -1,5 +1,3 @@
-from abc import ABC
-
 from loguru import logger
 
 from music_genre_classification.trainers import Trainer

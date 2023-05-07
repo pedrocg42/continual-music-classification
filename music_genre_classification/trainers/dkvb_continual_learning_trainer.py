@@ -1,8 +1,5 @@
-from abc import ABC
-
 from loguru import logger
 
-from music_genre_classification.loopers import Looper
 from music_genre_classification.trainers.continual_learning_trainer import (
     ContinualLearningTrainer,
 )
