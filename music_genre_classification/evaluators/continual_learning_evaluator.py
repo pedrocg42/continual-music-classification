@@ -79,7 +79,7 @@ class ContinualLearningEvaluator(Evaluator):
 
     def extract_metrics(self, results: list[dict]) -> dict:
         metrics = {}
-        preds = torch.hstack([result["pred"] for result in results])
+        preds = torch.vstack([result["pred"] for result in results])
         labels = torch.hstack([result["label"] for result in results])
         for metric_name, metric in self.metrics.items():
             metrics[metric_name] = metric(preds, labels).item()
