@@ -125,7 +125,7 @@ continual_learning_trainer = {
         "early_stopping_patience": early_stopping_patience,
         "early_stopping_metric": early_stopping_metric,
         "looper": {
-            "name": "MusicGenreClassificationLooper",
+            "name": "DkvbMusicGenreClassificationLooper",
             "args": {
                 "train_data_source": train_gtzan_data_source,
                 "val_data_source": val_gtzan_data_source,
@@ -149,15 +149,17 @@ continual_learning_dkvb_trainer["args"].update(
         "freeze_decoder_after_first_episode": True,
     }
 )
-continual_learning_dkvb_trainer["args"]["looper"][
-    "name"
-] = "DkvbMusicGenreClassificationLooper"
 continual_learning_dkvb_trainer["args"]["looper"]["args"][
     "train_model"
 ] = train_model_dkvb
 
-continual_learning_vq_trainer = deepcopy(continual_learning_dkvb_trainer)
-continual_learning_vq_trainer["args"]["freeze_decoder_after_first_episode"] = False
+continual_learning_vq_trainer = deepcopy(continual_learning_trainer)
+continual_learning_vq_trainer["args"].update(
+    {
+        "epochs_keys_init": 10,
+        "freeze_decoder_after_first_episode": False,
+    }
+)
 continual_learning_vq_trainer["args"]["looper"]["args"]["train_model"] = train_model_vq
 
 
