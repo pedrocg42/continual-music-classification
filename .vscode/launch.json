@@ -21,7 +21,19 @@
             "justMyCode": false,
             "args": [
                 "--experiment",
-                "MERT95M_joint_gtzan_all"
+                "mert95m_base_joint_gtzan_all"
+            ]
+        },
+        {
+            "name": "Execute experiment check",
+            "type": "python",
+            "request": "launch",
+            "program": "execute_experiment_check.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--experiment",
+                "mert95m_base_joint_gtzan_all"
             ]
         }
     ]
