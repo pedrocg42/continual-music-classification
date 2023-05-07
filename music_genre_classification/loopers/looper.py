@@ -50,6 +50,10 @@ class Looper(ABC):
         # Model saver
         self.model_saver = ModelSaverFactory.build(model_saver)
 
+        # Debug
+        self.debug = False
+        self.max_steps = 5
+
     @abstractmethod
     def train_batch(self):
         pass

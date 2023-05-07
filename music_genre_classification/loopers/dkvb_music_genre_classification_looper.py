@@ -14,7 +14,9 @@ class DkvbMusicGenreClassificationLooper(MusicGenreClassificationLooper):
         logger.info(f"Key initialization epoch {epoch + 1}")
         self.model.prepare_keys_initialization()
         pbar = tqdm(self.train_data_loader, colour="#5ee0f7")
-        for waveforms, _ in pbar:
+        for i, (waveforms, _) in enumerate(pbar):
+            if self.debug and i == self.max_steps:
+                break
             self.key_init_batch(waveforms)
 
     @torch.no_grad()
@@ -22,5 +24,5 @@ class DkvbMusicGenreClassificationLooper(MusicGenreClassificationLooper):
         waveforms = waveforms.to(config.device)
 
         # Inference
-        spectrograms = self.val_data_transform(waveforms)
-        self.model(spectrograms)
+        transformed = self.val_data_transform(waveforms)
+        self.model(transformed)

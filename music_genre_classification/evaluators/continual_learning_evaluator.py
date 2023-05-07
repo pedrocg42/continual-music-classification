@@ -1,6 +1,5 @@
 import torch
 from loguru import logger
-from torchmetrics import Metric
 from tqdm import tqdm
 
 import config
@@ -56,7 +55,10 @@ class ContinualLearningEvaluator(Evaluator):
     def predict(self, data_loader) -> list[dict]:
         self.model.eval()
         results = []
-        for waveforms, labels in tqdm(data_loader, colour="green"):
+        for i, (waveforms, labels) in enumerate(tqdm(data_loader, colour="green")):
+            if self.debug and i == self.max_steps:
+                break
+
             waveforms = waveforms.to(config.device)
 
             # Inference
@@ -99,7 +101,7 @@ class ContinualLearningEvaluator(Evaluator):
         )
 
         for cross_val_id in range(self.num_cross_val_splits):
-            if cross_val_id > 0:
+            if self.debug and cross_val_id > 0:
                 break
             for task_num, task in enumerate(self.train_tasks):
                 logger.info(f"Started evaluation of task {task}")

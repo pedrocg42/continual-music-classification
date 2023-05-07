@@ -2,7 +2,6 @@ from abc import ABC
 
 import torch
 from loguru import logger
-from torchmetrics import Metric
 from tqdm import tqdm
 
 import config
@@ -23,6 +22,7 @@ class Evaluator(ABC):
         data_transform: dict,
         metrics: list[dict],
         experiment_tracker: dict,
+        debug: bool = False,
     ):
         # Basic information
         self.experiment_name = None
@@ -37,6 +37,10 @@ class Evaluator(ABC):
         self.data_transform = TrainDataTransformFactory.build(data_transform)
         self.metrics = MetricsFactory.build(metrics)
         self.experiment_tracker = ExperimentTrackerFactory.build(experiment_tracker)
+
+        # Debug
+        self.debug = debug
+        self.max_steps = 5
 
     def configure(
         self, experiment_name: str, experiment_type: str, experiment_subtype: str
@@ -54,7 +58,11 @@ class Evaluator(ABC):
     def predict(self) -> list[dict]:
         self.model.eval()
         results = []
-        for waveforms, labels in tqdm(self.data_source, colour="green"):
+        for i, (waveforms, labels) in enumerate(tqdm(self.data_source, colour="green")):
+            if self.debug and i == self.max_steps:
+                break
+
+            # Move data to device
             waveforms = waveforms.to(config.device)
             labels = labels.to(config.device)
 

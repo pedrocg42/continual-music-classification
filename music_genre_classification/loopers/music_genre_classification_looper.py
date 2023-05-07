@@ -56,6 +56,8 @@ class MusicGenreClassificationLooper(Looper):
         results_epoch = []
         pbar = tqdm(self.train_data_loader, colour="green")
         for i, (waveforms, labels) in enumerate(pbar):
+            if self.debug and i > self.max_steps:
+                break
             results_epoch.append(self.train_batch(waveforms, labels))
             self.update_pbar(pbar, results_epoch)
         return results_epoch
@@ -90,7 +92,9 @@ class MusicGenreClassificationLooper(Looper):
         self.model.prepare_eval()
         results_epoch = []
         pbar = tqdm(self.val_data_loader, colour="magenta")
-        for waveforms, labels in pbar:
+        for i, (waveforms, labels) in enumerate(pbar):
+            if self.debug and i > self.max_steps:
+                break
             results_epoch.append(self.val_batch(waveforms, labels))
             self.update_pbar(pbar, results_epoch)
         return results_epoch

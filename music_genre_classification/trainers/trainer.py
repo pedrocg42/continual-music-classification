@@ -13,6 +13,7 @@ class Trainer(ABC):
         batch_size: int,
         early_stopping_patience: int = 10,
         early_stopping_metric: str = "F1 Score",
+        debug: bool = False,
     ):
         self.looper = LooperFactory.build(looper)
         self.num_epochs = num_epochs
@@ -21,6 +22,10 @@ class Trainer(ABC):
         self.early_stopping_metric = early_stopping_metric
         self.best_metric = 0
         self.patience_epochs = 0
+
+        # Debug
+        self.debug = debug
+        self.looper.debug = debug
 
     def configure_cv(self, cross_val_id: int):
         self.best_metric = 0

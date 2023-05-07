@@ -17,5 +17,9 @@ class TrainerFactory:
             from music_genre_classification.trainers import ContinualLearningTrainer
 
             return ContinualLearningTrainer(**config["args"])
+        if config["name"] == "DkvbContinualLearningTrainer":
+            from music_genre_classification.trainers import DkvbContinualLearningTrainer
+
+            return DkvbContinualLearningTrainer(**config["args"])
         else:
             raise Exception("No trainer named %s" % config["name"])
