@@ -2,7 +2,7 @@ from abc import ABC
 
 from loguru import logger
 
-from music_genre_classification.loopers import Looper, LooperFactory
+from music_genre_classification.loopers import LooperFactory
 
 
 class Trainer(ABC):
@@ -16,7 +16,7 @@ class Trainer(ABC):
         debug: bool = False,
     ):
         self.looper = LooperFactory.build(looper)
-        self.num_epochs = num_epochs
+        self.num_epochs = num_epochs if debug is False else 2
         self.batch_size = batch_size
         self.early_stopping_patience = early_stopping_patience
         self.early_stopping_metric = early_stopping_metric
