@@ -12,7 +12,12 @@ class TorchClassificationModel(nn.Module):
         pooling_type: str = "mert_mean",
         dropout: float = 0.3,
         head_config: dict = [
-            {"layer_type": "dropout"},
+            {
+                "layer_type": "conv1d",
+                "in_channels": 13,
+                "out_channels": 1,
+                "kernel_size": 1,
+            },
             {"layer_type": "linear", "out_features": 256},
             {"layer_type": "bn", "num_features": 256},
             {"layer_type": "relu"},
@@ -45,18 +50,15 @@ class TorchClassificationModel(nn.Module):
         elif self.pooling_type == "max":
             self.pooling = nn.AdaptiveMaxPool2d((1, 1))
         elif self.pooling_type == "mert_mean":
-            self.pooling = nn.AdaptiveAvgPool2d((1, self.encoder.encoder_output_size))
+            self.pooling = nn.AdaptiveAvgPool2d((self.encoder.encoder_output_size))
 
         if self.frozen_encoder:
             self.freeze_encoder()
 
     def initialize_decoder(self):
         decoder = []
-        decoder.append(nn.Flatten())
-        for i, layer_dict in enumerate(self.head_config):
-            if i == 0:
-                in_features = self.encoder.encoder_output_size
-
+        in_features = self.encoder.encoder_output_size
+        for layer_dict in self.head_config:
             if layer_dict["layer_type"] == "linear":
                 decoder.append(
                     nn.Linear(
@@ -64,6 +66,15 @@ class TorchClassificationModel(nn.Module):
                     )
                 )
                 in_features = layer_dict["out_features"]
+            elif layer_dict["layer_type"] == "conv1d":
+                decoder.append(
+                    nn.Conv1d(
+                        in_channels=layer_dict["in_channels"],
+                        out_channels=layer_dict["out_channels"],
+                        kernel_size=layer_dict["kernel_size"],
+                    )
+                )
+                decoder.append(nn.Flatten())
             elif layer_dict["layer_type"] == "bn":
                 decoder.append(nn.BatchNorm1d(num_features=layer_dict["num_features"]))
             elif layer_dict["layer_type"] == "relu":
@@ -90,10 +101,10 @@ class TorchClassificationModel(nn.Module):
             outputs = self.encoder(inputs)
         if self.bottleneck is not None:
             outputs = self.bottleneck(outputs)
-        outputs = self.pooling(outputs)
+        # outputs = self.pooling(outputs)
         outputs = self.decoder(outputs)
         return outputs
-    
+
     def prepare_train(self):
         if self.frozen_encoder:
             self.encoder.eval()
