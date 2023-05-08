@@ -26,7 +26,7 @@ class Looper(ABC):
         super().__init__()
 
         self.train_data_source = TrainDataSourceFactory.build(train_data_source)
-        self.tran_data_loader = None
+        self.train_data_loader = None
         self.train_data_transform = TrainDataTransformFactory.build(
             train_data_transform
         )
