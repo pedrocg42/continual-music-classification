@@ -162,11 +162,14 @@ continual_learning_vq_trainer["args"].update(
 )
 continual_learning_vq_trainer["args"]["looper"]["args"]["train_model"] = train_model_vq
 
-continual_learning_gem_trainer = deepcopy(continual_learning_trainer).update
+continual_learning_gem_trainer = deepcopy(continual_learning_trainer)
 continual_learning_gem_trainer["name"] = "GemContinualLearningTrainer"
-continual_learning_gem_trainer["args"]["looper"]["name"] = "GemMusicGenreClassificationLooper"
+continual_learning_gem_trainer["args"]["looper"][
+    "name"
+] = "GemMusicGenreClassificationLooper"
 continual_learning_gem_trainer["args"]["looper"]["args"]["optimizer"] = {
-    "name": "GemOptimizer"
+    "name": "GemOptimizer",
+    "args": {"patterns_per_experience": 256, "memory_strength": 0.5},
 }
 
 
