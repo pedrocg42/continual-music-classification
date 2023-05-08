@@ -21,5 +21,9 @@ class TrainerFactory:
             from music_genre_classification.trainers import DkvbContinualLearningTrainer
 
             return DkvbContinualLearningTrainer(**config["args"])
+        if config["name"] == "GemContinualLearningTrainer":
+            from music_genre_classification.trainers import GemContinualLearningTrainer
+
+            return GemContinualLearningTrainer(**config["args"])
         else:
             raise Exception("No trainer named %s" % config["name"])
