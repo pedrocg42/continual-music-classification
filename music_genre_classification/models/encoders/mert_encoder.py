@@ -17,5 +17,9 @@ class MertEncoder(nn.Module):
         self.encoder_output_size = 768
 
     def forward(self, inputs: torch.Tensor):
-        outputs = self.encoder(**inputs)
-        return outputs.last_hidden_state
+        outputs = self.encoder(**inputs, output_hidden_states=True)
+        all_layer_hidden_states = torch.stack(outputs.hidden_states).permute(
+            (1, 0, 2, 3)
+        ) # C, B, S, H -> B, C, S, H
+        outputs = torch.mean(all_layer_hidden_states, dim=-2) # B, C, S, H -> B, C, H
+        return outputs
