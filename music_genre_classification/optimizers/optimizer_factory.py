@@ -13,5 +13,11 @@ class OptimizerFactory:
             )
 
             return TorchAdamWOptimizer(**config.get("args", {}))
+        elif config["name"] == "GemOptimizer":
+            from music_genre_classification.optimizers import (
+                GemOptimizer,
+            )
+
+            return GemOptimizer(**config.get("args", {}))
         else:
             raise ValueError(f"Unknown TrainDataSource type: {config['name']}")
