@@ -8,6 +8,11 @@ from music_genre_classification.loopers import Looper
 
 
 class MusicGenreClassificationLooper(Looper):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.task_id = None
+        self.task = None
+
     def configure_experiment(self, experiment_name: str, batch_size: int):
         self.experiment_name = experiment_name
         self.batch_size = batch_size
@@ -25,6 +30,9 @@ class MusicGenreClassificationLooper(Looper):
         self.val_data_transform.to(config.device)
 
     def configure_task(self, cross_val_id: int, task_id: int, task: str = None):
+        self.task_id = task_id
+        self.task = task
+
         # Configure data loaders
         self.train_data_loader = self.train_data_source.get_dataloader(
             cross_val_id=cross_val_id, task=task, batch_size=self.batch_size
