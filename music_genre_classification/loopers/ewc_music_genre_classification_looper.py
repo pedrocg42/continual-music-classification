@@ -27,8 +27,6 @@ class EwcMusicGenreClassificationLooper(MusicGenreClassificationLooper):
         self.optimizer.before_backward(self.model, self.task_id)
         loss.backward()
 
-        
-
         # Adjust weights
         self.optimizer.step()
 

@@ -6,6 +6,7 @@ from music_genre_classification.train_data_transforms.train_data_transform impor
 from transformers import Wav2Vec2FeatureExtractor
 import config
 
+
 class MertDataTransform(TrainDataTransform):
     def __init__(
         self,
@@ -23,7 +24,10 @@ class MertDataTransform(TrainDataTransform):
 
     def transform(self, inputs: torch.Tensor, **kwargs) -> torch.Tensor:
         inputs = self.resampler(inputs)
-        inputs = {"input_values": inputs, "attention_mask": torch.ones(len(inputs), device=config.device)}
+        inputs = {
+            "input_values": inputs,
+            "attention_mask": torch.ones(len(inputs), device=config.device),
+        }
         return inputs
 
     def to(self, device: torch.device, **kwargs) -> None:

@@ -20,7 +20,6 @@ class MusicGenreClassificationDataset(Dataset):
         self.sample_rate = sample_rate
         self.song_length = song_length
         self.chunk_lengh = int(self.sample_rate * self.song_length)
-        
 
     def __getitem__(self, index):
         # Get info

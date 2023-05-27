@@ -72,7 +72,12 @@ class GtzanDataSource(TrainDataSource):
             [os.path.basename(song).split(".wav")[0] for song in list_accepted_songs]
         )
         mask = np.array(
-            [True if os.path.basename(song).split(".wav")[0] in list_accepted_songs else False for song in song_list]
+            [
+                True
+                if os.path.basename(song).split(".wav")[0] in list_accepted_songs
+                else False
+                for song in song_list
+            ]
         )
         song_list = song_list[mask]
         song_labels = song_labels[mask]
