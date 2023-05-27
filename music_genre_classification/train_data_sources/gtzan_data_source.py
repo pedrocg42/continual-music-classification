@@ -35,7 +35,7 @@ class GtzanDataSource(TrainDataSource):
         self, split: str, num_cross_val_splits: int = 5, is_eval: bool = False, **kwargs
     ):
         self.name = "GTZAN"
-        self.dataset_path = config.dataset_path
+        self.dataset_path = os.path.join(config.dataset_path, "gtzan", "data")
         self.genres = GTZAN_GENRES
         self.genres_to_index = {genre: i for i, genre in enumerate(self.genres)}
         self.index_to_genres = {i: genre for i, genre in enumerate(self.genres)}
@@ -54,14 +54,8 @@ class GtzanDataSource(TrainDataSource):
 
     def _get_songs(self):
         # Read annotations
-
-        # gtzn_annotations_path = os.path.join(self.dataset_path, "features_30_sec.csv")
-        # self.df = pd.read_csv(gtzn_annotations_path)
-        # song_list = self.df["filename"].to_numpy()
-        # song_labels = self.df["label"].to_numpy()
-
         song_list = np.array(
-            glob(os.path.join(self.dataset_path, "gtzan", "*", "*.wav"))
+            glob(os.path.join(self.dataset_path, "genres", "*", "*.wav"))
         )
         song_labels = np.array(
             [os.path.basename(song).split(".")[0] for song in song_list]
@@ -71,7 +65,7 @@ class GtzanDataSource(TrainDataSource):
         list_accepted_songs = []
         for split in ["train", "valid", "test"]:
             with open(
-                os.path.join(self.dataset_path, "gtzan", f"{split}_filtered.txt"), "r"
+                os.path.join(self.dataset_path, f"{split}_filtered.txt"), "r"
             ) as f:
                 list_accepted_songs += f.readlines()
         list_accepted_songs = np.array(
