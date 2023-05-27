@@ -11,6 +11,7 @@ from music_genre_classification.train_data_sources.mert_genre_classification_dat
 from music_genre_classification.train_data_sources.train_data_source import (
     TrainDataSource,
 )
+from glob import glob
 
 np.random.seed(config.seed)
 
@@ -53,10 +54,34 @@ class GtzanDataSource(TrainDataSource):
 
     def _get_songs(self):
         # Read annotations
-        gtzn_annotations_path = os.path.join(self.dataset_path, "features_30_sec.csv")
-        self.df = pd.read_csv(gtzn_annotations_path)
-        song_list = self.df["filename"].to_numpy()
-        song_labels = self.df["label"].to_numpy()
+
+        # gtzn_annotations_path = os.path.join(self.dataset_path, "features_30_sec.csv")
+        # self.df = pd.read_csv(gtzn_annotations_path)
+        # song_list = self.df["filename"].to_numpy()
+        # song_labels = self.df["label"].to_numpy()
+
+        song_list = np.array(
+            glob(os.path.join(self.dataset_path, "gtzan", "*", "*.wav"))
+        )
+        song_labels = np.array(
+            [os.path.basename(song).split(".")[0] for song in song_list]
+        )
+
+        # Filter songs
+        list_accepted_songs = []
+        for split in ["train", "valid", "test"]:
+            with open(
+                os.path.join(self.dataset_path, "gtzan", f"{split}_filtered.txt"), "r"
+            ) as f:
+                list_accepted_songs += f.readlines()
+        list_accepted_songs = np.array(
+            [os.path.basename(song).split(".wav")[0] for song in list_accepted_songs]
+        )
+        mask = np.array(
+            [True if os.path.basename(song).split(".wav")[0] in list_accepted_songs else False for song in song_list]
+        )
+        song_list = song_list[mask]
+        song_labels = song_labels[mask]
 
         # Transform
         self.songs = np.array(
