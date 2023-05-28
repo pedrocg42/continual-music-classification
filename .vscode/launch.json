@@ -21,7 +21,7 @@
             "justMyCode": false,
             "args": [
                 "--experiment",
-                "mert95m_base_joint_gtzan_all"
+                "mert95m_dkvb_cl_gtzan_scenario1"
             ]
         },
         {
@@ -33,7 +33,7 @@
             "justMyCode": false,
             "args": [
                 "--experiment",
-                "mert95m_base_cl_gtzan_scenario1"
+                "mert95m_vq_joint_gtzan_all"
             ]
         }
     ]
