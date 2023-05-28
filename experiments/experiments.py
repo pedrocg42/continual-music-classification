@@ -39,7 +39,7 @@ continual_learning_trainer_scenario1["args"]["tasks"] = scenario1
 continual_learning_vq_trainer_scenario1 = deepcopy(continual_learning_vq_trainer_all)
 continual_learning_vq_trainer_scenario1["args"]["tasks"] = scenario1
 
-continual_learning_dkvb_trainer_scenario1 = deepcopy(continual_learning_trainer)
+continual_learning_dkvb_trainer_scenario1 = deepcopy(continual_learning_dkvb_trainer_all)
 continual_learning_dkvb_trainer_scenario1["args"]["tasks"] = scenario1
 
 continual_learning_gem_trainer_scenario1 = deepcopy(continual_learning_gem_trainer)
