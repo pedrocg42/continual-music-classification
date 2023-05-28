@@ -47,6 +47,7 @@ class ContinualLearningEvaluator(Evaluator):
         )
         self.model_saver.load_model()
         self.model.to(config.device)
+        self.data_transform.to(config.device)
         self.experiment_tracker.configure_task(
             cross_val_id=cross_val_id,
             train_task_number=task_id,
