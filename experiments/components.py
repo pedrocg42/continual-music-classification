@@ -11,7 +11,7 @@ early_stopping_patience = 40
 early_stopping_metric = "F1 Score"
 epochs_keys_init = 10
 num_classes = 10
-batch_size = 8
+batch_size = 32
 
 # Data sources
 train_gtzan_data_source = {
@@ -42,7 +42,8 @@ mert_data_transform = {
 
 # Bottlenecks
 vector_quantizer = {
-    "VectorQuantizer": {
+    "name": "VectorQuantizer",
+    "args": {
         "embedding_dim": 768,
         "codes_per_codebook": 64,
         "num_codebooks": 128,
