@@ -106,15 +106,16 @@ class ContinualLearningEvaluator(Evaluator):
             if cross_val_id > 0 or self.debug and cross_val_id > 0:
                 break
             for task_id, task in enumerate(self.train_tasks):
-                logger.info(f"Started evaluation of task {task}")
+                logger.info(f"Started evaluation of model train with task {task}")
                 self.configure_task(
                     cross_val_id=cross_val_id, task_id=task_id, task=task
                 )
                 # Extracting results per task
-                for task_test in self.test_tasks:
+                for test_task in self.test_tasks:
+                    logger.info(f"Started evaluation of task {test_task}")
                     data_loader = self.data_source.get_dataset(
-                        cross_val_id=cross_val_id, task=task_test
+                        cross_val_id=cross_val_id, task=test_task
                     )
                     results = self.predict(data_loader)
                     metrics = self.extract_metrics(results)
-                    self.experiment_tracker.log_task_metrics(metrics, task_test)
+                    self.experiment_tracker.log_task_metrics(metrics, test_task)
