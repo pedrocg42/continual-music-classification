@@ -68,7 +68,7 @@ class ContinualLearningEvaluator(Evaluator):
             preds = self.model(transformed)
 
             # For each song we select the most repeated class
-            pred = preds.detach().cpu().mean(dim=1)
+            pred = preds.detach().cpu().mean(dim=0)
             label = labels[0] if len(labels.shape) > 0 else labels
 
             results.append(
@@ -110,11 +110,6 @@ class ContinualLearningEvaluator(Evaluator):
                 self.configure_task(
                     cross_val_id=cross_val_id, task_id=task_id, task=task
                 )
-                # Extracting results for all tasks
-                data_loader = self.data_source.get_dataset(cross_val_id=cross_val_id)
-                results = self.predict(data_loader)
-                metrics = self.extract_metrics(results)
-                self.experiment_tracker.log_task_metrics(metrics, "all")
                 # Extracting results per task
                 for task_test in self.test_tasks:
                     data_loader = self.data_source.get_dataset(
