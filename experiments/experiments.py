@@ -39,6 +39,9 @@ continual_learning_vq_trainer_all["args"]["tasks"] = all_tasks
 continual_learning_dkvb_trainer_all = deepcopy(continual_learning_dkvb_trainer)
 continual_learning_dkvb_trainer_all["args"]["tasks"] = all_tasks
 
+continual_learning_gem_trainer_all = deepcopy(continual_learning_gem_trainer)
+continual_learning_gem_trainer_all["args"]["tasks"] = all_tasks
+
 # Scenario 1
 continual_learning_trainer_scenario1 = deepcopy(continual_learning_trainer)
 continual_learning_trainer_scenario1["args"]["tasks"] = scenario1
@@ -132,6 +135,21 @@ mert95m_dkvb_joint_gtzan_all = {
         "evaluator": continual_learning_dkvb_evaluator_all,
     },
 }
+
+mert95m_gem_joint_gtzan_all = {
+    "experiment_name": "mert95m_gem_joint_gtzan_all",
+    "experiment_type": "Baseline",
+    "experiment_subtype": "Joint",
+    "num_cross_val_splits": num_cross_val_splits,
+    # data
+    "train": {
+        "trainer": continual_learning_gem_trainer_all,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_evaluator_all,
+    },
+}
+
 
 ###########            CONTINUAL LEARNING           ###########
 
