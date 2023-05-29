@@ -6,6 +6,8 @@ from torch.optim import AdamW
 from music_genre_classification.optimizers.torch_base_optimizer import (
     TorchBaseOptimizer,
 )
+from music_genre_classification.train_data_transforms import TrainDataTransform
+
 from torch.utils.data import DataLoader
 import torch.nn as nn
 
@@ -79,7 +81,12 @@ class GemOptimizer(TorchBaseOptimizer):
         )
 
     def before_training_iteration(
-        self, model: nn.Module, criteria: Criteria, task_id: int, **kwargs
+        self,
+        model: nn.Module,
+        criteria: Criteria,
+        data_transform: TrainDataTransform,
+        task_id: int,
+        **kwargs,
     ):
         """
         Compute gradient constraints on previous memory samples from all
@@ -91,7 +98,7 @@ class GemOptimizer(TorchBaseOptimizer):
             for task_id in range(task_id):
                 model.train()
                 self.optimizer.zero_grad()
-                xref = self.memory_x[task_id].to(config.device)
+                xref = data_transform(self.memory_x[task_id].to(config.device))
                 yref = self.memory_y[task_id].to(config.device)
                 out = model(xref)
                 loss = criteria(out, yref)

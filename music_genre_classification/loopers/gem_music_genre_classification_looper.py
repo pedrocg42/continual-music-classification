@@ -10,7 +10,7 @@ from music_genre_classification.loopers import MusicGenreClassificationLooper
 class GemMusicGenreClassificationLooper(MusicGenreClassificationLooper):
     def train_batch(self, waveforms: torch.Tensor, labels: torch.Tensor):
         self.optimizer.before_training_iteration(
-            self.model, self.criteria, self.task_id
+            self.model, self.criteria, self.train_data_transform, self.task_id
         )
         waveforms = waveforms.to(config.device, non_blocking=True)
         labels = labels.to(config.device, non_blocking=True)

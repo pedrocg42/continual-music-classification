@@ -20,7 +20,12 @@ class GemContinualLearningTrainer(DkvbContinualLearningTrainer):
                     logger.info(
                         f"Model already exists for cross_val_id {cross_val_id} and task {task}"
                     )
+                    self.looper.optimizer.after_training_task(
+                        self.looper.train_data_loader,
+                        task_id,
+                    )
                     continue
+                logger.info(f"Starting training of task {task}")
                 for epoch in range(self.num_epochs):
                     results = self.looper.train_epoch(epoch=epoch)
                     metrics = self.looper.extract_metrics(results)
@@ -31,5 +36,6 @@ class GemContinualLearningTrainer(DkvbContinualLearningTrainer):
                     if self.early_stopping(metrics, epoch):
                         break
                 self.looper.optimizer.after_training_task(
-                    self.looper.train_data_loader, task_id
+                    self.looper.train_data_loader,
+                    task_id,
                 )
