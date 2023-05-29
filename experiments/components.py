@@ -49,7 +49,7 @@ vector_quantizer = {
         "num_codebooks": 128,
         "vq_decay": 0.95,
         "threshold_ema_dead_code": 1e-4,
-    }
+    },
 }
 
 dkvb = {

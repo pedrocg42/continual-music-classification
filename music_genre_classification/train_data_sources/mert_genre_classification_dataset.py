@@ -53,10 +53,7 @@ class MertGenreClassificationDataset(Dataset):
         try:
             wav, _ = torchaudio.load(song_path)
         except:
-            return (
-                torch.zeros((self.chunk_lengh)),
-                torch.tensor(label),
-            )
+            wav = torch.zeros((1, self.chunk_lengh))
 
         # Removing channel dimension
         wav = wav.squeeze(0)
