@@ -147,7 +147,9 @@ class GtzanDataSource(TrainDataSource):
         self.labels_splits["val"] = np.concatenate(self.labels_splits["val"])
         self.labels_splits["test"] = np.concatenate(self.labels_splits["test"])
 
-    def get_dataset(self, task: str | list[str] = None, cross_val_id: int = 0) -> Dataset:
+    def get_dataset(
+        self, task: str | list[str] = None, cross_val_id: int = 0
+    ) -> Dataset:
         self.cross_val_split(cross_val_id=cross_val_id)
 
         songs = self.songs_splits[self.split]
