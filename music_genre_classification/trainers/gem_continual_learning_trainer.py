@@ -30,6 +30,6 @@ class GemContinualLearningTrainer(DkvbContinualLearningTrainer):
                     self.looper.log_metrics(metrics, epoch, mode="val")
                     if self.early_stopping(metrics, epoch):
                         break
-            self.looper.optimizer.after_training_task(
-                self.looper.train_data_loader, task_id
-            )
+                self.looper.optimizer.after_training_task(
+                    self.looper.train_data_loader, task_id
+                )
