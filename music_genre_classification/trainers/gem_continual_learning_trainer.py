@@ -21,11 +21,6 @@ class GemContinualLearningTrainer(DkvbContinualLearningTrainer):
                         f"Model already exists for cross_val_id {cross_val_id} and task {task}"
                     )
                     continue
-                if self.epochs_keys_init is not None and task_id == 0:
-                    self.initialize_keys()
-                if self.freeze_decoder_after_first_episode and task_id > 0:
-                    logger.info("Freezing decoder")
-                    self.looper.model.freeze_decoder()
                 for epoch in range(self.num_epochs):
                     results = self.looper.train_epoch(epoch=epoch)
                     metrics = self.looper.extract_metrics(results)
