@@ -1,5 +1,6 @@
-from experiments.components import *
 from copy import deepcopy
+
+from experiments.components import *
 
 ###############################################################
 ###########                SCENARIOS                ###########

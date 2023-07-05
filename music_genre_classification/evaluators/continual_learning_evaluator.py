@@ -7,7 +7,7 @@ from music_genre_classification.evaluators import Evaluator
 class ContinualLearningEvaluator(Evaluator):
     def __init__(
         self,
-        tasks: list[str| list[str]],
+        tasks: list[str | list[str]],
         **kwargs,
     ):
         super().__init__(**kwargs)
@@ -68,7 +68,7 @@ class ContinualLearningEvaluator(Evaluator):
         for cross_val_id in range(self.num_cross_val_splits):
             if cross_val_id > 0 or self.debug and cross_val_id > 0:
                 break
-            logger.info(f"Started evaluation of cross-validation {cross_val_id=}}"
+            logger.info(f"Started evaluation of cross-validation {cross_val_id=}")
             for task_id, task in enumerate(self.tasks):
                 logger.info(f"Started evaluation of model train with {task=}")
                 self.configure_task(
@@ -83,7 +83,7 @@ class ContinualLearningEvaluator(Evaluator):
                     results = self.predict(data_loader)
                     metrics = self.extract_metrics(results)
                     self.experiment_tracker.log_task_metrics(metrics, test_task)
-                    
+
             # Extracting results for all tasks
             logger.info("Started evaluation of all tasks")
             data_loader = self.data_source.get_dataset(

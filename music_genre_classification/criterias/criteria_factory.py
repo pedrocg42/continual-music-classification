@@ -8,9 +8,7 @@ class CriteriaFactory:
 
     def build(config: dict) -> Criteria:
         if config["name"] == "TorchCrossEntropyCriteria":
-            from music_genre_classification.criterias import (
-                TorchCrossEntropyCriteria,
-            )
+            from music_genre_classification.criterias import TorchCrossEntropyCriteria
 
             return TorchCrossEntropyCriteria(**config.get("args", {}))
         else:

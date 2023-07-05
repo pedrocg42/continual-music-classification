@@ -1,10 +1,8 @@
 # from transformers import Wav2Vec2Processor
-from transformers import Wav2Vec2FeatureExtractor
-from transformers import AutoModel
 import torch
-from torch import nn
 import torchaudio.transforms as T
-
+from torch import nn
+from transformers import AutoModel, Wav2Vec2FeatureExtractor
 
 # loading our model weights
 model = AutoModel.from_pretrained("m-a-p/MERT-v1-95M", trust_remote_code=True)

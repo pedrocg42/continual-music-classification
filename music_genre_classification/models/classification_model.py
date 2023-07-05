@@ -1,8 +1,10 @@
+import copy
+
 import torch
 import torch.nn as nn
-from music_genre_classification.models.encoders import EncoderFactory
+
 from music_genre_classification.models.bottlenecks import BottleneckFactory
-import copy
+from music_genre_classification.models.encoders import EncoderFactory
 
 
 class MertClassificationDecoder(nn.Module):

@@ -9,9 +9,7 @@ class EvaluatorFactory:
     @staticmethod
     def build(config: dict) -> Evaluator:
         if config["name"] == "ContinualLearningEvaluator":
-            from music_genre_classification.evaluators import (
-                ContinualLearningEvaluator,
-            )
+            from music_genre_classification.evaluators import ContinualLearningEvaluator
 
             return ContinualLearningEvaluator(**config["args"])
         else:

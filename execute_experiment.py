@@ -1,8 +1,8 @@
 from fire import Fire
 
+from music_genre_classification.evaluators import EvaluatorFactory
 from music_genre_classification.my_utils import parse_experiment
 from music_genre_classification.trainers import TrainerFactory
-from music_genre_classification.evaluators import EvaluatorFactory
 
 
 def train(experiment_name: str, num_cross_val_splits: int, trainer: dict):

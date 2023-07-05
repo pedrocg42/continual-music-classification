@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
+
 from music_genre_classification.criterias import CriteriaFactory
 from music_genre_classification.experiment_trackers import ExperimentTrackerFactory
+from music_genre_classification.metrics import MetricsFactory
 from music_genre_classification.model_savers import ModelSaverFactory
 from music_genre_classification.models import TrainModelFactory
 from music_genre_classification.optimizers import OptimizerFactory
 from music_genre_classification.train_data_sources import TrainDataSourceFactory
 from music_genre_classification.train_data_transforms import TrainDataTransformFactory
-from music_genre_classification.metrics import MetricsFactory
 
 
 class Looper(ABC):

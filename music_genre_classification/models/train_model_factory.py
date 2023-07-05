@@ -8,15 +8,11 @@ class TrainModelFactory:
 
     def build(config: dict) -> TrainModel:
         if config["name"] == "TorchClassificationModel":
-            from music_genre_classification.models import (
-                TorchClassificationModel,
-            )
+            from music_genre_classification.models import TorchClassificationModel
 
             return TorchClassificationModel(**config.get("args", {}))
         if config["name"] == "TorchClassIncrementalModel":
-            from music_genre_classification.models import (
-                TorchClassIncrementalModel,
-            )
+            from music_genre_classification.models import TorchClassIncrementalModel
 
             return TorchClassIncrementalModel(**config.get("args", {}))
         else:

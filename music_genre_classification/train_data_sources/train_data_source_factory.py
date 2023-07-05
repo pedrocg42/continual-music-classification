@@ -10,9 +10,7 @@ class TrainDataSourceFactory:
 
     def build(config: dict) -> TrainDataSource:
         if config["name"] == "GtzanDataSource":
-            from music_genre_classification.train_data_sources import (
-                GtzanDataSource,
-            )
+            from music_genre_classification.train_data_sources import GtzanDataSource
 
             return GtzanDataSource(**config.get("args", {}))
         else:

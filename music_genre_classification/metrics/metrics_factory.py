@@ -1,4 +1,4 @@
-from torchmetrics import Metric, F1Score, Precision, Recall
+from torchmetrics import F1Score, Metric, Precision, Recall
 
 
 class MetricsFactory:

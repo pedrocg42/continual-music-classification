@@ -8,21 +8,15 @@ class EncoderFactory:
 
     def build(config: dict) -> Module:
         if config["name"] == "MertEncoder":
-            from music_genre_classification.models.encoders import (
-                MertEncoder,
-            )
+            from music_genre_classification.models.encoders import MertEncoder
 
             return MertEncoder(**config.get("args", {}))
         elif config["name"] == "ResNet50DinoEncoder":
-            from music_genre_classification.models.encoders import (
-                ResNet50DinoEncoder,
-            )
+            from music_genre_classification.models.encoders import ResNet50DinoEncoder
 
             return ResNet50DinoEncoder(**config.get("args", {}))
         elif config["name"] == "ResNet50Encoder":
-            from music_genre_classification.models.encoders import (
-                ResNet50Encoder,
-            )
+            from music_genre_classification.models.encoders import ResNet50Encoder
 
             return ResNet50Encoder(**config.get("args", {}))
         else:

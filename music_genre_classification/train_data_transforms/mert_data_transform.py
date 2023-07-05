@@ -1,10 +1,11 @@
 import torch
 import torchaudio.transforms as T
+from transformers import Wav2Vec2FeatureExtractor
+
+import config
 from music_genre_classification.train_data_transforms.train_data_transform import (
     TrainDataTransform,
 )
-from transformers import Wav2Vec2FeatureExtractor
-import config
 
 
 class MertDataTransform(TrainDataTransform):

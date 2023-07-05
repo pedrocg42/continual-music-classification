@@ -1,5 +1,6 @@
 # Found filtered dataset from https://github.com/coreyker/dnn-mgr/tree/master/gtzan
 import os
+from glob import glob
 
 import numpy as np
 from torch.utils.data import DataLoader, Dataset
@@ -11,7 +12,6 @@ from music_genre_classification.train_data_sources.mert_genre_classification_dat
 from music_genre_classification.train_data_sources.train_data_source import (
     TrainDataSource,
 )
-from glob import glob
 
 np.random.seed(config.seed)
 

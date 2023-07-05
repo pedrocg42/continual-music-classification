@@ -1,24 +1,19 @@
-from typing import Iterable
+from typing import Dict, Iterable
 
+import numpy as np
+import quadprog
+import torch
+import torch.nn as nn
 from torch import Tensor
 from torch.optim import AdamW
+from torch.utils.data import DataLoader
 
+import config
+from music_genre_classification.criterias.criteria import Criteria
 from music_genre_classification.optimizers.torch_base_optimizer import (
     TorchBaseOptimizer,
 )
 from music_genre_classification.train_data_transforms import TrainDataTransform
-
-from torch.utils.data import DataLoader
-import torch.nn as nn
-
-from typing import Dict
-import numpy as np
-import quadprog
-import torch
-from torch import Tensor
-from torch.utils.data import DataLoader
-import config
-from music_genre_classification.criterias.criteria import Criteria
 
 
 class GemOptimizer(TorchBaseOptimizer):

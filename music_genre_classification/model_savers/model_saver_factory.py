@@ -1,6 +1,4 @@
-from music_genre_classification.model_savers.model_saver import (
-    ModelSaver,
-)
+from music_genre_classification.model_savers.model_saver import ModelSaver
 
 
 class ModelSaverFactory:

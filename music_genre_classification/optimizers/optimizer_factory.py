@@ -8,15 +8,11 @@ class OptimizerFactory:
 
     def build(config: dict) -> Optimizer:
         if config["name"] == "TorchAdamWOptimizer":
-            from music_genre_classification.optimizers import (
-                TorchAdamWOptimizer,
-            )
+            from music_genre_classification.optimizers import TorchAdamWOptimizer
 
             return TorchAdamWOptimizer(**config.get("args", {}))
         elif config["name"] == "GemOptimizer":
-            from music_genre_classification.optimizers import (
-                GemOptimizer,
-            )
+            from music_genre_classification.optimizers import GemOptimizer
 
             return GemOptimizer(**config.get("args", {}))
         else:
