@@ -1,11 +1,11 @@
 from loguru import logger
 
-from music_genre_classification.trainers.continual_learning_trainer import (
-    ContinualLearningTrainer,
+from music_genre_classification.trainers.class_incremental_learning_trainer import (
+    ClassIncrementalLearningTrainer,
 )
 
 
-class DkvbContinualLearningTrainer(ContinualLearningTrainer):
+class DkvbContinualLearningTrainer(ClassIncrementalLearningTrainer):
     def __init__(
         self,
         epochs_keys_init: int | None = None,
@@ -19,24 +19,6 @@ class DkvbContinualLearningTrainer(ContinualLearningTrainer):
         else:
             self.epochs_keys_init = epochs_keys_init
         self.freeze_decoder_after_first_episode = freeze_decoder_after_first_episode
-
-    def configure_cv(self, cross_val_id: int):
-        self.looper.initialize_model()
-
-    def configure_task(
-        self,
-        cross_val_id: int,
-        task_id: int,
-        task: str | list[str],
-        continual_learning: bool = False,
-    ):
-        self.best_metric = 0
-        self.patience_epochs = 0
-        self.looper.initialize_model()
-        self.looper.configure_task(
-            cross_val_id=cross_val_id, task_id=task_id, task=task
-        )
-        self.looper.log_start()
 
     def initialize_keys(self):
         logger.info("Initializing keys")
@@ -64,11 +46,13 @@ class DkvbContinualLearningTrainer(ContinualLearningTrainer):
                     logger.info("Freezing decoder")
                     self.looper.model.freeze_decoder()
                 for epoch in range(self.num_epochs):
+                    if self.debug and epoch > self.max_epochs:
+                        break
                     results = self.looper.train_epoch(epoch=epoch)
                     metrics = self.looper.extract_metrics(results)
                     self.looper.log_metrics(metrics, epoch)
                     results = self.looper.val_epoch(epoch)
-                    metrics = self.looper.extract_metrics(results, mode="val")
+                    metrics = self.looper.extract_metrics(results)
                     self.looper.log_metrics(metrics, epoch, mode="val")
                     if self.early_stopping(metrics, epoch):
                         break

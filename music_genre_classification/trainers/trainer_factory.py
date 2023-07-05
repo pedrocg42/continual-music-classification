@@ -17,6 +17,12 @@ class TrainerFactory:
             from music_genre_classification.trainers import ContinualLearningTrainer
 
             return ContinualLearningTrainer(**config["args"])
+        if config["name"] == "ClassIncrementalLearningTrainer":
+            from music_genre_classification.trainers import (
+                ClassIncrementalLearningTrainer,
+            )
+
+            return ClassIncrementalLearningTrainer(**config["args"])
         if config["name"] == "DkvbContinualLearningTrainer":
             from music_genre_classification.trainers import DkvbContinualLearningTrainer
 

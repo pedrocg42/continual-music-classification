@@ -1,11 +1,11 @@
 from loguru import logger
 
-from music_genre_classification.trainers.dkvb_continual_learning_trainer import (
-    DkvbContinualLearningTrainer,
+from music_genre_classification.trainers.class_incremental_learning_trainer import (
+    ClassIncrementalLearningTrainer,
 )
 
 
-class GemContinualLearningTrainer(DkvbContinualLearningTrainer):
+class GemContinualLearningTrainer(ClassIncrementalLearningTrainer):
     def train(self, experiment_name: str, num_cross_val_splits: int = 1):
         logger.info(f"Started training process of experiment {experiment_name}")
         self.looper.configure_experiment(experiment_name, self.batch_size)

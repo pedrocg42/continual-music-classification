@@ -26,6 +26,7 @@ class Trainer(ABC):
         # Debug
         self.debug = debug
         self.looper.debug = debug
+        self.max_epochs = 1
 
     def configure_cv(self, cross_val_id: int):
         self.best_metric = 0
