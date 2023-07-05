@@ -1,6 +1,9 @@
 from music_genre_classification.models.classification_model import (
     TorchClassificationModel,
 )
+from music_genre_classification.models.classification_model import (
+    TorchClassIncrementalModel,
+)
 from music_genre_classification.models.timm_models import (
     TimmMobileNetV3,
     TimmMobileViTV2,
@@ -16,4 +19,5 @@ __all__ = [
     "TimmMobileNetV3",
     "TimmMobileViTV2",
     "TorchClassificationModel",
+    "TorchClassIncrementalModel",
 ]
