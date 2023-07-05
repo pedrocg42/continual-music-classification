@@ -66,7 +66,7 @@ dkvb = {
 
 # Train models
 train_model = {
-    "name": "TorchClassificationModel",
+    "name": "TorchClassIncrementalModel",
     "args": {
         "encoder": {
             "name": "MertEncoder",
@@ -74,8 +74,7 @@ train_model = {
                 "pretrained": True,
             },
         },
-        "num_classes": num_classes,
-        "freeze_encoder": True,
+        "frozen_encoder": True,
     },
 }
 
@@ -118,7 +117,7 @@ genre_classification_metrics = [
 
 # Trainers
 continual_learning_trainer = {
-    "name": "DkvbContinualLearningTrainer",
+    "name": "ClassIncrementalLearningTrainer",
     "args": {
         "tasks": None,
         "num_epochs": num_epochs,
@@ -126,7 +125,7 @@ continual_learning_trainer = {
         "early_stopping_patience": early_stopping_patience,
         "early_stopping_metric": early_stopping_metric,
         "looper": {
-            "name": "DkvbMusicGenreClassificationLooper",
+            "name": "MusicGenreClassificationLooper",
             "args": {
                 "train_data_source": train_gtzan_data_source,
                 "val_data_source": val_gtzan_data_source,
@@ -144,23 +143,31 @@ continual_learning_trainer = {
 }
 
 continual_learning_dkvb_trainer = deepcopy(continual_learning_trainer)
+continual_learning_dkvb_trainer["name"] = "DkvbContinualLearningTrainer"
 continual_learning_dkvb_trainer["args"].update(
     {
         "epochs_keys_init": 10,
         "freeze_decoder_after_first_episode": True,
     }
 )
+continual_learning_dkvb_trainer["args"]["looper"][
+    "name"
+] = "DkvbMusicGenreClassificationLooper"
 continual_learning_dkvb_trainer["args"]["looper"]["args"][
     "train_model"
 ] = train_model_dkvb
 
 continual_learning_vq_trainer = deepcopy(continual_learning_trainer)
+continual_learning_vq_trainer["name"] = "DkvbContinualLearningTrainer"
 continual_learning_vq_trainer["args"].update(
     {
         "epochs_keys_init": 10,
         "freeze_decoder_after_first_episode": False,
     }
 )
+continual_learning_vq_trainer["args"]["looper"][
+    "name"
+] = "DkvbMusicGenreClassificationLooper"
 continual_learning_vq_trainer["args"]["looper"]["args"]["train_model"] = train_model_vq
 
 continual_learning_gem_trainer = deepcopy(continual_learning_trainer)

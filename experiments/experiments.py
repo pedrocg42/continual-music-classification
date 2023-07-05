@@ -94,10 +94,10 @@ continual_learning_dkvb_evaluator_scenario1["args"]["test_tasks"] = all_test_tas
 
 ###########                BASELINES                ###########
 
-mert95m_base_joint_gtzan_all = {
-    "experiment_name": "mert95m_base_joint_gtzan_all",
+mert95m_base_oracle_gtzan_all = {
+    "experiment_name": "mert95m_base_oracle_gtzan_all",
     "experiment_type": "Baseline",
-    "experiment_subtype": "Joint",
+    "experiment_subtype": "Oracle",
     "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
@@ -108,10 +108,10 @@ mert95m_base_joint_gtzan_all = {
     },
 }
 
-mert95m_vq_joint_gtzan_all = {
-    "experiment_name": "mert95m_vq_joint_gtzan_all",
+mert95m_vq_oracle_gtzan_all = {
+    "experiment_name": "mert95m_vq_oracle_gtzan_all",
     "experiment_type": "Baseline",
-    "experiment_subtype": "Joint",
+    "experiment_subtype": "oracle",
     "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
@@ -122,10 +122,10 @@ mert95m_vq_joint_gtzan_all = {
     },
 }
 
-mert95m_dkvb_joint_gtzan_all = {
-    "experiment_name": "mert95m_dkvb_joint_gtzan_all",
+mert95m_dkvb_oracle_gtzan_all = {
+    "experiment_name": "mert95m_dkvb_oracle_gtzan_all",
     "experiment_type": "Baseline",
-    "experiment_subtype": "Joint",
+    "experiment_subtype": "Oracle",
     "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
@@ -136,10 +136,10 @@ mert95m_dkvb_joint_gtzan_all = {
     },
 }
 
-mert95m_gem_joint_gtzan_all = {
-    "experiment_name": "mert95m_gem_joint_gtzan_all",
+mert95m_gem_oracle_gtzan_all = {
+    "experiment_name": "mert95m_gem_oracle_gtzan_all",
     "experiment_type": "Baseline",
-    "experiment_subtype": "Joint",
+    "experiment_subtype": "Oracle",
     "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
@@ -155,10 +155,10 @@ mert95m_gem_joint_gtzan_all = {
 
 # SCENARIO 1
 
-mert95m_base_cl_gtzan_scenario1 = {
-    "experiment_name": "mert95m_base_cl_gtzan_scenario1",
+mert95m_finetuning_cl_gtzan_scenario1 = {
+    "experiment_name": "mert95m_finetuning_cl_gtzan_scenario1",
     "experiment_type": "CL",
-    "experiment_subtype": "Baseline",
+    "experiment_subtype": "Finetuning",
     "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {

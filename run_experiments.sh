@@ -1,9 +1,9 @@
-#  Joint training
+#  Oracle training
 
-# python execute_experiment.py --experiment mert95m_base_joint_gtzan_all
-# python execute_experiment.py --experiment mert95m_vq_joint_gtzan_all
-# python execute_experiment.py --experiment mert95m_dkvb_joint_gtzan_all
-python execute_experiment.py --experiment mert95m_gem_joint_gtzan_all
+# python execute_experiment.py --experiment mert95m_base_oracle_gtzan_all
+# python execute_experiment.py --experiment mert95m_vq_oracle_gtzan_all
+# python execute_experiment.py --experiment mert95m_dkvb_oracle_gtzan_all
+python execute_experiment.py --experiment mert95m_gem_oracle_gtzan_all
 
 
 

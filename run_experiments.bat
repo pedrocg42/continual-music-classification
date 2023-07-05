@@ -1,8 +1,8 @@
-@REM Joint training
+@REM Oracle training
 
-python execute_experiment.py --experiment Mert95m_joint_gtzan_all
-python execute_experiment.py --experiment Mert95mVq_joint_gtzan_all
-python execute_experiment.py --experiment Mert95mDkvb_joint_gtzan_all
+python execute_experiment.py --experiment Mert95m_oracle_gtzan_all
+python execute_experiment.py --experiment Mert95mVq_oracle_gtzan_all
+python execute_experiment.py --experiment Mert95mDkvb_oracle_gtzan_all
 
 @REM Scenario 1
 

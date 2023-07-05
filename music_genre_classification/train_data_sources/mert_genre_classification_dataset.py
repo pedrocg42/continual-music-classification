@@ -2,8 +2,6 @@ import numpy as np
 import torch
 import torchaudio
 from torch.utils.data import Dataset
-import torchaudio.transforms as T
-from transformers import Wav2Vec2FeatureExtractor
 
 
 class MertGenreClassificationDataset(Dataset):

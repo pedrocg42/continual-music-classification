@@ -1,7 +1,7 @@
+# Found filtered dataset from https://github.com/coreyker/dnn-mgr/tree/master/gtzan
 import os
 
 import numpy as np
-import pandas as pd
 from torch.utils.data import DataLoader, Dataset
 
 import config
@@ -35,7 +35,7 @@ class GtzanDataSource(TrainDataSource):
         self, split: str, num_cross_val_splits: int = 5, is_eval: bool = False, **kwargs
     ):
         self.name = "GTZAN"
-        self.dataset_path = os.path.join(config.dataset_path, "gtzan", "data")
+        self.dataset_path = os.path.join(config.dataset_path, self.name)
         self.genres = GTZAN_GENRES
         self.genres_to_index = {genre: i for i, genre in enumerate(self.genres)}
         self.index_to_genres = {i: genre for i, genre in enumerate(self.genres)}
