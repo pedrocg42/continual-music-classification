@@ -1,6 +1,4 @@
-import torch
 from loguru import logger
-from tqdm import tqdm
 
 import config
 from music_genre_classification.evaluators import Evaluator
@@ -9,14 +7,11 @@ from music_genre_classification.evaluators import Evaluator
 class ContinualLearningEvaluator(Evaluator):
     def __init__(
         self,
-        train_tasks: list[str],
-        test_tasks: list[str],
+        tasks: list[str| list[str]],
         **kwargs,
     ):
         super().__init__(**kwargs)
-
-        self.train_tasks = train_tasks
-        self.test_tasks = test_tasks
+        self.tasks = tasks
 
     def configure(
         self,
@@ -55,45 +50,6 @@ class ContinualLearningEvaluator(Evaluator):
             train_task_name=task,
         )
 
-    def predict(self, data_loader) -> list[dict]:
-        self.model.eval()
-        results = []
-        pbar = tqdm(
-            data_loader,
-            colour="green",
-            total=self.max_steps if self.debug else len(data_loader),
-        )
-        for i, (waveforms, labels) in enumerate(pbar):
-            if self.debug and i == self.max_steps:
-                break
-
-            waveforms = waveforms.to(config.device)
-
-            # Inference
-            transformed = self.data_transform(waveforms)
-            preds = self.model(transformed)
-
-            # For each song we select the most repeated class
-            pred = preds.detach().cpu().mean(dim=0)
-            label = labels[0] if len(labels.shape) > 0 else labels
-
-            results.append(
-                dict(
-                    pred=pred,
-                    label=label,
-                )
-            )
-        return results
-
-    def extract_metrics(self, results: list[dict]) -> dict:
-        metrics = {}
-        preds = torch.vstack([result["pred"] for result in results])
-        labels = torch.hstack([result["label"] for result in results])
-        for metric_name, metric in self.metrics.items():
-            metric.num_classes = self.model.num_classes
-            metrics[metric_name] = metric(preds, labels).item()
-        return metrics
-
     def evaluate(
         self,
         experiment_name: str,
@@ -112,17 +68,27 @@ class ContinualLearningEvaluator(Evaluator):
         for cross_val_id in range(self.num_cross_val_splits):
             if cross_val_id > 0 or self.debug and cross_val_id > 0:
                 break
-            for task_id, task in enumerate(self.train_tasks):
-                logger.info(f"Started evaluation of model train with task {task}")
+            logger.info(f"Started evaluation of cross-validation {cross_val_id=}}"
+            for task_id, task in enumerate(self.tasks):
+                logger.info(f"Started evaluation of model train with {task=}")
                 self.configure_task(
                     cross_val_id=cross_val_id, task_id=task_id, task=task
                 )
                 # Extracting results per task
-                for test_task in self.test_tasks:
-                    logger.info(f"Started evaluation of task {test_task}")
+                for test_task in self.tasks:
+                    logger.info(f"Started evaluation of {test_task=}")
                     data_loader = self.data_source.get_dataset(
                         cross_val_id=cross_val_id, task=test_task
                     )
                     results = self.predict(data_loader)
                     metrics = self.extract_metrics(results)
                     self.experiment_tracker.log_task_metrics(metrics, test_task)
+                    
+            # Extracting results for all tasks
+            logger.info("Started evaluation of all tasks")
+            data_loader = self.data_source.get_dataset(
+                cross_val_id=cross_val_id, task="all"
+            )
+            results = self.predict(data_loader)
+            metrics = self.extract_metrics(results)
+            self.experiment_tracker.log_task_metrics(metrics, test_task)

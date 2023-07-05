@@ -185,8 +185,7 @@ continual_learning_gem_trainer["args"]["looper"]["args"]["optimizer"] = {
 continual_learning_evaluator = {
     "name": "ContinualLearningEvaluator",
     "args": {
-        "train_tasks": None,
-        "test_tasks": None,
+        "tasks": None,
         "model": train_model,
         "model_saver": {"name": "MusicGenreClassificationModelSaver"},
         "data_source": test_gtzan_data_source,

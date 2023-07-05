@@ -5,15 +5,14 @@ from copy import deepcopy
 ###########                SCENARIOS                ###########
 ###############################################################
 
-all_tasks = ["all"]
-all_test_tasks = [
-    "all",
+all_tasks = [
     ["blues", "classical"],
     ["country", "disco"],
     ["hiphop", "jazz"],
     ["metal", "pop"],
     ["reggae", "rock"],
 ]
+
 scenario1 = [
     ["blues", "classical"],
     ["country", "disco"],
@@ -61,31 +60,25 @@ continual_learning_gem_trainer_scenario1["args"]["tasks"] = scenario1
 
 # Baselines
 continual_learning_evaluator_all = deepcopy(continual_learning_evaluator)
-continual_learning_evaluator_all["args"]["train_tasks"] = all_tasks
-continual_learning_evaluator_all["args"]["test_tasks"] = all_test_tasks
+continual_learning_evaluator_all["args"]["tasks"] = all_tasks
 
 continual_learning_vq_evaluator_all = deepcopy(continual_learning_evaluator_vq)
-continual_learning_vq_evaluator_all["args"]["train_tasks"] = all_tasks
-continual_learning_vq_evaluator_all["args"]["test_tasks"] = all_test_tasks
+continual_learning_vq_evaluator_all["args"]["tasks"] = all_tasks
 
 continual_learning_dkvb_evaluator_all = deepcopy(continual_learning_evaluator_dkvb)
-continual_learning_dkvb_evaluator_all["args"]["train_tasks"] = all_tasks
-continual_learning_dkvb_evaluator_all["args"]["test_tasks"] = all_test_tasks
+continual_learning_dkvb_evaluator_all["args"]["tasks"] = all_tasks
 
 # Scenario 1
 continual_learning_evaluator_scenario1 = deepcopy(continual_learning_evaluator)
-continual_learning_evaluator_scenario1["args"]["train_tasks"] = scenario1
-continual_learning_evaluator_scenario1["args"]["test_tasks"] = all_test_tasks
+continual_learning_evaluator_scenario1["args"]["tasks"] = scenario1
 
 continual_learning_vq_evaluator_scenario1 = deepcopy(continual_learning_evaluator_vq)
-continual_learning_vq_evaluator_scenario1["args"]["train_tasks"] = scenario1
-continual_learning_vq_evaluator_scenario1["args"]["test_tasks"] = all_test_tasks
+continual_learning_vq_evaluator_scenario1["args"]["tasks"] = scenario1
 
 continual_learning_dkvb_evaluator_scenario1 = deepcopy(
     continual_learning_evaluator_dkvb
 )
-continual_learning_dkvb_evaluator_scenario1["args"]["train_tasks"] = scenario1
-continual_learning_dkvb_evaluator_scenario1["args"]["test_tasks"] = all_test_tasks
+continual_learning_dkvb_evaluator_scenario1["args"]["tasks"] = scenario1
 
 
 ###############################################################
