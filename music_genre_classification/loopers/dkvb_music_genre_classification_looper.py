@@ -9,11 +9,6 @@ from music_genre_classification.loopers.music_genre_classification_looper import
 
 
 class DkvbMusicGenreClassificationLooper(MusicGenreClassificationLooper):
-    def configure_task(self, cross_val_id: int, task_id: int, task: str | list[str]):
-        super().configure_task(cross_val_id, task_id, task)
-        if task_id > 0:
-            self.model_saver.load_task_model(task_id - 1)
-
     @torch.no_grad()
     def key_init_epoch(self, epoch: int):
         logger.info(f"Key initialization epoch {epoch + 1}")

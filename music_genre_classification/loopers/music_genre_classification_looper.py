@@ -49,6 +49,8 @@ class MusicGenreClassificationLooper(Looper):
             task_id=task_id,
             task=task,
         )
+        if task_id > 0:
+            self.model_saver.load_task_model(task_id - 1)
         self.experiment_tracker.configure_task(
             experiment_name=self.experiment_name,
             cross_val_id=cross_val_id,
@@ -137,7 +139,7 @@ class MusicGenreClassificationLooper(Looper):
             labels=labels.detach().cpu(),
         )
 
-    def extract_metrics(self, results_epoch: list[dict], mode: str = "train"):
+    def extract_metrics(self, results_epoch: list[dict]):
         preds = torch.vstack(
             [results_batch["preds"] for results_batch in results_epoch]
         )
@@ -149,6 +151,7 @@ class MusicGenreClassificationLooper(Looper):
             [results_batch["loss"] for results_batch in results_epoch]
         ).mean()
         for metric_name, metric in self.metrics.items():
+            metric.num_classes = self.model.num_classes
             metrics_results[metric_name] = metric(preds, labels).item()
 
         return metrics_results

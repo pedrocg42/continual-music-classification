@@ -23,8 +23,6 @@ class Looper(ABC):
         model_saver: dict,
         metrics: dict,
     ) -> None:
-        super().__init__()
-
         self.train_data_source = TrainDataSourceFactory.build(train_data_source)
         self.train_data_loader = None
         self.train_data_transform = TrainDataTransformFactory.build(
