@@ -38,6 +38,7 @@ class ContinualLearningEvaluator(Evaluator):
         )
 
     def configure_task(self, cross_val_id: int, task_id: int, task: str):
+        self.model.update_decoder(task_id, task)
         self.model_saver.configure(
             self.model,
             experiment_name=self.experiment_name,
@@ -57,7 +58,12 @@ class ContinualLearningEvaluator(Evaluator):
     def predict(self, data_loader) -> list[dict]:
         self.model.eval()
         results = []
-        for i, (waveforms, labels) in enumerate(tqdm(data_loader, colour="green")):
+        pbar = tqdm(
+            data_loader,
+            colour="green",
+            total=self.max_steps if self.debug else len(data_loader),
+        )
+        for i, (waveforms, labels) in enumerate(pbar):
             if self.debug and i == self.max_steps:
                 break
 
@@ -84,6 +90,7 @@ class ContinualLearningEvaluator(Evaluator):
         preds = torch.vstack([result["pred"] for result in results])
         labels = torch.hstack([result["label"] for result in results])
         for metric_name, metric in self.metrics.items():
+            metric.num_classes = self.model.num_classes
             metrics[metric_name] = metric(preds, labels).item()
         return metrics
 

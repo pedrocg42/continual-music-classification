@@ -9,11 +9,15 @@ from music_genre_classification.trainers.dkvb_continual_learning_trainer import 
 from music_genre_classification.trainers.gem_continual_learning_trainer import (
     GemContinualLearningTrainer,
 )
+from music_genre_classification.trainers.class_incremental_learning_trainer import (
+    ClassIncrementalLearningTrainer,
+)
 
 __all__ = [
     "TrainerFactory",
     "Trainer",
     "ContinualLearningTrainer",
+    "ClassIncrementalLearningTrainer",
     "DkvbContinualLearningTrainer",
     "GemContinualLearningTrainer",
 ]
