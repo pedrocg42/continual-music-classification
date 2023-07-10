@@ -11,7 +11,7 @@ early_stopping_patience = 40
 early_stopping_metric = "F1 Score"
 epochs_keys_init = 10
 num_classes = 10
-batch_size = 32
+batch_size = 16
 
 # Data sources
 train_gtzan_data_source = {
@@ -56,7 +56,9 @@ dkvb = {
     "name": "DKVB",
     "args": {
         "embedding_dim": 768,
-        "codes_per_codebook": 64,
+        "projection_embedding_dim": 8,
+        "dim_memory": 10,
+        "codes_per_codebook": 1024,
         "num_codebooks": 128,
         "vq_decay": 0.95,
         "threshold_ema_dead_code": 1e-4,
@@ -65,9 +67,21 @@ dkvb = {
 
 
 # Train models
+oracle_train_model = {
+    "name": "TorchMertClassificationModel",
+    "args": {"num_classes": num_classes},
+}
+
 train_model = {
-    "name": "TorchClassIncrementalModel",
+    "name": "TorchMertClassIncrementalModel",
+    "args": {},
+}
+
+
+train_model_vq = {
+    "name": "TorchBottleneckClassificationModel",
     "args": {
+        "bottleneck": vector_quantizer,
         "encoder": {
             "name": "MertEncoder",
             "args": {
@@ -75,16 +89,24 @@ train_model = {
             },
         },
         "frozen_encoder": True,
+        "num_classes": num_classes,
     },
 }
 
-train_model_vq = deepcopy(train_model)
-train_model_vq["args"]["frozen_encoder"] = True
-train_model_vq["args"]["bottleneck"] = vector_quantizer
-
-train_model_dkvb = deepcopy(train_model)
-train_model_dkvb["args"]["frozen_encoder"] = True
-train_model_dkvb["args"]["bottleneck"] = dkvb
+train_model_dkvb = {
+    "name": "TorchBottleneckClassificationModel",
+    "args": {
+        "bottleneck": dkvb,
+        "encoder": {
+            "name": "MertEncoder",
+            "args": {
+                "pretrained": True,
+            },
+        },
+        "frozen_encoder": True,
+        "num_classes": num_classes,
+    },
+}
 
 # Metrics
 genre_classification_metrics = [
@@ -92,7 +114,7 @@ genre_classification_metrics = [
         "name": "F1 Score",
         "args": {
             "task": "multiclass",
-            "average": "micro",
+            "average": "macro",
             "num_classes": num_classes,
         },
     },
@@ -100,7 +122,7 @@ genre_classification_metrics = [
         "name": "Precision",
         "args": {
             "task": "multiclass",
-            "average": "micro",
+            "average": "macro",
             "num_classes": num_classes,
         },
     },
@@ -108,7 +130,7 @@ genre_classification_metrics = [
         "name": "Recall",
         "args": {
             "task": "multiclass",
-            "average": "micro",
+            "average": "macro",
             "num_classes": num_classes,
         },
     },
@@ -116,7 +138,7 @@ genre_classification_metrics = [
 
 
 # Trainers
-continual_learning_trainer = {
+trainer = {
     "name": "ClassIncrementalLearningTrainer",
     "args": {
         "tasks": None,
@@ -131,9 +153,9 @@ continual_learning_trainer = {
                 "val_data_source": val_gtzan_data_source,
                 "train_data_transform": mert_data_transform,
                 "val_data_transform": mert_data_transform,
-                "train_model": train_model,
+                "train_model": None,
                 "criteria": {"name": "TorchCrossEntropyCriteria"},
-                "optimizer": {"name": "TorchAdamWOptimizer"},
+                "optimizer": {"name": "TorchSgdOptimizer"},
                 "metrics": genre_classification_metrics,
                 "experiment_tracker": {"name": "TensorboardExperimentTracker"},
                 "model_saver": {"name": "MusicGenreClassificationModelSaver"},
@@ -142,22 +164,16 @@ continual_learning_trainer = {
     },
 }
 
-continual_learning_dkvb_trainer = deepcopy(continual_learning_trainer)
-continual_learning_dkvb_trainer["name"] = "DkvbContinualLearningTrainer"
-continual_learning_dkvb_trainer["args"].update(
-    {
-        "epochs_keys_init": 10,
-        "freeze_decoder_after_first_episode": True,
-    }
-)
-continual_learning_dkvb_trainer["args"]["looper"][
-    "name"
-] = "DkvbMusicGenreClassificationLooper"
-continual_learning_dkvb_trainer["args"]["looper"]["args"][
-    "train_model"
-] = train_model_dkvb
+oracle_trainer = deepcopy(trainer)
+oracle_trainer["name"] = "ContinualLearningTrainer"
+oracle_trainer["args"]["looper"]["args"]["train_model"] = oracle_train_model
+oracle_trainer["args"]["tasks"] = ["all"]
 
-continual_learning_vq_trainer = deepcopy(continual_learning_trainer)
+continual_learning_trainer = deepcopy(trainer)
+continual_learning_trainer["args"]["looper"]["args"]["train_model"] = train_model
+
+## VQ
+continual_learning_vq_trainer = deepcopy(trainer)
 continual_learning_vq_trainer["name"] = "DkvbContinualLearningTrainer"
 continual_learning_vq_trainer["args"].update(
     {
@@ -170,33 +186,71 @@ continual_learning_vq_trainer["args"]["looper"][
 ] = "DkvbMusicGenreClassificationLooper"
 continual_learning_vq_trainer["args"]["looper"]["args"]["train_model"] = train_model_vq
 
-continual_learning_gem_trainer = deepcopy(continual_learning_trainer)
+## DKVB
+continual_learning_dkvb_trainer = deepcopy(trainer)
+continual_learning_dkvb_trainer["name"] = "DkvbContinualLearningTrainer"
+continual_learning_dkvb_trainer["args"].update(
+    {
+        "epochs_keys_init": 10,
+        "freeze_decoder_after_first_episode": False,
+    }
+)
+continual_learning_dkvb_trainer["args"]["looper"][
+    "name"
+] = "DkvbMusicGenreClassificationLooper"
+continual_learning_dkvb_trainer["args"]["looper"]["args"][
+    "train_model"
+] = train_model_dkvb
+continual_learning_dkvb_trainer["args"]["looper"]["args"]["optimizer"]["args"] = {
+    "lr": 10.0
+}
+
+
+## GEM
+continual_learning_gem_trainer = deepcopy(trainer)
 continual_learning_gem_trainer["name"] = "GemContinualLearningTrainer"
 continual_learning_gem_trainer["args"]["looper"][
     "name"
 ] = "GemMusicGenreClassificationLooper"
 continual_learning_gem_trainer["args"]["looper"]["args"]["optimizer"] = {
     "name": "GemOptimizer",
-    "args": {"patterns_per_experience": 32, "memory_strength": 0.5},
+    "args": {"patterns_per_experience": 10, "memory_strength": 0.5},
 }
+continual_learning_gem_trainer["args"]["looper"]["args"]["train_model"] = train_model
 
+## EWC
+continual_learning_ewc_trainer = deepcopy(trainer)
+continual_learning_ewc_trainer["name"] = "EwcContinualLearningTrainer"
+continual_learning_ewc_trainer["args"]["looper"][
+    "name"
+] = "EwcMusicGenreClassificationLooper"
+continual_learning_ewc_trainer["args"]["looper"]["args"]["optimizer"] = {
+    "name": "EwcOptimizer",
+    "args": {"ewc_lambda": 0.1},
+}
+continual_learning_ewc_trainer["args"]["looper"]["args"]["train_model"] = train_model
 
 # Evaluators
-continual_learning_evaluator = {
-    "name": "ContinualLearningEvaluator",
+evaluator = {
+    "name": "ClassIncrementalLearningEvaluator",
     "args": {
         "tasks": None,
         "model": train_model,
         "model_saver": {"name": "MusicGenreClassificationModelSaver"},
         "data_source": test_gtzan_data_source,
         "data_transform": mert_data_transform,
-        "metrics": genre_classification_metrics,
+        "metrics_config": genre_classification_metrics,
         "experiment_tracker": {"name": "DataframeExperimentTracker"},
     },
 }
 
-continual_learning_evaluator_vq = deepcopy(continual_learning_evaluator)
+oracle_evaluator = deepcopy(evaluator)
+oracle_evaluator["name"] = "ClassIncrementalLearningOracleEvaluator"
+oracle_evaluator["args"]["model"] = oracle_train_model
+oracle_evaluator["args"]["tasks"] = ["all"]
+
+continual_learning_evaluator_vq = deepcopy(evaluator)
 continual_learning_evaluator_vq["args"]["model"] = train_model_vq
 
-continual_learning_evaluator_dkvb = deepcopy(continual_learning_evaluator)
+continual_learning_evaluator_dkvb = deepcopy(evaluator)
 continual_learning_evaluator_dkvb["args"]["model"] = train_model_dkvb
