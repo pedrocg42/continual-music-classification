@@ -25,7 +25,7 @@ class ResNet50Encoder(nn.Module):
             encoder_raw.layer3,
             encoder_raw.layer4,
         )
-        self.encoder_output_size = 2048
+        self.output_size = 2048
 
         if self.one_channel:
             self.three_to_one_input_channels()

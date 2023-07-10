@@ -1,4 +1,4 @@
-from music_genre_classification.models.train_model import TrainModel
+from torch import nn
 
 
 class TrainModelFactory:
@@ -6,7 +6,8 @@ class TrainModelFactory:
     Factory class for creating train_models.
     """
 
-    def build(config: dict) -> TrainModel:
+    @staticmethod
+    def build(config: dict) -> nn.Module:
         if config["name"] == "TorchClassificationModel":
             from music_genre_classification.models import TorchClassificationModel
 
@@ -15,5 +16,31 @@ class TrainModelFactory:
             from music_genre_classification.models import TorchClassIncrementalModel
 
             return TorchClassIncrementalModel(**config.get("args", {}))
+        if config["name"] == "TorchMertClassificationModel":
+            from music_genre_classification.models import TorchMertClassificationModel
+
+            return TorchMertClassificationModel(**config.get("args", {}))
+        if config["name"] == "TorchMertClassIncrementalModel":
+            from music_genre_classification.models import TorchMertClassIncrementalModel
+
+            return TorchMertClassIncrementalModel(**config.get("args", {}))
+        if config["name"] == "TorchBottleneckClassificationModel":
+            from music_genre_classification.models import (
+                TorchBottleneckClassificationModel,
+            )
+
+            return TorchBottleneckClassificationModel(**config.get("args", {}))
+        if config["name"] == "TorchBottleneckClassIncrementalModel":
+            from music_genre_classification.models import (
+                TorchBottleneckClassIncrementalModel,
+            )
+
+            return TorchBottleneckClassIncrementalModel(**config.get("args", {}))
+        if config["name"] == "TorchMertBottleneckClassIncrementalModel":
+            from music_genre_classification.models import (
+                TorchMertBottleneckClassIncrementalModel,
+            )
+
+            return TorchMertBottleneckClassIncrementalModel(**config.get("args", {}))
         else:
             raise ValueError(f"Unknown TrainDataModel type: {config['name']}")

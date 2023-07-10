@@ -14,7 +14,7 @@ class MertEncoder(nn.Module):
             "m-a-p/MERT-v1-95M", trust_remote_code=True
         )
 
-        self.encoder_output_size = 768
+        self.output_size = 768
 
     def forward(self, inputs: torch.Tensor):
         outputs = self.encoder(**inputs, output_hidden_states=True)

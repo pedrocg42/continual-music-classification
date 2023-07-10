@@ -3,6 +3,7 @@ import copy
 import torch
 import torch.nn as nn
 
+import config
 from music_genre_classification.models.bottlenecks import BottleneckFactory
 from music_genre_classification.models.encoders import EncoderFactory
 
@@ -23,7 +24,7 @@ class MertClassificationDecoder(nn.Module):
         self.flatten = nn.Flatten()
         self.fc = nn.Linear(in_features=in_features, out_features=num_classes)
 
-    def forward(self, inputs: torch.Tensor):
+    def forward(self, inputs: torch.Tensor) -> torch.Tensor:
         outputs = self.conv1d(inputs)
         outputs = self.flatten(outputs)
         outputs = self.fc(outputs)
@@ -67,8 +68,6 @@ class TorchClassificationModel(nn.Module):
             self.pooling = nn.AdaptiveAvgPool2d((1, 1))
         elif self.pooling_type == "max":
             self.pooling = nn.AdaptiveMaxPool2d((1, 1))
-        elif self.pooling_type == "mert_mean":
-            self.pooling = nn.AdaptiveAvgPool2d((self.encoder.encoder_output_size))
         else:
             self.pooling = None
 
@@ -76,12 +75,40 @@ class TorchClassificationModel(nn.Module):
             self.freeze_encoder()
 
     def initialize_decoder(self):
-        in_features = self.encoder.encoder_output_size
-        self.decoder = MertClassificationDecoder(
-            conv1_dict=self.head_config[0],
-            in_features=in_features,
-            num_classes=self.num_classes,
-        )
+        decoder = []
+        in_features = self.encoder.output_size
+        for layer_dict in self.head_config:
+            if layer_dict["layer_type"] == "linear":
+                decoder.append(
+                    nn.Linear(
+                        in_features=in_features,
+                        out_features=layer_dict["out_features"]
+                        if "out_features" in layer_dict
+                        else self.num_classes,
+                    )
+                )
+                in_features = layer_dict["out_features"]
+            elif layer_dict["layer_type"] == "conv1d":
+                decoder.append(
+                    nn.Conv1d(
+                        in_channels=layer_dict["in_channels"],
+                        out_channels=layer_dict["out_channels"],
+                        kernel_size=layer_dict["kernel_size"],
+                    )
+                )
+            elif layer_dict["layer_type"] == "flatten":
+                decoder.append(nn.Flatten())
+            elif layer_dict["layer_type"] == "bn":
+                decoder.append(nn.BatchNorm1d(num_features=layer_dict["num_features"]))
+            elif layer_dict["layer_type"] == "relu":
+                decoder.append(nn.ReLU())
+            elif layer_dict["layer_type"] == "relu6":
+                decoder.append(nn.ReLU6())
+            elif layer_dict["layer_type"] == "dropout":
+                decoder.append(nn.Dropout1d(p=layer_dict.get("p", self.dropout)))
+
+        self.decoder = nn.Sequential(*decoder)
+
         if self.frozen_decoder:
             self.freeze_decoder()
 
@@ -91,10 +118,6 @@ class TorchClassificationModel(nn.Module):
 
     def forward(self, inputs: torch.Tensor):
         outputs = self.encoder(inputs)
-        if self.bottleneck is not None:
-            outputs = self.bottleneck(outputs)
-        if self.pooling is not None:
-            outputs = self.pooling(outputs)
         outputs = self.decoder(outputs)
         return outputs
 
@@ -104,9 +127,6 @@ class TorchClassificationModel(nn.Module):
         else:
             self.encoder.train()
 
-        if self.bottleneck is not None:
-            self.bottleneck.eval()
-
         if self.frozen_decoder:
             self.decoder.eval()
         else:
@@ -114,13 +134,6 @@ class TorchClassificationModel(nn.Module):
 
     def prepare_eval(self):
         self.encoder.eval()
-        if self.bottleneck is not None:
-            self.bottleneck.eval()
-        self.decoder.eval()
-
-    def prepare_keys_initialization(self):
-        self.encoder.eval()
-        self.bottleneck.train()
         self.decoder.eval()
 
     def freeze_encoder(self):
@@ -152,7 +165,7 @@ class TorchClassIncrementalModel(TorchClassificationModel):
             self.num_classes += num_new_classes
 
             fc = nn.Linear(
-                in_features=self.encoder.encoder_output_size,
+                in_features=self.encoder.output_size,
                 out_features=self.num_classes,
             )
 
@@ -164,3 +177,128 @@ class TorchClassIncrementalModel(TorchClassificationModel):
 
             del self.decoder.fc
             self.decoder.fc = fc
+        self.decoder.to(config.device)
+
+
+class TorchBottleneckClassificationModel(TorchClassificationModel):
+    def forward(self, inputs: torch.Tensor):
+        outputs = self.encoder(inputs)
+        outputs = self.bottleneck(outputs)
+        outputs = self.decoder(outputs)
+        return outputs
+
+    def initialize_decoder(self):
+        self.decoder = nn.Sequential(nn.AdaptiveAvgPool2d((1, None)), nn.Flatten())
+
+    def prepare_keys_initialization(self):
+        self.encoder.eval()
+        self.bottleneck.train()
+        self.decoder.eval()
+
+    def prepare_train(self):
+        super().prepare_train()
+        self.bottleneck.eval()
+
+    def prepare_eval(self):
+        super().prepare_eval()
+        self.bottleneck.eval()
+
+
+class TorchBottleneckClassIncrementalModel(TorchClassIncrementalModel):
+    def forward(self, inputs: torch.Tensor):
+        outputs = self.encoder(inputs)
+        outputs = self.bottleneck(outputs)
+        outputs = self.decoder(outputs)
+        return outputs
+
+    def prepare_keys_initialization(self):
+        self.encoder.eval()
+        self.bottleneck.train()
+        self.decoder.eval()
+
+    def prepare_train(self):
+        super().prepare_train()
+        self.bottleneck.eval()
+
+    def prepare_eval(self):
+        super().prepare_eval()
+        self.bottleneck.eval()
+
+
+class TorchMertClassificationModel(TorchClassificationModel):
+    def __init__(
+        self,
+        encoder: dict[str, str | dict] = {
+            "name": "MertEncoder",
+            "args": {
+                "pretrained": True,
+            },
+        },
+        frozen_encoder: bool = True,
+        **kwargs
+    ):
+        super().__init__(encoder=encoder, frozen_encoder=frozen_encoder, **kwargs)
+
+    def initialize_encoder(self):
+        if self.frozen_encoder:
+            self.freeze_encoder()
+
+    def initialize_decoder(self):
+        in_features = self.encoder.output_size
+        self.decoder = MertClassificationDecoder(
+            conv1_dict=self.head_config[0],
+            in_features=in_features,
+            num_classes=self.num_classes,
+        )
+        if self.frozen_decoder:
+            self.freeze_decoder()
+
+
+class TorchMertClassIncrementalModel(TorchClassIncrementalModel):
+    def __init__(
+        self,
+        encoder: dict[str, str | dict] = {
+            "name": "MertEncoder",
+            "args": {
+                "pretrained": True,
+            },
+        },
+        frozen_encoder: bool = True,
+        **kwargs
+    ):
+        super().__init__(encoder=encoder, frozen_encoder=frozen_encoder, **kwargs)
+
+    def initialize_encoder(self):
+        if self.frozen_encoder:
+            self.freeze_encoder()
+
+    def initialize_decoder(self):
+        in_features = self.encoder.output_size
+        self.decoder = MertClassificationDecoder(
+            conv1_dict=self.head_config[0],
+            in_features=in_features,
+            num_classes=self.num_classes,
+        )
+        if self.frozen_decoder:
+            self.freeze_decoder()
+
+
+class TorchMertBottleneckClassIncrementalModel(TorchMertClassIncrementalModel):
+    def forward(self, inputs: torch.Tensor):
+        outputs = self.encoder(inputs)
+        outputs = self.bottleneck(outputs)
+        outputs = self.decoder(outputs)
+        return outputs
+
+    def prepare_keys_initialization(self):
+        self.encoder.eval()
+        self.bottleneck.train()
+        self.decoder.eval()
+
+    def prepare_train(self):
+        super().prepare_train()
+        self.bottleneck.eval()
+
+    def prepare_eval(self):
+        super().prepare_eval()
+        self.bottleneck.eval()

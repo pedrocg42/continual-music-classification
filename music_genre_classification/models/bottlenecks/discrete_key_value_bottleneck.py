@@ -9,6 +9,8 @@ class DKVB(nn.Module):
     def __init__(
         self,
         embedding_dim: int = 2048,
+        projection_embedding_dim: int | None = 128,
+        dim_memory: int = 10,
         codes_per_codebook: int = 4096,
         num_codebooks: int = 256,
         vq_decay: float = 0.95,
@@ -29,14 +31,15 @@ class DKVB(nn.Module):
         assert (self.embedding_dim % self.num_codebooks) == 0
 
         self.dkvb = DiscreteKeyValueBottleneck(
-            dim=self.embedding_dim,  # input dimension
-            codebook_dim=self.embedding_dim // self.num_codebooks,
+            dim_embed=self.embedding_dim,  # input dimension
+            dim=projection_embedding_dim,  # dimension of the projected keys
+            codebook_dim=projection_embedding_dim,  # dimension of the input codes of the codebook of VQ
             num_memory_codebooks=self.num_codebooks,  # number of memory codebook
             num_memories=self.codes_per_codebook,  # number of memories per codebook
-            dim_memory=self.embedding_dim
-            // self.num_codebooks,  # dimension of the output memories
+            dim_memory=dim_memory,  # dimension of the output memories
             decay=self.vq_decay,  # the exponential moving average decay, lower means the keys will change faster
             threshold_ema_dead_code=self.threshold_ema_dead_code,  # (0.1·batch-size·h·w/num-pairs)
+            average_pool_memories=True,  # whether to average pool the memories
         )
 
     def forward(self, embeddings: torch.Tensor):
