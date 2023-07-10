@@ -6,6 +6,7 @@ class LooperFactory:
     Factory class for creating loopers.
     """
 
+    @staticmethod
     def build(config: dict) -> Looper:
         if config["name"] == "DkvbMusicGenreClassificationLooper":
             from music_genre_classification.loopers import (
@@ -25,5 +26,11 @@ class LooperFactory:
             )
 
             return GemMusicGenreClassificationLooper(**config.get("args", {}))
+        elif config["name"] == "EwcMusicGenreClassificationLooper":
+            from music_genre_classification.loopers import (
+                EwcMusicGenreClassificationLooper,
+            )
+
+            return EwcMusicGenreClassificationLooper(**config.get("args", {}))
         else:
             raise ValueError(f"Unknown looper type: {config['name']}")

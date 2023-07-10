@@ -4,7 +4,7 @@ from loguru import logger
 from tqdm import tqdm
 
 import config
-from music_genre_classification.loopers import Looper
+from music_genre_classification.loopers.looper import Looper
 
 
 class MusicGenreClassificationLooper(Looper):

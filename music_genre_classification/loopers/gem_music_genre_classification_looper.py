@@ -4,7 +4,9 @@ from loguru import logger
 from tqdm import tqdm
 
 import config
-from music_genre_classification.loopers import MusicGenreClassificationLooper
+from music_genre_classification.loopers.music_genre_classification_looper import (
+    MusicGenreClassificationLooper,
+)
 
 
 class GemMusicGenreClassificationLooper(MusicGenreClassificationLooper):

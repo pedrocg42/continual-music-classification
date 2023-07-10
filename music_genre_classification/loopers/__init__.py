@@ -1,6 +1,9 @@
 from music_genre_classification.loopers.dkvb_music_genre_classification_looper import (
     DkvbMusicGenreClassificationLooper,
 )
+from music_genre_classification.loopers.ewc_music_genre_classification_looper import (
+    EwcMusicGenreClassificationLooper,
+)
 from music_genre_classification.loopers.gem_music_genre_classification_looper import (
     GemMusicGenreClassificationLooper,
 )
@@ -16,4 +19,5 @@ __all__ = [
     "MusicGenreClassificationLooper",
     "DkvbMusicGenreClassificationLooper",
     "GemMusicGenreClassificationLooper",
+    "EwcMusicGenreClassificationLooper",
 ]
