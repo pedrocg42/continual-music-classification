@@ -12,5 +12,17 @@ class EvaluatorFactory:
             from music_genre_classification.evaluators import ContinualLearningEvaluator
 
             return ContinualLearningEvaluator(**config["args"])
+        if config["name"] == "ClassIncrementalLearningEvaluator":
+            from music_genre_classification.evaluators import (
+                ClassIncrementalLearningEvaluator,
+            )
+
+            return ClassIncrementalLearningEvaluator(**config["args"])
+        if config["name"] == "ClassIncrementalLearningOracleEvaluator":
+            from music_genre_classification.evaluators import (
+                ClassIncrementalLearningOracleEvaluator,
+            )
+
+            return ClassIncrementalLearningOracleEvaluator(**config["args"])
         else:
-            raise Exception("No trainer named %s" % config["name"])
+            raise Exception("No evaluator named %s" % config["name"])

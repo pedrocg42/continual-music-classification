@@ -20,7 +20,7 @@ class Evaluator(ABC):
         model_saver: dict,
         data_source: dict,
         data_transform: dict,
-        metrics: list[dict],
+        metrics_config: list[dict],
         experiment_tracker: dict,
         debug: bool = False,
     ):
@@ -29,13 +29,14 @@ class Evaluator(ABC):
         self.experiment_type = None
         self.experiment_subtype = None
         self.num_cross_val_splits = None
+        self.metrics_config = metrics_config
 
         # Components
         self.model = TrainModelFactory.build(model)
         self.model_saver = ModelSaverFactory.build(model_saver)
         self.data_source = TrainDataSourceFactory.build(data_source)
         self.data_transform = TrainDataTransformFactory.build(data_transform)
-        self.metrics = MetricsFactory.build(metrics)
+        self.metrics = MetricsFactory.build(self.metrics_config)
         self.experiment_tracker = ExperimentTrackerFactory.build(experiment_tracker)
 
         # Debug
@@ -64,6 +65,7 @@ class Evaluator(ABC):
         self.model_saver.load_model()
         self.model.to(config.device)
 
+    @torch.no_grad()
     def predict(self, data_loader) -> list[dict]:
         self.model.eval()
         results = []
@@ -83,7 +85,7 @@ class Evaluator(ABC):
             preds = self.model(transformed)
 
             # For each song we select the most repeated class
-            pred = preds.detach().cpu().mean(dim=0)
+            pred = preds.detach().cpu().mean(dim=0).softmax(dim=0)
             label = labels[0] if len(labels.shape) > 0 else labels
 
             results.append(

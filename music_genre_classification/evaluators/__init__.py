@@ -1,3 +1,9 @@
+from music_genre_classification.evaluators.class_incremental_learning_evaluator import (
+    ClassIncrementalLearningEvaluator,
+)
+from music_genre_classification.evaluators.class_incremental_learning_oracle_evaluator import (
+    ClassIncrementalLearningOracleEvaluator,
+)
 from music_genre_classification.evaluators.continual_learning_evaluator import (
     ContinualLearningEvaluator,
 )
@@ -10,4 +16,6 @@ __all__ = [
     "EvaluatorFactory",
     "TasksEvaluator",
     "ContinualLearningEvaluator",
+    "ClassIncrementalLearningEvaluator",
+    "ClassIncrementalLearningOracleEvaluator",
 ]

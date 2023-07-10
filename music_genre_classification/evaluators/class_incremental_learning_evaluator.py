@@ -2,9 +2,10 @@ from loguru import logger
 
 import config
 from music_genre_classification.evaluators.evaluator import Evaluator
+from music_genre_classification.metrics import MetricsFactory
 
 
-class ContinualLearningEvaluator(Evaluator):
+class ClassIncrementalLearningEvaluator(Evaluator):
     def __init__(
         self,
         tasks: list[str | list[str]],
@@ -34,6 +35,13 @@ class ContinualLearningEvaluator(Evaluator):
 
     def configure_task(self, cross_val_id: int, task_id: int, task: str):
         self.model.update_decoder(task_id, task)
+
+        # Updating metrics
+        for metric_config in self.metrics_config:
+            metric_config["args"].update({"num_classes": self.model.num_classes})
+
+        self.metrics = MetricsFactory.build(self.metrics_config)
+
         self.model_saver.configure(
             self.model,
             experiment_name=self.experiment_name,
@@ -69,26 +77,19 @@ class ContinualLearningEvaluator(Evaluator):
             if cross_val_id > 0 or self.debug and cross_val_id > 0:
                 break
             logger.info(f"Started evaluation of cross-validation {cross_val_id=}")
+
+            accumulated_tasks = []
             for task_id, task in enumerate(self.tasks):
+                accumulated_tasks += task
                 logger.info(f"Started evaluation of model train with {task=}")
                 self.configure_task(
                     cross_val_id=cross_val_id, task_id=task_id, task=task
                 )
-                # Extracting results per task
-                for test_task in self.tasks:
-                    logger.info(f"Started evaluation of {test_task=}")
-                    data_loader = self.data_source.get_dataset(
-                        cross_val_id=cross_val_id, task=test_task
-                    )
-                    results = self.predict(data_loader)
-                    metrics = self.extract_metrics(results)
-                    self.experiment_tracker.log_task_metrics(metrics, test_task)
 
-            # Extracting results for all tasks
-            logger.info("Started evaluation of all tasks")
-            data_loader = self.data_source.get_dataset(
-                cross_val_id=cross_val_id, task="all"
-            )
-            results = self.predict(data_loader)
-            metrics = self.extract_metrics(results)
-            self.experiment_tracker.log_task_metrics(metrics, "all")
+                logger.info(f"Started evaluation of {accumulated_tasks=}")
+                data_loader = self.data_source.get_dataset(
+                    cross_val_id=cross_val_id, task=accumulated_tasks
+                )
+                results = self.predict(data_loader)
+                metrics = self.extract_metrics(results)
+                self.experiment_tracker.log_task_metrics(metrics, accumulated_tasks)
