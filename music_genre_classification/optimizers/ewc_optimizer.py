@@ -1,11 +1,12 @@
+import itertools
 from collections import defaultdict
-from typing import Dict, Iterable
+from typing import Iterable
 
-import numpy as np
 import torch
 import torch.nn as nn
+from loguru import logger
 from torch import Tensor
-from torch.optim import SGD, AdamW
+from torch.optim import SGD
 from torch.utils.data import DataLoader
 
 import config
@@ -27,9 +28,9 @@ class EwcOptimizer(TorchBaseOptimizer):
 
     def __init__(
         self,
-        ewc_lambda,
-        decay_factor=None,
-        optimizer_kwargs: dict = {},
+        ewc_lambda: float = 0.1,
+        optimizer_config: dict = {"lr": 0.01, "weight_decay": 2e-4, "momentum": 0.9},
+        mode: str = "separate",
     ):
         """
         :param patterns_per_experience: number of patterns per experience in the
@@ -41,20 +42,19 @@ class EwcOptimizer(TorchBaseOptimizer):
         super().__init__()
 
         self.ewc_lambda = ewc_lambda
-        self.decay_factor = decay_factor
 
         self.keep_importance_data = True
 
-        self.saved_params: Dict[int, Dict[str, ParamData]] = defaultdict(dict)
-        self.importances: Dict[int, Dict[str, ParamData]] = defaultdict(dict)
+        self.saved_params: dict[int, dict[str, dict]] = defaultdict(dict)
+        self.importances: dict[int, dict[str, dict]] = defaultdict(dict)
 
-        self.optimizer_kwargs = optimizer_kwargs
-        self.optimizer = SGD
+        self.optimizer_config = optimizer_config
+        self.mode = mode
 
-    def configure(self, parameters: Iterable[Tensor] | Iterable[dict], **kwargs):
-        self.optimizer = AdamW(parameters, **self.optimizer_kwargs)
+    def configure(self, parameters: Iterable[Tensor] | Iterable[dict]):
+        self.optimizer = SGD(parameters, **self.optimizer_config)
 
-    def before_backward(self, model: nn.Module, task_id: int, **kwargs):
+    def before_backward(self, model: nn.Module, task_id: int):
         """
         Compute EWC penalty and add it to the loss.
         """
@@ -71,10 +71,13 @@ class EwcOptimizer(TorchBaseOptimizer):
                 saved_param = self.saved_params[experience][k]
                 imp = self.importances[experience][k]
                 new_shape = cur_param.shape
-                penalty += (
-                    imp.expand(new_shape)
-                    * (cur_param - saved_param.expand(new_shape)).pow(2)
-                ).sum()
+                if imp.shape != new_shape:
+                    # Only for last fc layer
+                    penalty += (
+                        imp * (cur_param[: imp.shape[0]] - saved_param).pow(2)
+                    ).sum()
+                else:
+                    penalty += (imp * (cur_param - saved_param).pow(2)).sum()
 
         return self.ewc_lambda * penalty
 
@@ -82,52 +85,50 @@ class EwcOptimizer(TorchBaseOptimizer):
         self,
         model: nn.Module,
         dataloader: DataLoader,
-        task_id: int,
+        data_transform: nn.Module,
         criteria: Criteria,
-        batch_size: int,
-        **kwargs,
+        task_id: int,
     ):
         """
         Compute importances of parameters after each experience.
         """
+        logger.info(f"Computing importances for task {task_id}")
         importances = self.compute_importances(
             model,
             criteria,
             dataloader,
-            config.device,
-            batch_size,
+            data_transform,
         )
         self.update_importances(importances, task_id)
-        self.saved_params[task_id] = copy_params_dict(strategy.model)
+        self.saved_params[task_id] = self.copy_params_dict(model)
         # clear previous parameter values
         if task_id > 0 and (not self.keep_importance_data):
             del self.saved_params[task_id - 1]
 
     def compute_importances(
-        self, model, criterion, optimizer, dataset, device, batch_size
-    ) -> Dict[str, ParamData]:
+        self,
+        model: nn.Module,
+        criteria: Criteria,
+        dataloader: DataLoader,
+        data_transform: nn.Module,
+    ) -> dict[str, dict]:
         """
         Compute EWC importance matrix for each parameter
         """
 
         model.eval()
 
-        if device == "cuda":
-            for module in model.modules():
-                module.train()
-
         # list of list
-        importances = zerolike_params_dict(model)
-        collate_fn = dataset.collate_fn if hasattr(dataset, "collate_fn") else None
-        dataloader = DataLoader(dataset, batch_size=batch_size, collate_fn=collate_fn)
-        for i, batch in enumerate(dataloader):
-            # get only input, target and task_id from the batch
-            x, y, task_labels = batch[0], batch[1], batch[-1]
-            x, y = x.to(device), y.to(device)
+        importances = self.zeroslike_params_dict(model)
+        for x, y in dataloader:
+            x = x.to(config.device, non_blocking=True)
+            y = y.to(config.device, non_blocking=True)
 
-            optimizer.zero_grad()
-            out = avalanche_forward(model, x, task_labels)
-            loss = criterion(out, y)
+            x = data_transform(x)
+
+            self.optimizer.zero_grad()
+            out = model(x)
+            loss = criteria(out, y)
             loss.backward()
 
             for (k1, p), (k2, imp) in zip(
@@ -144,17 +145,17 @@ class EwcOptimizer(TorchBaseOptimizer):
         return importances
 
     @torch.no_grad()
-    def update_importances(self, importances, t: int):
+    def update_importances(self, importances: dict, task_id: int):
         """
         Update importance for each parameter based on the currently computed
         importances.
         """
 
-        if self.mode == "separate" or t == 0:
-            self.importances[t] = importances
+        if self.mode == "separate" or task_id == 0:
+            self.importances[task_id] = importances
         elif self.mode == "online":
             for (k1, old_imp), (k2, curr_imp) in itertools.zip_longest(
-                self.importances[t - 1].items(),
+                self.importances[task_id - 1].items(),
                 importances.items(),
                 fillvalue=(None, None),
             ):
@@ -162,7 +163,7 @@ class EwcOptimizer(TorchBaseOptimizer):
                 if k1 is None:
                     assert k2 is not None
                     assert curr_imp is not None
-                    self.importances[t][k2] = curr_imp
+                    self.importances[task_id][k2] = curr_imp
                     continue
 
                 assert k1 == k2, "Error in importance computation."
@@ -171,7 +172,7 @@ class EwcOptimizer(TorchBaseOptimizer):
                 assert k2 is not None
 
                 # manage expansion of existing layers
-                self.importances[t][k1] = ParamData(
+                self.importances[task_id][k1] = dict(
                     f"imp_{k1}",
                     curr_imp.shape,
                     init_tensor=self.decay_factor * old_imp.expand(curr_imp.shape)
@@ -180,8 +181,21 @@ class EwcOptimizer(TorchBaseOptimizer):
                 )
 
             # clear previous parameter importances
-            if t > 0 and (not self.keep_importance_data):
-                del self.importances[t - 1]
+            if task_id > 0 and (not self.keep_importance_data):
+                del self.importances[task_id - 1]
 
         else:
             raise ValueError("Wrong EWC mode.")
+
+    @staticmethod
+    def zeroslike_params_dict(model: nn.Module) -> dict[str, dict]:
+        return dict(
+            [
+                (k, torch.zeros_like(p, dtype=p.dtype, device=p.device))
+                for k, p in model.named_parameters()
+            ]
+        )
+
+    @staticmethod
+    def copy_params_dict(model: nn.Module) -> dict[str, dict]:
+        return dict([(k, p.clone()) for k, p in model.named_parameters()])

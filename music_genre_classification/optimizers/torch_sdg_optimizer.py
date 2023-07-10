@@ -11,20 +11,21 @@ from music_genre_classification.optimizers.torch_base_optimizer import (
 class TorchSgdOptimizer(TorchBaseOptimizer):
     def __init__(
         self,
-        lr: float = 1e-3,
+        lr: float = 0.01,
         momentum: float = 0.9,
-        weight_decay: float = 1e-2,
+        weight_decay: float = 2e-4,
     ):
         self.lr = lr
         self.momentum = momentum
         self.weight_decay = weight_decay
         self.optimizer = None
 
-    def configure(self, parameters: Iterable[Tensor] | Iterable[dict], **kwargs):
+    def configure(self, parameters: Iterable[Tensor] | Iterable[dict]):
         self.optimizer = SGD(
             parameters,
             lr=self.lr,
             momentum=self.momentum,
+            weight_decay=self.weight_decay,
         )
 
     def step(self):

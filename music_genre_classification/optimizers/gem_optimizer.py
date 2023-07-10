@@ -5,7 +5,7 @@ import quadprog
 import torch
 import torch.nn as nn
 from torch import Tensor
-from torch.optim import AdamW
+from torch.optim import SGD
 from torch.utils.data import DataLoader
 
 import config
@@ -30,10 +30,7 @@ class GemOptimizer(TorchBaseOptimizer):
         self,
         patterns_per_experience: int,
         memory_strength: float,
-        optimizer: str = "adamw",
-        lr: float = 1e-3,
-        betas: tuple[float, float] = (0.9, 0.999),
-        weight_decay: float = 1e-2,
+        optimizer_config: dict = {"lr": 0.01, "weight_decay": 2e-4, "momentum": 0.9},
     ):
         """
         :param patterns_per_experience: number of patterns per experience in the
@@ -46,9 +43,7 @@ class GemOptimizer(TorchBaseOptimizer):
 
         self.patterns_per_experience = int(patterns_per_experience)
         self.memory_strength = memory_strength
-        self.lr = lr
-        self.betas = betas
-        self.weight_decay = weight_decay
+        self.optimizer_config = optimizer_config
 
         self.memory_x: Dict[int, Tensor] = dict()
         self.memory_y: Dict[int, Tensor] = dict()
@@ -56,24 +51,8 @@ class GemOptimizer(TorchBaseOptimizer):
 
         self.G: Tensor = torch.empty(0)
 
-        if optimizer == "adamw":
-            from torch.optim import AdamW
-
-            self.optimizer = AdamW
-        elif optimizer == "sgd":
-            from torch.optim import SGD
-
-            self.optimizer = SGD
-        else:
-            raise ValueError(f"Unknown optimizer {optimizer}")
-
-    def configure(self, parameters: Iterable[Tensor] | Iterable[dict], **kwargs):
-        self.optimizer = AdamW(
-            parameters,
-            lr=self.lr,
-            betas=self.betas,
-            weight_decay=self.weight_decay,
-        )
+    def configure(self, parameters: Iterable[Tensor] | Iterable[dict]):
+        self.optimizer = SGD(parameters, **self.optimizer_config)
 
     def before_training_iteration(
         self,
@@ -90,11 +69,11 @@ class GemOptimizer(TorchBaseOptimizer):
 
         if task_id > 0:
             G = []
-            for task_id in range(task_id):
+            for i in range(task_id):
                 model.train()
                 self.optimizer.zero_grad()
-                xref = data_transform(self.memory_x[task_id].to(config.device))
-                yref = self.memory_y[task_id].to(config.device)
+                xref = data_transform(self.memory_x[i].to(config.device))
+                yref = self.memory_y[i].to(config.device)
                 out = model(xref)
                 loss = criteria(out, yref)
                 loss.backward()
@@ -145,8 +124,6 @@ class GemOptimizer(TorchBaseOptimizer):
                 num_pars += curr_pars
 
             assert num_pars == v_star.numel(), "Error in projecting gradient"
-
-        self.optimizer.step()
 
     def after_training_task(self, dataloader: DataLoader, task_id: int, **kwargs):
         """
