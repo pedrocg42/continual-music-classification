@@ -5,7 +5,7 @@ from music_genre_classification.trainers.class_incremental_learning_trainer impo
 )
 
 
-class GemContinualLearningTrainer(ClassIncrementalLearningTrainer):
+class EwcContinualLearningTrainer(ClassIncrementalLearningTrainer):
     def train(self, experiment_name: str, num_cross_val_splits: int = 1):
         logger.info(f"Started training process of experiment {experiment_name}")
         self.looper.configure_experiment(experiment_name, self.batch_size)
@@ -21,7 +21,10 @@ class GemContinualLearningTrainer(ClassIncrementalLearningTrainer):
                         f"Model already exists for cross_val_id {cross_val_id} and task {task}"
                     )
                     self.looper.optimizer.after_training_task(
+                        self.looper.model,
                         self.looper.train_data_loader,
+                        self.looper.train_data_transform,
+                        self.looper.criteria,
                         task_id,
                     )
                     continue
@@ -36,6 +39,9 @@ class GemContinualLearningTrainer(ClassIncrementalLearningTrainer):
                     if self.early_stopping(metrics, epoch):
                         break
                 self.looper.optimizer.after_training_task(
+                    self.looper.model,
                     self.looper.train_data_loader,
+                    self.looper.train_data_transform,
+                    self.looper.criteria,
                     task_id,
                 )

@@ -31,5 +31,9 @@ class TrainerFactory:
             from music_genre_classification.trainers import GemContinualLearningTrainer
 
             return GemContinualLearningTrainer(**config["args"])
+        if config["name"] == "EwcContinualLearningTrainer":
+            from music_genre_classification.trainers import EwcContinualLearningTrainer
+
+            return EwcContinualLearningTrainer(**config["args"])
         else:
             raise Exception("No trainer named %s" % config["name"])

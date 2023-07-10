@@ -1,11 +1,11 @@
 from loguru import logger
 
-from music_genre_classification.trainers.class_incremental_learning_trainer import (
-    ClassIncrementalLearningTrainer,
+from music_genre_classification.trainers.continual_learning_trainer import (
+    ContinualLearningTrainer,
 )
 
 
-class DkvbContinualLearningTrainer(ClassIncrementalLearningTrainer):
+class DkvbContinualLearningTrainer(ContinualLearningTrainer):
     def __init__(
         self,
         epochs_keys_init: int | None = None,
@@ -31,23 +31,23 @@ class DkvbContinualLearningTrainer(ClassIncrementalLearningTrainer):
         for cross_val_id in range(num_cross_val_splits):
             if cross_val_id > 0 or self.debug and cross_val_id > 0:
                 break
+            logger.info(f"Started training of {cross_val_id=}")
             self.configure_cv(cross_val_id)
             self.looper.log_start()
             for task_id, task in enumerate(self.tasks):
+                logger.info(f"Started training process of {task_id=} {task=}")
                 self.configure_task(cross_val_id, task_id, task)
                 if self.looper.model_saver.model_exists():
                     logger.info(
                         f"Model already exists for cross_val_id {cross_val_id} and task {task}"
                     )
                     continue
-                if self.epochs_keys_init is not None and task_id == 0:
+                if task_id == 0:
                     self.initialize_keys()
                 if self.freeze_decoder_after_first_episode and task_id > 0:
                     logger.info("Freezing decoder")
                     self.looper.model.freeze_decoder()
                 for epoch in range(self.num_epochs):
-                    if self.debug and epoch > self.max_epochs:
-                        break
                     results = self.looper.train_epoch(epoch=epoch)
                     metrics = self.looper.extract_metrics(results)
                     self.looper.log_metrics(metrics, epoch)

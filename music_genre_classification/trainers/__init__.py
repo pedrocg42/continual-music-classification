@@ -7,6 +7,9 @@ from music_genre_classification.trainers.continual_learning_trainer import (
 from music_genre_classification.trainers.dkvb_continual_learning_trainer import (
     DkvbContinualLearningTrainer,
 )
+from music_genre_classification.trainers.ewc_continual_learning_trainer import (
+    EwcContinualLearningTrainer,
+)
 from music_genre_classification.trainers.gem_continual_learning_trainer import (
     GemContinualLearningTrainer,
 )
@@ -20,4 +23,5 @@ __all__ = [
     "ClassIncrementalLearningTrainer",
     "DkvbContinualLearningTrainer",
     "GemContinualLearningTrainer",
+    "EwcContinualLearningTrainer",
 ]

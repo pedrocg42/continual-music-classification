@@ -15,3 +15,4 @@ class ClassIncrementalLearningTrainer(ContinualLearningTrainer):
     ):
         super().configure_task(cross_val_id, task_id, task, **kwargs)
         self.looper.model.update_decoder(task_id, task)
+        self.looper.optimizer.configure(self.looper.model.parameters())
