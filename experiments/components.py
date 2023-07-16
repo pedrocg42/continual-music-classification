@@ -144,19 +144,19 @@ trainer = {
         "batch_size": batch_size,
         "early_stopping_patience": early_stopping_patience,
         "early_stopping_metric": early_stopping_metric,
+        "train_data_source": train_gtzan_data_source,
+        "val_data_source": val_gtzan_data_source,
+        "train_data_transform": mert_data_transform,
+        "val_data_transform": mert_data_transform,
+        "train_model": None,
+        "metrics_config": genre_classification_metrics,
+        "experiment_tracker": {"name": "TensorboardExperimentTracker"},
+        "model_saver": {"name": "MusicGenreClassificationModelSaver"},
         "looper": {
             "name": "MusicGenreClassificationLooper",
             "args": {
-                "train_data_source": train_gtzan_data_source,
-                "val_data_source": val_gtzan_data_source,
-                "train_data_transform": mert_data_transform,
-                "val_data_transform": mert_data_transform,
-                "train_model": None,
                 "criteria": {"name": "TorchCrossEntropyCriteria"},
                 "optimizer": {"name": "TorchSgdOptimizer"},
-                "metrics_config": genre_classification_metrics,
-                "experiment_tracker": {"name": "TensorboardExperimentTracker"},
-                "model_saver": {"name": "MusicGenreClassificationModelSaver"},
             },
         },
     },
@@ -164,11 +164,16 @@ trainer = {
 
 oracle_trainer = deepcopy(trainer)
 oracle_trainer["name"] = "ContinualLearningTrainer"
-oracle_trainer["args"]["looper"]["args"]["train_model"] = oracle_train_model
+oracle_trainer["args"]["train_model"] = oracle_train_model
 oracle_trainer["args"]["tasks"] = ["all"]
 
 continual_learning_trainer = deepcopy(trainer)
-continual_learning_trainer["args"]["looper"]["args"]["train_model"] = train_model
+continual_learning_trainer["args"]["train_model"] = train_model
+
+## Replay
+continual_learning_replay_trainer = deepcopy(trainer)
+continual_learning_replay_trainer["name"] = "ReplayContinualLearningTrainer"
+continual_learning_replay_trainer["args"]["train_model"] = train_model
 
 ## VQ
 continual_learning_vq_trainer = deepcopy(trainer)
@@ -182,7 +187,7 @@ continual_learning_vq_trainer["args"].update(
 continual_learning_vq_trainer["args"]["looper"][
     "name"
 ] = "DkvbMusicGenreClassificationLooper"
-continual_learning_vq_trainer["args"]["looper"]["args"]["train_model"] = train_model_vq
+continual_learning_vq_trainer["args"]["train_model"] = train_model_vq
 
 ## DKVB
 continual_learning_dkvb_trainer = deepcopy(trainer)
@@ -196,13 +201,10 @@ continual_learning_dkvb_trainer["args"].update(
 continual_learning_dkvb_trainer["args"]["looper"][
     "name"
 ] = "DkvbMusicGenreClassificationLooper"
-continual_learning_dkvb_trainer["args"]["looper"]["args"][
-    "train_model"
-] = train_model_dkvb
+continual_learning_dkvb_trainer["args"]["train_model"] = train_model_dkvb
 continual_learning_dkvb_trainer["args"]["looper"]["args"]["optimizer"]["args"] = {
     "lr": 10.0
 }
-
 
 ## GEM
 continual_learning_gem_trainer = deepcopy(trainer)
@@ -214,7 +216,7 @@ continual_learning_gem_trainer["args"]["looper"]["args"]["optimizer"] = {
     "name": "GemOptimizer",
     "args": {"patterns_per_experience": 10, "memory_strength": 0.5},
 }
-continual_learning_gem_trainer["args"]["looper"]["args"]["train_model"] = train_model
+continual_learning_gem_trainer["args"]["train_model"] = train_model
 
 ## EWC
 continual_learning_ewc_trainer = deepcopy(trainer)
@@ -226,7 +228,7 @@ continual_learning_ewc_trainer["args"]["looper"]["args"]["optimizer"] = {
     "name": "EwcOptimizer",
     "args": {"ewc_lambda": 0.1},
 }
-continual_learning_ewc_trainer["args"]["looper"]["args"]["train_model"] = train_model
+continual_learning_ewc_trainer["args"]["train_model"] = train_model
 
 # Evaluators
 evaluator = {

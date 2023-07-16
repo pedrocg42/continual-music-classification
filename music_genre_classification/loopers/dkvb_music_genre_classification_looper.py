@@ -1,4 +1,5 @@
 import torch
+from torch.utils.data import DataLoader
 from loguru import logger
 from tqdm import tqdm
 
@@ -10,13 +11,18 @@ from music_genre_classification.loopers.music_genre_classification_looper import
 
 class DkvbMusicGenreClassificationLooper(MusicGenreClassificationLooper):
     @torch.no_grad()
-    def key_init_epoch(self, epoch: int):
+    def key_init_epoch(
+        self,
+        epoch: int,
+        model: torch.nn.Module,
+        data_loader: DataLoader,
+    ):
         logger.info(f"Key initialization epoch {epoch + 1}")
-        self.model.prepare_keys_initialization()
+        model.prepare_keys_initialization()
         pbar = tqdm(
-            self.train_data_loader,
+            data_loader,
             colour="#5ee0f7",
-            total=self.max_steps if self.debug else len(self.train_data_loader),
+            total=self.max_steps if self.debug else len(data_loader),
         )
         for i, (waveforms, _) in enumerate(pbar):
             if self.debug and i == self.max_steps:

@@ -18,7 +18,7 @@
             "request": "launch",
             "program": "execute_experiment.py",
             "console": "integratedTerminal",
-            "justMyCode": false,
+            "justMyCode": true,
             "args": [
                 "--experiment",
                 "mert95m_finetuning_cl_gtzan_scenario1"
@@ -30,10 +30,10 @@
             "request": "launch",
             "program": "execute_experiment_check.py",
             "console": "integratedTerminal",
-            "justMyCode": false,
+            "justMyCode": true,
             "args": [
                 "--experiment",
-                "mert95m_finetuning_cl_gtzan_scenario1"
+                "mert95m_replay_cl_gtzan_scenario1 "
             ]
         }
     ]

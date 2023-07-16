@@ -1,11 +1,12 @@
 from loguru import logger
 
+from torch.utils.data import DataLoader, Dataset
 from music_genre_classification.trainers.class_incremental_learning_trainer import (
     ClassIncrementalLearningTrainer,
 )
 
 
-class EwcContinualLearningTrainer(ClassIncrementalLearningTrainer):
+class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
     def train(self, experiment_name: str, num_cross_val_splits: int = 1):
         logger.info(f"Started training process of experiment {experiment_name}")
         self.configure_experiment(experiment_name, self.batch_size)
@@ -20,11 +21,8 @@ class EwcContinualLearningTrainer(ClassIncrementalLearningTrainer):
                     logger.info(
                         f"Model already exists for cross_val_id {cross_val_id} and task {task}"
                     )
-                    self.looper.optimizer.after_training_task(
-                        self.model,
+                    self.after_training_task(
                         self.train_data_loader,
-                        self.train_data_transform,
-                        self.looper.criteria,
                         task_id,
                     )
                     continue
@@ -33,10 +31,12 @@ class EwcContinualLearningTrainer(ClassIncrementalLearningTrainer):
                     early_stopping = self.train_epoch(epoch)
                     if early_stopping:
                         break
-                self.looper.optimizer.after_training_task(
-                    self.model,
+                self.after_training_task(
                     self.train_data_loader,
-                    self.train_data_transform,
-                    self.looper.criteria,
                     task_id,
                 )
+
+    def after_training_task(
+        train_data_loader: DataLoader | Dataset, task_id: int, task: list[str]
+    ):
+        pass

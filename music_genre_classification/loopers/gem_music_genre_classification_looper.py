@@ -10,9 +10,15 @@ from music_genre_classification.loopers.music_genre_classification_looper import
 
 
 class GemMusicGenreClassificationLooper(MusicGenreClassificationLooper):
-    def train_batch(self, waveforms: torch.Tensor, labels: torch.Tensor):
+    def train_batch(
+        self,
+        model: torch.nn.Module,
+        waveforms: torch.Tensor,
+        labels: torch.Tensor,
+        data_transform: torch.nn.Module,
+    ):
         self.optimizer.before_training_iteration(
-            self.model, self.criteria, self.train_data_transform, self.task_id
+            model, self.criteria, data_transform, self.task_id
         )
         waveforms = waveforms.to(config.device, non_blocking=True)
         labels = labels.to(config.device, non_blocking=True)
@@ -21,14 +27,14 @@ class GemMusicGenreClassificationLooper(MusicGenreClassificationLooper):
         self.optimizer.zero_grad()
 
         # Inference
-        transformed = self.train_data_transform(waveforms, augment=True)
-        preds = self.model(transformed)
+        transformed = data_transform(waveforms, augment=True)
+        preds = model(transformed)
 
         # Compute loss
         loss = self.criteria(preds, labels)
         loss.backward()
 
-        self.optimizer.after_backward(self.model, self.task_id)
+        self.optimizer.after_backward(model, self.task_id)
 
         # Adjust weights
         self.optimizer.step()

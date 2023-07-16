@@ -17,5 +17,5 @@ class ModelSaver(ABC):
         return NotImplementedError
 
     @abstractmethod
-    def check_if_already_exported(self, **kwargs) -> bool:
-        return NotImplementedError
+    def model_exists(self, **kwargs) -> bool:
+        pass

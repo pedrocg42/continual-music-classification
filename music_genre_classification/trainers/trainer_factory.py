@@ -35,5 +35,11 @@ class TrainerFactory:
             from music_genre_classification.trainers import EwcContinualLearningTrainer
 
             return EwcContinualLearningTrainer(**config["args"])
+        if config["name"] == "ReplayContinualLearningTrainer":
+            from music_genre_classification.trainers import (
+                ReplayContinualLearningTrainer,
+            )
+
+            return ReplayContinualLearningTrainer(**config["args"])
         else:
             raise Exception("No trainer named %s" % config["name"])

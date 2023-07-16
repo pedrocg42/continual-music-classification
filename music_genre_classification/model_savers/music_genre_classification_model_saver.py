@@ -58,5 +58,5 @@ class MusicGenreClassificationModelSaver(ABC):
     def check_if_already_exported(self, **kwargs) -> bool:
         return NotImplementedError
 
-    def model_exists(self):
+    def model_exists(self) -> bool:
         return os.path.exists(self.output_path)

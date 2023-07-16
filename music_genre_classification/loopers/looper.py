@@ -1,71 +1,134 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
+import numpy as np
+import torch
+import torch.nn as nn
+from loguru import logger
+from torch import Tensor
+from torch.utils.data import DataLoader, Dataset
+from tqdm import tqdm
+
+import config
 from music_genre_classification.criterias import CriteriaFactory
-from music_genre_classification.experiment_trackers import ExperimentTrackerFactory
-from music_genre_classification.metrics import MetricsFactory
-from music_genre_classification.model_savers import ModelSaverFactory
-from music_genre_classification.models import TrainModelFactory
 from music_genre_classification.optimizers import OptimizerFactory
-from music_genre_classification.train_data_sources import TrainDataSourceFactory
-from music_genre_classification.train_data_transforms import TrainDataTransformFactory
 
 
 class Looper(ABC):
     def __init__(
         self,
-        train_data_source: dict,
-        val_data_source: dict,
-        train_data_transform: dict | None,
-        val_data_transform: dict | None,
-        train_model: dict,
         criteria: dict,
         optimizer: dict,
-        experiment_tracker: dict,
-        model_saver: dict,
-        metrics_config: dict,
     ) -> None:
-        self.train_data_source = TrainDataSourceFactory.build(train_data_source)
-        self.train_data_loader = None
-        self.train_data_transform = TrainDataTransformFactory.build(
-            train_data_transform
-        )
-
-        self.val_data_source = TrainDataSourceFactory.build(val_data_source)
-        self.val_data_loader = None
-        self.val_data_transform = TrainDataTransformFactory.build(val_data_transform)
-
-        self.model = TrainModelFactory.build(train_model)
-
         # Configure optimizer and criteria (loss function)
         self.optimizer = OptimizerFactory.build(optimizer)
         self.criteria = CriteriaFactory.build(criteria)
-
-        # Metrics
-        self.metrics_config = metrics_config
-        self.metrics = MetricsFactory.build(self.metrics_config)
-
-        # Experiment tracker
-        self.experiment_tracker = ExperimentTrackerFactory.build(experiment_tracker)
-
-        # Model saver
-        self.model_saver = ModelSaverFactory.build(model_saver)
 
         # Debug
         self.debug = False
         self.max_steps = 5
 
-    @abstractmethod
-    def train_batch(self):
-        pass
+    def train_epoch(
+        self,
+        epoch: int,
+        model: nn.Module,
+        data_loader: DataLoader | Dataset,
+        data_transform: nn.Module,
+    ):
+        logger.info(f"Training epoch {epoch + 1}")
+        model.prepare_train()
+        results_epoch = []
+        pbar = tqdm(
+            data_loader,
+            colour="green",
+            total=self.max_steps if self.debug else len(data_loader),
+        )
+        for i, (inputs, labels) in enumerate(pbar):
+            if self.debug and i > self.max_steps:
+                break
+            results_epoch.append(
+                self.train_batch(model, inputs, labels, data_transform)
+            )
+            self.update_pbar(pbar, results_epoch)
+        return results_epoch
 
-    @abstractmethod
-    def train_epoch(self, epoch: int):
-        pass
+    def train_batch(
+        self,
+        model: nn.Module,
+        inputs: Tensor,
+        labels: Tensor,
+        data_transform: nn.Module,
+    ):
+        inputs = inputs.to(config.device, non_blocking=True)
+        labels = labels.to(config.device, non_blocking=True)
 
-    @abstractmethod
-    def val_batch(self):
-        pass
+        # Zero gradient before every batch
+        self.optimizer.zero_grad()
 
-    @abstractmethod
-    def val_epoch(self, epoch: int):
-        pass
+        # Inference
+        transformed = data_transform(inputs, augment=True)
+        preds = model(transformed)
+
+        # Compute loss
+        loss = self.criteria(preds, labels)
+        loss.backward()
+
+        # Adjust weights
+        self.optimizer.step()
+
+        return dict(
+            loss=loss.detach().cpu().item(),
+            preds=preds.detach().cpu(),
+            labels=labels.detach().cpu(),
+        )
+
+    @torch.no_grad()
+    def val_epoch(
+        self,
+        epoch: int,
+        model: nn.Module,
+        data_loader: DataLoader | Dataset,
+        data_transform: nn.Module,
+    ):
+        logger.info(f"Validation epoch {epoch + 1}")
+        model.prepare_eval()
+        results_epoch = []
+        pbar = tqdm(
+            data_loader,
+            colour="magenta",
+            total=self.max_steps if self.debug else len(data_loader),
+        )
+        for i, (inputs, labels) in enumerate(pbar):
+            if self.debug and i > self.max_steps:
+                break
+            results_epoch.append(self.val_batch(model, inputs, labels, data_transform))
+            self.update_pbar(pbar, results_epoch)
+        return results_epoch
+
+    @torch.no_grad()
+    def val_batch(
+        self,
+        model: nn.Module,
+        inputs: Tensor,
+        labels: Tensor,
+        data_transform: nn.Module,
+    ):
+        inputs = inputs.to(config.device)
+        labels = labels.to(config.device)
+
+        # Inference
+        transformed = data_transform(inputs)
+        preds = model(transformed)
+
+        # Compute loss
+        loss = self.criteria(preds, labels)
+
+        return dict(
+            loss=loss.detach().cpu().item(),
+            preds=preds.detach().cpu(),
+            labels=labels.detach().cpu(),
+        )
+
+    def update_pbar(self, pbar: tqdm, results_epoch: dict[str, float]):
+        pbar.set_postfix(
+            {"loss": np.mean([result_epoch["loss"] for result_epoch in results_epoch])}
+        )
