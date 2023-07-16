@@ -1,5 +1,6 @@
 from loguru import logger
 
+from music_genre_classification.metrics import MetricsFactory
 from music_genre_classification.trainers.continual_learning_trainer import (
     ContinualLearningTrainer,
 )
@@ -19,6 +20,22 @@ class DkvbContinualLearningTrainer(ContinualLearningTrainer):
         else:
             self.epochs_keys_init = epochs_keys_init
         self.freeze_decoder_after_first_episode = freeze_decoder_after_first_episode
+
+    def configure_task(
+        self,
+        cross_val_id: int,
+        task_id: int,
+        task: str | list[str],
+        **kwargs,
+    ):
+        super().configure_task(cross_val_id, task_id, task, **kwargs)
+        self.looper.model.update_bottleneck(task_id, task)
+        self.looper.optimizer.configure(self.looper.model.parameters())
+
+        # Updating metrics
+        for metric_config in self.looper.metrics_config:
+            metric_config["args"].update({"num_classes": self.looper.model.num_classes})
+        self.looper.metrics = MetricsFactory.build(self.looper.metrics_config)
 
     def initialize_keys(self):
         logger.info("Initializing keys")

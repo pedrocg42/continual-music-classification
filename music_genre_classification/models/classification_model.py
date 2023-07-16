@@ -46,7 +46,6 @@ class TorchClassificationModel(nn.Module):
                 "kernel_size": 1,
             },
         ],
-        bottleneck: nn.Module | None = None,
         frozen_encoder: bool = False,
         frozen_decoder: bool = False,
         **kwargs
@@ -57,7 +56,6 @@ class TorchClassificationModel(nn.Module):
         self.pooling_type = pooling_type
         self.dropout = dropout
         self.head_config = head_config
-        self.bottleneck = BottleneckFactory.build(bottleneck)
         self.frozen_encoder = frozen_encoder
         self.frozen_decoder = frozen_decoder
 
@@ -205,11 +203,42 @@ class TorchBottleneckClassificationModel(TorchClassificationModel):
 
 
 class TorchBottleneckClassIncrementalModel(TorchClassIncrementalModel):
+    def __init__(self, bottleneck_config: dict, **kwargs):
+        super().__init__(**kwargs)
+        self.bottleneck_config = bottleneck_config
+
     def forward(self, inputs: torch.Tensor):
         outputs = self.encoder(inputs)
         outputs = self.bottleneck(outputs)
         outputs = self.decoder(outputs)
         return outputs
+
+    def initialize(self):
+        super().initialize()
+        self.initialize_decoder()
+
+    def initialize_decoder(self):
+        self.decoder = nn.Sequential(nn.AdaptiveAvgPool2d((1, None)), nn.Flatten())
+
+    def update_bottleneck(self, task_id: int, task: str | list[str]):
+        num_new_classes = len(task) if isinstance(task, list) else 1
+        if task_id == 0:
+            self.num_classes = num_new_classes
+            self.bottleneck_config["args"]["dim_memory"] = self.num_classes
+            self.bottleneck = BottleneckFactory.build(self.bottleneck_config)
+        else:
+            self.num_classes += num_new_classes
+
+            old_values = copy.deepcopy(self.bottleneck.dkvb.values.data)
+
+            new_values = nn.Parameter(
+                torch.randn(*old_values.shape[:2], self.num_classes)
+            )
+            new_values[:, :, : old_values.shape[-1]].data = old_values
+
+            del self.bottleneck.dkvb.values
+            self.bottleneck.dkvb.values = new_values
+        self.bottleneck.to(config.device)
 
     def prepare_keys_initialization(self):
         self.encoder.eval()

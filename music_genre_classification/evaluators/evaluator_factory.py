@@ -24,5 +24,11 @@ class EvaluatorFactory:
             )
 
             return ClassIncrementalLearningOracleEvaluator(**config["args"])
+        if config["name"] == "ClassIncrementalLearningDKVBEvaluator":
+            from music_genre_classification.evaluators import (
+                ClassIncrementalLearningDKVBEvaluator,
+            )
+
+            return ClassIncrementalLearningDKVBEvaluator(**config["args"])
         else:
             raise Exception("No evaluator named %s" % config["name"])

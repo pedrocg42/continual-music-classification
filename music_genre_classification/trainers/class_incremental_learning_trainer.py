@@ -1,5 +1,6 @@
 from loguru import logger
 
+from music_genre_classification.metrics import MetricsFactory
 from music_genre_classification.trainers.continual_learning_trainer import (
     ContinualLearningTrainer,
 )
@@ -16,3 +17,8 @@ class ClassIncrementalLearningTrainer(ContinualLearningTrainer):
         super().configure_task(cross_val_id, task_id, task, **kwargs)
         self.looper.model.update_decoder(task_id, task)
         self.looper.optimizer.configure(self.looper.model.parameters())
+
+        # Updating metrics
+        for metric_config in self.looper.metrics_config:
+            metric_config["args"].update({"num_classes": self.looper.model.num_classes})
+        self.looper.metrics = MetricsFactory.build(self.looper.metrics_config)

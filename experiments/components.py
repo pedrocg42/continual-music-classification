@@ -57,7 +57,6 @@ dkvb = {
     "args": {
         "embedding_dim": 768,
         "projection_embedding_dim": 8,
-        "dim_memory": 10,
         "codes_per_codebook": 1024,
         "num_codebooks": 128,
         "vq_decay": 0.95,
@@ -81,7 +80,7 @@ train_model = {
 train_model_vq = {
     "name": "TorchBottleneckClassificationModel",
     "args": {
-        "bottleneck": vector_quantizer,
+        "bottleneck_config": vector_quantizer,
         "encoder": {
             "name": "MertEncoder",
             "args": {
@@ -94,9 +93,9 @@ train_model_vq = {
 }
 
 train_model_dkvb = {
-    "name": "TorchBottleneckClassificationModel",
+    "name": "TorchBottleneckClassIncrementalModel",
     "args": {
-        "bottleneck": dkvb,
+        "bottleneck_config": dkvb,
         "encoder": {
             "name": "MertEncoder",
             "args": {
@@ -104,7 +103,6 @@ train_model_dkvb = {
             },
         },
         "frozen_encoder": True,
-        "num_classes": num_classes,
     },
 }
 
@@ -156,7 +154,7 @@ trainer = {
                 "train_model": None,
                 "criteria": {"name": "TorchCrossEntropyCriteria"},
                 "optimizer": {"name": "TorchSgdOptimizer"},
-                "metrics": genre_classification_metrics,
+                "metrics_config": genre_classification_metrics,
                 "experiment_tracker": {"name": "TensorboardExperimentTracker"},
                 "model_saver": {"name": "MusicGenreClassificationModelSaver"},
             },
@@ -251,6 +249,8 @@ oracle_evaluator["args"]["tasks"] = ["all"]
 
 continual_learning_evaluator_vq = deepcopy(evaluator)
 continual_learning_evaluator_vq["args"]["model"] = train_model_vq
+continual_learning_evaluator_vq["name"] = "ClassIncrementalLearningDKVBEvaluator"
 
 continual_learning_evaluator_dkvb = deepcopy(evaluator)
 continual_learning_evaluator_dkvb["args"]["model"] = train_model_dkvb
+continual_learning_evaluator_dkvb["name"] = "ClassIncrementalLearningDKVBEvaluator"

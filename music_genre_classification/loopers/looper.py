@@ -22,7 +22,7 @@ class Looper(ABC):
         optimizer: dict,
         experiment_tracker: dict,
         model_saver: dict,
-        metrics: dict,
+        metrics_config: dict,
     ) -> None:
         self.train_data_source = TrainDataSourceFactory.build(train_data_source)
         self.train_data_loader = None
@@ -41,7 +41,8 @@ class Looper(ABC):
         self.criteria = CriteriaFactory.build(criteria)
 
         # Metrics
-        self.metrics = MetricsFactory.build(metrics)
+        self.metrics_config = metrics_config
+        self.metrics = MetricsFactory.build(self.metrics_config)
 
         # Experiment tracker
         self.experiment_tracker = ExperimentTrackerFactory.build(experiment_tracker)
