@@ -61,7 +61,7 @@ class GtzanDataSource(TrainDataSource):
             [os.path.basename(song).split(".")[0] for song in song_list]
         )
 
-        # Filter songs
+        # Filtered songs
         list_accepted_songs = []
         for split in ["train", "valid", "test"]:
             with open(
@@ -148,7 +148,11 @@ class GtzanDataSource(TrainDataSource):
         self.labels_splits["test"] = np.concatenate(self.labels_splits["test"])
 
     def get_dataset(
-        self, task: str | list[str] = None, cross_val_id: int = 0
+        self,
+        task: str | list[str] = None,
+        cross_val_id: int = 0,
+        buffered_songs: list[str] = [],
+        is_eval: bool | None = None,
     ) -> Dataset:
         self.cross_val_split(cross_val_id=cross_val_id)
 
@@ -165,9 +169,9 @@ class GtzanDataSource(TrainDataSource):
                 labels = labels[np.isin(labels, task)]
 
         return MertGenreClassificationDataset(
-            songs=songs,
+            songs=np.concatenate([songs, buffered_songs]),
             labels=labels,
-            is_eval=self.is_eval,
+            is_eval=self.is_eval if is_eval is None else is_eval,
             audio_length=self.chunk_length,
             input_sample_rate=self.sample_rate,
         )

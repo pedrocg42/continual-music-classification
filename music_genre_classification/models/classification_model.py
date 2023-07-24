@@ -30,6 +30,11 @@ class MertClassificationDecoder(nn.Module):
         outputs = self.fc(outputs)
         return outputs
 
+    def forward_features(self, inputs: torch.Tensor) -> torch.Tensor:
+        outputs = self.conv1d(inputs)
+        outputs = self.flatten(outputs)
+        return outputs
+
 
 class TorchClassificationModel(nn.Module):
     def __init__(
@@ -117,6 +122,11 @@ class TorchClassificationModel(nn.Module):
     def forward(self, inputs: torch.Tensor):
         outputs = self.encoder(inputs)
         outputs = self.decoder(outputs)
+        return outputs
+
+    def extract_vector(self, inputs: torch.Tensor):
+        outputs = self.encoder(inputs)
+        outputs = self.decoder.forward_features(outputs)
         return outputs
 
     def prepare_train(self):

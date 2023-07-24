@@ -174,6 +174,7 @@ continual_learning_trainer["args"]["train_model"] = train_model
 continual_learning_replay_trainer = deepcopy(trainer)
 continual_learning_replay_trainer["name"] = "ReplayContinualLearningTrainer"
 continual_learning_replay_trainer["args"]["train_model"] = train_model
+continual_learning_replay_trainer["args"]["num_memories"] = 100
 
 ## VQ
 continual_learning_vq_trainer = deepcopy(trainer)

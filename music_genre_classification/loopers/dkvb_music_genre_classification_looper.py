@@ -16,6 +16,7 @@ class DkvbMusicGenreClassificationLooper(MusicGenreClassificationLooper):
         epoch: int,
         model: torch.nn.Module,
         data_loader: DataLoader,
+        data_transform: torch.nn.Module,
     ):
         logger.info(f"Key initialization epoch {epoch + 1}")
         model.prepare_keys_initialization()
@@ -27,12 +28,17 @@ class DkvbMusicGenreClassificationLooper(MusicGenreClassificationLooper):
         for i, (waveforms, _) in enumerate(pbar):
             if self.debug and i == self.max_steps:
                 break
-            self.key_init_batch(waveforms)
+            self.key_init_batch(waveforms, model, data_transform)
 
     @torch.no_grad()
-    def key_init_batch(self, waveforms: torch.Tensor):
+    def key_init_batch(
+        self,
+        waveforms: torch.Tensor,
+        model: torch.nn.Module,
+        data_transform: torch.nn.Module,
+    ):
         waveforms = waveforms.to(config.device)
 
         # Inference
-        transformed = self.val_data_transform(waveforms)
-        self.model(transformed)
+        transformed = data_transform(waveforms)
+        model(transformed)
