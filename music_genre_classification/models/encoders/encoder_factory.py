@@ -11,6 +11,10 @@ class EncoderFactory:
             from music_genre_classification.models.encoders import MertEncoder
 
             return MertEncoder(**config.get("args", {}))
+        if config["name"] == "MertEncoderL2P":
+            from music_genre_classification.models.encoders import MertEncoderL2P
+
+            return MertEncoderL2P(**config.get("args", {}))
         elif config["name"] == "ResNet50DinoEncoder":
             from music_genre_classification.models.encoders import ResNet50DinoEncoder
 
@@ -20,4 +24,4 @@ class EncoderFactory:
 
             return ResNet50Encoder(**config.get("args", {}))
         else:
-            raise ValueError(f"Unknown looper type: {config['name']}")
+            raise ValueError(f"Unknown encoder type: {config['name']}")

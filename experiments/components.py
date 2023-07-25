@@ -18,9 +18,9 @@ train_gtzan_data_source = {
     "name": "GtzanDataSource",
     "args": {
         "split": "train",
+        "chunk_length": 5,
         "num_cross_val_splits": 5,
-        "hop_length": 512,
-        "length_spectrogram": 128,
+        "is_eval": False,
     },
 }
 val_gtzan_data_source = deepcopy(train_gtzan_data_source)
@@ -103,6 +103,23 @@ train_model_dkvb = {
             },
         },
         "frozen_encoder": True,
+        "num_classes": num_classes,
+    },
+}
+
+train_model_l2p = {
+    "name": "TorchMertClassIncrementalModel",
+    "args": {
+        "encoder": {
+            "name": "MertEncoderL2P",
+            "args": {
+                "pretrained": True,
+                "prompt_pool_size": 10,  # M
+                "prompt_length": 5,  # L_p
+                "selection_size": 5,  # N
+            },
+        },
+        "frozen_encoder": False,
     },
 }
 
@@ -230,6 +247,10 @@ continual_learning_ewc_trainer["args"]["looper"]["args"]["optimizer"] = {
     "args": {"ewc_lambda": 0.1},
 }
 continual_learning_ewc_trainer["args"]["train_model"] = train_model
+
+## VQ
+continual_learning_l2p_trainer = deepcopy(trainer)
+continual_learning_l2p_trainer["args"]["train_model"] = train_model_l2p
 
 # Evaluators
 evaluator = {

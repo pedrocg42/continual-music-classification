@@ -49,6 +49,9 @@ continual_learning_gem_trainer_scenario1["args"]["tasks"] = scenario1
 continual_learning_ewc_trainer_scenario1 = deepcopy(continual_learning_ewc_trainer)
 continual_learning_ewc_trainer_scenario1["args"]["tasks"] = scenario1
 
+continual_learning_l2p_trainer_scenario1 = deepcopy(continual_learning_l2p_trainer)
+continual_learning_l2p_trainer_scenario1["args"]["tasks"] = scenario1
+
 ###########               EVALUATORS                ###########
 
 # Scenario 1
@@ -167,6 +170,20 @@ mert95m_ewc_cl_gtzan_scenario1 = {
     # data
     "train": {
         "trainer": continual_learning_ewc_trainer_scenario1,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_evaluator_scenario1,
+    },
+}
+
+mert95m_l2p_cl_gtzan_scenario1 = {
+    "experiment_name": "mert95m_l2p_cl_gtzan_scenario1",
+    "experiment_type": "CL",
+    "experiment_subtype": "L2P",
+    "num_cross_val_splits": num_cross_val_splits,
+    # data
+    "train": {
+        "trainer": continual_learning_l2p_trainer_scenario1,
     },
     "evaluate": {
         "evaluator": continual_learning_evaluator_scenario1,
