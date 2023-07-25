@@ -37,7 +37,7 @@ class ContinualLearningTrainer(Trainer):
             cross_val_id=cross_val_id, task=task, batch_size=self.batch_size
         )
         self.val_data_loader = self.val_data_source.get_dataset(
-            cross_val_id=cross_val_id, task=task
+            cross_val_id=cross_val_id, task=task, is_eval=True
         )
 
         # Configure model saver and load model if exists

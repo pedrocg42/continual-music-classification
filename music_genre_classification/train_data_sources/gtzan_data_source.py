@@ -3,7 +3,7 @@ import os
 from glob import glob
 
 import numpy as np
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, ConcatDataset
 
 import config
 from music_genre_classification.train_data_sources.mert_genre_classification_dataset import (
@@ -48,7 +48,7 @@ class GtzanDataSource(TrainDataSource):
         # Audio parameters
         self.sample_rate = 22050
         self.song_length = 30
-        self.chunk_length = 3
+        self.chunk_length = 5
 
         self._get_songs()
 
@@ -151,7 +151,7 @@ class GtzanDataSource(TrainDataSource):
         self,
         task: str | list[str] = None,
         cross_val_id: int = 0,
-        buffered_songs: list[str] = [],
+        memory_dataset: Dataset = None,
         is_eval: bool | None = None,
     ) -> Dataset:
         self.cross_val_split(cross_val_id=cross_val_id)
@@ -168,13 +168,19 @@ class GtzanDataSource(TrainDataSource):
                 songs = songs[np.isin(labels, task)]
                 labels = labels[np.isin(labels, task)]
 
-        return MertGenreClassificationDataset(
-            songs=np.concatenate([songs, buffered_songs]),
+        dataset = MertGenreClassificationDataset(
+            songs=songs,
             labels=labels,
             is_eval=self.is_eval if is_eval is None else is_eval,
+            song_length=self.song_length,
             audio_length=self.chunk_length,
             input_sample_rate=self.sample_rate,
         )
+
+        if memory_dataset is not None:
+            dataset = ConcatDataset([dataset, memory_dataset])
+
+        return dataset
 
     def get_dataloader(
         self,
@@ -182,8 +188,9 @@ class GtzanDataSource(TrainDataSource):
         cross_val_id: int = 0,
         batch_size: int = 32,
         num_workers: int = 0,
+        **kwargs,
     ) -> DataLoader:
-        dataset = self.get_dataset(task=task, cross_val_id=cross_val_id)
+        dataset = self.get_dataset(task=task, cross_val_id=cross_val_id, **kwargs)
 
         data_loader = DataLoader(
             dataset=dataset,

@@ -8,6 +8,7 @@ import config
 from music_genre_classification.trainers.class_incremental_learning_trainer import (
     ClassIncrementalLearningTrainer,
 )
+from music_genre_classification.train_data_sources.memory_dataset import MemoryDataset
 
 
 class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
@@ -18,12 +19,21 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
         self.known_classes = []
         self.data_memory = np.array([])
         self.targets_memory = np.array([])
+        self.memory_dataset = None
 
     def configure_task(
         self, cross_val_id: int, task_id: int, task: list[str], **kwargs
     ):
         super().configure_task(cross_val_id, task_id, task, **kwargs)
         self.memories_per_class = self.num_memories // len(self.known_classes + task)
+
+        if self.memory_dataset is not None:
+            self.train_data_loader = self.train_data_source.get_dataloader(
+                cross_val_id=cross_val_id,
+                task=task,
+                batch_size=self.batch_size,
+                memory_dataset=self.memory_dataset,
+            )
 
     def train(self, experiment_name: str, num_cross_val_splits: int = 1):
         logger.info(f"Started training process of experiment {experiment_name}")
@@ -54,15 +64,13 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
         self.known_classes += task
         self.construct_exemplar(cross_val_id, task)
 
-    def reduce_exemplar(self, task: str):
+    def reduce_exemplar(self):
         logger.info(f"Reducing exemplars...({self.memories_per_class} per classes)")
         dummy_data = copy.deepcopy(self.data_memory)
         dummy_targets = copy.deepcopy(self.targets_memory)
         self.data_memory, self.targets_memory = np.array([]), np.array([])
 
-        for class_idx, known_task in enumerate(self.known_classes):
-            if known_task in task:
-                continue
+        for class_idx in range(len(self.known_classes)):
             mask = np.where(dummy_targets == class_idx)[0]
             dd, dt = (
                 dummy_data[mask][: self.memories_per_class],
@@ -126,6 +134,10 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
                 np.concatenate((self.targets_memory, exemplar_targets))
                 if len(self.targets_memory) != 0
                 else exemplar_targets
+            )
+
+            self.memory_dataset = MemoryDataset(
+                data=self.data_memory, targets=self.targets_memory
             )
 
     @torch.no_grad()
