@@ -10,6 +10,7 @@ python execute_experiment.py --experiment mert95m_replay_cl_gtzan_scenario1
 python execute_experiment.py --experiment mert95m_dkvb_cl_gtzan_scenario1
 python execute_experiment.py --experiment mert95m_gem_cl_gtzan_scenario1
 python execute_experiment.py --experiment mert95m_ewc_cl_gtzan_scenario1
+python execute_experiment.py --experiment mert95m_l2p_cl_gtzan_scenario1
 
 @REM Turn off VM (comment if not needed)
 @REM sudo shutdown

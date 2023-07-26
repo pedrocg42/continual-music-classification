@@ -1,6 +1,6 @@
+import torch
 from loguru import logger
 
-import config
 from music_genre_classification.trainers.trainer import Trainer
 
 
@@ -79,3 +79,20 @@ class ContinualLearningTrainer(Trainer):
                     early_stopping = self.train_epoch(epoch)
                     if early_stopping:
                         break
+
+    def extract_metrics(self, results_epoch: list[dict]):
+        preds = torch.vstack(
+            [results_batch["preds"] for results_batch in results_epoch]
+        )
+        labels = torch.hstack(
+            [results_batch["labels"] for results_batch in results_epoch]
+        )
+        metrics_results = {}
+        metrics_results["loss"] = np.array(
+            [results_batch["loss"] for results_batch in results_epoch]
+        ).mean()
+        for metric_name, metric in self.metrics.items():
+            metric.num_classes = self.model.num_classes
+            metrics_results[metric_name] = metric(preds, labels).item()
+
+        return metrics_results

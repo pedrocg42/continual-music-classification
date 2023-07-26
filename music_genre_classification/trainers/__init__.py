@@ -13,11 +13,11 @@ from music_genre_classification.trainers.ewc_continual_learning_trainer import (
 from music_genre_classification.trainers.gem_continual_learning_trainer import (
     GemContinualLearningTrainer,
 )
-from music_genre_classification.trainers.trainer import Trainer
-from music_genre_classification.trainers.trainer_factory import TrainerFactory
 from music_genre_classification.trainers.replay_continual_learning_trainer import (
     ReplayContinualLearningTrainer,
 )
+from music_genre_classification.trainers.trainer import Trainer
+from music_genre_classification.trainers.trainer_factory import TrainerFactory
 
 __all__ = [
     "TrainerFactory",

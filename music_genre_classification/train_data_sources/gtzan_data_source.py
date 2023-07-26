@@ -3,7 +3,7 @@ import os
 from glob import glob
 
 import numpy as np
-from torch.utils.data import DataLoader, Dataset, ConcatDataset
+from torch.utils.data import ConcatDataset, DataLoader, Dataset
 
 import config
 from music_genre_classification.train_data_sources.mert_genre_classification_dataset import (

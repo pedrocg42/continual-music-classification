@@ -5,10 +5,10 @@ import torch
 from loguru import logger
 
 import config
+from music_genre_classification.train_data_sources.memory_dataset import MemoryDataset
 from music_genre_classification.trainers.class_incremental_learning_trainer import (
     ClassIncrementalLearningTrainer,
 )
-from music_genre_classification.train_data_sources.memory_dataset import MemoryDataset
 
 
 class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):

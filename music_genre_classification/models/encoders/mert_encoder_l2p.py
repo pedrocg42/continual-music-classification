@@ -1,8 +1,8 @@
 from typing import Optional, Tuple, Union
 
 import torch
-from torch import nn, einsum
 import torch.nn.functional as F
+from torch import einsum, nn
 from transformers import AutoModel
 from transformers.modeling_outputs import BaseModelOutput
 from vector_quantize_pytorch import VectorQuantize
