@@ -36,7 +36,6 @@ class ClassIncrementalLearningTrainer(ContinualLearningTrainer):
             [results_batch["loss"] for results_batch in results_epoch]
         ).mean()
         for metric_name, metric in self.metrics.items():
-            metric.num_classes = self.model.num_classes
             metrics_results[metric_name] = metric(preds, labels).item()
 
         return metrics_results
