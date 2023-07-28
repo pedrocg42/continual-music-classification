@@ -32,5 +32,11 @@ class LooperFactory:
             )
 
             return EwcMusicGenreClassificationLooper(**config.get("args", {}))
+        elif config["name"] == "L2PMusicGenreClassificationLooper":
+            from music_genre_classification.loopers import (
+                L2PMusicGenreClassificationLooper,
+            )
+
+            return L2PMusicGenreClassificationLooper(**config.get("args", {}))
         else:
             raise ValueError(f"Unknown looper type: {config['name']}")

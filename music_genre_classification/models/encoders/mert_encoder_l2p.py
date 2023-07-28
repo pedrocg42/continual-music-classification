@@ -39,18 +39,21 @@ class MertEncoderL2P(nn.Module):
             top_k=self.selection_size,
             embedding_dim=self.output_size,
         )
+        self.num_prompts = self.selection_size * self.prompt_length
 
     def forward(self, inputs: torch.Tensor):
         query = self.query(inputs)
         prompt, key_loss = self.prompt_pool(query)
+        prompt = prompt.view(prompt.shape[0], -1, self.output_size)
         outputs = self.forward_encoder(
             **inputs, prompt=prompt, output_hidden_states=True
         )
         all_layer_hidden_states = torch.stack(outputs.hidden_states).permute(
             (1, 0, 2, 3)
         )  # C, B, S, H -> B, C, S, H
-        outputs = torch.mean(all_layer_hidden_states, dim=-2)  # B, C, S, H -> B, C, H
-        return outputs
+        prompt_hidden_states = all_layer_hidden_states[:, :, : self.num_prompts, :]
+        outputs = torch.mean(prompt_hidden_states, dim=-2)  # B, C, S, H -> B, C, H
+        return outputs, key_loss
 
     @torch.no_grad()
     def query(self, inputs: torch.Tensor):
@@ -99,15 +102,17 @@ class MertEncoderL2P(nn.Module):
         if attention_mask is not None:
             # compute reduced attention_mask corresponding to feature vectors
             attention_mask = self.encoder._get_feature_vector_attention_mask(
-                extract_features.shape[1], attention_mask
+                extract_features.shape[1] + prompt.shape[1], attention_mask
             )
 
         hidden_states = self.encoder.feature_projection(extract_features)
+
+        hidden_states = torch.cat([hidden_states, prompt], 1)
         hidden_states = self.encoder._mask_hidden_states(
             hidden_states, mask_time_indices=mask_time_indices
         )
 
-        encoder_outputs = self.encoder(
+        encoder_outputs = self.encoder.encoder(
             hidden_states,
             attention_mask=attention_mask,
             output_attentions=output_attentions,

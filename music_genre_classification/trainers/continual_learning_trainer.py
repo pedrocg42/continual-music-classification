@@ -24,8 +24,8 @@ class ContinualLearningTrainer(Trainer):
         task: str = None,
         continual_learning: bool = True,
     ):
-        self.task_id = task_id
-        self.task = task
+        self.looper.task_id = task_id
+        self.looper.task = task
 
         self.best_metric = 0
         self.patience_epochs = 0

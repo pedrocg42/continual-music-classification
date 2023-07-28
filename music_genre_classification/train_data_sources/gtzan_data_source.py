@@ -32,7 +32,12 @@ GTZAN_GENRES = [
 
 class GtzanDataSource(TrainDataSource):
     def __init__(
-        self, split: str, num_cross_val_splits: int = 5, is_eval: bool = False, **kwargs
+        self,
+        split: str,
+        num_cross_val_splits: int = 5,
+        is_eval: bool = False,
+        chunk_length: float = 5.0,
+        **kwargs,
     ):
         self.name = "GTZAN"
         self.dataset_path = os.path.join(config.dataset_path, self.name)
@@ -48,7 +53,7 @@ class GtzanDataSource(TrainDataSource):
         # Audio parameters
         self.sample_rate = 22050
         self.song_length = 30
-        self.chunk_length = 5
+        self.chunk_length = chunk_length
 
         self._get_songs()
 

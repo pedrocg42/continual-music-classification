@@ -42,5 +42,9 @@ class TrainModelFactory:
             )
 
             return TorchMertBottleneckClassIncrementalModel(**config.get("args", {}))
+        if config["name"] == "TorchL2PClassIncrementalModel":
+            from music_genre_classification.models import TorchL2PClassIncrementalModel
+
+            return TorchL2PClassIncrementalModel(**config.get("args", {}))
         else:
             raise ValueError(f"Unknown TrainDataModel type: {config['name']}")

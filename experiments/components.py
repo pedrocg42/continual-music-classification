@@ -18,7 +18,7 @@ train_gtzan_data_source = {
     "name": "GtzanDataSource",
     "args": {
         "split": "train",
-        "chunk_length": 5,
+        "chunk_length": 3,
         "num_cross_val_splits": 5,
         "is_eval": False,
     },
@@ -88,7 +88,6 @@ train_model_vq = {
             },
         },
         "frozen_encoder": True,
-        "num_classes": num_classes,
     },
 }
 
@@ -103,12 +102,11 @@ train_model_dkvb = {
             },
         },
         "frozen_encoder": True,
-        "num_classes": num_classes,
     },
 }
 
 train_model_l2p = {
-    "name": "TorchMertClassIncrementalModel",
+    "name": "TorchL2PClassIncrementalModel",
     "args": {
         "encoder": {
             "name": "MertEncoderL2P",
@@ -248,9 +246,17 @@ continual_learning_ewc_trainer["args"]["looper"]["args"]["optimizer"] = {
 }
 continual_learning_ewc_trainer["args"]["train_model"] = train_model
 
-## VQ
+## L2P
 continual_learning_l2p_trainer = deepcopy(trainer)
 continual_learning_l2p_trainer["args"]["train_model"] = train_model_l2p
+continual_learning_l2p_trainer["args"]["looper"] = {
+    "name": "L2PMusicGenreClassificationLooper",
+    "args": {
+        "criteria": {"name": "TorchCrossEntropyCriteria"},
+        "optimizer": {"name": "TorchSgdOptimizer"},
+        "lamb": 0.5,
+    },
+}
 
 # Evaluators
 evaluator = {
