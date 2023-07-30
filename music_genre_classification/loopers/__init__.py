@@ -15,6 +15,9 @@ from music_genre_classification.loopers.looper_factory import LooperFactory
 from music_genre_classification.loopers.music_genre_classification_looper import (
     MusicGenreClassificationLooper,
 )
+from music_genre_classification.loopers.icarl_music_genre_classification_looper import (
+    iCaRLMusicGenreClassificationLooper,
+)
 
 __all__ = [
     "Looper",
@@ -24,4 +27,5 @@ __all__ = [
     "GemMusicGenreClassificationLooper",
     "EwcMusicGenreClassificationLooper",
     "L2PMusicGenreClassificationLooper",
+    "iCaRLMusicGenreClassificationLooper",
 ]

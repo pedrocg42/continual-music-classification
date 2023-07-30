@@ -38,5 +38,11 @@ class LooperFactory:
             )
 
             return L2PMusicGenreClassificationLooper(**config.get("args", {}))
+        elif config["name"] == "iCaRLMusicGenreClassificationLooper":
+            from music_genre_classification.loopers import (
+                iCaRLMusicGenreClassificationLooper,
+            )
+
+            return iCaRLMusicGenreClassificationLooper(**config.get("args", {}))
         else:
             raise ValueError(f"Unknown looper type: {config['name']}")

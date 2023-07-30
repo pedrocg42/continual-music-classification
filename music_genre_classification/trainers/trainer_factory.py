@@ -41,5 +41,11 @@ class TrainerFactory:
             )
 
             return ReplayContinualLearningTrainer(**config["args"])
-        else:
-            raise Exception("No trainer named %s" % config["name"])
+        if config["name"] == "iCaRLContinualLearningTrainer":
+            from music_genre_classification.trainers import (
+                iCaRLContinualLearningTrainer,
+            )
+
+            return iCaRLContinualLearningTrainer(**config["args"])
+
+        raise Exception("No trainer named %s" % config["name"])

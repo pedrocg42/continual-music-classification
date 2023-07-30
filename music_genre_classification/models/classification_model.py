@@ -156,6 +156,14 @@ class TorchClassificationModel(nn.Module):
         self.decoder.eval()
         self.frozen_decoder = True
 
+    def copy(self):
+        return copy.deepcopy(self)
+
+    def freeze(self):
+        self.freeze_encoder()
+        self.freeze_decoder()
+        return self
+
 
 class TorchClassIncrementalModel(TorchClassificationModel):
     def __init__(self, **kwargs):

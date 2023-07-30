@@ -191,6 +191,19 @@ continual_learning_replay_trainer["name"] = "ReplayContinualLearningTrainer"
 continual_learning_replay_trainer["args"]["train_model"] = train_model
 continual_learning_replay_trainer["args"]["num_memories"] = 100
 
+## Replay
+continual_learning_icarl_trainer = deepcopy(trainer)
+continual_learning_icarl_trainer["name"] = "iCaRLContinualLearningTrainer"
+continual_learning_icarl_trainer["args"]["train_model"] = train_model
+continual_learning_icarl_trainer["args"]["num_memories"] = 100
+continual_learning_icarl_trainer["args"]["looper"] = {
+    "name": "iCaRLMusicGenreClassificationLooper",
+    "args": {
+        "criteria": {"name": "TorchCrossEntropyCriteria"},
+        "optimizer": {"name": "TorchSgdOptimizer"},
+        "T": 2.0,
+    },
+}
 ## VQ
 continual_learning_vq_trainer = deepcopy(trainer)
 continual_learning_vq_trainer["name"] = "DkvbContinualLearningTrainer"
@@ -284,3 +297,7 @@ continual_learning_evaluator_vq["name"] = "ClassIncrementalLearningDKVBEvaluator
 continual_learning_evaluator_dkvb = deepcopy(evaluator)
 continual_learning_evaluator_dkvb["args"]["model"] = train_model_dkvb
 continual_learning_evaluator_dkvb["name"] = "ClassIncrementalLearningDKVBEvaluator"
+
+continual_learning_evaluator_l2p = deepcopy(evaluator)
+continual_learning_evaluator_l2p["args"]["model"] = train_model_l2p
+continual_learning_evaluator_l2p["name"] = "ClassIncrementalLearningL2PEvaluator"

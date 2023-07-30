@@ -30,5 +30,11 @@ class EvaluatorFactory:
             )
 
             return ClassIncrementalLearningDKVBEvaluator(**config["args"])
-        else:
-            raise Exception("No evaluator named %s" % config["name"])
+        if config["name"] == "ClassIncrementalLearningL2PEvaluator":
+            from music_genre_classification.evaluators import (
+                ClassIncrementalLearningL2PEvaluator,
+            )
+
+            return ClassIncrementalLearningL2PEvaluator(**config["args"])
+
+        raise Exception("No evaluator named %s" % config["name"])

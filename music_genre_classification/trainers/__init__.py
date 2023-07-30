@@ -18,6 +18,9 @@ from music_genre_classification.trainers.replay_continual_learning_trainer impor
 )
 from music_genre_classification.trainers.trainer import Trainer
 from music_genre_classification.trainers.trainer_factory import TrainerFactory
+from music_genre_classification.trainers.icarl_continual_learning_trainer import (
+    iCaRLContinualLearningTrainer,
+)
 
 __all__ = [
     "TrainerFactory",
@@ -28,4 +31,5 @@ __all__ = [
     "GemContinualLearningTrainer",
     "EwcContinualLearningTrainer",
     "ReplayContinualLearningTrainer",
+    "iCaRLContinualLearningTrainer",
 ]
