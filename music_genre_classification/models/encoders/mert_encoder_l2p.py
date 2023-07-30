@@ -152,6 +152,11 @@ class PromptPool(nn.Module):
         self.pool_size = pool_size
         self.top_k = top_k
 
+        # Probability distribution over the prompt pool
+        self.h_sum = torch.zeros(self.pool_size)
+        self.num_searches = 0
+        self.h = torch.zeros(pool_size)
+
         self.prompt_keys = nn.Parameter(uniform_init(self.pool_size, embedding_dim))
         self.prompt_values = nn.Parameter(
             uniform_init(self.pool_size, self.length, embedding_dim)
@@ -161,18 +166,22 @@ class PromptPool(nn.Module):
         prompt_key_norm = F.normalize(self.prompt_keys, dim=-1)
         query_norm = F.normalize(query, dim=-1)
 
-        sim = query_norm @ prompt_key_norm.T  # bs, pool_size
-        (sim_top_k, sim_top_k_idx) = torch.topk(sim, self.top_k)
+        distance = torch.abs(query_norm @ prompt_key_norm.T)  # bs, pool_size
+        (distance_top_k, distance_top_k_idx) = torch.topk(distance, self.top_k)
 
         one_hot_idx = F.one_hot(
-            sim_top_k_idx, self.pool_size
+            distance_top_k_idx, self.pool_size
         ).float()  # bs, top_k, pool_size
 
         quantized_values = einsum(
             "b n s, s l d -> b n l d", one_hot_idx, self.prompt_values
         )
 
+        self.h_sum += one_hot_idx.sum(axis=0).sum(axis=0).detach().cpu()
+        self.num_searches += query.shape[0] * self.top_k
+        self.h = self.h_sum / self.num_searches
+
         # Put pull_constraint loss calculation inside
-        key_loss = torch.sum(sim_top_k) / query.shape[0]
+        key_loss = torch.sum(distance_top_k) / query.shape[0]
 
         return (quantized_values, key_loss)

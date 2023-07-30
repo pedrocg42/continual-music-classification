@@ -13,6 +13,18 @@
             "justMyCode": true
         },
         {
+            "name": "Execute experiment check",
+            "type": "python",
+            "request": "launch",
+            "program": "execute_experiment_check.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--experiment",
+                "mert95m_l2p_cl_gtzan_scenario1",
+            ]
+        },
+        {
             "name": "Execute experiment",
             "type": "python",
             "request": "launch",
@@ -22,18 +34,6 @@
             "args": [
                 "--experiment",
                 "mert95m_icarl_cl_gtzan_scenario1"
-            ]
-        },
-        {
-            "name": "Execute experiment check",
-            "type": "python",
-            "request": "launch",
-            "program": "execute_experiment_check.py",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "args": [
-                "--experiment",
-                "mert95m_icarl_cl_gtzan_scenario1",
             ]
         }
     ]
