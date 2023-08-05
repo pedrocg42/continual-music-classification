@@ -10,8 +10,11 @@ from music_genre_classification.train_data_sources.train_data_source import (
 from music_genre_classification.train_data_sources.train_data_source_factory import (
     TrainDataSourceFactory,
 )
-from music_genre_classification.train_data_sources.vocalset_singers_data_source import (
-    VocalSetSingersDataSource,
+from music_genre_classification.train_data_sources.vocalset_singer_data_source import (
+    VocalSetSingerDataSource,
+)
+from music_genre_classification.train_data_sources.vocalset_tech_data_source import (
+    VocalSetTechDataSource,
 )
 
 __all__ = [
@@ -19,5 +22,6 @@ __all__ = [
     "TrainDataSource",
     "GtzanDataSource",
     "MusicGenreClassificationDataset",
-    "VocalSetSingersDataSource",
+    "VocalSetSingerDataSource",
+    "VocalSetTechDataSource",
 ]

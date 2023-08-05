@@ -19,42 +19,42 @@ np.random.seed(config.seed)
 SINGERS = [
     "female1",
     "female2",
-    "female3",
-    "female4",
-    "female5",
-    "female6",
-    "female7",
-    "female8",
-    "female9",
     "male1",
     "male2",
+    "female3",
+    "female4",
     "male3",
     "male4",
+    "female5",
+    "female6",
     "male5",
     "male6",
+    "female7",
+    "female8",
     "male7",
     "male8",
+    "female9",
     "male9",
     "male10",
     "male11",
 ]
 
 
-class VocalSetSingersDataSource(TrainDataSource):
+class VocalSetSingerDataSource(TrainDataSource):
     def __init__(
         self,
         split: str,
         num_cross_val_splits: int = 5,
-        singers: list[str] = SINGERS,
+        singer: list[str] = SINGERS,
         is_eval: bool = False,
         chunk_length: float = 5.0,
         **kwargs,
     ):
         self.name = "VocalSetSinger"
         self.dataset_path = os.path.join(config.dataset_path, "VocalSet", "FULL")
-        self.singers = singers
-        self.singers_to_index = {singer: i for i, singer in enumerate(self.singers)}
-        self.index_to_singers = {i: singer for i, singer in enumerate(self.singers)}
+        self.singer = singer
+        self.singer_to_index = {singer: i for i, singer in enumerate(self.singer)}
+        self.index_to_singer = {i: singer for i, singer in enumerate(self.singer)}
 
         # Split parameters
         self.split = split
@@ -77,7 +77,7 @@ class VocalSetSingersDataSource(TrainDataSource):
         song_labels = np.array(
             [os.path.normpath(song).split(os.sep)[-4] for song in self.songs]
         )
-        self.labels = np.array([self.singers_to_index[label] for label in song_labels])
+        self.labels = np.array([self.singer_to_index[label] for label in song_labels])
 
         # Shuffling
         idx = np.arange(len(self.songs))
@@ -100,7 +100,7 @@ class VocalSetSingersDataSource(TrainDataSource):
             "val": [],
             "test": [],
         }
-        for index in self.index_to_singers.keys():
+        for index in self.index_to_singer.keys():
             songs_singer = self.songs[self.labels == index]
             labels_singer = self.labels[self.labels == index]
             split_size = len(songs_singer) // self.num_cross_val_splits
@@ -149,10 +149,10 @@ class VocalSetSingersDataSource(TrainDataSource):
 
         if task is not None and task != "all":
             if isinstance(task, str):
-                songs = songs[labels == self.singers_to_index[task]]
-                labels = labels[labels == self.singers_to_index[task]]
+                songs = songs[labels == self.singer_to_index[task]]
+                labels = labels[labels == self.singer_to_index[task]]
             elif isinstance(task, list):
-                task = [self.singers_to_index[singer] for singer in task]
+                task = [self.singer_to_index[singer] for singer in task]
                 songs = songs[np.isin(labels, task)]
                 labels = labels[np.isin(labels, task)]
 
