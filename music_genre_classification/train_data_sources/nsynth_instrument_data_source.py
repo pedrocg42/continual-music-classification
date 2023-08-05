@@ -74,11 +74,12 @@ class NSynthInstrumentTechDataSource(TrainDataSource):
             splitted_name = os.path.basename(song).split("_")
             match len(splitted_name):
                 case 3:
-                    song_labels.append(splitted_name[0])
+                    label = splitted_name[0]
                 case 4:
-                    song_labels.append("_".join(splitted_name[:1]))
+                    label = "_".join(splitted_name[:2])
                 case _:
                     raise NotImplementedError()
+            song_labels.append(label)
         self.labels = np.array(
             [self.instrument_to_index[label] for label in song_labels]
         )
