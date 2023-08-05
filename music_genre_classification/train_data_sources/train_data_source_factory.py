@@ -25,5 +25,11 @@ class TrainDataSourceFactory:
             )
 
             return VocalSetTechDataSource(**config.get("args", {}))
+        if config["name"] == "NSynthInstrumentTechDataSource":
+            from music_genre_classification.train_data_sources import (
+                NSynthInstrumentTechDataSource,
+            )
+
+            return NSynthInstrumentTechDataSource(**config.get("args", {}))
         else:
             raise ValueError(f"Unknown TrainDataSource type: {config['name']}")

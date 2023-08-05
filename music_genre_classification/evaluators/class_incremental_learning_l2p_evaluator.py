@@ -1,9 +1,10 @@
 import torch
+from tqdm import tqdm
+
 import config
 from music_genre_classification.evaluators.class_incremental_learning_evaluator import (
     ClassIncrementalLearningEvaluator,
 )
-from tqdm import tqdm
 
 
 class ClassIncrementalLearningL2PEvaluator(ClassIncrementalLearningEvaluator):

@@ -16,35 +16,40 @@ from music_genre_classification.train_data_sources.train_data_source import (
 np.random.seed(config.seed)
 
 
-TECHS = [
-    "vibrato",
-    "straight",
-    "belt",
-    "breathy",
-    "lip_trill",
-    "spoken",
-    "inhaled",
-    "trill",
-    "trillo",
-    "vocal_fry",
+INSTRUMENTS = [
+    "bass",
+    "brass",
+    "flute",
+    "guitar",
+    "keyboard",
+    "mallet",
+    "organ",
+    "reed",
+    "string",
+    "synth_lead",
+    "vocal",
 ]
 
 
-class VocalSetTechDataSource(TrainDataSource):
+class NSynthInstrumentTechDataSource(TrainDataSource):
     def __init__(
         self,
         split: str,
         num_cross_val_splits: int = 5,
-        techs: list[str] = TECHS,
+        instruments: list[str] = INSTRUMENTS,
         is_eval: bool = False,
         chunk_length: float = 5.0,
         **kwargs,
     ):
-        self.name = "VocalSetTech"
-        self.dataset_path = os.path.join(config.dataset_path, "VocalSet", "FULL")
-        self.techs = techs
-        self.tech_to_index = {tech: i for i, tech in enumerate(self.techs)}
-        self.index_to_tech = {i: tech for i, tech in enumerate(self.techs)}
+        self.name = "NSynthInstrument"
+        self.dataset_path = os.path.join(config.dataset_path, "NSynth")
+        self.instruments = instruments
+        self.instrument_to_index = {
+            instrument: i for i, instrument in enumerate(self.instruments)
+        }
+        self.index_to_instrument = {
+            i: instrument for i, instrument in enumerate(self.instruments)
+        }
 
         # Split parameters
         self.split = split
@@ -61,15 +66,22 @@ class VocalSetTechDataSource(TrainDataSource):
     def _get_songs(self):
         # Read annotations
         self.songs = np.array(
-            glob(os.path.join(self.dataset_path, "*", "*", "*", "*.wav"))
+            glob(os.path.join(self.dataset_path, "*", "audio", "*.wav"))
         )
-        song_labels = np.array(
-            [os.path.normpath(song).split(os.sep)[-2] for song in self.songs]
+
+        song_labels = []
+        for song in self.songs:
+            splitted_name = os.path.basename(song).split("_")
+            match len(splitted_name):
+                case 3:
+                    song_labels.append(splitted_name[0])
+                case 4:
+                    song_labels.append("_".join(splitted_name[:1]))
+                case _:
+                    raise NotImplementedError()
+        self.labels = np.array(
+            [self.instrument_to_index[label] for label in song_labels]
         )
-        mask = np.isin(song_labels, self.techs)
-        self.songs = self.songs[mask]
-        song_labels = song_labels[mask]
-        self.labels = np.array([self.tech_to_index[label] for label in song_labels])
 
         # Shuffling
         idx = np.arange(len(self.songs))
@@ -92,16 +104,16 @@ class VocalSetTechDataSource(TrainDataSource):
             "val": [],
             "test": [],
         }
-        for index in self.index_to_tech.keys():
-            songs_tech = self.songs[self.labels == index]
-            labels_tech = self.labels[self.labels == index]
-            split_size = len(songs_tech) // self.num_cross_val_splits
+        for index in self.index_to_instrument.keys():
+            songs_instrument = self.songs[self.labels == index]
+            labels_instrument = self.labels[self.labels == index]
+            split_size = len(songs_instrument) // self.num_cross_val_splits
             songs_splits = [
-                songs_tech[int(i * split_size) : int((i + 1) * split_size)]
+                songs_instrument[int(i * split_size) : int((i + 1) * split_size)]
                 for i in range(self.num_cross_val_splits)
             ]
             labels_splits = [
-                labels_tech[int(i * split_size) : int((i + 1) * split_size)]
+                labels_instrument[int(i * split_size) : int((i + 1) * split_size)]
                 for i in range(self.num_cross_val_splits)
             ]
 
@@ -141,10 +153,10 @@ class VocalSetTechDataSource(TrainDataSource):
 
         if task is not None and task != "all":
             if isinstance(task, str):
-                songs = songs[labels == self.tech_to_index[task]]
-                labels = labels[labels == self.tech_to_index[task]]
+                songs = songs[labels == self.instrument_to_index[task]]
+                labels = labels[labels == self.instrument_to_index[task]]
             elif isinstance(task, list):
-                task = [self.tech_to_index[tech] for tech in task]
+                task = [self.instrument_to_index[instrument] for instrument in task]
                 songs = songs[np.isin(labels, task)]
                 labels = labels[np.isin(labels, task)]
 

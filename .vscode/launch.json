@@ -21,7 +21,7 @@
             "justMyCode": true,
             "args": [
                 "--experiment",
-                "mert95m_gem_cl_vocalsetsinger_scenario1",
+                "mert95m_base_oracle_nsynthinstrument_all",
             ]
         },
         {
