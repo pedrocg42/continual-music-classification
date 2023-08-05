@@ -21,7 +21,7 @@
             "justMyCode": true,
             "args": [
                 "--experiment",
-                "mert95m_l2p_cl_gtzan_scenario1",
+                "mert95m_base_oracle_vocalsetsingers_all",
             ]
         },
         {

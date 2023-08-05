@@ -13,5 +13,11 @@ class TrainDataSourceFactory:
             from music_genre_classification.train_data_sources import GtzanDataSource
 
             return GtzanDataSource(**config.get("args", {}))
+        if config["name"] == "VocalSetSingersDataSource":
+            from music_genre_classification.train_data_sources import (
+                VocalSetSingersDataSource,
+            )
+
+            return VocalSetSingersDataSource(**config.get("args", {}))
         else:
             raise ValueError(f"Unknown TrainDataSource type: {config['name']}")

@@ -10,25 +10,7 @@ num_epochs = 200
 early_stopping_patience = 40
 early_stopping_metric = "F1 Score"
 epochs_keys_init = 10
-num_classes = 10
 batch_size = 16
-
-# Data sources
-train_gtzan_data_source = {
-    "name": "GtzanDataSource",
-    "args": {
-        "split": "train",
-        "chunk_length": 3,
-        "num_cross_val_splits": 5,
-        "is_eval": False,
-    },
-}
-val_gtzan_data_source = deepcopy(train_gtzan_data_source)
-val_gtzan_data_source["args"]["split"] = "val"
-val_gtzan_data_source["args"]["is_eval"] = True
-test_gtzan_data_source = deepcopy(train_gtzan_data_source)
-test_gtzan_data_source["args"]["split"] = "test"
-test_gtzan_data_source["args"]["is_eval"] = True
 
 
 # Data transforms
@@ -66,11 +48,6 @@ dkvb = {
 
 
 # Train models
-oracle_train_model = {
-    "name": "TorchMertClassificationModel",
-    "args": {"num_classes": num_classes},
-}
-
 train_model = {
     "name": "TorchMertClassIncrementalModel",
     "args": {},
@@ -121,35 +98,6 @@ train_model_l2p = {
     },
 }
 
-# Metrics
-genre_classification_metrics = [
-    {
-        "name": "F1 Score",
-        "args": {
-            "task": "multiclass",
-            "average": "macro",
-            "num_classes": num_classes,
-        },
-    },
-    {
-        "name": "Precision",
-        "args": {
-            "task": "multiclass",
-            "average": "macro",
-            "num_classes": num_classes,
-        },
-    },
-    {
-        "name": "Recall",
-        "args": {
-            "task": "multiclass",
-            "average": "macro",
-            "num_classes": num_classes,
-        },
-    },
-]
-
-
 # Trainers
 trainer = {
     "name": "ClassIncrementalLearningTrainer",
@@ -159,12 +107,12 @@ trainer = {
         "batch_size": batch_size,
         "early_stopping_patience": early_stopping_patience,
         "early_stopping_metric": early_stopping_metric,
-        "train_data_source": train_gtzan_data_source,
-        "val_data_source": val_gtzan_data_source,
+        "train_data_source": None,
+        "val_data_source": None,
         "train_data_transform": mert_data_transform,
         "val_data_transform": mert_data_transform,
         "train_model": None,
-        "metrics_config": genre_classification_metrics,
+        "metrics_config": None,
         "experiment_tracker": {"name": "TensorboardExperimentTracker"},
         "model_saver": {"name": "MusicGenreClassificationModelSaver"},
         "looper": {
@@ -179,7 +127,6 @@ trainer = {
 
 oracle_trainer = deepcopy(trainer)
 oracle_trainer["name"] = "ContinualLearningTrainer"
-oracle_trainer["args"]["train_model"] = oracle_train_model
 oracle_trainer["args"]["tasks"] = ["all"]
 
 continual_learning_trainer = deepcopy(trainer)
@@ -278,16 +225,15 @@ evaluator = {
         "tasks": None,
         "model": train_model,
         "model_saver": {"name": "MusicGenreClassificationModelSaver"},
-        "data_source": test_gtzan_data_source,
+        "data_source": None,
         "data_transform": mert_data_transform,
-        "metrics_config": genre_classification_metrics,
+        "metrics_config": None,
         "experiment_tracker": {"name": "DataframeExperimentTracker"},
     },
 }
 
 oracle_evaluator = deepcopy(evaluator)
 oracle_evaluator["name"] = "ClassIncrementalLearningOracleEvaluator"
-oracle_evaluator["args"]["model"] = oracle_train_model
 oracle_evaluator["args"]["tasks"] = ["all"]
 
 continual_learning_evaluator_vq = deepcopy(evaluator)

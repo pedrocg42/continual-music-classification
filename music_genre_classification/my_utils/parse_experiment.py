@@ -1,4 +1,4 @@
-import experiments.experiments as experiments
+import experiments
 
 
 def parse_experiment(function):
