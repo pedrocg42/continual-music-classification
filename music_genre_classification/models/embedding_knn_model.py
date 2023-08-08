@@ -4,31 +4,22 @@ import torch
 import torch.nn as nn
 
 from music_genre_classification.models.encoders import EncoderFactory
-import config
+from music_genre_classification.models.embedding_model import TorchEmbeddingModel
 
 
-class TorchEmbeddingModel(nn.Module):
+class TorchEmbeddingKnnModel(TorchEmbeddingModel):
     def __init__(self, encoder: dict, **kwargs):
         super().__init__()
         self.encoder = EncoderFactory.build(encoder)
         self.register_buffer(
             "reference_embeddings", torch.zeros(0, self.encoder.output_size)
         )
+        self.register_buffer("reference_labels", torch.zeros(0))
         self.initialize()
 
-    def initialize_encoder(self):
-        self.freeze_encoder()
-
-    def initialize(self):
-        self.initialize_encoder()
-
-    def forward_features(self, inputs: torch.Tensor) -> torch.Tensor:
-        embeddings = self.encoder(inputs)
-        embeddings = torch.mean(embeddings, dim=1)
-        return embeddings
-
     def match_embeddings(self, embeddings: torch.Tensor) -> torch.Tensor:
-        similarities = -torch.cdist(
+        
+        similarities = torch.cdist(
             embeddings[None], self.reference_embeddings[None]
         ).squeeze()
         return similarities
@@ -37,18 +28,6 @@ class TorchEmbeddingModel(nn.Module):
         embeddings = self.forward_features(inputs)
         similarities = self.match_embeddings(embeddings)
         return similarities
-
-    def update_references(self, embeddings: torch.Tensor, labels: torch.Tensor):
-        unique_labels = torch.unique(labels)
-        for unique_label in unique_labels:
-            class_embeddings = embeddings[labels == unique_label]
-            mean_embedding = torch.mean(class_embeddings[:-1], dim=0, keepdims=True)
-            self.reference_embeddings = torch.cat(
-                [
-                    self.reference_embeddings,
-                    mean_embedding.to(config.device),
-                ]
-            )
 
     def prepare_train(self):
         self.encoder.eval()

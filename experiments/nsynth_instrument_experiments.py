@@ -263,6 +263,13 @@ continual_learning_embcenter_trainer_nsynthinstrument_scenario1["args"][
     "early_stopping_patience"
 ] = 5
 
+continual_learning_embcentercosine_trainer_nsynthinstrument_scenario1 = deepcopy(
+    continual_learning_embcenter_trainer_nsynthinstrument_scenario1
+)
+continual_learning_embcentercosine_trainer_nsynthinstrument_scenario1["args"][
+    "train_model"
+] = train_model_embcentercosine
+
 ###########               EVALUATORS                ###########
 
 # Scenario 1
@@ -483,6 +490,20 @@ mert95m_embcenter_cl_nsynthinstrument_scenario1 = {
     # data
     "train": {
         "trainer": continual_learning_embcenter_trainer_nsynthinstrument_scenario1,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_embcenter_evaluator_nsynthinstrument_scenario1,
+    },
+}
+
+mert95m_embcentercosine_cl_nsynthinstrument_scenario1 = {
+    "experiment_name": "mert95m_embcentercosine_cl_nsynthinstrument_scenario1",
+    "experiment_type": "CL",
+    "experiment_subtype": "CenterCosine",
+    "num_cross_val_splits": num_cross_val_splits,
+    # data
+    "train": {
+        "trainer": continual_learning_embcentercosine_trainer_nsynthinstrument_scenario1,
     },
     "evaluate": {
         "evaluator": continual_learning_embcenter_evaluator_nsynthinstrument_scenario1,

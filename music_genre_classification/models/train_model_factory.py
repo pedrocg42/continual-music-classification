@@ -50,5 +50,9 @@ class TrainModelFactory:
             from music_genre_classification.models import TorchEmbeddingModel
 
             return TorchEmbeddingModel(**config.get("args", {}))
+        if config["name"] == "TorchEmbeddingCosineModel":
+            from music_genre_classification.models import TorchEmbeddingCosineModel
+
+            return TorchEmbeddingCosineModel(**config.get("args", {}))
 
         raise ValueError(f"Unknown TrainDataModel type: {config['name']}")

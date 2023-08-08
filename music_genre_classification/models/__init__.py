@@ -16,6 +16,9 @@ from music_genre_classification.models.torch_base_model import TorchBaseModel
 from music_genre_classification.models.torch_l2p_class_incremental_model import (
     TorchL2PClassIncrementalModel,
 )
+from music_genre_classification.models.embedding_cosine_model import (
+    TorchEmbeddingCosineModel,
+)
 from music_genre_classification.models.train_model import TrainModel
 from music_genre_classification.models.train_model_factory import TrainModelFactory
 
@@ -34,4 +37,5 @@ __all__ = [
     "TorchMertBottleneckClassIncrementalModel",
     "TorchL2PClassIncrementalModel",
     "TorchEmbeddingModel",
+    "TorchEmbeddingCosineModel",
 ]

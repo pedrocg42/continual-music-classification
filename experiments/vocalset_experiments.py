@@ -230,6 +230,13 @@ continual_learning_embcenter_trainer_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+continual_learning_embcentercosine_trainer_vocalsetsinger_scenario1 = deepcopy(
+    continual_learning_embcenter_trainer_vocalsetsinger_scenario1
+)
+continual_learning_embcentercosine_trainer_vocalsetsinger_scenario1["args"][
+    "train_model"
+] = train_model_embcentercosine
+
 
 ###########               EVALUATORS                ###########
 
@@ -446,6 +453,20 @@ mert95m_embcenter_cl_vocalsetsinger_scenario1 = {
     # data
     "train": {
         "trainer": continual_learning_embcenter_trainer_vocalsetsinger_scenario1,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_embcenter_evaluator_vocalsetsinger_scenario1,
+    },
+}
+
+mert95m_embcentercosine_cl_vocalsetsinger_scenario1 = {
+    "experiment_name": "mert95m_embcentercosine_cl_vocalsetsinger_scenario1",
+    "experiment_type": "CL",
+    "experiment_subtype": "CenterCosine",
+    "num_cross_val_splits": num_cross_val_splits,
+    # data
+    "train": {
+        "trainer": continual_learning_embcentercosine_trainer_vocalsetsinger_scenario1,
     },
     "evaluate": {
         "evaluator": continual_learning_embcenter_evaluator_vocalsetsinger_scenario1,

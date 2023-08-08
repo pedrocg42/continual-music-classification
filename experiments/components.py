@@ -111,6 +111,19 @@ train_model_embcenter = {
     },
 }
 
+train_model_embcentercosine = {
+    "name": "TorchEmbeddingCosineModel",
+    "args": {
+        "encoder": {
+            "name": "MertEncoder",
+            "args": {
+                "pretrained": True,
+            },
+        },
+        "frozen_encoder": True,
+    },
+}
+
 # Trainers
 trainer = {
     "name": "ClassIncrementalLearningTrainer",

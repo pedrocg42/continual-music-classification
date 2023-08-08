@@ -45,17 +45,7 @@ class MusicContinualLearningEmbeddingLooper(ABC):
         embeddings = torch.concat([epoch_dict["preds"] for epoch_dict in results_epoch])
         labels = torch.concat([epoch_dict["labels"] for epoch_dict in results_epoch])
 
-        # Calculate embeddings center
-        unique_labels = torch.unique(labels)
-        for unique_label in unique_labels:
-            class_embeddings = embeddings[labels == unique_label]
-            mean_embedding = torch.mean(class_embeddings[:-1], dim=0, keepdims=True)
-            model.reference_embeddings = torch.cat(
-                [
-                    model.reference_embeddings,
-                    mean_embedding.to(config.device),
-                ]
-            )
+        model.update_references(embeddings, labels)
 
         # Extract similarities
         preds = model.match_embeddings(embeddings.to(config.device))
