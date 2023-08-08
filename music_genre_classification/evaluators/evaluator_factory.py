@@ -36,5 +36,11 @@ class EvaluatorFactory:
             )
 
             return ClassIncrementalLearningL2PEvaluator(**config["args"])
+        if config["name"] == "ClassIncrementalLearningEmbeddingCenterEvaluator":
+            from music_genre_classification.evaluators import (
+                ClassIncrementalLearningEmbeddingCenterEvaluator,
+            )
+
+            return ClassIncrementalLearningEmbeddingCenterEvaluator(**config["args"])
 
         raise Exception("No evaluator named %s" % config["name"])

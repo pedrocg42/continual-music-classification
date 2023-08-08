@@ -15,6 +15,9 @@ from music_genre_classification.loopers.l2p_music_genre_classification_looper im
 )
 from music_genre_classification.loopers.looper import Looper
 from music_genre_classification.loopers.looper_factory import LooperFactory
+from music_genre_classification.loopers.music_continual_learning_embedding_looper import (
+    MusicContinualLearningEmbeddingLooper,
+)
 from music_genre_classification.loopers.music_genre_classification_looper import (
     MusicGenreClassificationLooper,
 )
@@ -28,4 +31,5 @@ __all__ = [
     "EwcMusicGenreClassificationLooper",
     "L2PMusicGenreClassificationLooper",
     "iCaRLMusicGenreClassificationLooper",
+    "MusicContinualLearningEmbeddingLooper",
 ]

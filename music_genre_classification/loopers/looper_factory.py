@@ -44,5 +44,11 @@ class LooperFactory:
             )
 
             return iCaRLMusicGenreClassificationLooper(**config.get("args", {}))
+        elif config["name"] == "MusicContinualLearningEmbeddingLooper":
+            from music_genre_classification.loopers import (
+                MusicContinualLearningEmbeddingLooper,
+            )
+
+            return MusicContinualLearningEmbeddingLooper(**config.get("args", {}))
         else:
             raise ValueError(f"Unknown looper type: {config['name']}")

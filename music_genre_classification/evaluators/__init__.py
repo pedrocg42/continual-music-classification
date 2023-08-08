@@ -1,6 +1,9 @@
 from music_genre_classification.evaluators.class_incremental_learning_dkvb_evaluator import (
     ClassIncrementalLearningDKVBEvaluator,
 )
+from music_genre_classification.evaluators.class_incremental_learning_embbeding_center_evaluator import (
+    ClassIncrementalLearningEmbeddingCenterEvaluator,
+)
 from music_genre_classification.evaluators.class_incremental_learning_evaluator import (
     ClassIncrementalLearningEvaluator,
 )
@@ -26,4 +29,5 @@ __all__ = [
     "ClassIncrementalLearningOracleEvaluator",
     "ClassIncrementalLearningDKVBEvaluator",
     "ClassIncrementalLearningL2PEvaluator",
+    "ClassIncrementalLearningEmbeddingCenterEvaluator",
 ]

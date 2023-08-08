@@ -46,5 +46,9 @@ class TrainModelFactory:
             from music_genre_classification.models import TorchL2PClassIncrementalModel
 
             return TorchL2PClassIncrementalModel(**config.get("args", {}))
-        else:
-            raise ValueError(f"Unknown TrainDataModel type: {config['name']}")
+        if config["name"] == "TorchEmbeddingModel":
+            from music_genre_classification.models import TorchEmbeddingModel
+
+            return TorchEmbeddingModel(**config.get("args", {}))
+
+        raise ValueError(f"Unknown TrainDataModel type: {config['name']}")

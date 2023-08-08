@@ -10,7 +10,7 @@ num_epochs = 200
 early_stopping_patience = 40
 early_stopping_metric = "F1 Score"
 epochs_keys_init = 10
-batch_size = 16
+batch_size = 8
 
 
 # Data transforms
@@ -95,6 +95,19 @@ train_model_l2p = {
             },
         },
         "frozen_encoder": False,
+    },
+}
+
+train_model_embcenter = {
+    "name": "TorchEmbeddingModel",
+    "args": {
+        "encoder": {
+            "name": "MertEncoder",
+            "args": {
+                "pretrained": True,
+            },
+        },
+        "frozen_encoder": True,
     },
 }
 
@@ -218,6 +231,14 @@ continual_learning_l2p_trainer["args"]["looper"] = {
     },
 }
 
+## Embedding center
+continual_learning_embcenter_trainer = deepcopy(trainer)
+continual_learning_embcenter_trainer["name"] = "ContinualLearningTrainerEmbeddingCenter"
+continual_learning_embcenter_trainer["args"]["train_model"] = train_model_embcenter
+continual_learning_embcenter_trainer["args"]["looper"] = {
+    "name": "MusicContinualLearningEmbeddingLooper",
+}
+
 # Evaluators
 evaluator = {
     "name": "ClassIncrementalLearningEvaluator",
@@ -247,3 +268,9 @@ continual_learning_evaluator_dkvb["name"] = "ClassIncrementalLearningDKVBEvaluat
 continual_learning_evaluator_l2p = deepcopy(evaluator)
 continual_learning_evaluator_l2p["args"]["model"] = train_model_l2p
 continual_learning_evaluator_l2p["name"] = "ClassIncrementalLearningL2PEvaluator"
+
+continual_learning_evaluator_embcenter = deepcopy(evaluator)
+continual_learning_evaluator_embcenter["args"]["model"] = train_model_embcenter
+continual_learning_evaluator_embcenter[
+    "name"
+] = "ClassIncrementalLearningEmbeddingCenterEvaluator"

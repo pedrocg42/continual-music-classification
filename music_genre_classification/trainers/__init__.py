@@ -4,6 +4,9 @@ from music_genre_classification.trainers.class_incremental_learning_trainer impo
 from music_genre_classification.trainers.continual_learning_trainer import (
     ContinualLearningTrainer,
 )
+from music_genre_classification.trainers.continual_learning_trainer_embedding_center import (
+    ContinualLearningTrainerEmbeddingCenter,
+)
 from music_genre_classification.trainers.dkvb_continual_learning_trainer import (
     DkvbContinualLearningTrainer,
 )
@@ -32,4 +35,5 @@ __all__ = [
     "EwcContinualLearningTrainer",
     "ReplayContinualLearningTrainer",
     "iCaRLContinualLearningTrainer",
+    "ContinualLearningTrainerEmbeddingCenter",
 ]

@@ -214,6 +214,22 @@ continual_learning_l2p_trainer_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+continual_learning_embcenter_trainer_vocalsetsinger_scenario1 = deepcopy(
+    continual_learning_embcenter_trainer
+)
+continual_learning_embcenter_trainer_vocalsetsinger_scenario1["args"][
+    "tasks"
+] = scenario1
+continual_learning_embcenter_trainer_vocalsetsinger_scenario1["args"][
+    "train_data_source"
+] = train_vocalsetsinger_data_source
+continual_learning_embcenter_trainer_vocalsetsinger_scenario1["args"][
+    "val_data_source"
+] = val_vocalsetsinger_data_source
+continual_learning_embcenter_trainer_vocalsetsinger_scenario1["args"][
+    "metrics_config"
+] = genre_classification_metrics_vocalsetsinger
+
 
 ###########               EVALUATORS                ###########
 
@@ -268,6 +284,19 @@ continual_learning_l2p_evaluator_vocalsetsinger_scenario1["args"][
     "data_source"
 ] = test_vocalsetsinger_data_source
 continual_learning_l2p_evaluator_vocalsetsinger_scenario1["args"][
+    "metrics_config"
+] = genre_classification_metrics_vocalsetsinger
+
+continual_learning_embcenter_evaluator_vocalsetsinger_scenario1 = deepcopy(
+    continual_learning_evaluator_embcenter
+)
+continual_learning_embcenter_evaluator_vocalsetsinger_scenario1["args"][
+    "tasks"
+] = scenario1
+continual_learning_embcenter_evaluator_vocalsetsinger_scenario1["args"][
+    "data_source"
+] = test_vocalsetsinger_data_source
+continual_learning_embcenter_evaluator_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
@@ -406,5 +435,19 @@ mert95m_l2p_cl_vocalsetsinger_scenario1 = {
     },
     "evaluate": {
         "evaluator": continual_learning_l2p_evaluator_vocalsetsinger_scenario1,
+    },
+}
+
+mert95m_embcenter_cl_vocalsetsinger_scenario1 = {
+    "experiment_name": "mert95m_embcenter_cl_vocalsetsinger_scenario1",
+    "experiment_type": "CL",
+    "experiment_subtype": "EmbeddingCenter",
+    "num_cross_val_splits": num_cross_val_splits,
+    # data
+    "train": {
+        "trainer": continual_learning_embcenter_trainer_vocalsetsinger_scenario1,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_embcenter_evaluator_vocalsetsinger_scenario1,
     },
 }

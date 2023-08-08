@@ -7,6 +7,7 @@ from music_genre_classification.models.classification_model import (
     TorchMertClassificationModel,
     TorchMertClassIncrementalModel,
 )
+from music_genre_classification.models.embedding_model import TorchEmbeddingModel
 from music_genre_classification.models.timm_models import (
     TimmMobileNetV3,
     TimmMobileViTV2,
@@ -32,4 +33,5 @@ __all__ = [
     "TorchBottleneckClassificationModel",
     "TorchMertBottleneckClassIncrementalModel",
     "TorchL2PClassIncrementalModel",
+    "TorchEmbeddingModel",
 ]
