@@ -74,6 +74,7 @@ class Trainer(ABC):
     def configure_experiment(self, experiment_name: str, batch_size: int):
         self.experiment_name = experiment_name
         self.batch_size = batch_size
+        self.initialize_model()
 
     def initialize_model(self):
         # Configure model

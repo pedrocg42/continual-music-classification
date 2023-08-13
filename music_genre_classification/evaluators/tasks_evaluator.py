@@ -27,7 +27,6 @@ class TasksEvaluator(ABC):
         self.experiment_name = None
         self.experiment_type = None
         self.experiment_subtype = None
-        self.num_cross_val_splits = None
 
         # Components
         self.model = model
@@ -43,12 +42,10 @@ class TasksEvaluator(ABC):
         experiment_name: str,
         experiment_type: str,
         experiment_subtype: str,
-        num_cross_val_splits: int,
     ):
         self.experiment_name = experiment_name
         self.experiment_type = experiment_type
         self.experiment_subtype = experiment_subtype
-        self.num_cross_val_splits = num_cross_val_splits
 
         self.experiment_tracker.configure(
             experiment_name=experiment_name,
@@ -57,11 +54,11 @@ class TasksEvaluator(ABC):
             dataset_name=self.data_source.name,
         )
 
-    def configure_task(self, cross_val_id: int, task: str = None):
+    def configure_task(self, tasks: list[list[str]], task: list[str] | str = None):
         self.model_saver.configure(
             self.model,
             experiment_name=self.experiment_name,
-            cross_val_id=cross_val_id,
+            tasks=tasks,
             task=task,
         )
         self.model_saver.load_model()
@@ -103,22 +100,17 @@ class TasksEvaluator(ABC):
         experiment_name: str,
         experiment_type: str,
         experiment_subtype: str,
-        num_cross_val_splits: int,
     ):
         logger.info(f"Started evaluation process of experiment {experiment_name}")
         self.configure(
             experiment_name=experiment_name,
             experiment_type=experiment_type,
             experiment_subtype=experiment_subtype,
-            num_cross_val_splits=num_cross_val_splits,
         )
-
-        for cross_val_id in range(self.num_cross_val_splits):
-            logger.info(f"Started evaluation of cross validation split {cross_val_id}")
-            self.configure_task(cross_val_id=cross_val_id)
-            self.experiment_tracker.configure_task(cross_val_id=cross_val_id)
-            # Extracting results
-            data_loader = self.data_source.get_dataset(cross_val_id=cross_val_id)
-            results = self.predict(data_loader)
-            metrics = self.extract_metrics(results)
-            self.experiment_tracker.log_tasks_metrics(metrics, self.data_source.genres)
+        self.configure_task()
+        self.experiment_tracker.configure_task(tasks=self.tasks)
+        # Extracting results
+        data_loader = self.data_source.get_dataset(tasks=self.tasks)
+        results = self.predict(data_loader)
+        metrics = self.extract_metrics(results)
+        self.experiment_tracker.log_tasks_metrics(metrics, self.data_source.genres)

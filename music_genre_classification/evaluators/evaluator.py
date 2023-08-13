@@ -28,7 +28,6 @@ class Evaluator(ABC):
         self.experiment_name = None
         self.experiment_type = None
         self.experiment_subtype = None
-        self.num_cross_val_splits = None
         self.metrics_config = metrics_config
 
         # Components
@@ -48,12 +47,10 @@ class Evaluator(ABC):
         experiment_name: str,
         experiment_type: str,
         experiment_subtype: str,
-        num_cross_val_splits: int,
     ):
         self.experiment_name = experiment_name
         self.experiment_type = experiment_type
         self.experiment_subtype = experiment_subtype
-        self.num_cross_val_splits = num_cross_val_splits
 
         self.experiment_tracker.configure(
             experiment_name=experiment_name,
@@ -110,22 +107,15 @@ class Evaluator(ABC):
         experiment_name: str,
         experiment_type: str,
         experiment_subtype: str,
-        num_cross_val_splits: int,
     ):
         logger.info(f"Started evaluation process of experiment {experiment_name}")
         self.configure(
             experiment_name=experiment_name,
             experiment_type=experiment_type,
             experiment_subtype=experiment_subtype,
-            num_cross_val_splits=num_cross_val_splits,
         )
-        for cross_val_id in range(self.num_cross_val_splits):
-            if cross_val_id > 0 or self.debug and cross_val_id > 0:
-                # TODO: allow cross validation
-                break
-            data_loader = self.data_source.get_dataset(
-                cross_val_id=cross_val_id, task="all"
-            )
-            results = self.predict(data_loader)
-            metrics = self.extract_metrics(results)
-            self.experiment_tracker.log_metrics(metrics)
+
+        data_loader = self.data_source.get_dataset(tasks=self.tasks, task="all")
+        results = self.predict(data_loader)
+        metrics = self.extract_metrics(results)
+        self.experiment_tracker.log_metrics(metrics)

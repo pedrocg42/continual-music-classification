@@ -34,11 +34,9 @@ class DataframeExperimentTracker(ExperimentTracker):
 
     def configure_task(
         self,
-        cross_val_id: int,
         train_task_number: int = 0,
         train_task_name: str = "all",
     ):
-        self.cross_val_id = cross_val_id
         self.train_task_number = train_task_number
         self.train_task_name = (
             "-".join(train_task_name)
@@ -50,7 +48,6 @@ class DataframeExperimentTracker(ExperimentTracker):
             "experiment_name": self.experiment_name,
             "experiment_type": self.experiment_type,
             "experiment_subtype": self.experiment_subtype,
-            "cv_fold": self.cross_val_id,
             "train_dataset_name": self.dataset_name,
             "train_task_number": self.train_task_number,
             "train_task_name": self.train_task_name,
@@ -59,7 +56,7 @@ class DataframeExperimentTracker(ExperimentTracker):
     def log_task_metrics(
         self,
         metrics: str,
-        task: str = None,
+        task: list[str] = None,
     ):
         row = self.row.copy()
         row["task_name"] = task if isinstance(task, str) else "-".join(task)

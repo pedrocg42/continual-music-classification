@@ -88,7 +88,7 @@ class VocalSetSingerDataSource(TrainDataSource):
         # Split
         self.cross_val_split()
 
-    def cross_val_split(self, cross_val_id: int = 0):
+    def cross_val_split(self, tasks: list[list[str]] = 0):
         # Split
         self.songs_splits = {
             "train": [],
@@ -114,14 +114,14 @@ class VocalSetSingerDataSource(TrainDataSource):
             ]
 
             # Get train, val and test splits
-            test_set_songs = songs_splits.pop(cross_val_id)
+            test_set_songs = songs_splits.pop(tasks)
             val_set_songs = songs_splits.pop(-1)
             train_set_songs = np.concatenate(songs_splits)
             self.songs_splits["train"].append(train_set_songs)
             self.songs_splits["val"].append(val_set_songs)
             self.songs_splits["test"].append(test_set_songs)
 
-            test_set_labels = labels_splits.pop(cross_val_id)
+            test_set_labels = labels_splits.pop(tasks)
             val_set_labels = labels_splits.pop(-1)
             train_set_labels = np.concatenate(labels_splits)
             self.labels_splits["train"].append(train_set_labels)
@@ -138,11 +138,11 @@ class VocalSetSingerDataSource(TrainDataSource):
     def get_dataset(
         self,
         task: str | list[str] = None,
-        cross_val_id: int = 0,
+        tasks: list[list[str]] = 0,
         memory_dataset: Dataset = None,
         is_eval: bool | None = None,
     ) -> Dataset:
-        self.cross_val_split(cross_val_id=cross_val_id)
+        self.cross_val_split(tasks=tasks)
 
         songs = self.songs_splits[self.split]
         labels = self.labels_splits[self.split]
@@ -172,13 +172,13 @@ class VocalSetSingerDataSource(TrainDataSource):
 
     def get_dataloader(
         self,
-        task: str = None,
-        cross_val_id: int = 0,
+        task: list[str] | str = None,
+        tasks: list[list[str]] = 0,
         batch_size: int = 32,
         num_workers: int = 0,
         **kwargs,
     ) -> DataLoader:
-        dataset = self.get_dataset(task=task, cross_val_id=cross_val_id, **kwargs)
+        dataset = self.get_dataset(task=task, tasks=tasks, **kwargs)
 
         data_loader = DataLoader(
             dataset=dataset,

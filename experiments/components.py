@@ -5,7 +5,6 @@ from copy import deepcopy
 ###############################################################
 
 # Training parameters
-num_cross_val_splits = 5
 num_epochs = 200
 early_stopping_patience = 40
 early_stopping_metric = "F1 Score"

@@ -22,47 +22,41 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
         self.memory_dataset = None
 
     def configure_task(
-        self, cross_val_id: int, task_id: int, task: list[str], **kwargs
+        self, tasks: list[list[str]], task_id: int, task: list[str] | str, **kwargs
     ):
-        super().configure_task(cross_val_id, task_id, task, **kwargs)
+        super().configure_task(tasks, task_id, task, **kwargs)
         self.memories_per_class = self.num_memories // len(self.known_classes + task)
 
         if self.memory_dataset is not None:
             self.train_data_loader = self.train_data_source.get_dataloader(
-                cross_val_id=cross_val_id,
+                tasks=tasks,
                 task=task,
                 batch_size=self.batch_size,
                 memory_dataset=self.memory_dataset,
             )
 
-    def train(self, experiment_name: str, num_cross_val_splits: int = 1):
+    def train(self, experiment_name: str):
         logger.info(f"Started training process of experiment {experiment_name}")
         self.configure_experiment(experiment_name, self.batch_size)
-        for cross_val_id in range(num_cross_val_splits):
-            if cross_val_id > 0 or self.debug and cross_val_id > 0:
-                break
-            self.configure_cv(cross_val_id)
-            self.log_start()
-            for task_id, task in enumerate(self.tasks):
-                self.configure_task(cross_val_id, task_id, task)
-                if self.model_saver.model_exists():
-                    logger.info(
-                        f"Model already exists for cross_val_id {cross_val_id} and task {task}"
-                    )
-                    self.after_training_task(cross_val_id, task)
-                    continue
-                logger.info(f"Starting training of task {task}")
-                for epoch in range(self.num_epochs):
-                    early_stopping = self.train_epoch(epoch)
-                    if early_stopping:
-                        break
-                self.after_training_task(cross_val_id, task)
+        self.log_start()
+        for task_id, task in enumerate(self.tasks):
+            self.configure_task(task_id, task)
+            if self.model_saver.model_exists():
+                logger.info(f"Model already exists for and task {task}")
+                self.after_training_task(task)
+                continue
+            logger.info(f"Starting training of task {task}")
+            for epoch in range(self.num_epochs):
+                early_stopping = self.train_epoch(epoch)
+                if early_stopping:
+                    break
+            self.after_training_task(task)
 
-    def after_training_task(self, cross_val_id: int, task: list[str]):
+    def after_training_task(self, task: list[str] | str):
         if len(self.known_classes):
             self.reduce_exemplar()
         self.known_classes += task
-        self.construct_exemplar(cross_val_id, task)
+        self.construct_exemplar(task)
 
     def reduce_exemplar(self):
         logger.info(f"Reducing exemplars...({self.memories_per_class} per classes)")
@@ -87,10 +81,10 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
                 else dt
             )
 
-    def construct_exemplar(self, cross_val_id: int, task: str | list[str]):
+    def construct_exemplar(self, task: str | list[str]):
         logger.info(f"Constructing exemplars...({self.memories_per_class} per class)")
         for class_idx, task_class in enumerate(task):
-            inputs, _, vectors = self.extract_vectors(cross_val_id, task_class)
+            inputs, _, vectors = self.extract_vectors(task_class)
             vectors = (
                 vectors
                 / (np.linalg.norm(vectors.T, axis=0) + np.finfo(np.float32).eps)[
@@ -141,12 +135,12 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
             )
 
     @torch.no_grad()
-    def extract_vectors(self, cross_val_id: int, task: str):
+    def extract_vectors(self, task: list[str] | str):
         self.model.eval()
 
         # Getting data loader
         data_loader = self.train_data_source.get_dataset(
-            cross_val_id=cross_val_id, task=task, is_eval=True
+            tasks=self.tasks, task=task, is_eval=True
         )
 
         inputs_list, targets_list, vectors_list = [], [], []

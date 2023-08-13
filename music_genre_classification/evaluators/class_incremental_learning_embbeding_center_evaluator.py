@@ -16,7 +16,9 @@ class ClassIncrementalLearningEmbeddingCenterEvaluator(
 
         self.num_classes = 0
 
-    def configure_task(self, cross_val_id: int, task_id: int, task: str):
+    def configure_task(
+        self, tasks: list[list[str]], task_id: int, task: list[str] | str
+    ):
         self.num_classes += len(task)
 
         self.model.to(config.device)
@@ -27,7 +29,7 @@ class ClassIncrementalLearningEmbeddingCenterEvaluator(
         self.model_saver.configure(
             self.model,
             experiment_name=self.experiment_name,
-            cross_val_id=cross_val_id,
+            tasks=tasks,
             task_id=task_id,
             task=task,
         )
@@ -35,7 +37,7 @@ class ClassIncrementalLearningEmbeddingCenterEvaluator(
 
         self.data_transform.to(config.device)
         self.experiment_tracker.configure_task(
-            cross_val_id=cross_val_id,
+            tasks=tasks,
             train_task_number=task_id,
             train_task_name=task,
         )

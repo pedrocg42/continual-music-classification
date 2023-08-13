@@ -3,8 +3,8 @@ import copy
 import torch
 import torch.nn as nn
 
-from music_genre_classification.models.encoders import EncoderFactory
 import config
+from music_genre_classification.models.encoders import EncoderFactory
 
 
 class TorchEmbeddingModel(nn.Module):

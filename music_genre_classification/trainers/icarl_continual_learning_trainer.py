@@ -10,7 +10,7 @@ from music_genre_classification.trainers.replay_continual_learning_trainer impor
 
 
 class iCaRLContinualLearningTrainer(ReplayContinualLearningTrainer):
-    def after_training_task(self, cross_val_id: int, task: list[str]):
-        super().after_training_task(cross_val_id, task)
+    def after_training_task(self, tasks: list[list[str]], task: list[str] | str):
+        super().after_training_task(tasks, task)
         self.looper.old_model = self.model.copy().freeze()
         self.looper.known_classes = self.known_classes

@@ -5,22 +5,19 @@ from music_genre_classification.my_utils import parse_experiment
 from music_genre_classification.trainers import TrainerFactory
 
 
-def train(experiment_name: str, num_cross_val_splits: int, trainer: dict):
+def train(experiment_name: str, trainer: dict):
     trainer = TrainerFactory.build(trainer)
-    trainer.train(experiment_name, num_cross_val_splits)
+    trainer.train(experiment_name)
 
 
 def evaluate(
     experiment_name: str,
     experiment_type: str,
     experiment_subtype: str,
-    num_cross_val_splits: int,
     evaluator: dict,
 ):
     evaluator = EvaluatorFactory.build(evaluator)
-    evaluator.evaluate(
-        experiment_name, experiment_type, experiment_subtype, num_cross_val_splits
-    )
+    evaluator.evaluate(experiment_name, experiment_type, experiment_subtype)
 
 
 @parse_experiment
@@ -28,15 +25,13 @@ def execute_experiment(
     experiment_name: str,
     experiment_type: str,
     experiment_subtype: str,
-    num_cross_val_splits: int,
     **experiment,
 ):
-    train(experiment_name, num_cross_val_splits, **experiment["train"])
+    train(experiment_name, **experiment["train"])
     evaluate(
         experiment_name,
         experiment_type,
         experiment_subtype,
-        num_cross_val_splits,
         **experiment["evaluate"],
     )
 

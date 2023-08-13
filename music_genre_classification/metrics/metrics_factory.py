@@ -1,4 +1,4 @@
-from torchmetrics import F1Score, Metric, Precision, Recall
+from torchmetrics import Accuracy, F1Score, Metric, Precision, Recall
 
 
 class MetricsFactory:
@@ -19,5 +19,7 @@ class MetricsFactory:
             return Precision(**config.get("args", {}))
         elif config["name"] == "Recall":
             return Recall(**config.get("args", {}))
+        elif config["name"] == "Accuracy":
+            return Accuracy(**config.get("args", {}))
         else:
             raise ValueError(f"Unknown looper type: {config['name']}")

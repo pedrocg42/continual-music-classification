@@ -6,6 +6,7 @@ import numpy as np
 from torch.utils.data import ConcatDataset, DataLoader, Dataset
 
 import config
+from music_genre_classification.my_utils.lists import flatten_list
 from music_genre_classification.train_data_sources.mert_genre_classification_dataset import (
     MertGenreClassificationDataset,
 )
@@ -34,7 +35,6 @@ class GtzanDataSource(TrainDataSource):
     def __init__(
         self,
         split: str,
-        num_cross_val_splits: int = 5,
         is_eval: bool = False,
         chunk_length: float = 5.0,
         **kwargs,
@@ -42,12 +42,9 @@ class GtzanDataSource(TrainDataSource):
         self.name = "GTZAN"
         self.dataset_path = os.path.join(config.dataset_path, self.name)
         self.genres = GTZAN_GENRES
-        self.genres_to_index = {genre: i for i, genre in enumerate(self.genres)}
-        self.index_to_genres = {i: genre for i, genre in enumerate(self.genres)}
 
         # Split parameters
         self.split = split
-        self.num_cross_val_splits = num_cross_val_splits
         self.is_eval = is_eval
 
         # Audio parameters
@@ -57,7 +54,18 @@ class GtzanDataSource(TrainDataSource):
 
         self._get_songs()
 
+    def build_label_encoder_and_decoder(self, tasks: list[list[str]]) -> None:
+        if tasks == "all" or tasks[0] == "all":
+            ordered_genres = self.genres
+        else:
+            ordered_genres = np.array(flatten_list(tasks)).reshape(-1)
+        self.genres_to_index = {genre: i for i, genre in enumerate(ordered_genres)}
+        self.index_to_genre = {i: genre for i, genre in enumerate(ordered_genres)}
+
     def _get_songs(self):
+        # Split
+        self.songs_splits = {}
+        self.labels_splits = {}
         # Read annotations
         song_list = np.array(
             glob(os.path.join(self.dataset_path, "genres", "*", "*.wav"))
@@ -72,97 +80,37 @@ class GtzanDataSource(TrainDataSource):
             with open(
                 os.path.join(self.dataset_path, f"{split}_filtered.txt"), "r"
             ) as f:
-                list_accepted_songs += f.readlines()
-        list_accepted_songs = np.array(
-            [os.path.basename(song).split(".wav")[0] for song in list_accepted_songs]
-        )
-        mask = np.array(
-            [
-                True
-                if os.path.basename(song).split(".wav")[0] in list_accepted_songs
-                else False
-                for song in song_list
-            ]
-        )
-        song_list = song_list[mask]
-        song_labels = song_labels[mask]
-
-        # Transform
-        self.songs = np.array(
-            [
-                os.path.join(self.dataset_path, song.split(".")[0], song)
-                for song in song_list
-            ]
-        )
-        self.labels = np.array([self.genres_to_index[label] for label in song_labels])
-
-        # Shuffling
-        idx = np.arange(len(self.songs))
-        np.random.shuffle(idx)
-        self.songs = self.songs[idx]
-        self.labels = self.labels[idx]
-
-        # Split
-        self.cross_val_split()
-
-    def cross_val_split(self, cross_val_id: int = 0):
-        # Split
-        self.songs_splits = {
-            "train": [],
-            "val": [],
-            "test": [],
-        }
-        self.labels_splits = {
-            "train": [],
-            "val": [],
-            "test": [],
-        }
-        for index in self.index_to_genres.keys():
-            songs_genre = self.songs[self.labels == index]
-            labels_genre = self.labels[self.labels == index]
-            split_size = len(songs_genre) // self.num_cross_val_splits
-            songs_splits = [
-                songs_genre[int(i * split_size) : int((i + 1) * split_size)]
-                for i in range(self.num_cross_val_splits)
-            ]
-            labels_splits = [
-                labels_genre[int(i * split_size) : int((i + 1) * split_size)]
-                for i in range(self.num_cross_val_splits)
-            ]
-
-            # Get train, val and test splits
-            test_set_songs = songs_splits.pop(cross_val_id)
-            val_set_songs = songs_splits.pop(-1)
-            train_set_songs = np.concatenate(songs_splits)
-            self.songs_splits["train"].append(train_set_songs)
-            self.songs_splits["val"].append(val_set_songs)
-            self.songs_splits["test"].append(test_set_songs)
-
-            test_set_labels = labels_splits.pop(cross_val_id)
-            val_set_labels = labels_splits.pop(-1)
-            train_set_labels = np.concatenate(labels_splits)
-            self.labels_splits["train"].append(train_set_labels)
-            self.labels_splits["val"].append(val_set_labels)
-            self.labels_splits["test"].append(test_set_labels)
-
-        self.songs_splits["train"] = np.concatenate(self.songs_splits["train"])
-        self.songs_splits["val"] = np.concatenate(self.songs_splits["val"])
-        self.songs_splits["test"] = np.concatenate(self.songs_splits["test"])
-        self.labels_splits["train"] = np.concatenate(self.labels_splits["train"])
-        self.labels_splits["val"] = np.concatenate(self.labels_splits["val"])
-        self.labels_splits["test"] = np.concatenate(self.labels_splits["test"])
+                list_accepted_songs = f.readlines()
+            list_accepted_songs = np.array(
+                [
+                    os.path.basename(song).split(".wav")[0]
+                    for song in list_accepted_songs
+                ]
+            )
+            mask = np.array(
+                [
+                    True
+                    if os.path.basename(song).split(".wav")[0] in list_accepted_songs
+                    else False
+                    for song in song_list
+                ]
+            )
+            self.songs_splits[split] = song_list[mask]
+            self.labels_splits[split] = song_labels[mask]
 
     def get_dataset(
         self,
         task: str | list[str] = None,
-        cross_val_id: int = 0,
+        tasks: list[list[str]] = 0,
         memory_dataset: Dataset = None,
         is_eval: bool | None = None,
     ) -> Dataset:
-        self.cross_val_split(cross_val_id=cross_val_id)
+        self.build_label_encoder_and_decoder(tasks)
 
         songs = self.songs_splits[self.split]
-        labels = self.labels_splits[self.split]
+        labels = np.array(
+            [self.genres_to_index[genre] for genre in self.labels_splits[self.split]]
+        )
 
         if task is not None and task != "all":
             if isinstance(task, str):
@@ -189,13 +137,13 @@ class GtzanDataSource(TrainDataSource):
 
     def get_dataloader(
         self,
-        task: str = None,
-        cross_val_id: int = 0,
+        task: list[str] | str = None,
+        tasks: list[list[str]] = 0,
         batch_size: int = 32,
         num_workers: int = 0,
         **kwargs,
     ) -> DataLoader:
-        dataset = self.get_dataset(task=task, cross_val_id=cross_val_id, **kwargs)
+        dataset = self.get_dataset(task=task, tasks=tasks, **kwargs)
 
         data_loader = DataLoader(
             dataset=dataset,

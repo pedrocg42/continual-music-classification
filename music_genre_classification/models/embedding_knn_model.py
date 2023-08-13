@@ -3,8 +3,8 @@ import copy
 import torch
 import torch.nn as nn
 
-from music_genre_classification.models.encoders import EncoderFactory
 from music_genre_classification.models.embedding_model import TorchEmbeddingModel
+from music_genre_classification.models.encoders import EncoderFactory
 
 
 class TorchEmbeddingKnnModel(TorchEmbeddingModel):
@@ -18,7 +18,6 @@ class TorchEmbeddingKnnModel(TorchEmbeddingModel):
         self.initialize()
 
     def match_embeddings(self, embeddings: torch.Tensor) -> torch.Tensor:
-        
         similarities = torch.cdist(
             embeddings[None], self.reference_embeddings[None]
         ).squeeze()

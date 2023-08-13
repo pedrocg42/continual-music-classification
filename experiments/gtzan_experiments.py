@@ -15,11 +15,27 @@ all_tasks = [
 ]
 
 scenario1 = [
-    ["blues", "classical"],
-    ["country", "disco"],
-    ["hiphop", "jazz"],
     ["metal", "pop"],
+    ["country", "disco"],
     ["reggae", "rock"],
+    ["blues", "classical"],
+    ["hiphop", "jazz"],
+]
+
+scenario2 = [
+    ["jazz", "rock"],
+    ["classical", "hiphop"],
+    ["reggae", "country"],
+    ["metal", "blues"],
+    ["pop", "disco"],
+]
+
+scenario3 = [
+    ["hiphop", "metal"],
+    ["reggae", "pop"],
+    ["classical", "rock"],
+    ["disco", "blues"],
+    ["country", "jazz"],
 ]
 
 ###############################################################
@@ -34,7 +50,6 @@ train_gtzan_data_source = {
     "args": {
         "split": "train",
         "chunk_length": 3,
-        "num_cross_val_splits": 5,
         "is_eval": False,
     },
 }
@@ -53,10 +68,18 @@ oracle_train_model_gtzan = {
 # Metrics
 genre_classification_metrics_gtzan = [
     {
+        "name": "Accuracy",
+        "args": {
+            "task": "multiclass",
+            "average": "micro",
+            "num_classes": num_classes,
+        },
+    },
+    {
         "name": "F1 Score",
         "args": {
             "task": "multiclass",
-            "average": "macro",
+            "average": "micro",
             "num_classes": num_classes,
         },
     },
@@ -64,7 +87,7 @@ genre_classification_metrics_gtzan = [
         "name": "Precision",
         "args": {
             "task": "multiclass",
-            "average": "macro",
+            "average": "micro",
             "num_classes": num_classes,
         },
     },
@@ -72,7 +95,7 @@ genre_classification_metrics_gtzan = [
         "name": "Recall",
         "args": {
             "task": "multiclass",
-            "average": "macro",
+            "average": "micro",
             "num_classes": num_classes,
         },
     },
@@ -302,7 +325,6 @@ mert95m_base_oracle_gtzan_all = {
     "experiment_name": "mert95m_base_oracle_gtzan_all",
     "experiment_type": "Baseline",
     "experiment_subtype": "Oracle",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": oracle_trainer_gtzan,
@@ -321,7 +343,6 @@ mert95m_finetuning_cl_gtzan_scenario1 = {
     "experiment_name": "mert95m_finetuning_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "Finetuning",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_trainer_gtzan_scenario1,
@@ -335,7 +356,6 @@ mert95m_replay_cl_gtzan_scenario1 = {
     "experiment_name": "mert95m_replay_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "Replay",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_replay_trainer_gtzan_scenario1,
@@ -349,7 +369,6 @@ mert95m_icarl_cl_gtzan_scenario1 = {
     "experiment_name": "mert95m_icarl_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "iCaRL",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_icarl_trainer_gtzan_scenario1,
@@ -363,7 +382,6 @@ mert95m_vq_cl_gtzan_scenario1 = {
     "experiment_name": "mert95m_vq_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "VQ",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_vq_trainer_gtzan_scenario1,
@@ -377,7 +395,6 @@ mert95m_dkvb_cl_gtzan_scenario1 = {
     "experiment_name": "mert95m_dkvb_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "DKVB",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_dkvb_trainer_gtzan_scenario1,
@@ -391,7 +408,6 @@ mert95m_gem_cl_gtzan_scenario1 = {
     "experiment_name": "mert95m_gem_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "GEM",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_gem_trainer_gtzan_scenario1,
@@ -405,7 +421,6 @@ mert95m_ewc_cl_gtzan_scenario1 = {
     "experiment_name": "mert95m_ewc_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "EWC",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_ewc_trainer_gtzan_scenario1,
@@ -419,7 +434,6 @@ mert95m_l2p_cl_gtzan_scenario1 = {
     "experiment_name": "mert95m_l2p_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "L2P",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_l2p_trainer_gtzan_scenario1,
@@ -433,7 +447,6 @@ mert95m_embcenter_cl_gtzan_scenario1 = {
     "experiment_name": "mert95m_embcenter_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "EmbeddingCenter",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_embcenter_trainer_gtzan_scenario1,
@@ -447,7 +460,6 @@ mert95m_embcentercosine_cl_gtzan_scenario1 = {
     "experiment_name": "mert95m_embcentercosine_cl_gtzan_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "CenterCosine",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_embcentercosine_trainer_gtzan_scenario1,

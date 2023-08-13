@@ -8,7 +8,7 @@ from music_genre_classification.metrics import MetricsFactory
 
 
 class ClassIncrementalLearningDKVBEvaluator(ClassIncrementalLearningEvaluator):
-    def configure_task(self, cross_val_id: int, task_id: int, task: list[str]):
+    def configure_task(self, task_id: int, task: list[str] | str):
         self.model.update_bottleneck(task_id, task)
 
         # Updating metrics
@@ -19,7 +19,7 @@ class ClassIncrementalLearningDKVBEvaluator(ClassIncrementalLearningEvaluator):
         self.model_saver.configure(
             self.model,
             experiment_name=self.experiment_name,
-            cross_val_id=cross_val_id,
+            tasks=tasks,
             task_id=task_id,
             task=task,
         )
@@ -27,7 +27,7 @@ class ClassIncrementalLearningDKVBEvaluator(ClassIncrementalLearningEvaluator):
         self.model.to(config.device)
         self.data_transform.to(config.device)
         self.experiment_tracker.configure_task(
-            cross_val_id=cross_val_id,
+            tasks=tasks,
             train_task_number=task_id,
             train_task_name=task,
         )

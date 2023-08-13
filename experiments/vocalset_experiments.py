@@ -22,6 +22,24 @@ scenario1 = [
     ["female9", "male9", "male10", "male11"],
 ]
 
+scenario2 = [
+    ["female9", "male3", "female3", "female1"],
+    ["female8", "male1", "male9", "female5"],
+    ["female2", "male8", "female6", "male6"],
+    ["male7", "male4", "male2", "female7"],
+    ["male10", "female4", "male5", "male11"],
+]
+
+scenario3 = [
+    [
+        ["female8", "male7", "male8", "female1"],
+        ["male10", "female7", "male6", "male1"],
+        ["female9", "female5", "male9", "female4"],
+        ["female3", "male4", "male5", "female6"],
+        ["male11", "female2", "male2", "male3"],
+    ]
+]
+
 ###############################################################
 ###########               COMPONENTS                ###########
 ###############################################################
@@ -34,7 +52,6 @@ train_vocalsetsinger_data_source = {
     "args": {
         "split": "train",
         "chunk_length": 3,
-        "num_cross_val_splits": 5,
         "is_eval": False,
     },
 }
@@ -51,7 +68,7 @@ genre_classification_metrics_vocalsetsinger = [
         "name": "F1 Score",
         "args": {
             "task": "multiclass",
-            "average": "macro",
+            "average": "micro",
             "num_classes": num_classes,
         },
     },
@@ -59,7 +76,7 @@ genre_classification_metrics_vocalsetsinger = [
         "name": "Precision",
         "args": {
             "task": "multiclass",
-            "average": "macro",
+            "average": "micro",
             "num_classes": num_classes,
         },
     },
@@ -67,7 +84,7 @@ genre_classification_metrics_vocalsetsinger = [
         "name": "Recall",
         "args": {
             "task": "multiclass",
-            "average": "macro",
+            "average": "micro",
             "num_classes": num_classes,
         },
     },
@@ -318,7 +335,6 @@ mert95m_base_oracle_vocalsetsinger_all = {
     "experiment_name": "mert95m_base_oracle_vocalsetsinger_all",
     "experiment_type": "Baseline",
     "experiment_subtype": "Oracle",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": oracle_trainer_vocalsetsinger,
@@ -337,7 +353,6 @@ mert95m_finetuning_cl_vocalsetsinger_scenario1 = {
     "experiment_name": "mert95m_finetuning_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "Finetuning",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_trainer_vocalsetsinger_scenario1,
@@ -351,7 +366,6 @@ mert95m_replay_cl_vocalsetsinger_scenario1 = {
     "experiment_name": "mert95m_replay_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "Replay",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_replay_trainer_vocalsetsinger_scenario1,
@@ -365,7 +379,6 @@ mert95m_icarl_cl_vocalsetsinger_scenario1 = {
     "experiment_name": "mert95m_icarl_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "iCaRL",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_icarl_trainer_vocalsetsinger_scenario1,
@@ -379,7 +392,6 @@ mert95m_vq_cl_vocalsetsinger_scenario1 = {
     "experiment_name": "mert95m_vq_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "VQ",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_vq_trainer_vocalsetsinger_scenario1,
@@ -393,7 +405,6 @@ mert95m_dkvb_cl_vocalsetsinger_scenario1 = {
     "experiment_name": "mert95m_dkvb_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "DKVB",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_dkvb_trainer_vocalsetsinger_scenario1,
@@ -407,7 +418,6 @@ mert95m_gem_cl_vocalsetsinger_scenario1 = {
     "experiment_name": "mert95m_gem_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "GEM",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_gem_trainer_vocalsetsinger_scenario1,
@@ -421,7 +431,6 @@ mert95m_ewc_cl_vocalsetsinger_scenario1 = {
     "experiment_name": "mert95m_ewc_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "EWC",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_ewc_trainer_vocalsetsinger_scenario1,
@@ -435,7 +444,6 @@ mert95m_l2p_cl_vocalsetsinger_scenario1 = {
     "experiment_name": "mert95m_l2p_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "L2P",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_l2p_trainer_vocalsetsinger_scenario1,
@@ -449,7 +457,6 @@ mert95m_embcenter_cl_vocalsetsinger_scenario1 = {
     "experiment_name": "mert95m_embcenter_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "EmbeddingCenter",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_embcenter_trainer_vocalsetsinger_scenario1,
@@ -463,7 +470,6 @@ mert95m_embcentercosine_cl_vocalsetsinger_scenario1 = {
     "experiment_name": "mert95m_embcentercosine_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "CenterCosine",
-    "num_cross_val_splits": num_cross_val_splits,
     # data
     "train": {
         "trainer": continual_learning_embcentercosine_trainer_vocalsetsinger_scenario1,

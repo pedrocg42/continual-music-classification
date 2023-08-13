@@ -19,12 +19,10 @@ class TensorboardExperimentTracker(ExperimentTracker):
     def configure_task(
         self,
         experiment_name: str,
-        cross_val_id: int,
         task_id: int,
         task: str | list[str] = None,
     ):
         self.experiment_name = experiment_name
-        self.cross_val_id = cross_val_id
         self.task_id = task_id
         self.task = "-".join(task) if isinstance(task, list) else task
         self.build_model_name()
@@ -37,7 +35,7 @@ class TensorboardExperimentTracker(ExperimentTracker):
     def build_model_name(
         self,
     ):
-        self.model_name = f"{self.experiment_name}__cv_{self.cross_val_id}"
+        self.model_name = f"{self.experiment_name}"
         self.model_name += f"__task_{self.task_id}" if self.task_id is not None else ""
 
     def log_metric(self, metric_name: str, metric: float, epoch: int):

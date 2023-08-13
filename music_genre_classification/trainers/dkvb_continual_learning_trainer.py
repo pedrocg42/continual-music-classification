@@ -23,12 +23,12 @@ class DkvbContinualLearningTrainer(ContinualLearningTrainer):
 
     def configure_task(
         self,
-        cross_val_id: int,
+        tasks: list[list[str]],
         task_id: int,
-        task: str | list[str],
+        task: list[str] | str | list[str],
         **kwargs,
     ):
-        super().configure_task(cross_val_id, task_id, task, **kwargs)
+        super().configure_task(tasks, task_id, task, **kwargs)
         self.model.update_bottleneck(task_id, task)
         self.looper.optimizer.configure(self.model.parameters())
 
@@ -44,29 +44,25 @@ class DkvbContinualLearningTrainer(ContinualLearningTrainer):
                 epoch, self.model, self.train_data_loader, self.train_data_transform
             )
 
-    def train(self, experiment_name: str, num_cross_val_splits: int = 1):
+    def train(
+        self,
+        experiment_name: str,
+    ):
         logger.info(f"Started training process of experiment {experiment_name}")
         self.configure_experiment(experiment_name, self.batch_size)
-        for cross_val_id in range(num_cross_val_splits):
-            if cross_val_id > 0 or self.debug and cross_val_id > 0:
-                break
-            logger.info(f"Started training of {cross_val_id=}")
-            self.configure_cv(cross_val_id)
-            self.log_start()
-            for task_id, task in enumerate(self.tasks):
-                logger.info(f"Started training process of {task_id=} {task=}")
-                self.configure_task(cross_val_id, task_id, task)
-                if self.model_saver.model_exists():
-                    logger.info(
-                        f"Model already exists for cross_val_id {cross_val_id} and task {task}"
-                    )
-                    continue
-                if task_id == 0:
-                    self.initialize_keys()
-                if self.freeze_decoder_after_first_episode and task_id > 0:
-                    logger.info("Freezing decoder")
-                    self.model.freeze_decoder()
-                for epoch in range(self.num_epochs):
-                    early_stopping = self.train_epoch(epoch)
-                    if early_stopping:
-                        break
+        self.log_start()
+        for task_id, task in enumerate(self.tasks):
+            logger.info(f"Started training process of {task_id=} {task=}")
+            self.configure_task(task_id, task)
+            if self.model_saver.model_exists():
+                logger.info(f"Model already exists for and task {task}")
+                continue
+            if task_id == 0:
+                self.initialize_keys()
+            if self.freeze_decoder_after_first_episode and task_id > 0:
+                logger.info("Freezing decoder")
+                self.model.freeze_decoder()
+            for epoch in range(self.num_epochs):
+                early_stopping = self.train_epoch(epoch)
+                if early_stopping:
+                    break
