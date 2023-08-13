@@ -6,6 +6,7 @@ import numpy as np
 from torch.utils.data import ConcatDataset, DataLoader, Dataset
 
 import config
+from music_genre_classification.my_utils.lists import flatten_list
 from music_genre_classification.train_data_sources.mert_genre_classification_dataset import (
     MertGenreClassificationDataset,
 )
@@ -44,21 +45,21 @@ class VocalSetSingerDataSource(TrainDataSource):
     def __init__(
         self,
         split: str,
-        num_cross_val_splits: int = 5,
-        singer: list[str] = SINGERS,
+        splits_config: dict(train=0.7, val=0.1, test=0.2),
+        singers: list[str] = SINGERS,
         is_eval: bool = False,
         chunk_length: float = 5.0,
         **kwargs,
     ):
         self.name = "VocalSetSinger"
         self.dataset_path = os.path.join(config.dataset_path, "VocalSet", "FULL")
-        self.singer = singer
+        self.singers = singers
         self.singer_to_index = {singer: i for i, singer in enumerate(self.singer)}
         self.index_to_singer = {i: singer for i, singer in enumerate(self.singer)}
 
         # Split parameters
         self.split = split
-        self.num_cross_val_splits = num_cross_val_splits
+        self.splits_config = splits_config
         self.is_eval = is_eval
 
         # Audio parameters
@@ -68,16 +69,23 @@ class VocalSetSingerDataSource(TrainDataSource):
 
         self._get_songs()
 
+    def build_label_encoder_and_decoder(self, tasks: list[list[str]]) -> None:
+        if tasks == "all" or tasks[0] == "all":
+            ordered_singers = self.singers
+        else:
+            ordered_singers = np.array(flatten_list(tasks)).reshape(-1)
+        self.singers_to_index = {singer: i for i, singer in enumerate(ordered_singers)}
+        self.index_to_singer = {i: singer for i, singer in enumerate(ordered_singers)}
+
     def _get_songs(self):
         # Read annotations
         self.songs = np.array(
             glob(os.path.join(self.dataset_path, "*", "*", "*", "*.wav"))
         )
 
-        song_labels = np.array(
+        self.labels = np.array(
             [os.path.normpath(song).split(os.sep)[-4] for song in self.songs]
         )
-        self.labels = np.array([self.singer_to_index[label] for label in song_labels])
 
         # Shuffling
         idx = np.arange(len(self.songs))
@@ -86,9 +94,9 @@ class VocalSetSingerDataSource(TrainDataSource):
         self.labels = self.labels[idx]
 
         # Split
-        self.cross_val_split()
+        self.build_splits()
 
-    def cross_val_split(self, tasks: list[list[str]] = 0):
+    def build_splits(self):
         # Split
         self.songs_splits = {
             "train": [],
@@ -100,33 +108,22 @@ class VocalSetSingerDataSource(TrainDataSource):
             "val": [],
             "test": [],
         }
-        for index in self.index_to_singer.keys():
-            songs_singer = self.songs[self.labels == index]
-            labels_singer = self.labels[self.labels == index]
-            split_size = len(songs_singer) // self.num_cross_val_splits
-            songs_splits = [
-                songs_singer[int(i * split_size) : int((i + 1) * split_size)]
-                for i in range(self.num_cross_val_splits)
-            ]
-            labels_splits = [
-                labels_singer[int(i * split_size) : int((i + 1) * split_size)]
-                for i in range(self.num_cross_val_splits)
-            ]
+        for singer in self.singers:
+            songs_singer = self.songs[self.labels == singer]
+            labels_singer = self.labels[self.labels == singer]
 
-            # Get train, val and test splits
-            test_set_songs = songs_splits.pop(tasks)
-            val_set_songs = songs_splits.pop(-1)
-            train_set_songs = np.concatenate(songs_splits)
-            self.songs_splits["train"].append(train_set_songs)
-            self.songs_splits["val"].append(val_set_songs)
-            self.songs_splits["test"].append(test_set_songs)
+            train_idx = round(len(songs_singer) * self.splits_config["train"])
+            val_idx = round(
+                len(songs_singer)
+                * (self.splits_config["train"] + self.splits_config["val"])
+            )
 
-            test_set_labels = labels_splits.pop(tasks)
-            val_set_labels = labels_splits.pop(-1)
-            train_set_labels = np.concatenate(labels_splits)
-            self.labels_splits["train"].append(train_set_labels)
-            self.labels_splits["val"].append(val_set_labels)
-            self.labels_splits["test"].append(test_set_labels)
+            self.songs_splits["train"].append(songs_singer[:train_idx])
+            self.songs_splits["val"].append(songs_singer[train_idx:val_idx])
+            self.songs_splits["test"].append(songs_singer[val_idx:])
+            self.labels_splits["train"].append(labels_singer[:train_idx])
+            self.labels_splits["val"].append(labels_singer[train_idx:val_idx])
+            self.labels_splits["test"].append(labels_singer[val_idx:])
 
         self.songs_splits["train"] = np.concatenate(self.songs_splits["train"])
         self.songs_splits["val"] = np.concatenate(self.songs_splits["val"])
@@ -138,23 +135,23 @@ class VocalSetSingerDataSource(TrainDataSource):
     def get_dataset(
         self,
         task: str | list[str] = None,
-        tasks: list[list[str]] = 0,
+        tasks: list[list[str]] = ["all"],
         memory_dataset: Dataset = None,
         is_eval: bool | None = None,
     ) -> Dataset:
-        self.cross_val_split(tasks=tasks)
+        self.build_label_encoder_and_decoder(tasks)
 
         songs = self.songs_splits[self.split]
         labels = self.labels_splits[self.split]
 
         if task is not None and task != "all":
             if isinstance(task, str):
-                songs = songs[labels == self.singer_to_index[task]]
-                labels = labels[labels == self.singer_to_index[task]]
+                songs = songs[labels == task]
+                labels = labels[labels == task]
             elif isinstance(task, list):
-                task = [self.singer_to_index[singer] for singer in task]
                 songs = songs[np.isin(labels, task)]
                 labels = labels[np.isin(labels, task)]
+        labels = np.array([self.singers_to_index[genre] for genre in labels])
 
         dataset = MertGenreClassificationDataset(
             songs=songs,
@@ -173,7 +170,7 @@ class VocalSetSingerDataSource(TrainDataSource):
     def get_dataloader(
         self,
         task: list[str] | str = None,
-        tasks: list[list[str]] = 0,
+        tasks: list[list[str]] = ["all"],
         batch_size: int = 32,
         num_workers: int = 0,
         **kwargs,

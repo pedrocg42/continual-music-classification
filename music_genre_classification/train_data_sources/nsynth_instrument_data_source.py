@@ -100,28 +100,25 @@ class NSynthInstrumentTechDataSource(TrainDataSource):
     def get_dataset(
         self,
         task: str | list[str] = None,
-        tasks: list[list[str]] = 0,
+        tasks: list[list[str]] = ["all"],
         memory_dataset: Dataset = None,
         is_eval: bool | None = None,
     ) -> Dataset:
         self.build_label_encoder_and_decoder(tasks)
 
         songs = self.songs_splits[self.split]
-        labels = np.array(
-            [
-                self.instrument_to_index[instrument]
-                for instrument in self.labels_splits[self.split]
-            ]
-        )
+        labels = self.labels_splits[self.split]
 
         if task is not None and task != "all":
             if isinstance(task, str):
-                songs = songs[labels == self.instrument_to_index[task]]
-                labels = labels[labels == self.instrument_to_index[task]]
+                songs = songs[labels == task]
+                labels = labels[labels == task]
             elif isinstance(task, list):
-                task = [self.instrument_to_index[instrument] for instrument in task]
                 songs = songs[np.isin(labels, task)]
                 labels = labels[np.isin(labels, task)]
+        labels = np.array(
+            [self.instrument_to_index[instrument] for instrument in labels]
+        )
 
         dataset = MertGenreClassificationDataset(
             songs=songs,
@@ -140,7 +137,7 @@ class NSynthInstrumentTechDataSource(TrainDataSource):
     def get_dataloader(
         self,
         task: list[str] | str = None,
-        tasks: list[list[str]] = 0,
+        tasks: list[list[str]] = ["all"],
         batch_size: int = 32,
         num_workers: int = 0,
         **kwargs,

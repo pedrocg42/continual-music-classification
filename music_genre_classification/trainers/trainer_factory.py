@@ -47,11 +47,11 @@ class TrainerFactory:
             )
 
             return iCaRLContinualLearningTrainer(**config["args"])
-        if config["name"] == "ContinualLearningTrainerEmbeddingCenter":
+        if config["name"] == "ContinualLearningTrainerL2Center":
             from music_genre_classification.trainers import (
-                ContinualLearningTrainerEmbeddingCenter,
+                ContinualLearningTrainerL2Center,
             )
 
-            return ContinualLearningTrainerEmbeddingCenter(**config["args"])
+            return ContinualLearningTrainerL2Center(**config["args"])
 
         raise Exception("No trainer named %s" % config["name"])

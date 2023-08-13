@@ -8,9 +8,7 @@ from music_genre_classification.evaluators.class_incremental_learning_evaluator 
 from music_genre_classification.metrics import MetricsFactory
 
 
-class ClassIncrementalLearningEmbeddingCenterEvaluator(
-    ClassIncrementalLearningEvaluator
-):
+class ClassIncrementalLearningL2CenterEvaluator(ClassIncrementalLearningEvaluator):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

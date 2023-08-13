@@ -8,7 +8,7 @@ from music_genre_classification.trainers.class_incremental_learning_trainer impo
 )
 
 
-class ContinualLearningTrainerEmbeddingCenter(ClassIncrementalLearningTrainer):
+class ContinualLearningTrainerL2Center(ClassIncrementalLearningTrainer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

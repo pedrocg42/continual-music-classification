@@ -65,6 +65,14 @@ test_vocalsetsinger_data_source["args"]["is_eval"] = True
 # Metrics
 genre_classification_metrics_vocalsetsinger = [
     {
+        "name": "Accuracy",
+        "args": {
+            "task": "multiclass",
+            "average": "micro",
+            "num_classes": num_classes,
+        },
+    },
+    {
         "name": "F1 Score",
         "args": {
             "task": "multiclass",
@@ -98,7 +106,7 @@ oracle_train_model_vocalsetsinger = {
     "args": {"num_classes": num_classes},
 }
 
-# Scenario 1
+## Oracle
 oracle_trainer_vocalsetsinger = deepcopy(oracle_trainer)
 oracle_trainer_vocalsetsinger["args"]["train_model"] = oracle_train_model_vocalsetsinger
 oracle_trainer_vocalsetsinger["args"][
@@ -112,6 +120,7 @@ oracle_trainer_vocalsetsinger["args"][
 ] = genre_classification_metrics_vocalsetsinger
 
 
+## Finetuning
 continual_learning_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_trainer
 )
@@ -126,7 +135,18 @@ continual_learning_trainer_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+continual_learning_trainer_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_trainer_vocalsetsinger_scenario1
+)
+continual_learning_trainer_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
 
+continual_learning_trainer_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_trainer_vocalsetsinger_scenario1
+)
+continual_learning_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
+
+
+## Replay
 continual_learning_replay_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_replay_trainer
 )
@@ -141,7 +161,18 @@ continual_learning_replay_trainer_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+continual_learning_replay_trainer_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_replay_trainer_vocalsetsinger_scenario1
+)
+continual_learning_replay_trainer_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
 
+continual_learning_replay_trainer_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_replay_trainer_vocalsetsinger_scenario1
+)
+continual_learning_replay_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
+
+
+## iCaRL
 continual_learning_icarl_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_icarl_trainer
 )
@@ -156,7 +187,18 @@ continual_learning_icarl_trainer_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+continual_learning_icarl_trainer_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_icarl_trainer_vocalsetsinger_scenario1
+)
+continual_learning_icarl_trainer_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
 
+continual_learning_icarl_trainer_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_icarl_trainer_vocalsetsinger_scenario1
+)
+continual_learning_icarl_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
+
+
+# VQ
 continual_learning_vq_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_vq_trainer
 )
@@ -171,7 +213,18 @@ continual_learning_vq_trainer_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+continual_learning_vq_trainer_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_vq_trainer_vocalsetsinger_scenario1
+)
+continual_learning_vq_trainer_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
 
+continual_learning_vq_trainer_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_vq_trainer_vocalsetsinger_scenario1
+)
+continual_learning_vq_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
+
+
+# DKVB
 continual_learning_dkvb_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_dkvb_trainer
 )
@@ -186,7 +239,18 @@ continual_learning_dkvb_trainer_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+continual_learning_dkvb_trainer_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_dkvb_trainer_vocalsetsinger_scenario1
+)
+continual_learning_dkvb_trainer_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
 
+continual_learning_dkvb_trainer_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_dkvb_trainer_vocalsetsinger_scenario1
+)
+continual_learning_dkvb_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
+
+
+## GEM
 continual_learning_gem_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_gem_trainer
 )
@@ -201,7 +265,18 @@ continual_learning_gem_trainer_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+continual_learning_gem_trainer_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_gem_trainer_vocalsetsinger_scenario1
+)
+continual_learning_gem_trainer_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
 
+continual_learning_gem_trainer_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_gem_trainer_vocalsetsinger_scenario1
+)
+continual_learning_gem_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
+
+
+## EWC
 continual_learning_ewc_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_ewc_trainer
 )
@@ -216,7 +291,18 @@ continual_learning_ewc_trainer_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+continual_learning_ewc_trainer_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_ewc_trainer_vocalsetsinger_scenario1
+)
+continual_learning_ewc_trainer_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
 
+continual_learning_ewc_trainer_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_ewc_trainer_vocalsetsinger_scenario1
+)
+continual_learning_ewc_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
+
+
+## L2P
 continual_learning_l2p_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_l2p_trainer
 )
@@ -231,41 +317,91 @@ continual_learning_l2p_trainer_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
-continual_learning_embcenter_trainer_vocalsetsinger_scenario1 = deepcopy(
-    continual_learning_embcenter_trainer
+continual_learning_l2p_trainer_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_l2p_trainer_vocalsetsinger_scenario1
 )
-continual_learning_embcenter_trainer_vocalsetsinger_scenario1["args"][
+continual_learning_l2p_trainer_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
+
+continual_learning_l2p_trainer_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_l2p_trainer_vocalsetsinger_scenario1
+)
+continual_learning_l2p_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
+
+
+## L2Center
+continual_learning_l2center_trainer_vocalsetsinger_scenario1 = deepcopy(
+    continual_learning_l2center_trainer
+)
+continual_learning_l2center_trainer_vocalsetsinger_scenario1["args"][
     "tasks"
 ] = scenario1
-continual_learning_embcenter_trainer_vocalsetsinger_scenario1["args"][
+continual_learning_l2center_trainer_vocalsetsinger_scenario1["args"][
     "train_data_source"
 ] = train_vocalsetsinger_data_source
-continual_learning_embcenter_trainer_vocalsetsinger_scenario1["args"][
+continual_learning_l2center_trainer_vocalsetsinger_scenario1["args"][
     "val_data_source"
 ] = val_vocalsetsinger_data_source
-continual_learning_embcenter_trainer_vocalsetsinger_scenario1["args"][
+continual_learning_l2center_trainer_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
-continual_learning_embcentercosine_trainer_vocalsetsinger_scenario1 = deepcopy(
-    continual_learning_embcenter_trainer_vocalsetsinger_scenario1
+continual_learning_l2center_trainer_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_l2center_trainer_vocalsetsinger_scenario1
 )
-continual_learning_embcentercosine_trainer_vocalsetsinger_scenario1["args"][
+continual_learning_l2center_trainer_vocalsetsinger_scenario2["args"][
+    "tasks"
+] = scenario2
+
+continual_learning_l2center_trainer_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_l2center_trainer_vocalsetsinger_scenario1
+)
+continual_learning_l2center_trainer_vocalsetsinger_scenario3["args"][
+    "tasks"
+] = scenario3
+
+# CosineCenter
+continual_learning_cosinecenter_trainer_vocalsetsinger_scenario1 = deepcopy(
+    continual_learning_l2center_trainer_vocalsetsinger_scenario1
+)
+continual_learning_cosinecenter_trainer_vocalsetsinger_scenario1["args"][
     "train_model"
-] = train_model_embcentercosine
+] = train_model_cosinecenter
+
+continual_learning_cosinecenter_trainer_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_cosinecenter_trainer_vocalsetsinger_scenario1
+)
+continual_learning_cosinecenter_trainer_vocalsetsinger_scenario2["args"][
+    "tasks"
+] = scenario2
+
+continual_learning_cosinecenter_trainer_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_cosinecenter_trainer_vocalsetsinger_scenario1
+)
+continual_learning_cosinecenter_trainer_vocalsetsinger_scenario3["args"][
+    "tasks"
+] = scenario3
 
 
 ###########               EVALUATORS                ###########
 
-# Scenario 1
+# Oracle
 oracle_evaluator_vocalsetsinger = deepcopy(oracle_evaluator)
 oracle_evaluator_vocalsetsinger["args"]["model"] = oracle_train_model_vocalsetsinger
-oracle_evaluator_vocalsetsinger["args"]["tasks"] = scenario1
+oracle_evaluator_vocalsetsinger["args"]["tasks"] = all_tasks
 oracle_evaluator_vocalsetsinger["args"]["data_source"] = test_vocalsetsinger_data_source
 oracle_evaluator_vocalsetsinger["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+oracle_evaluator_vocalsetsinger_scenario1 = deepcopy(oracle_evaluator_vocalsetsinger)
+oracle_evaluator_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
+oracle_evaluator_vocalsetsinger_scenario2 = deepcopy(oracle_evaluator_vocalsetsinger)
+oracle_evaluator_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
+oracle_evaluator_vocalsetsinger_scenario3 = deepcopy(oracle_evaluator_vocalsetsinger)
+oracle_evaluator_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
+
+
+# Finetuning
 continual_learning_evaluator_vocalsetsinger_scenario1 = deepcopy(evaluator)
 continual_learning_evaluator_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
 continual_learning_evaluator_vocalsetsinger_scenario1["args"][
@@ -275,7 +411,17 @@ continual_learning_evaluator_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+continual_learning_evaluator_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_evaluator_vocalsetsinger_scenario1
+)
+continual_learning_evaluator_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
+continual_learning_evaluator_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_evaluator_vocalsetsinger_scenario1
+)
+continual_learning_evaluator_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
 
+
+## VQ
 continual_learning_vq_evaluator_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_evaluator_vq
 )
@@ -287,7 +433,17 @@ continual_learning_vq_evaluator_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+continual_learning_vq_evaluator_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_vq_evaluator_vocalsetsinger_scenario1
+)
+continual_learning_vq_evaluator_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
+continual_learning_vq_evaluator_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_vq_evaluator_vocalsetsinger_scenario1
+)
+continual_learning_vq_evaluator_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
 
+
+## DKVB
 continual_learning_dkvb_evaluator_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_evaluator_dkvb
 )
@@ -299,7 +455,17 @@ continual_learning_dkvb_evaluator_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
+continual_learning_dkvb_evaluator_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_dkvb_evaluator_vocalsetsinger_scenario1
+)
+continual_learning_dkvb_evaluator_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
+continual_learning_dkvb_evaluator_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_dkvb_evaluator_vocalsetsinger_scenario1
+)
+continual_learning_dkvb_evaluator_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
 
+
+# L2P
 continual_learning_l2p_evaluator_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_evaluator_l2p
 )
@@ -311,18 +477,41 @@ continual_learning_l2p_evaluator_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
 
-continual_learning_embcenter_evaluator_vocalsetsinger_scenario1 = deepcopy(
-    continual_learning_evaluator_embcenter
+continual_learning_l2p_evaluator_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_l2p_evaluator_vocalsetsinger_scenario1
 )
-continual_learning_embcenter_evaluator_vocalsetsinger_scenario1["args"][
+continual_learning_l2p_evaluator_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
+continual_learning_l2p_evaluator_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_l2p_evaluator_vocalsetsinger_scenario1
+)
+continual_learning_l2p_evaluator_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
+
+## L2Center
+continual_learning_l2center_evaluator_vocalsetsinger_scenario1 = deepcopy(
+    continual_learning_evaluator_l2center
+)
+continual_learning_l2center_evaluator_vocalsetsinger_scenario1["args"][
     "tasks"
 ] = scenario1
-continual_learning_embcenter_evaluator_vocalsetsinger_scenario1["args"][
+continual_learning_l2center_evaluator_vocalsetsinger_scenario1["args"][
     "data_source"
 ] = test_vocalsetsinger_data_source
-continual_learning_embcenter_evaluator_vocalsetsinger_scenario1["args"][
+continual_learning_l2center_evaluator_vocalsetsinger_scenario1["args"][
     "metrics_config"
 ] = genre_classification_metrics_vocalsetsinger
+
+continual_learning_l2center_evaluator_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_l2center_evaluator_vocalsetsinger_scenario1
+)
+continual_learning_l2center_evaluator_vocalsetsinger_scenario2["args"][
+    "tasks"
+] = scenario2
+continual_learning_l2center_evaluator_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_l2center_evaluator_vocalsetsinger_scenario1
+)
+continual_learning_l2center_evaluator_vocalsetsinger_scenario3["args"][
+    "tasks"
+] = scenario3
 
 
 ###############################################################
@@ -331,7 +520,7 @@ continual_learning_embcenter_evaluator_vocalsetsinger_scenario1["args"][
 
 ###########                BASELINES                ###########
 
-mert95m_base_oracle_vocalsetsinger_all = {
+mert95m_base_oracle_vocalsetsinger_scenario1 = {
     "experiment_name": "mert95m_base_oracle_vocalsetsinger_all",
     "experiment_type": "Baseline",
     "experiment_subtype": "Oracle",
@@ -340,7 +529,34 @@ mert95m_base_oracle_vocalsetsinger_all = {
         "trainer": oracle_trainer_vocalsetsinger,
     },
     "evaluate": {
-        "evaluator": oracle_evaluator_vocalsetsinger,
+        "evaluator": oracle_evaluator_vocalsetsinger_scenario1,
+    },
+}
+
+mert95m_base_oracle_vocalsetsinger_scenario2 = {
+    "experiment_name": "mert95m_base_oracle_vocalsetsinger_all",
+    "experiment_type": "Baseline",
+    "experiment_subtype": "Oracle",
+    # data
+    "train": {
+        "trainer": oracle_trainer_vocalsetsinger,
+    },
+    "evaluate": {
+        "evaluator": oracle_evaluator_vocalsetsinger_scenario2,
+    },
+}
+
+
+mert95m_base_oracle_vocalsetsinger_scenario3 = {
+    "experiment_name": "mert95m_base_oracle_vocalsetsinger_all",
+    "experiment_type": "Baseline",
+    "experiment_subtype": "Oracle",
+    # data
+    "train": {
+        "trainer": oracle_trainer_vocalsetsinger,
+    },
+    "evaluate": {
+        "evaluator": oracle_evaluator_vocalsetsinger_scenario3,
     },
 }
 
@@ -453,28 +669,293 @@ mert95m_l2p_cl_vocalsetsinger_scenario1 = {
     },
 }
 
-mert95m_embcenter_cl_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_embcenter_cl_vocalsetsinger_scenario1",
+mert95m_l2center_cl_vocalsetsinger_scenario1 = {
+    "experiment_name": "mert95m_l2center_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
-    "experiment_subtype": "EmbeddingCenter",
+    "experiment_subtype": "L2Center",
     # data
     "train": {
-        "trainer": continual_learning_embcenter_trainer_vocalsetsinger_scenario1,
+        "trainer": continual_learning_l2center_trainer_vocalsetsinger_scenario1,
     },
     "evaluate": {
-        "evaluator": continual_learning_embcenter_evaluator_vocalsetsinger_scenario1,
+        "evaluator": continual_learning_l2center_evaluator_vocalsetsinger_scenario1,
     },
 }
 
-mert95m_embcentercosine_cl_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_embcentercosine_cl_vocalsetsinger_scenario1",
+mert95m_cosinecenter_cl_vocalsetsinger_scenario1 = {
+    "experiment_name": "mert95m_cosinecenter_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
-    "experiment_subtype": "CenterCosine",
+    "experiment_subtype": "CosineCenter",
     # data
     "train": {
-        "trainer": continual_learning_embcentercosine_trainer_vocalsetsinger_scenario1,
+        "trainer": continual_learning_cosinecenter_trainer_vocalsetsinger_scenario1,
     },
     "evaluate": {
-        "evaluator": continual_learning_embcenter_evaluator_vocalsetsinger_scenario1,
+        "evaluator": continual_learning_l2center_evaluator_vocalsetsinger_scenario1,
+    },
+}
+
+# SCENARIO 2
+
+mert95m_finetuning_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "mert95m_finetuning_cl_vocalsetsinger_scenario2",
+    "experiment_type": "CL",
+    "experiment_subtype": "Finetuning",
+    # data
+    "train": {
+        "trainer": continual_learning_trainer_vocalsetsinger_scenario2,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_evaluator_vocalsetsinger_scenario2,
+    },
+}
+
+mert95m_replay_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "mert95m_replay_cl_vocalsetsinger_scenario2",
+    "experiment_type": "CL",
+    "experiment_subtype": "Replay",
+    # data
+    "train": {
+        "trainer": continual_learning_replay_trainer_vocalsetsinger_scenario2,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_evaluator_vocalsetsinger_scenario2,
+    },
+}
+
+mert95m_icarl_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "mert95m_icarl_cl_vocalsetsinger_scenario2",
+    "experiment_type": "CL",
+    "experiment_subtype": "iCaRL",
+    # data
+    "train": {
+        "trainer": continual_learning_icarl_trainer_vocalsetsinger_scenario2,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_evaluator_vocalsetsinger_scenario2,
+    },
+}
+
+mert95m_vq_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "mert95m_vq_cl_vocalsetsinger_scenario2",
+    "experiment_type": "CL",
+    "experiment_subtype": "VQ",
+    # data
+    "train": {
+        "trainer": continual_learning_vq_trainer_vocalsetsinger_scenario2,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_vq_evaluator_vocalsetsinger_scenario2,
+    },
+}
+
+mert95m_dkvb_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "mert95m_dkvb_cl_vocalsetsinger_scenario2",
+    "experiment_type": "CL",
+    "experiment_subtype": "DKVB",
+    # data
+    "train": {
+        "trainer": continual_learning_dkvb_trainer_vocalsetsinger_scenario2,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_dkvb_evaluator_vocalsetsinger_scenario2,
+    },
+}
+
+mert95m_gem_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "mert95m_gem_cl_vocalsetsinger_scenario2",
+    "experiment_type": "CL",
+    "experiment_subtype": "GEM",
+    # data
+    "train": {
+        "trainer": continual_learning_gem_trainer_vocalsetsinger_scenario2,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_evaluator_vocalsetsinger_scenario2,
+    },
+}
+
+mert95m_ewc_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "mert95m_ewc_cl_vocalsetsinger_scenario2",
+    "experiment_type": "CL",
+    "experiment_subtype": "EWC",
+    # data
+    "train": {
+        "trainer": continual_learning_ewc_trainer_vocalsetsinger_scenario2,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_evaluator_vocalsetsinger_scenario2,
+    },
+}
+
+mert95m_l2p_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "mert95m_l2p_cl_vocalsetsinger_scenario2",
+    "experiment_type": "CL",
+    "experiment_subtype": "L2P",
+    # data
+    "train": {
+        "trainer": continual_learning_l2p_trainer_vocalsetsinger_scenario2,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_l2p_evaluator_vocalsetsinger_scenario2,
+    },
+}
+
+mert95m_l2center_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "mert95m_l2center_cl_vocalsetsinger_scenario2",
+    "experiment_type": "CL",
+    "experiment_subtype": "L2Center",
+    # data
+    "train": {
+        "trainer": continual_learning_l2center_trainer_vocalsetsinger_scenario2,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_l2center_evaluator_vocalsetsinger_scenario2,
+    },
+}
+
+mert95m_cosinecenter_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "mert95m_cosinecenter_cl_vocalsetsinger_scenario2",
+    "experiment_type": "CL",
+    "experiment_subtype": "CosineCenter",
+    # data
+    "train": {
+        "trainer": continual_learning_cosinecenter_trainer_vocalsetsinger_scenario2,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_l2center_evaluator_vocalsetsinger_scenario2,
+    },
+}
+
+
+# SCENARIO 3
+
+mert95m_finetuning_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "mert95m_finetuning_cl_vocalsetsinger_scenario3",
+    "experiment_type": "CL",
+    "experiment_subtype": "Finetuning",
+    # data
+    "train": {
+        "trainer": continual_learning_trainer_vocalsetsinger_scenario3,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_evaluator_vocalsetsinger_scenario3,
+    },
+}
+
+mert95m_replay_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "mert95m_replay_cl_vocalsetsinger_scenario3",
+    "experiment_type": "CL",
+    "experiment_subtype": "Replay",
+    # data
+    "train": {
+        "trainer": continual_learning_replay_trainer_vocalsetsinger_scenario3,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_evaluator_vocalsetsinger_scenario3,
+    },
+}
+
+mert95m_icarl_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "mert95m_icarl_cl_vocalsetsinger_scenario3",
+    "experiment_type": "CL",
+    "experiment_subtype": "iCaRL",
+    # data
+    "train": {
+        "trainer": continual_learning_icarl_trainer_vocalsetsinger_scenario3,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_evaluator_vocalsetsinger_scenario3,
+    },
+}
+
+mert95m_vq_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "mert95m_vq_cl_vocalsetsinger_scenario3",
+    "experiment_type": "CL",
+    "experiment_subtype": "VQ",
+    # data
+    "train": {
+        "trainer": continual_learning_vq_trainer_vocalsetsinger_scenario3,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_vq_evaluator_vocalsetsinger_scenario3,
+    },
+}
+
+mert95m_dkvb_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "mert95m_dkvb_cl_vocalsetsinger_scenario3",
+    "experiment_type": "CL",
+    "experiment_subtype": "DKVB",
+    # data
+    "train": {
+        "trainer": continual_learning_dkvb_trainer_vocalsetsinger_scenario3,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_dkvb_evaluator_vocalsetsinger_scenario3,
+    },
+}
+
+mert95m_gem_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "mert95m_gem_cl_vocalsetsinger_scenario3",
+    "experiment_type": "CL",
+    "experiment_subtype": "GEM",
+    # data
+    "train": {
+        "trainer": continual_learning_gem_trainer_vocalsetsinger_scenario3,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_evaluator_vocalsetsinger_scenario3,
+    },
+}
+
+mert95m_ewc_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "mert95m_ewc_cl_vocalsetsinger_scenario3",
+    "experiment_type": "CL",
+    "experiment_subtype": "EWC",
+    # data
+    "train": {
+        "trainer": continual_learning_ewc_trainer_vocalsetsinger_scenario3,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_evaluator_vocalsetsinger_scenario3,
+    },
+}
+
+mert95m_l2p_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "mert95m_l2p_cl_vocalsetsinger_scenario3",
+    "experiment_type": "CL",
+    "experiment_subtype": "L2P",
+    # data
+    "train": {
+        "trainer": continual_learning_l2p_trainer_vocalsetsinger_scenario3,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_l2p_evaluator_vocalsetsinger_scenario3,
+    },
+}
+
+mert95m_l2center_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "mert95m_l2center_cl_vocalsetsinger_scenario3",
+    "experiment_type": "CL",
+    "experiment_subtype": "L2Center",
+    # data
+    "train": {
+        "trainer": continual_learning_l2center_trainer_vocalsetsinger_scenario3,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_l2center_evaluator_vocalsetsinger_scenario3,
+    },
+}
+
+mert95m_cosinecenter_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "mert95m_cosinecenter_cl_vocalsetsinger_scenario3",
+    "experiment_type": "CL",
+    "experiment_subtype": "CosineCenter",
+    # data
+    "train": {
+        "trainer": continual_learning_cosinecenter_trainer_vocalsetsinger_scenario3,
+    },
+    "evaluate": {
+        "evaluator": continual_learning_l2center_evaluator_vocalsetsinger_scenario3,
     },
 }

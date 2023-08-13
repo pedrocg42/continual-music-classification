@@ -97,7 +97,7 @@ train_model_l2p = {
     },
 }
 
-train_model_embcenter = {
+train_model_l2center = {
     "name": "TorchEmbeddingModel",
     "args": {
         "encoder": {
@@ -110,7 +110,7 @@ train_model_embcenter = {
     },
 }
 
-train_model_embcentercosine = {
+train_model_cosinecenter = {
     "name": "TorchEmbeddingCosineModel",
     "args": {
         "encoder": {
@@ -244,10 +244,10 @@ continual_learning_l2p_trainer["args"]["looper"] = {
 }
 
 ## Embedding center
-continual_learning_embcenter_trainer = deepcopy(trainer)
-continual_learning_embcenter_trainer["name"] = "ContinualLearningTrainerEmbeddingCenter"
-continual_learning_embcenter_trainer["args"]["train_model"] = train_model_embcenter
-continual_learning_embcenter_trainer["args"]["looper"] = {
+continual_learning_l2center_trainer = deepcopy(trainer)
+continual_learning_l2center_trainer["name"] = "ContinualLearningTrainerL2Center"
+continual_learning_l2center_trainer["args"]["train_model"] = train_model_l2center
+continual_learning_l2center_trainer["args"]["looper"] = {
     "name": "MusicContinualLearningEmbeddingLooper",
 }
 
@@ -281,8 +281,8 @@ continual_learning_evaluator_l2p = deepcopy(evaluator)
 continual_learning_evaluator_l2p["args"]["model"] = train_model_l2p
 continual_learning_evaluator_l2p["name"] = "ClassIncrementalLearningL2PEvaluator"
 
-continual_learning_evaluator_embcenter = deepcopy(evaluator)
-continual_learning_evaluator_embcenter["args"]["model"] = train_model_embcenter
-continual_learning_evaluator_embcenter[
+continual_learning_evaluator_l2center = deepcopy(evaluator)
+continual_learning_evaluator_l2center["args"]["model"] = train_model_l2center
+continual_learning_evaluator_l2center[
     "name"
-] = "ClassIncrementalLearningEmbeddingCenterEvaluator"
+] = "ClassIncrementalLearningL2CenterEvaluator"
