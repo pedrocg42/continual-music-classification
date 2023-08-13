@@ -21,7 +21,7 @@
             "justMyCode": false,
             "args": [
                 "--experiment",
-                "mert95m_base_oracle_vocalsettech_scenario1",
+                "mert95m_base_oracle_gtzan_scenario3",
             ]
         },
         {

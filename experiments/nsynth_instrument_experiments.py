@@ -63,7 +63,7 @@ test_nsynthinstrument_data_source["args"]["split"] = "test"
 test_nsynthinstrument_data_source["args"]["is_eval"] = True
 
 # Metrics
-genre_classification_metrics_nsynthinstrument = [
+classification_metrics_nsynthinstrument = [
     {
         "name": "Accuracy",
         "args": {
@@ -119,7 +119,7 @@ oracle_trainer_nsynthinstrument["args"][
 ] = val_nsynthinstrument_data_source
 oracle_trainer_nsynthinstrument["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 oracle_trainer_nsynthinstrument["args"][
     "early_stopping_patience"
 ] = early_stopping_patience
@@ -138,7 +138,7 @@ continual_learning_trainer_nsynthinstrument_scenario1["args"][
 ] = val_nsynthinstrument_data_source
 continual_learning_trainer_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 continual_learning_trainer_nsynthinstrument_scenario1["args"][
     "early_stopping_patience"
 ] = early_stopping_patience
@@ -169,7 +169,7 @@ continual_learning_replay_trainer_nsynthinstrument_scenario1["args"][
 ] = val_nsynthinstrument_data_source
 continual_learning_replay_trainer_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 continual_learning_replay_trainer_nsynthinstrument_scenario1["args"][
     "early_stopping_patience"
 ] = early_stopping_patience
@@ -202,7 +202,7 @@ continual_learning_icarl_trainer_nsynthinstrument_scenario1["args"][
 ] = val_nsynthinstrument_data_source
 continual_learning_icarl_trainer_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 continual_learning_icarl_trainer_nsynthinstrument_scenario1["args"][
     "early_stopping_patience"
 ] = early_stopping_patience
@@ -231,7 +231,7 @@ continual_learning_vq_trainer_nsynthinstrument_scenario1["args"][
 ] = val_nsynthinstrument_data_source
 continual_learning_vq_trainer_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 continual_learning_vq_trainer_nsynthinstrument_scenario1["args"][
     "early_stopping_patience"
 ] = early_stopping_patience
@@ -261,7 +261,7 @@ continual_learning_dkvb_trainer_nsynthinstrument_scenario1["args"][
 ] = val_nsynthinstrument_data_source
 continual_learning_dkvb_trainer_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 continual_learning_dkvb_trainer_nsynthinstrument_scenario1["args"][
     "early_stopping_patience"
 ] = early_stopping_patience
@@ -291,7 +291,7 @@ continual_learning_gem_trainer_nsynthinstrument_scenario1["args"][
 ] = val_nsynthinstrument_data_source
 continual_learning_gem_trainer_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 continual_learning_gem_trainer_nsynthinstrument_scenario1["args"][
     "early_stopping_patience"
 ] = early_stopping_patience
@@ -320,7 +320,7 @@ continual_learning_ewc_trainer_nsynthinstrument_scenario1["args"][
 ] = val_nsynthinstrument_data_source
 continual_learning_ewc_trainer_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 continual_learning_ewc_trainer_nsynthinstrument_scenario1["args"][
     "early_stopping_patience"
 ] = early_stopping_patience
@@ -350,7 +350,7 @@ continual_learning_l2p_trainer_nsynthinstrument_scenario1["args"][
 ] = val_nsynthinstrument_data_source
 continual_learning_l2p_trainer_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 continual_learning_l2p_trainer_nsynthinstrument_scenario1["args"][
     "early_stopping_patience"
 ] = early_stopping_patience
@@ -380,7 +380,7 @@ continual_learning_l2center_trainer_nsynthinstrument_scenario1["args"][
 ] = val_nsynthinstrument_data_source
 continual_learning_l2center_trainer_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 
 
 continual_learning_l2center_trainer_nsynthinstrument_scenario2 = deepcopy(
@@ -431,7 +431,7 @@ oracle_evaluator_nsynthinstrument["args"][
 ] = test_nsynthinstrument_data_source
 oracle_evaluator_nsynthinstrument["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 
 oracle_evaluator_nsynthinstrument_scenario1 = deepcopy(
     oracle_evaluator_nsynthinstrument
@@ -454,7 +454,7 @@ continual_learning_evaluator_nsynthinstrument_scenario1["args"][
 ] = test_nsynthinstrument_data_source
 continual_learning_evaluator_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 
 continual_learning_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_evaluator_nsynthinstrument_scenario1
@@ -475,7 +475,7 @@ continual_learning_vq_evaluator_nsynthinstrument_scenario1["args"][
 ] = test_nsynthinstrument_data_source
 continual_learning_vq_evaluator_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 
 continual_learning_vq_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_vq_evaluator_nsynthinstrument_scenario1
@@ -499,7 +499,7 @@ continual_learning_dkvb_evaluator_nsynthinstrument_scenario1["args"][
 ] = test_nsynthinstrument_data_source
 continual_learning_dkvb_evaluator_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 
 continual_learning_dkvb_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_dkvb_evaluator_nsynthinstrument_scenario1
@@ -524,7 +524,7 @@ continual_learning_l2p_evaluator_nsynthinstrument_scenario1["args"][
 ] = test_nsynthinstrument_data_source
 continual_learning_l2p_evaluator_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 
 continual_learning_l2p_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_l2p_evaluator_nsynthinstrument_scenario1
@@ -548,7 +548,7 @@ continual_learning_l2center_evaluator_nsynthinstrument_scenario1["args"][
 ] = test_nsynthinstrument_data_source
 continual_learning_l2center_evaluator_nsynthinstrument_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_nsynthinstrument
+] = classification_metrics_nsynthinstrument
 
 continual_learning_l2center_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_l2center_evaluator_nsynthinstrument_scenario1

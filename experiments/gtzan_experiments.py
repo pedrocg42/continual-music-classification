@@ -66,7 +66,7 @@ oracle_train_model_gtzan = {
 }
 
 # Metrics
-genre_classification_metrics_gtzan = [
+classification_metrics_gtzan = [
     {
         "name": "Accuracy",
         "args": {
@@ -110,7 +110,7 @@ oracle_trainer_gtzan = deepcopy(oracle_trainer)
 oracle_trainer_gtzan["args"]["train_model"] = oracle_train_model_gtzan
 oracle_trainer_gtzan["args"]["train_data_source"] = train_gtzan_data_source
 oracle_trainer_gtzan["args"]["val_data_source"] = train_gtzan_data_source
-oracle_trainer_gtzan["args"]["metrics_config"] = oracle_trainer_gtzan
+oracle_trainer_gtzan["args"]["metrics_config"] = classification_metrics_gtzan
 
 ## Finetuning
 continual_learning_trainer_gtzan_scenario1 = deepcopy(continual_learning_trainer)
@@ -123,7 +123,7 @@ continual_learning_trainer_gtzan_scenario1["args"][
 ] = val_gtzan_data_source
 continual_learning_trainer_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 continual_learning_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_trainer_gtzan_scenario1
@@ -147,7 +147,7 @@ continual_learning_replay_trainer_gtzan_scenario1["args"][
 ] = val_gtzan_data_source
 continual_learning_replay_trainer_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 
 continual_learning_replay_trainer_gtzan_scenario2 = deepcopy(
@@ -173,7 +173,7 @@ continual_learning_icarl_trainer_gtzan_scenario1["args"][
 ] = val_gtzan_data_source
 continual_learning_icarl_trainer_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 
 continual_learning_icarl_trainer_gtzan_scenario2 = deepcopy(
@@ -196,7 +196,7 @@ continual_learning_vq_trainer_gtzan_scenario1["args"][
 ] = val_gtzan_data_source
 continual_learning_vq_trainer_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 continual_learning_vq_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_vq_trainer_gtzan_scenario1
@@ -221,7 +221,7 @@ continual_learning_dkvb_trainer_gtzan_scenario1["args"][
 ] = val_gtzan_data_source
 continual_learning_dkvb_trainer_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 continual_learning_dkvb_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_dkvb_trainer_gtzan_scenario1
@@ -246,7 +246,7 @@ continual_learning_gem_trainer_gtzan_scenario1["args"][
 ] = val_gtzan_data_source
 continual_learning_gem_trainer_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 continual_learning_gem_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_gem_trainer_gtzan_scenario1
@@ -271,7 +271,7 @@ continual_learning_ewc_trainer_gtzan_scenario1["args"][
 ] = val_gtzan_data_source
 continual_learning_ewc_trainer_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 continual_learning_ewc_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_ewc_trainer_gtzan_scenario1
@@ -296,7 +296,7 @@ continual_learning_l2p_trainer_gtzan_scenario1["args"][
 ] = val_gtzan_data_source
 continual_learning_l2p_trainer_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 
 continual_learning_l2p_trainer_gtzan_scenario2 = deepcopy(
@@ -322,7 +322,7 @@ continual_learning_l2center_trainer_gtzan_scenario1["args"][
 ] = val_gtzan_data_source
 continual_learning_l2center_trainer_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 continual_learning_l2center_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_l2center_trainer_gtzan_scenario1
@@ -359,7 +359,7 @@ oracle_evaluator_gtzan = deepcopy(oracle_evaluator)
 oracle_evaluator_gtzan["args"]["model"] = oracle_train_model_gtzan
 oracle_evaluator_gtzan["args"]["tasks"] = all_tasks
 oracle_evaluator_gtzan["args"]["data_source"] = test_gtzan_data_source
-oracle_evaluator_gtzan["args"]["metrics_config"] = genre_classification_metrics_gtzan
+oracle_evaluator_gtzan["args"]["metrics_config"] = classification_metrics_gtzan
 
 oracle_evaluator_gtzan_scenario1 = deepcopy(oracle_evaluator_gtzan)
 oracle_evaluator_gtzan_scenario1 = scenario1
@@ -376,7 +376,7 @@ continual_learning_evaluator_gtzan_scenario1["args"][
 ] = test_gtzan_data_source
 continual_learning_evaluator_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 continual_learning_evaluator_gtzan_scenario2 = deepcopy(
     continual_learning_evaluator_gtzan_scenario1
@@ -398,7 +398,7 @@ continual_learning_vq_evaluator_gtzan_scenario1["args"][
 ] = test_gtzan_data_source
 continual_learning_vq_evaluator_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 continual_learning_vq_evaluator_gtzan_scenario2 = deepcopy(
     continual_learning_vq_evaluator_gtzan_scenario1
@@ -421,7 +421,7 @@ continual_learning_dkvb_evaluator_gtzan_scenario1["args"][
 ] = test_gtzan_data_source
 continual_learning_dkvb_evaluator_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 continual_learning_dkvb_evaluator_gtzan_scenario2 = deepcopy(
     continual_learning_dkvb_evaluator_gtzan_scenario1
@@ -444,7 +444,7 @@ continual_learning_l2p_evaluator_gtzan_scenario1["args"][
 ] = test_gtzan_data_source
 continual_learning_l2p_evaluator_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 continual_learning_l2p_evaluator_gtzan_scenario2 = deepcopy(
     continual_learning_l2p_evaluator_gtzan_scenario1
@@ -466,7 +466,7 @@ continual_learning_l2center_evaluator_gtzan_scenario1["args"][
 ] = test_gtzan_data_source
 continual_learning_l2center_evaluator_gtzan_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_gtzan
+] = classification_metrics_gtzan
 
 continual_learning_l2center_evaluator_gtzan_scenario2 = deepcopy(
     continual_learning_l2center_evaluator_gtzan_scenario1

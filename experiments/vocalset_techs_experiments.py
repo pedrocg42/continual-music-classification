@@ -61,7 +61,7 @@ test_vocalsettech_data_source["args"]["split"] = "test"
 test_vocalsettech_data_source["args"]["is_eval"] = True
 
 # Metrics
-genre_classification_metrics_vocalsettech = [
+classification_metrics_vocalsettech = [
     {
         "name": "Accuracy",
         "args": {
@@ -113,7 +113,7 @@ oracle_trainer_vocalsettech["args"][
 oracle_trainer_vocalsettech["args"]["val_data_source"] = val_vocalsettech_data_source
 oracle_trainer_vocalsettech["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 
 ## Finetuning
@@ -127,7 +127,7 @@ continual_learning_trainer_vocalsettech_scenario1["args"][
 ] = val_vocalsettech_data_source
 continual_learning_trainer_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_trainer_vocalsettech_scenario2 = deepcopy(
     continual_learning_trainer_vocalsettech_scenario1
@@ -152,7 +152,7 @@ continual_learning_replay_trainer_vocalsettech_scenario1["args"][
 ] = val_vocalsettech_data_source
 continual_learning_replay_trainer_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_replay_trainer_vocalsettech_scenario2 = deepcopy(
     continual_learning_replay_trainer_vocalsettech_scenario1
@@ -177,7 +177,7 @@ continual_learning_icarl_trainer_vocalsettech_scenario1["args"][
 ] = val_vocalsettech_data_source
 continual_learning_icarl_trainer_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_icarl_trainer_vocalsettech_scenario2 = deepcopy(
     continual_learning_icarl_trainer_vocalsettech_scenario1
@@ -202,7 +202,7 @@ continual_learning_vq_trainer_vocalsettech_scenario1["args"][
 ] = val_vocalsettech_data_source
 continual_learning_vq_trainer_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_vq_trainer_vocalsettech_scenario2 = deepcopy(
     continual_learning_vq_trainer_vocalsettech_scenario1
@@ -227,7 +227,7 @@ continual_learning_dkvb_trainer_vocalsettech_scenario1["args"][
 ] = val_vocalsettech_data_source
 continual_learning_dkvb_trainer_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_dkvb_trainer_vocalsettech_scenario2 = deepcopy(
     continual_learning_dkvb_trainer_vocalsettech_scenario1
@@ -252,7 +252,7 @@ continual_learning_gem_trainer_vocalsettech_scenario1["args"][
 ] = val_vocalsettech_data_source
 continual_learning_gem_trainer_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_gem_trainer_vocalsettech_scenario2 = deepcopy(
     continual_learning_gem_trainer_vocalsettech_scenario1
@@ -277,7 +277,7 @@ continual_learning_ewc_trainer_vocalsettech_scenario1["args"][
 ] = val_vocalsettech_data_source
 continual_learning_ewc_trainer_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_ewc_trainer_vocalsettech_scenario2 = deepcopy(
     continual_learning_ewc_trainer_vocalsettech_scenario1
@@ -302,7 +302,7 @@ continual_learning_l2p_trainer_vocalsettech_scenario1["args"][
 ] = val_vocalsettech_data_source
 continual_learning_l2p_trainer_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_l2p_trainer_vocalsettech_scenario2 = deepcopy(
     continual_learning_l2p_trainer_vocalsettech_scenario1
@@ -327,7 +327,7 @@ continual_learning_l2center_trainer_vocalsettech_scenario1["args"][
 ] = val_vocalsettech_data_source
 continual_learning_l2center_trainer_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_l2center_trainer_vocalsettech_scenario2 = deepcopy(
     continual_learning_l2center_trainer_vocalsettech_scenario1
@@ -368,7 +368,7 @@ oracle_evaluator_vocalsettech["args"]["tasks"] = all_tasks
 oracle_evaluator_vocalsettech["args"]["data_source"] = test_vocalsettech_data_source
 oracle_evaluator_vocalsettech["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 oracle_evaluator_vocalsettech_scenario1 = deepcopy(oracle_evaluator_vocalsettech)
 oracle_evaluator_vocalsettech_scenario1["args"]["tasks"] = scenario1
@@ -385,7 +385,7 @@ continual_learning_evaluator_vocalsettech_scenario1["args"][
 ] = test_vocalsettech_data_source
 continual_learning_evaluator_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_evaluator_vocalsettech_scenario2 = deepcopy(
     continual_learning_evaluator_vocalsettech_scenario1
@@ -406,7 +406,7 @@ continual_learning_vq_evaluator_vocalsettech_scenario1["args"][
 ] = test_vocalsettech_data_source
 continual_learning_vq_evaluator_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_vq_evaluator_vocalsettech_scenario2 = deepcopy(
     continual_learning_vq_evaluator_vocalsettech_scenario1
@@ -428,7 +428,7 @@ continual_learning_dkvb_evaluator_vocalsettech_scenario1["args"][
 ] = test_vocalsettech_data_source
 continual_learning_dkvb_evaluator_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_dkvb_evaluator_vocalsettech_scenario2 = deepcopy(
     continual_learning_dkvb_evaluator_vocalsettech_scenario1
@@ -450,7 +450,7 @@ continual_learning_l2p_evaluator_vocalsettech_scenario1["args"][
 ] = test_vocalsettech_data_source
 continual_learning_l2p_evaluator_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_l2p_evaluator_vocalsettech_scenario2 = deepcopy(
     continual_learning_l2p_evaluator_vocalsettech_scenario1
@@ -474,7 +474,7 @@ continual_learning_l2center_evaluator_vocalsettech_scenario1["args"][
 ] = test_vocalsettech_data_source
 continual_learning_l2center_evaluator_vocalsettech_scenario1["args"][
     "metrics_config"
-] = genre_classification_metrics_vocalsettech
+] = classification_metrics_vocalsettech
 
 continual_learning_l2center_evaluator_vocalsettech_scenario2 = deepcopy(
     continual_learning_l2center_evaluator_vocalsettech_scenario1
