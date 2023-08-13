@@ -1,14 +1,14 @@
 from typing import Iterable
 
 from torch import Tensor
-from torch.optim import AdamW
+from torch.optim import Adam
 
 from music_genre_classification.optimizers.torch_base_optimizer import (
     TorchBaseOptimizer,
 )
 
 
-class TorchAdamWOptimizer(TorchBaseOptimizer):
+class TorchAdamOptimizer(TorchBaseOptimizer):
     def __init__(
         self,
         lr: float = 1e-3,
@@ -21,7 +21,7 @@ class TorchAdamWOptimizer(TorchBaseOptimizer):
         self.optimizer = None
 
     def configure(self, parameters: Iterable[Tensor] | Iterable[dict], **kwargs):
-        self.optimizer = AdamW(
+        self.optimizer = Adam(
             parameters,
             lr=self.lr,
             betas=self.betas,

@@ -6,6 +6,9 @@ from music_genre_classification.optimizers.torch_adamw_optimizer import (
     TorchAdamWOptimizer,
 )
 from music_genre_classification.optimizers.torch_sdg_optimizer import TorchSgdOptimizer
+from music_genre_classification.optimizers.torch_adam_optimizer import (
+    TorchAdamOptimizer,
+)
 
 __all__ = [
     "OptimizerFactory",
@@ -14,4 +17,5 @@ __all__ = [
     "GemOptimizer",
     "EwcOptimizer",
     "TorchSgdOptimizer",
+    "TorchAdamOptimizer",
 ]

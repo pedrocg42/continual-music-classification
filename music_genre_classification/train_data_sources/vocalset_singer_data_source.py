@@ -45,7 +45,7 @@ class VocalSetSingerDataSource(TrainDataSource):
     def __init__(
         self,
         split: str,
-        splits_config: dict(train=0.7, val=0.1, test=0.2),
+        splits_config: dict(train=0.48, val=0.32, test=0.2),
         singers: list[str] = SINGERS,
         is_eval: bool = False,
         chunk_length: float = 5.0,

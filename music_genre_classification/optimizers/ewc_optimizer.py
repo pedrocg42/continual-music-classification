@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 from loguru import logger
 from torch import Tensor
-from torch.optim import SGD
+from torch.optim import Adam
 from torch.utils.data import DataLoader
 
 import config
@@ -29,7 +29,7 @@ class EwcOptimizer(TorchBaseOptimizer):
     def __init__(
         self,
         ewc_lambda: float = 0.1,
-        optimizer_config: dict = {"lr": 0.01, "weight_decay": 2e-4, "momentum": 0.9},
+        optimizer_config: dict = {"lr": 0.001, "weight_decay": 2e-4, "momentum": 0.9},
         mode: str = "separate",
     ):
         """
@@ -52,7 +52,7 @@ class EwcOptimizer(TorchBaseOptimizer):
         self.mode = mode
 
     def configure(self, parameters: Iterable[Tensor] | Iterable[dict]):
-        self.optimizer = SGD(parameters, **self.optimizer_config)
+        self.optimizer = Adam(parameters, **self.optimizer_config)
 
     def before_backward(self, model: nn.Module, task_id: int):
         """

@@ -51,7 +51,7 @@ train_vocalsetsinger_data_source = {
     "name": "VocalSetSingerDataSource",
     "args": {
         "split": "train",
-        "chunk_length": 3,
+        "chunk_length": 5,
         "is_eval": False,
     },
 }

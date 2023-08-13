@@ -15,6 +15,10 @@ class OptimizerFactory:
             from music_genre_classification.optimizers import TorchAdamWOptimizer
 
             return TorchAdamWOptimizer(**config.get("args", {}))
+        elif config["name"] == "TorchAdamOptimizer":
+            from music_genre_classification.optimizers import TorchAdamOptimizer
+
+            return TorchAdamOptimizer(**config.get("args", {}))
         elif config["name"] == "GemOptimizer":
             from music_genre_classification.optimizers import GemOptimizer
 

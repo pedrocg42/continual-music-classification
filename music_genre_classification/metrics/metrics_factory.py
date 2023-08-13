@@ -6,7 +6,7 @@ class MetricsFactory:
     Factory class for creating metrics.
     """
 
-    def build(metrics_config: dict) -> dict[Metric]:
+    def build(metrics_config: list) -> dict[Metric]:
         metrics = {}
         for metric_config in metrics_config:
             metrics[metric_config["name"]] = MetricsFactory._build_metric(metric_config)

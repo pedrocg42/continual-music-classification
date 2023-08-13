@@ -5,7 +5,7 @@ import quadprog
 import torch
 import torch.nn as nn
 from torch import Tensor
-from torch.optim import SGD
+from torch.optim import Adam
 from torch.utils.data import DataLoader
 
 import config
@@ -30,7 +30,7 @@ class GemOptimizer(TorchBaseOptimizer):
         self,
         patterns_per_experience: int,
         memory_strength: float,
-        optimizer_config: dict = {"lr": 0.01, "weight_decay": 2e-4, "momentum": 0.9},
+        optimizer_config: dict = {"lr": 0.001, "weight_decay": 2e-4, "momentum": 0.9},
     ):
         """
         :param patterns_per_experience: number of patterns per experience in the
@@ -52,7 +52,7 @@ class GemOptimizer(TorchBaseOptimizer):
         self.G: Tensor = torch.empty(0)
 
     def configure(self, parameters: Iterable[Tensor] | Iterable[dict]):
-        self.optimizer = SGD(parameters, **self.optimizer_config)
+        self.optimizer = Adam(parameters, **self.optimizer_config)
 
     def before_training_iteration(
         self,

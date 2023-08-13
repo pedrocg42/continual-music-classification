@@ -7,9 +7,9 @@ from copy import deepcopy
 # Training parameters
 num_epochs = 200
 early_stopping_patience = 40
-early_stopping_metric = "F1 Score"
+early_stopping_metric = "Accuracy"
 epochs_keys_init = 10
-batch_size = 8
+batch_size = 64
 
 
 # Data transforms
@@ -144,7 +144,7 @@ trainer = {
             "name": "MusicGenreClassificationLooper",
             "args": {
                 "criteria": {"name": "TorchCrossEntropyCriteria"},
-                "optimizer": {"name": "TorchSgdOptimizer"},
+                "optimizer": {"name": "TorchAdamOptimizer"},
             },
         },
     },
@@ -172,7 +172,7 @@ continual_learning_icarl_trainer["args"]["looper"] = {
     "name": "iCaRLMusicGenreClassificationLooper",
     "args": {
         "criteria": {"name": "TorchCrossEntropyCriteria"},
-        "optimizer": {"name": "TorchSgdOptimizer"},
+        "optimizer": {"name": "TorchAdamOptimizer"},
         "T": 2.0,
     },
 }
@@ -238,7 +238,7 @@ continual_learning_l2p_trainer["args"]["looper"] = {
     "name": "L2PMusicGenreClassificationLooper",
     "args": {
         "criteria": {"name": "TorchCrossEntropyCriteria"},
-        "optimizer": {"name": "TorchSgdOptimizer"},
+        "optimizer": {"name": "TorchAdamOptimizer"},
         "lamb": 0.5,
     },
 }

@@ -49,7 +49,7 @@ train_gtzan_data_source = {
     "name": "GtzanDataSource",
     "args": {
         "split": "train",
-        "chunk_length": 3,
+        "chunk_length": 5,
         "is_eval": False,
     },
 }
