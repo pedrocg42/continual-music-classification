@@ -18,7 +18,7 @@
             "request": "launch",
             "program": "execute_experiment_check.py",
             "console": "integratedTerminal",
-            "justMyCode": true,
+            "justMyCode": false,
             "args": [
                 "--experiment",
                 "mert95m_finetuning_cl_nsynthinstrument_scenario1",

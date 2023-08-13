@@ -32,7 +32,7 @@ class ClassIncrementalLearningEvaluator(Evaluator):
         )
 
     def configure_task(
-        self, tasks: list[list[str]], task_id: int, task: list[str] | str
+        self, task_id: int, task: list[str] | str
     ):
         self.model.update_decoder(task_id, task)
 
@@ -45,7 +45,6 @@ class ClassIncrementalLearningEvaluator(Evaluator):
         self.model_saver.configure(
             self.model,
             experiment_name=self.experiment_name,
-            tasks=tasks,
             task_id=task_id,
             task=task,
         )
@@ -53,7 +52,6 @@ class ClassIncrementalLearningEvaluator(Evaluator):
         self.model.to(config.device)
         self.data_transform.to(config.device)
         self.experiment_tracker.configure_task(
-            tasks=tasks,
             train_task_number=task_id,
             train_task_name=task,
         )
@@ -75,7 +73,7 @@ class ClassIncrementalLearningEvaluator(Evaluator):
         for task_id, task in enumerate(self.tasks):
             accumulated_tasks += task
             logger.info(f"Started evaluation of model train with {task=}")
-            self.configure_task(tasks=self.tasks, task_id=task_id, task=task)
+            self.configure_task(task_id=task_id, task=task)
 
             logger.info(f"Started evaluation of {accumulated_tasks=}")
             data_loader = self.data_source.get_dataset(

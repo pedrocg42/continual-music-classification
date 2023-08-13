@@ -16,7 +16,6 @@ class MusicGenreClassificationModelSaver(ABC):
         self,
         model: TrainModel,
         experiment_name: str,
-        tasks: list[list[str]] = None,
         task: str | list[str] = None,
         task_id: int = None,
     ):
@@ -26,7 +25,6 @@ class MusicGenreClassificationModelSaver(ABC):
         self.output_folder = os.path.join(self.models_folder, self.experiment_name)
         self.create_output_folder()
 
-        self.tasks = tasks
         self.task = "-".join(task) if isinstance(task, list) else task
         self.task_id = task_id
         self.output_path = self.build_output_path(self.task_id)
@@ -51,7 +49,7 @@ class MusicGenreClassificationModelSaver(ABC):
         self.model.load_state_dict(torch.load(output_path))
 
     def load_task_model(self, task_id: int):
-        output_path = self.build_output_path(self.tasks, task_id)
+        output_path = self.build_output_path(task_id)
         self.load_model(output_path)
 
     def check_if_already_exported(self, **kwargs) -> bool:

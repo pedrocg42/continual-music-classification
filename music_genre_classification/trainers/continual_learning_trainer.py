@@ -41,7 +41,6 @@ class ContinualLearningTrainer(Trainer):
         self.model_saver.configure(
             self.model,
             experiment_name=self.experiment_name,
-            tasks=self.tasks,
             task_id=task_id,
             task=task,
         )
@@ -60,7 +59,7 @@ class ContinualLearningTrainer(Trainer):
         self.configure_experiment(experiment_name, self.batch_size)
         self.log_start()
         for task_id, task in enumerate(self.tasks):
-            self.configure_task(task_id, task)
+            self.configure_task(task_id=task_id, task=task)
             if self.model_saver.model_exists():
                 logger.info(f"Model already exists task {task}")
                 continue

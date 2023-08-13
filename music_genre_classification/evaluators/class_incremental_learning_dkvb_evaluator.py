@@ -19,7 +19,6 @@ class ClassIncrementalLearningDKVBEvaluator(ClassIncrementalLearningEvaluator):
         self.model_saver.configure(
             self.model,
             experiment_name=self.experiment_name,
-            tasks=tasks,
             task_id=task_id,
             task=task,
         )
@@ -27,7 +26,6 @@ class ClassIncrementalLearningDKVBEvaluator(ClassIncrementalLearningEvaluator):
         self.model.to(config.device)
         self.data_transform.to(config.device)
         self.experiment_tracker.configure_task(
-            tasks=tasks,
             train_task_number=task_id,
             train_task_name=task,
         )

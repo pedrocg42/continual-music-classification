@@ -22,14 +22,14 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
         self.memory_dataset = None
 
     def configure_task(
-        self, tasks: list[list[str]], task_id: int, task: list[str] | str, **kwargs
+        self, task_id: int, task: list[str] | str, **kwargs
     ):
-        super().configure_task(tasks, task_id, task, **kwargs)
+        super().configure_task(task_id, task, **kwargs)
         self.memories_per_class = self.num_memories // len(self.known_classes + task)
 
         if self.memory_dataset is not None:
             self.train_data_loader = self.train_data_source.get_dataloader(
-                tasks=tasks,
+                tasks=self.tasks,
                 task=task,
                 batch_size=self.batch_size,
                 memory_dataset=self.memory_dataset,

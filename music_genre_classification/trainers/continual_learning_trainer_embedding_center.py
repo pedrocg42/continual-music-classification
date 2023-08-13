@@ -25,7 +25,6 @@ class ContinualLearningTrainerEmbeddingCenter(ClassIncrementalLearningTrainer):
 
     def configure_task(
         self,
-        tasks: list[list[str]],
         task_id: int,
         task: list[str] | str = None,
         continual_learning: bool = True,
@@ -40,17 +39,16 @@ class ContinualLearningTrainerEmbeddingCenter(ClassIncrementalLearningTrainer):
 
         # Configure data loaders
         self.train_data_loader = self.train_data_source.get_dataset(
-            tasks=tasks, task=task, is_eval=True
+            tasks=self.tasks, task=task, is_eval=True
         )
         self.val_data_loader = self.val_data_source.get_dataset(
-            tasks=tasks, task=task, is_eval=True
+            tasks=self.tasks, task=task, is_eval=True
         )
 
         # Configure model saver and load model if exists
         self.model_saver.configure(
             self.model,
             experiment_name=self.experiment_name,
-            tasks=tasks,
             task_id=task_id,
             task=task,
         )
@@ -58,7 +56,6 @@ class ContinualLearningTrainerEmbeddingCenter(ClassIncrementalLearningTrainer):
         # Configure experiment tracker
         self.experiment_tracker.configure_task(
             experiment_name=self.experiment_name,
-            tasks=tasks,
             task_id=task_id,
             task=task,
         )
@@ -73,7 +70,7 @@ class ContinualLearningTrainerEmbeddingCenter(ClassIncrementalLearningTrainer):
         self.configure_experiment(experiment_name, self.batch_size)
         self.log_start()
         for task_id, task in enumerate(self.tasks):
-            self.configure_task(self.tasks, task_id, task)
+            self.configure_task(task_id, task)
             if self.model_saver.model_exists():
                 logger.info(f"Model already exists for and task {task}")
                 continue

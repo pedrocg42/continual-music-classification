@@ -30,14 +30,11 @@ class ContinualLearningEvaluator(Evaluator):
             dataset_name=self.data_source.name,
         )
 
-    def configure_task(
-        self, tasks: list[list[str]], task_id: int, task: list[str] | str
-    ):
+    def configure_task(self, task_id: int, task: list[str] | str):
         self.model.update_decoder(task_id, task)
         self.model_saver.configure(
             self.model,
             experiment_name=self.experiment_name,
-            tasks=tasks,
             task_id=task_id,
             task=task,
         )
@@ -45,7 +42,6 @@ class ContinualLearningEvaluator(Evaluator):
         self.model.to(config.device)
         self.data_transform.to(config.device)
         self.experiment_tracker.configure_task(
-            tasks=tasks,
             train_task_number=task_id,
             train_task_name=task,
         )
@@ -63,10 +59,9 @@ class ContinualLearningEvaluator(Evaluator):
             experiment_subtype=experiment_subtype,
         )
 
-        logger.info(f"Started evaluation of cross-validation {self.tasks=}")
         for task_id, task in enumerate(self.tasks):
             logger.info(f"Started evaluation of model train with {task=}")
-            self.configure_task(tasks=self.tasks, task_id=task_id, task=task)
+            self.configure_task(task_id=task_id, task=task)
             # Extracting results per task
             for test_task in self.tasks:
                 logger.info(f"Started evaluation of {test_task=}")

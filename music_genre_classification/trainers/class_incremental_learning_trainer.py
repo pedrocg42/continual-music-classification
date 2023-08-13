@@ -10,12 +10,11 @@ from music_genre_classification.trainers.continual_learning_trainer import (
 class ClassIncrementalLearningTrainer(ContinualLearningTrainer):
     def configure_task(
         self,
-        tasks: list[list[str]],
         task_id: int,
         task: str | list[str],
         **kwargs,
     ):
-        super().configure_task(tasks, task_id, task, **kwargs)
+        super().configure_task(task_id, task, **kwargs)
         self.model.update_decoder(task_id, task)
         self.looper.optimizer.configure(self.model.parameters())
 
