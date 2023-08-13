@@ -362,11 +362,11 @@ oracle_evaluator_gtzan["args"]["data_source"] = test_gtzan_data_source
 oracle_evaluator_gtzan["args"]["metrics_config"] = classification_metrics_gtzan
 
 oracle_evaluator_gtzan_scenario1 = deepcopy(oracle_evaluator_gtzan)
-oracle_evaluator_gtzan_scenario1 = scenario1
+oracle_evaluator_gtzan_scenario1["args"]["tasks"] = scenario1
 oracle_evaluator_gtzan_scenario2 = deepcopy(oracle_evaluator_gtzan)
-oracle_evaluator_gtzan_scenario2 = scenario2
+oracle_evaluator_gtzan_scenario2["args"]["tasks"] = scenario2
 oracle_evaluator_gtzan_scenario3 = deepcopy(oracle_evaluator_gtzan)
-oracle_evaluator_gtzan_scenario3 = scenario3
+oracle_evaluator_gtzan_scenario3["args"]["tasks"] = scenario3
 
 ## Finetuning
 continual_learning_evaluator_gtzan_scenario1 = deepcopy(evaluator)

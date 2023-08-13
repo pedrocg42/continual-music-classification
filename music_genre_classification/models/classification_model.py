@@ -30,7 +30,7 @@ class MertClassificationDecoder(nn.Module):
         self.normalization = nn.BatchNorm1d(num_features=hidden_units)
         self.activation = nn.ReLU()
 
-        self.fc = nn.Linear(in_features=in_features, out_features=num_classes)
+        self.fc = nn.Linear(in_features=hidden_units, out_features=num_classes)
 
     def forward(self, inputs: torch.Tensor) -> torch.Tensor:
         outputs = self.conv1d(inputs)
@@ -186,6 +186,8 @@ class TorchClassIncrementalModel(TorchClassificationModel):
 
     def initialize(self):
         self.initialize_encoder()
+        if self.num_classes is not None:
+            self.initialize_decoder()
 
     def update_decoder(self, task_id: int, task: str | list[str]):
         num_new_classes = len(task) if isinstance(task, list) else 1
