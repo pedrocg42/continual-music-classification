@@ -1,7 +1,5 @@
-SET DATASETS_PATH=G:/Pedro/data/music
+export DATASETS_PATH=/home/pcordoba/data/audio/music
 # Oracle training
-
-
 
 # Scenario 1
 

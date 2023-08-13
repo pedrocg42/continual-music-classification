@@ -1,7 +1,4 @@
-SET DATASETS_PATH=G:/Pedro/data/music
-# Oracle training
-
-
+export DATASETS_PATH=/home/pcordoba/data/audio/music
 
 # Scenario 1
 
@@ -177,4 +174,4 @@ python execute_experiment.py --experiment mert95m_cosinecenter_cl_nsynthinstrume
 
 
 # Turn off VM (comment if not needed)
-# sudo shutdown
+sudo shutdown
