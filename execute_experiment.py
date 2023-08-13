@@ -35,6 +35,9 @@ def execute_experiment(
         **experiment["evaluate"],
     )
 
+    with open("finished_experiments.txt", "a") as f:
+        f.write(experiment_name)
+
 
 if __name__ == "__main__":
     Fire(execute_experiment)
