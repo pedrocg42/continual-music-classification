@@ -9,6 +9,7 @@ from music_genre_classification.train_data_sources.memory_dataset import MemoryD
 from music_genre_classification.trainers.class_incremental_learning_trainer import (
     ClassIncrementalLearningTrainer,
 )
+from tqdm import tqdm
 
 
 class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
@@ -21,9 +22,7 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
         self.targets_memory = np.array([])
         self.memory_dataset = None
 
-    def configure_task(
-        self, task_id: int, task: list[str] | str, **kwargs
-    ):
+    def configure_task(self, task_id: int, task: list[str] | str, **kwargs):
         super().configure_task(task_id, task, **kwargs)
         self.memories_per_class = self.num_memories // len(self.known_classes + task)
 
@@ -144,7 +143,7 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
         )
 
         inputs_list, targets_list, vectors_list = [], [], []
-        for inputs, targets in data_loader:
+        for inputs, targets in tqdm(data_loader, colour="cyan"):
             transformed_inputs = self.train_data_transform(inputs.to(config.device))
             vectors = self.model.extract_vector(transformed_inputs)
             inputs_list.append(inputs.cpu().detach().numpy())
