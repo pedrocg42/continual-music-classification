@@ -9,7 +9,7 @@ num_epochs = 200
 early_stopping_patience = 40
 early_stopping_metric = "Accuracy"
 epochs_keys_init = 10
-batch_size = 64
+batch_size = 16
 
 
 # Data transforms

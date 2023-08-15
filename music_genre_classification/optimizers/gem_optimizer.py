@@ -30,7 +30,7 @@ class GemOptimizer(TorchBaseOptimizer):
         self,
         patterns_per_experience: int,
         memory_strength: float,
-        optimizer_config: dict = {"lr": 0.001, "weight_decay": 2e-4, "momentum": 0.9},
+        optimizer_config: dict = {"lr": 0.001},
     ):
         """
         :param patterns_per_experience: number of patterns per experience in the

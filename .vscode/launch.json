@@ -21,7 +21,7 @@
             "justMyCode": false,
             "args": [
                 "--experiment",
-                "mert95m_base_oracle_gtzan_scenario3",
+                "mert95m_l2p_cl_gtzan_scenario1",
             ]
         },
         {
@@ -33,7 +33,7 @@
             "justMyCode": true,
             "args": [
                 "--experiment",
-                "mert95m_cosinecenter_cl_gtzan_scenario1"
+                "mert95m_cosinecenter_cl_vocalsettech_scenario2"
             ]
         }
     ]

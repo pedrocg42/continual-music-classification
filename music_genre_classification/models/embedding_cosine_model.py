@@ -18,7 +18,7 @@ class TorchEmbeddingCosineModel(TorchEmbeddingModel):
         )
         for unique_label in unique_labels:
             class_embeddings = normalized_embeddings[labels == unique_label]
-            mean_embedding = torch.mean(class_embeddings[:-1], dim=0, keepdims=True)
+            mean_embedding = torch.mean(class_embeddings, dim=0, keepdims=True)
             self.reference_embeddings = torch.cat(
                 [
                     self.reference_embeddings,

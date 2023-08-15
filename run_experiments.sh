@@ -45,16 +45,16 @@ python execute_experiment.py --experiment mert95m_cosinecenter_cl_vocalsettech_s
 
 # NSynth Instrument
 
-python execute_experiment.py --experiment mert95m_base_oracle_nsynthinstrument_scenario1
-python execute_experiment.py --experiment mert95m_finetuning_cl_nsynthinstrument_scenario1
-python execute_experiment.py --experiment mert95m_replay_cl_nsynthinstrument_scenario1
-python execute_experiment.py --experiment mert95m_icarl_cl_nsynthinstrument_scenario1
+# python execute_experiment.py --experiment mert95m_base_oracle_nsynthinstrument_scenario1
+# python execute_experiment.py --experiment mert95m_finetuning_cl_nsynthinstrument_scenario1
+# python execute_experiment.py --experiment mert95m_replay_cl_nsynthinstrument_scenario1
+# python execute_experiment.py --experiment mert95m_icarl_cl_nsynthinstrument_scenario1
 # python execute_experiment.py --experiment mert95m_dkvb_cl_nsynthinstrument_scenario1
-python execute_experiment.py --experiment mert95m_gem_cl_nsynthinstrument_scenario1
-python execute_experiment.py --experiment mert95m_ewc_cl_nsynthinstrument_scenario1
+# python execute_experiment.py --experiment mert95m_gem_cl_nsynthinstrument_scenario1
+# python execute_experiment.py --experiment mert95m_ewc_cl_nsynthinstrument_scenario1
 # python execute_experiment.py --experiment mert95m_l2p_cl_nsynthinstrument_scenario1
-python execute_experiment.py --experiment mert95m_l2center_cl_nsynthinstrument_scenario1
-python execute_experiment.py --experiment mert95m_cosinecenter_cl_nsynthinstrument_scenario1
+# python execute_experiment.py --experiment mert95m_l2center_cl_nsynthinstrument_scenario1
+# python execute_experiment.py --experiment mert95m_cosinecenter_cl_nsynthinstrument_scenario1
 
 
 # Scenario 2
@@ -103,16 +103,16 @@ python execute_experiment.py --experiment mert95m_cosinecenter_cl_vocalsettech_s
 
 # NSynth Instrument
 
-python execute_experiment.py --experiment mert95m_base_oracle_nsynthinstrument_scenario2
-python execute_experiment.py --experiment mert95m_finetuning_cl_nsynthinstrument_scenario2
-python execute_experiment.py --experiment mert95m_replay_cl_nsynthinstrument_scenario2
-python execute_experiment.py --experiment mert95m_icarl_cl_nsynthinstrument_scenario2
+# python execute_experiment.py --experiment mert95m_base_oracle_nsynthinstrument_scenario2
+# python execute_experiment.py --experiment mert95m_finetuning_cl_nsynthinstrument_scenario2
+# python execute_experiment.py --experiment mert95m_replay_cl_nsynthinstrument_scenario2
+# python execute_experiment.py --experiment mert95m_icarl_cl_nsynthinstrument_scenario2
 # python execute_experiment.py --experiment mert95m_dkvb_cl_nsynthinstrument_scenario2
-python execute_experiment.py --experiment mert95m_gem_cl_nsynthinstrument_scenario2
-python execute_experiment.py --experiment mert95m_ewc_cl_nsynthinstrument_scenario2
+# python execute_experiment.py --experiment mert95m_gem_cl_nsynthinstrument_scenario2
+# python execute_experiment.py --experiment mert95m_ewc_cl_nsynthinstrument_scenario2
 # python execute_experiment.py --experiment mert95m_l2p_cl_nsynthinstrument_scenario2
-python execute_experiment.py --experiment mert95m_l2center_cl_nsynthinstrument_scenario2
-python execute_experiment.py --experiment mert95m_cosinecenter_cl_nsynthinstrument_scenario2
+# python execute_experiment.py --experiment mert95m_l2center_cl_nsynthinstrument_scenario2
+# python execute_experiment.py --experiment mert95m_cosinecenter_cl_nsynthinstrument_scenario2
 
 
 # Scenario 3
@@ -161,16 +161,16 @@ python execute_experiment.py --experiment mert95m_cosinecenter_cl_vocalsettech_s
 
 # NSynth Instrument
 
-python execute_experiment.py --experiment mert95m_base_oracle_nsynthinstrument_scenario3
-python execute_experiment.py --experiment mert95m_finetuning_cl_nsynthinstrument_scenario3
-python execute_experiment.py --experiment mert95m_replay_cl_nsynthinstrument_scenario3
-python execute_experiment.py --experiment mert95m_icarl_cl_nsynthinstrument_scenario3
+# python execute_experiment.py --experiment mert95m_base_oracle_nsynthinstrument_scenario3
+# python execute_experiment.py --experiment mert95m_finetuning_cl_nsynthinstrument_scenario3
+# python execute_experiment.py --experiment mert95m_replay_cl_nsynthinstrument_scenario3
+# python execute_experiment.py --experiment mert95m_icarl_cl_nsynthinstrument_scenario3
 # python execute_experiment.py --experiment mert95m_dkvb_cl_nsynthinstrument_scenario3
-python execute_experiment.py --experiment mert95m_gem_cl_nsynthinstrument_scenario3
-python execute_experiment.py --experiment mert95m_ewc_cl_nsynthinstrument_scenario3
+# python execute_experiment.py --experiment mert95m_gem_cl_nsynthinstrument_scenario3
+# python execute_experiment.py --experiment mert95m_ewc_cl_nsynthinstrument_scenario3
 # python execute_experiment.py --experiment mert95m_l2p_cl_nsynthinstrument_scenario3
-python execute_experiment.py --experiment mert95m_l2center_cl_nsynthinstrument_scenario3
-python execute_experiment.py --experiment mert95m_cosinecenter_cl_nsynthinstrument_scenario3
+# python execute_experiment.py --experiment mert95m_l2center_cl_nsynthinstrument_scenario3
+# python execute_experiment.py --experiment mert95m_cosinecenter_cl_nsynthinstrument_scenario3
 
 
 # Turn off VM (comment if not needed)

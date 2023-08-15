@@ -107,7 +107,7 @@ class MertEncoderL2P(nn.Module):
 
         hidden_states = self.encoder.feature_projection(extract_features)
 
-        hidden_states = torch.cat([hidden_states, prompt], 1)
+        hidden_states = torch.cat([prompt, hidden_states], dim=1)
         hidden_states = self.encoder._mask_hidden_states(
             hidden_states, mask_time_indices=mask_time_indices
         )

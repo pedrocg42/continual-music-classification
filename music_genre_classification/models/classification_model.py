@@ -198,7 +198,7 @@ class TorchClassIncrementalModel(TorchClassificationModel):
             self.num_classes += num_new_classes
 
             fc = nn.Linear(
-                in_features=self.encoder.output_size,
+                in_features=self.decoder.hidden_fc.out_features,
                 out_features=self.num_classes,
             )
 

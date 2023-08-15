@@ -13,7 +13,7 @@ class TorchSgdOptimizer(TorchBaseOptimizer):
         self,
         lr: float = 0.01,
         momentum: float = 0.9,
-        weight_decay: float = 2e-4,
+        weight_decay: float = 0.0,
     ):
         self.lr = lr
         self.momentum = momentum

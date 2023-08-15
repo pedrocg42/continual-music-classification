@@ -76,9 +76,13 @@ class GtzanDataSource(TrainDataSource):
 
         # Filtered songs
         list_accepted_songs = []
-        for split in ["train", "valid", "test"]:
+        for split_filename, split in [
+            ("train", "train"),
+            ("valid", "val"),
+            ("test", "test"),
+        ]:
             with open(
-                os.path.join(self.dataset_path, f"{split}_filtered.txt"), "r"
+                os.path.join(self.dataset_path, f"{split_filename}_filtered.txt"), "r"
             ) as f:
                 list_accepted_songs = f.readlines()
             list_accepted_songs = np.array(

@@ -64,11 +64,11 @@ class MusicContinualLearningEmbeddingLooper(ABC):
 
         # Inference
         transformed = data_transform(inputs, augment=True)
-        preds = model.forward_features(transformed)[:-1]
+        preds = model.forward_features(transformed)
 
         return dict(
             preds=preds.detach().cpu(),
-            labels=labels.detach().cpu()[:-1],
+            labels=labels.detach().cpu(),
         )
 
     @torch.no_grad()
@@ -108,9 +108,9 @@ class MusicContinualLearningEmbeddingLooper(ABC):
 
         # Inference
         transformed = data_transform(inputs)
-        preds = model(transformed)[:-1]
+        preds = model(transformed)
 
         return dict(
-            preds=preds.detach().cpu(),
-            labels=labels.detach().cpu()[:-1],
+            preds=preds.cpu(),
+            labels=labels.cpu(),
         )

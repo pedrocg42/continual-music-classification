@@ -45,7 +45,7 @@ class VocalSetSingerDataSource(TrainDataSource):
     def __init__(
         self,
         split: str,
-        splits_config: dict(train=0.48, val=0.32, test=0.2),
+        splits_config: dict[str, float] = dict(train=0.48, val=0.32, test=0.2),
         singers: list[str] = SINGERS,
         is_eval: bool = False,
         chunk_length: float = 5.0,
@@ -54,8 +54,6 @@ class VocalSetSingerDataSource(TrainDataSource):
         self.name = "VocalSetSinger"
         self.dataset_path = os.path.join(config.dataset_path, "VocalSet", "FULL")
         self.singers = singers
-        self.singer_to_index = {singer: i for i, singer in enumerate(self.singer)}
-        self.index_to_singer = {i: singer for i, singer in enumerate(self.singer)}
 
         # Split parameters
         self.split = split

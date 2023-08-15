@@ -28,9 +28,9 @@ class TorchEmbeddingModel(nn.Module):
         return embeddings
 
     def match_embeddings(self, embeddings: torch.Tensor) -> torch.Tensor:
-        similarities = -torch.cdist(
-            embeddings[None], self.reference_embeddings[None]
-        ).squeeze()
+        similarities = -torch.cdist(embeddings[None], self.reference_embeddings[None])[
+            0
+        ]
         return similarities
 
     def forward(self, inputs: torch.Tensor):
@@ -42,7 +42,7 @@ class TorchEmbeddingModel(nn.Module):
         unique_labels = torch.unique(labels)
         for unique_label in unique_labels:
             class_embeddings = embeddings[labels == unique_label]
-            mean_embedding = torch.mean(class_embeddings[:-1], dim=0, keepdims=True)
+            mean_embedding = torch.mean(class_embeddings, dim=0, keepdims=True)
             self.reference_embeddings = torch.cat(
                 [
                     self.reference_embeddings,

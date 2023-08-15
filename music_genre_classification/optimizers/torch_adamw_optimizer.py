@@ -13,7 +13,7 @@ class TorchAdamWOptimizer(TorchBaseOptimizer):
         self,
         lr: float = 1e-3,
         betas: tuple[float, float] = (0.9, 0.999),
-        weight_decay: float = 2e-4,
+        weight_decay: float = 0.0,
     ):
         self.lr = lr
         self.betas = betas
