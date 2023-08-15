@@ -103,27 +103,23 @@ classification_metrics_gtzan = [
 
 ###########                TRAINERS                 ###########
 
+update_trainer_gtzan = dict(
+    train_data_source=train_gtzan_data_source,
+    val_data_source=val_gtzan_data_source,
+    metrics_config=classification_metrics_gtzan,
+)
+
 # Scenario 1
 
 ## Oracle
 oracle_trainer_gtzan = deepcopy(oracle_trainer)
 oracle_trainer_gtzan["args"]["train_model"] = oracle_train_model_gtzan
-oracle_trainer_gtzan["args"]["train_data_source"] = train_gtzan_data_source
-oracle_trainer_gtzan["args"]["val_data_source"] = train_gtzan_data_source
-oracle_trainer_gtzan["args"]["metrics_config"] = classification_metrics_gtzan
+oracle_trainer_gtzan["args"].update(update_trainer_gtzan)
 
 ## Finetuning
 continual_learning_trainer_gtzan_scenario1 = deepcopy(continual_learning_trainer)
 continual_learning_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_trainer_gtzan_scenario1["args"][
-    "train_data_source"
-] = train_gtzan_data_source
-continual_learning_trainer_gtzan_scenario1["args"][
-    "val_data_source"
-] = val_gtzan_data_source
-continual_learning_trainer_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
+continual_learning_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
 continual_learning_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_trainer_gtzan_scenario1
@@ -139,16 +135,7 @@ continual_learning_replay_trainer_gtzan_scenario1 = deepcopy(
     continual_learning_replay_trainer
 )
 continual_learning_replay_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_replay_trainer_gtzan_scenario1["args"][
-    "train_data_source"
-] = train_gtzan_data_source
-continual_learning_replay_trainer_gtzan_scenario1["args"][
-    "val_data_source"
-] = val_gtzan_data_source
-continual_learning_replay_trainer_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
-
+continual_learning_replay_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
 continual_learning_replay_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_replay_trainer_gtzan_scenario1
@@ -165,16 +152,7 @@ continual_learning_icarl_trainer_gtzan_scenario1 = deepcopy(
     continual_learning_icarl_trainer
 )
 continual_learning_icarl_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_icarl_trainer_gtzan_scenario1["args"][
-    "train_data_source"
-] = train_gtzan_data_source
-continual_learning_icarl_trainer_gtzan_scenario1["args"][
-    "val_data_source"
-] = val_gtzan_data_source
-continual_learning_icarl_trainer_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
-
+continual_learning_icarl_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
 continual_learning_icarl_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_icarl_trainer_gtzan_scenario1
@@ -188,15 +166,7 @@ continual_learning_icarl_trainer_gtzan_scenario3["args"]["tasks"] = scenario3
 # VQ
 continual_learning_vq_trainer_gtzan_scenario1 = deepcopy(continual_learning_vq_trainer)
 continual_learning_vq_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_vq_trainer_gtzan_scenario1["args"][
-    "train_data_source"
-] = train_gtzan_data_source
-continual_learning_vq_trainer_gtzan_scenario1["args"][
-    "val_data_source"
-] = val_gtzan_data_source
-continual_learning_vq_trainer_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
+continual_learning_vq_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
 continual_learning_vq_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_vq_trainer_gtzan_scenario1
@@ -213,15 +183,7 @@ continual_learning_dkvb_trainer_gtzan_scenario1 = deepcopy(
     continual_learning_dkvb_trainer
 )
 continual_learning_dkvb_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_dkvb_trainer_gtzan_scenario1["args"][
-    "train_data_source"
-] = train_gtzan_data_source
-continual_learning_dkvb_trainer_gtzan_scenario1["args"][
-    "val_data_source"
-] = val_gtzan_data_source
-continual_learning_dkvb_trainer_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
+continual_learning_dkvb_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
 continual_learning_dkvb_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_dkvb_trainer_gtzan_scenario1
@@ -238,15 +200,7 @@ continual_learning_gem_trainer_gtzan_scenario1 = deepcopy(
     continual_learning_gem_trainer
 )
 continual_learning_gem_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_gem_trainer_gtzan_scenario1["args"][
-    "train_data_source"
-] = train_gtzan_data_source
-continual_learning_gem_trainer_gtzan_scenario1["args"][
-    "val_data_source"
-] = val_gtzan_data_source
-continual_learning_gem_trainer_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
+continual_learning_gem_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
 continual_learning_gem_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_gem_trainer_gtzan_scenario1
@@ -263,15 +217,7 @@ continual_learning_ewc_trainer_gtzan_scenario1 = deepcopy(
     continual_learning_ewc_trainer
 )
 continual_learning_ewc_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_ewc_trainer_gtzan_scenario1["args"][
-    "train_data_source"
-] = train_gtzan_data_source
-continual_learning_ewc_trainer_gtzan_scenario1["args"][
-    "val_data_source"
-] = val_gtzan_data_source
-continual_learning_ewc_trainer_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
+continual_learning_ewc_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
 continual_learning_ewc_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_ewc_trainer_gtzan_scenario1
@@ -288,16 +234,7 @@ continual_learning_l2p_trainer_gtzan_scenario1 = deepcopy(
     continual_learning_l2p_trainer
 )
 continual_learning_l2p_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2p_trainer_gtzan_scenario1["args"][
-    "train_data_source"
-] = train_gtzan_data_source
-continual_learning_l2p_trainer_gtzan_scenario1["args"][
-    "val_data_source"
-] = val_gtzan_data_source
-continual_learning_l2p_trainer_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
-
+continual_learning_l2p_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
 continual_learning_l2p_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_l2p_trainer_gtzan_scenario1
@@ -314,15 +251,7 @@ continual_learning_l2center_trainer_gtzan_scenario1 = deepcopy(
     continual_learning_l2center_trainer
 )
 continual_learning_l2center_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2center_trainer_gtzan_scenario1["args"][
-    "train_data_source"
-] = train_gtzan_data_source
-continual_learning_l2center_trainer_gtzan_scenario1["args"][
-    "val_data_source"
-] = val_gtzan_data_source
-continual_learning_l2center_trainer_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
+continual_learning_l2center_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
 continual_learning_l2center_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_l2center_trainer_gtzan_scenario1
@@ -352,14 +281,18 @@ continual_learning_cosinecenter_trainer_gtzan_scenario3["args"]["tasks"] = scena
 
 ###########               EVALUATORS                ###########
 
+update_evaluator_gtzan = dict(
+    data_source=test_gtzan_data_source,
+    metrics_config=classification_metrics_gtzan,
+)
+
 # Scenario 1
 
 ## Oracle
 oracle_evaluator_gtzan = deepcopy(oracle_evaluator)
 oracle_evaluator_gtzan["args"]["model"] = oracle_train_model_gtzan
 oracle_evaluator_gtzan["args"]["tasks"] = all_tasks
-oracle_evaluator_gtzan["args"]["data_source"] = test_gtzan_data_source
-oracle_evaluator_gtzan["args"]["metrics_config"] = classification_metrics_gtzan
+oracle_evaluator_gtzan["args"].update(update_evaluator_gtzan)
 
 oracle_evaluator_gtzan_scenario1 = deepcopy(oracle_evaluator_gtzan)
 oracle_evaluator_gtzan_scenario1["args"]["tasks"] = scenario1
@@ -371,12 +304,7 @@ oracle_evaluator_gtzan_scenario3["args"]["tasks"] = scenario3
 ## Finetuning
 continual_learning_evaluator_gtzan_scenario1 = deepcopy(evaluator)
 continual_learning_evaluator_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_evaluator_gtzan_scenario1["args"][
-    "data_source"
-] = test_gtzan_data_source
-continual_learning_evaluator_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
+continual_learning_evaluator_gtzan_scenario1["args"].update(update_evaluator_gtzan)
 
 continual_learning_evaluator_gtzan_scenario2 = deepcopy(
     continual_learning_evaluator_gtzan_scenario1
@@ -393,12 +321,7 @@ continual_learning_vq_evaluator_gtzan_scenario1 = deepcopy(
     continual_learning_evaluator_vq
 )
 continual_learning_vq_evaluator_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_vq_evaluator_gtzan_scenario1["args"][
-    "data_source"
-] = test_gtzan_data_source
-continual_learning_vq_evaluator_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
+continual_learning_vq_evaluator_gtzan_scenario1["args"].update(update_evaluator_gtzan)
 
 continual_learning_vq_evaluator_gtzan_scenario2 = deepcopy(
     continual_learning_vq_evaluator_gtzan_scenario1
@@ -416,12 +339,7 @@ continual_learning_dkvb_evaluator_gtzan_scenario1 = deepcopy(
     continual_learning_evaluator_dkvb
 )
 continual_learning_dkvb_evaluator_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_dkvb_evaluator_gtzan_scenario1["args"][
-    "data_source"
-] = test_gtzan_data_source
-continual_learning_dkvb_evaluator_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
+continual_learning_dkvb_evaluator_gtzan_scenario1["args"].update(update_evaluator_gtzan)
 
 continual_learning_dkvb_evaluator_gtzan_scenario2 = deepcopy(
     continual_learning_dkvb_evaluator_gtzan_scenario1
@@ -439,12 +357,7 @@ continual_learning_l2p_evaluator_gtzan_scenario1 = deepcopy(
     continual_learning_evaluator_l2p
 )
 continual_learning_l2p_evaluator_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2p_evaluator_gtzan_scenario1["args"][
-    "data_source"
-] = test_gtzan_data_source
-continual_learning_l2p_evaluator_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
+continual_learning_l2p_evaluator_gtzan_scenario1["args"].update(update_evaluator_gtzan)
 
 continual_learning_l2p_evaluator_gtzan_scenario2 = deepcopy(
     continual_learning_l2p_evaluator_gtzan_scenario1
@@ -461,12 +374,9 @@ continual_learning_l2center_evaluator_gtzan_scenario1 = deepcopy(
     continual_learning_evaluator_l2center
 )
 continual_learning_l2center_evaluator_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2center_evaluator_gtzan_scenario1["args"][
-    "data_source"
-] = test_gtzan_data_source
-continual_learning_l2center_evaluator_gtzan_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_gtzan
+continual_learning_l2center_evaluator_gtzan_scenario1["args"].update(
+    update_evaluator_gtzan
+)
 
 continual_learning_l2center_evaluator_gtzan_scenario2 = deepcopy(
     continual_learning_l2center_evaluator_gtzan_scenario1
@@ -477,6 +387,25 @@ continual_learning_l2center_evaluator_gtzan_scenario3 = deepcopy(
     continual_learning_l2center_evaluator_gtzan_scenario1
 )
 continual_learning_l2center_evaluator_gtzan_scenario3["args"]["tasks"] = scenario3
+
+# CosineCenter
+continual_learning_cosinecenter_evaluator_gtzan_scenario1 = deepcopy(
+    continual_learning_evaluator_cosinecenter
+)
+continual_learning_cosinecenter_evaluator_gtzan_scenario1["args"]["tasks"] = scenario1
+continual_learning_cosinecenter_evaluator_gtzan_scenario1["args"].update(
+    update_evaluator_gtzan
+)
+
+continual_learning_cosinecenter_evaluator_gtzan_scenario2 = deepcopy(
+    continual_learning_cosinecenter_evaluator_gtzan_scenario1
+)
+continual_learning_cosinecenter_evaluator_gtzan_scenario2["args"]["tasks"] = scenario2
+
+continual_learning_cosinecenter_evaluator_gtzan_scenario3 = deepcopy(
+    continual_learning_cosinecenter_evaluator_gtzan_scenario1
+)
+continual_learning_cosinecenter_evaluator_gtzan_scenario3["args"]["tasks"] = scenario3
 
 
 ###############################################################
@@ -655,7 +584,7 @@ mert95m_cosinecenter_cl_gtzan_scenario1 = {
         "trainer": continual_learning_cosinecenter_trainer_gtzan_scenario1,
     },
     "evaluate": {
-        "evaluator": continual_learning_l2center_evaluator_gtzan_scenario1,
+        "evaluator": continual_learning_cosinecenter_evaluator_gtzan_scenario1,
     },
 }
 
@@ -788,7 +717,7 @@ mert95m_cosinecenter_cl_gtzan_scenario2 = {
         "trainer": continual_learning_cosinecenter_trainer_gtzan_scenario2,
     },
     "evaluate": {
-        "evaluator": continual_learning_l2center_evaluator_gtzan_scenario2,
+        "evaluator": continual_learning_cosinecenter_evaluator_gtzan_scenario2,
     },
 }
 
@@ -921,6 +850,6 @@ mert95m_cosinecenter_cl_gtzan_scenario3 = {
         "trainer": continual_learning_cosinecenter_trainer_gtzan_scenario3,
     },
     "evaluate": {
-        "evaluator": continual_learning_l2center_evaluator_gtzan_scenario3,
+        "evaluator": continual_learning_cosinecenter_evaluator_gtzan_scenario3,
     },
 }

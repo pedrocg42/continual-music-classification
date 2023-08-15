@@ -9,7 +9,7 @@ num_epochs = 200
 early_stopping_patience = 40
 early_stopping_metric = "Accuracy"
 epochs_keys_init = 10
-batch_size = 16
+batch_size = 64
 
 
 # Data transforms
@@ -17,6 +17,22 @@ mert_data_transform = {
     "name": "MertDataTransform",
     "args": {
         "input_sample_rate": 22050,
+        "output_sample_rate": 24000,
+    },
+}
+
+mert_data_transform_vocalset = {
+    "name": "MertDataTransform",
+    "args": {
+        "input_sample_rate": 44100,
+        "output_sample_rate": 24000,
+    },
+}
+
+mert_data_transform_nsynth = {
+    "name": "MertDataTransform",
+    "args": {
+        "input_sample_rate": 16000,
         "output_sample_rate": 24000,
     },
 }
@@ -234,6 +250,7 @@ continual_learning_ewc_trainer["args"]["train_model"] = train_model
 ## L2P
 continual_learning_l2p_trainer = deepcopy(trainer)
 continual_learning_l2p_trainer["args"]["train_model"] = train_model_l2p
+continual_learning_l2p_trainer["args"]["batch_size"] = 16
 continual_learning_l2p_trainer["args"]["looper"] = {
     "name": "L2PMusicGenreClassificationLooper",
     "args": {
@@ -284,5 +301,11 @@ continual_learning_evaluator_l2p["name"] = "ClassIncrementalLearningL2PEvaluator
 continual_learning_evaluator_l2center = deepcopy(evaluator)
 continual_learning_evaluator_l2center["args"]["model"] = train_model_l2center
 continual_learning_evaluator_l2center[
+    "name"
+] = "ClassIncrementalLearningL2CenterEvaluator"
+
+continual_learning_evaluator_cosinecenter = deepcopy(evaluator)
+continual_learning_evaluator_cosinecenter["args"]["model"] = train_model_cosinecenter
+continual_learning_evaluator_cosinecenter[
     "name"
 ] = "ClassIncrementalLearningL2CenterEvaluator"

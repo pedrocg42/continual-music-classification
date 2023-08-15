@@ -8,7 +8,7 @@ from music_genre_classification.models.embedding_model import TorchEmbeddingMode
 class TorchEmbeddingCosineModel(TorchEmbeddingModel):
     def match_embeddings(self, embeddings: torch.Tensor) -> torch.Tensor:
         embeddings = embeddings / torch.linalg.norm(embeddings, dim=1)[:, None]
-        similarities = 1.0 - (embeddings @ self.reference_embeddings.T)
+        similarities = embeddings @ self.reference_embeddings.T
         return similarities
 
     def update_references(self, embeddings: torch.Tensor, labels: torch.Tensor):

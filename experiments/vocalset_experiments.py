@@ -106,34 +106,28 @@ oracle_train_model_vocalsetsinger = {
     "args": {"num_classes": num_classes},
 }
 
+update_trainer_vocalsetsinger = dict(
+    train_data_source=train_vocalsetsinger_data_source,
+    val_data_source=val_vocalsetsinger_data_source,
+    metrics_config=classification_metrics_vocalsetsinger,
+    train_data_transform=mert_data_transform_vocalset,
+    val_data_transform=mert_data_transform_vocalset,
+)
+
 ## Oracle
 oracle_trainer_vocalsetsinger = deepcopy(oracle_trainer)
 oracle_trainer_vocalsetsinger["args"]["train_model"] = oracle_train_model_vocalsetsinger
-oracle_trainer_vocalsetsinger["args"][
-    "train_data_source"
-] = train_vocalsetsinger_data_source
-oracle_trainer_vocalsetsinger["args"][
-    "val_data_source"
-] = val_vocalsetsinger_data_source
-oracle_trainer_vocalsetsinger["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
+oracle_trainer_vocalsetsinger["args"].update(update_trainer_vocalsetsinger)
 
 
 ## Finetuning
 continual_learning_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_trainer
 )
+continual_learning_trainer_vocalsetsinger_scenario1["args"].update(
+    update_trainer_vocalsetsinger
+)
 continual_learning_trainer_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_trainer_vocalsetsinger_scenario1["args"][
-    "train_data_source"
-] = train_vocalsetsinger_data_source
-continual_learning_trainer_vocalsetsinger_scenario1["args"][
-    "val_data_source"
-] = val_vocalsetsinger_data_source
-continual_learning_trainer_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
 
 continual_learning_trainer_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_trainer_vocalsetsinger_scenario1
@@ -150,16 +144,10 @@ continual_learning_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
 continual_learning_replay_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_replay_trainer
 )
+continual_learning_replay_trainer_vocalsetsinger_scenario1["args"].update(
+    update_trainer_vocalsetsinger
+)
 continual_learning_replay_trainer_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_replay_trainer_vocalsetsinger_scenario1["args"][
-    "train_data_source"
-] = train_vocalsetsinger_data_source
-continual_learning_replay_trainer_vocalsetsinger_scenario1["args"][
-    "val_data_source"
-] = val_vocalsetsinger_data_source
-continual_learning_replay_trainer_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
 
 continual_learning_replay_trainer_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_replay_trainer_vocalsetsinger_scenario1
@@ -176,16 +164,11 @@ continual_learning_replay_trainer_vocalsetsinger_scenario3["args"]["tasks"] = sc
 continual_learning_icarl_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_icarl_trainer
 )
+continual_learning_icarl_trainer_vocalsetsinger_scenario1["args"].update(
+    update_trainer_vocalsetsinger
+)
 continual_learning_icarl_trainer_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_icarl_trainer_vocalsetsinger_scenario1["args"][
-    "train_data_source"
-] = train_vocalsetsinger_data_source
-continual_learning_icarl_trainer_vocalsetsinger_scenario1["args"][
-    "val_data_source"
-] = val_vocalsetsinger_data_source
-continual_learning_icarl_trainer_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
+
 
 continual_learning_icarl_trainer_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_icarl_trainer_vocalsetsinger_scenario1
@@ -202,16 +185,11 @@ continual_learning_icarl_trainer_vocalsetsinger_scenario3["args"]["tasks"] = sce
 continual_learning_vq_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_vq_trainer
 )
+continual_learning_vq_trainer_vocalsetsinger_scenario1["args"].update(
+    update_trainer_vocalsetsinger
+)
 continual_learning_vq_trainer_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_vq_trainer_vocalsetsinger_scenario1["args"][
-    "train_data_source"
-] = train_vocalsetsinger_data_source
-continual_learning_vq_trainer_vocalsetsinger_scenario1["args"][
-    "val_data_source"
-] = val_vocalsetsinger_data_source
-continual_learning_vq_trainer_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
+
 
 continual_learning_vq_trainer_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_vq_trainer_vocalsetsinger_scenario1
@@ -228,16 +206,11 @@ continual_learning_vq_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenar
 continual_learning_dkvb_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_dkvb_trainer
 )
+continual_learning_dkvb_trainer_vocalsetsinger_scenario1["args"].update(
+    update_trainer_vocalsetsinger
+)
 continual_learning_dkvb_trainer_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_dkvb_trainer_vocalsetsinger_scenario1["args"][
-    "train_data_source"
-] = train_vocalsetsinger_data_source
-continual_learning_dkvb_trainer_vocalsetsinger_scenario1["args"][
-    "val_data_source"
-] = val_vocalsetsinger_data_source
-continual_learning_dkvb_trainer_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
+
 
 continual_learning_dkvb_trainer_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_dkvb_trainer_vocalsetsinger_scenario1
@@ -254,16 +227,10 @@ continual_learning_dkvb_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scen
 continual_learning_gem_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_gem_trainer
 )
+continual_learning_gem_trainer_vocalsetsinger_scenario1["args"].update(
+    update_trainer_vocalsetsinger
+)
 continual_learning_gem_trainer_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_gem_trainer_vocalsetsinger_scenario1["args"][
-    "train_data_source"
-] = train_vocalsetsinger_data_source
-continual_learning_gem_trainer_vocalsetsinger_scenario1["args"][
-    "val_data_source"
-] = val_vocalsetsinger_data_source
-continual_learning_gem_trainer_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
 
 continual_learning_gem_trainer_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_gem_trainer_vocalsetsinger_scenario1
@@ -280,16 +247,10 @@ continual_learning_gem_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scena
 continual_learning_ewc_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_ewc_trainer
 )
+continual_learning_gem_trainer_vocalsetsinger_scenario1["args"].update(
+    update_trainer_vocalsetsinger
+)
 continual_learning_ewc_trainer_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_ewc_trainer_vocalsetsinger_scenario1["args"][
-    "train_data_source"
-] = train_vocalsetsinger_data_source
-continual_learning_ewc_trainer_vocalsetsinger_scenario1["args"][
-    "val_data_source"
-] = val_vocalsetsinger_data_source
-continual_learning_ewc_trainer_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
 
 continual_learning_ewc_trainer_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_ewc_trainer_vocalsetsinger_scenario1
@@ -306,16 +267,10 @@ continual_learning_ewc_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scena
 continual_learning_l2p_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_l2p_trainer
 )
+continual_learning_l2p_trainer_vocalsetsinger_scenario1["args"].update(
+    update_trainer_vocalsetsinger
+)
 continual_learning_l2p_trainer_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2p_trainer_vocalsetsinger_scenario1["args"][
-    "train_data_source"
-] = train_vocalsetsinger_data_source
-continual_learning_l2p_trainer_vocalsetsinger_scenario1["args"][
-    "val_data_source"
-] = val_vocalsetsinger_data_source
-continual_learning_l2p_trainer_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
 
 continual_learning_l2p_trainer_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_l2p_trainer_vocalsetsinger_scenario1
@@ -332,18 +287,12 @@ continual_learning_l2p_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scena
 continual_learning_l2center_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_l2center_trainer
 )
+continual_learning_l2center_trainer_vocalsetsinger_scenario1["args"].update(
+    update_trainer_vocalsetsinger
+)
 continual_learning_l2center_trainer_vocalsetsinger_scenario1["args"][
     "tasks"
 ] = scenario1
-continual_learning_l2center_trainer_vocalsetsinger_scenario1["args"][
-    "train_data_source"
-] = train_vocalsetsinger_data_source
-continual_learning_l2center_trainer_vocalsetsinger_scenario1["args"][
-    "val_data_source"
-] = val_vocalsetsinger_data_source
-continual_learning_l2center_trainer_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
 
 continual_learning_l2center_trainer_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_l2center_trainer_vocalsetsinger_scenario1
@@ -384,14 +333,17 @@ continual_learning_cosinecenter_trainer_vocalsetsinger_scenario3["args"][
 
 ###########               EVALUATORS                ###########
 
+update_evaluator_vocalsetsinger = dict(
+    data_source=test_vocalsetsinger_data_source,
+    metrics_config=classification_metrics_vocalsetsinger,
+    data_transform=mert_data_transform_vocalset,
+)
+
 # Oracle
 oracle_evaluator_vocalsetsinger = deepcopy(oracle_evaluator)
 oracle_evaluator_vocalsetsinger["args"]["model"] = oracle_train_model_vocalsetsinger
 oracle_evaluator_vocalsetsinger["args"]["tasks"] = all_tasks
-oracle_evaluator_vocalsetsinger["args"]["data_source"] = test_vocalsetsinger_data_source
-oracle_evaluator_vocalsetsinger["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
+oracle_evaluator_vocalsetsinger["args"].update(update_evaluator_vocalsetsinger)
 
 oracle_evaluator_vocalsetsinger_scenario1 = deepcopy(oracle_evaluator_vocalsetsinger)
 oracle_evaluator_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
@@ -404,12 +356,10 @@ oracle_evaluator_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
 # Finetuning
 continual_learning_evaluator_vocalsetsinger_scenario1 = deepcopy(evaluator)
 continual_learning_evaluator_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_evaluator_vocalsetsinger_scenario1["args"][
-    "data_source"
-] = test_vocalsetsinger_data_source
-continual_learning_evaluator_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
+continual_learning_evaluator_vocalsetsinger_scenario1["args"].update(
+    update_evaluator_vocalsetsinger
+)
+
 
 continual_learning_evaluator_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_evaluator_vocalsetsinger_scenario1
@@ -426,12 +376,10 @@ continual_learning_vq_evaluator_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_evaluator_vq
 )
 continual_learning_vq_evaluator_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_vq_evaluator_vocalsetsinger_scenario1["args"][
-    "data_source"
-] = test_vocalsetsinger_data_source
-continual_learning_vq_evaluator_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
+continual_learning_vq_evaluator_vocalsetsinger_scenario1["args"].update(
+    update_evaluator_vocalsetsinger
+)
+
 
 continual_learning_vq_evaluator_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_vq_evaluator_vocalsetsinger_scenario1
@@ -448,12 +396,9 @@ continual_learning_dkvb_evaluator_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_evaluator_dkvb
 )
 continual_learning_dkvb_evaluator_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_dkvb_evaluator_vocalsetsinger_scenario1["args"][
-    "data_source"
-] = test_vocalsetsinger_data_source
-continual_learning_dkvb_evaluator_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
+continual_learning_dkvb_evaluator_vocalsetsinger_scenario1["args"].update(
+    update_evaluator_vocalsetsinger
+)
 
 continual_learning_dkvb_evaluator_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_dkvb_evaluator_vocalsetsinger_scenario1
@@ -470,12 +415,10 @@ continual_learning_l2p_evaluator_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_evaluator_l2p
 )
 continual_learning_l2p_evaluator_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2p_evaluator_vocalsetsinger_scenario1["args"][
-    "data_source"
-] = test_vocalsetsinger_data_source
-continual_learning_l2p_evaluator_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
+continual_learning_l2p_evaluator_vocalsetsinger_scenario1["args"].update(
+    update_evaluator_vocalsetsinger
+)
+
 
 continual_learning_l2p_evaluator_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_l2p_evaluator_vocalsetsinger_scenario1
@@ -493,12 +436,10 @@ continual_learning_l2center_evaluator_vocalsetsinger_scenario1 = deepcopy(
 continual_learning_l2center_evaluator_vocalsetsinger_scenario1["args"][
     "tasks"
 ] = scenario1
-continual_learning_l2center_evaluator_vocalsetsinger_scenario1["args"][
-    "data_source"
-] = test_vocalsetsinger_data_source
-continual_learning_l2center_evaluator_vocalsetsinger_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_vocalsetsinger
+continual_learning_l2center_evaluator_vocalsetsinger_scenario1["args"].update(
+    update_evaluator_vocalsetsinger
+)
+
 
 continual_learning_l2center_evaluator_vocalsetsinger_scenario2 = deepcopy(
     continual_learning_l2center_evaluator_vocalsetsinger_scenario1
@@ -510,6 +451,31 @@ continual_learning_l2center_evaluator_vocalsetsinger_scenario3 = deepcopy(
     continual_learning_l2center_evaluator_vocalsetsinger_scenario1
 )
 continual_learning_l2center_evaluator_vocalsetsinger_scenario3["args"][
+    "tasks"
+] = scenario3
+
+## CosineCenter
+continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario1 = deepcopy(
+    continual_learning_evaluator_cosinecenter
+)
+continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario1["args"][
+    "tasks"
+] = scenario1
+continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario1["args"].update(
+    update_evaluator_vocalsetsinger
+)
+
+
+continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario2 = deepcopy(
+    continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario1
+)
+continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario2["args"][
+    "tasks"
+] = scenario2
+continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario3 = deepcopy(
+    continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario1
+)
+continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario3["args"][
     "tasks"
 ] = scenario3
 
@@ -691,7 +657,7 @@ mert95m_cosinecenter_cl_vocalsetsinger_scenario1 = {
         "trainer": continual_learning_cosinecenter_trainer_vocalsetsinger_scenario1,
     },
     "evaluate": {
-        "evaluator": continual_learning_l2center_evaluator_vocalsetsinger_scenario1,
+        "evaluator": continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario1,
     },
 }
 
@@ -823,7 +789,7 @@ mert95m_cosinecenter_cl_vocalsetsinger_scenario2 = {
         "trainer": continual_learning_cosinecenter_trainer_vocalsetsinger_scenario2,
     },
     "evaluate": {
-        "evaluator": continual_learning_l2center_evaluator_vocalsetsinger_scenario2,
+        "evaluator": continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario2,
     },
 }
 
@@ -956,6 +922,6 @@ mert95m_cosinecenter_cl_vocalsetsinger_scenario3 = {
         "trainer": continual_learning_cosinecenter_trainer_vocalsetsinger_scenario3,
     },
     "evaluate": {
-        "evaluator": continual_learning_l2center_evaluator_vocalsetsinger_scenario3,
+        "evaluator": continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario3,
     },
 }

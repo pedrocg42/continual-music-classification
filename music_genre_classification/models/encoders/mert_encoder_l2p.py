@@ -166,7 +166,7 @@ class PromptPool(nn.Module):
         prompt_key_norm = F.normalize(self.prompt_keys, dim=-1)
         query_norm = F.normalize(query, dim=-1)
 
-        distance = torch.abs(query_norm @ prompt_key_norm.T)  # bs, pool_size
+        distance = query_norm @ prompt_key_norm.T  # bs, pool_size
         (distance_top_k, distance_top_k_idx) = torch.topk(distance, self.top_k)
 
         one_hot_idx = F.one_hot(
@@ -182,6 +182,6 @@ class PromptPool(nn.Module):
         self.h = self.h_sum / self.num_searches
 
         # Put pull_constraint loss calculation inside
-        key_loss = torch.sum(distance_top_k) / query.shape[0]
+        key_loss = torch.sum(torch.abs(distance_top_k)) / query.shape[0]
 
         return (quantized_values, key_loss)

@@ -106,23 +106,21 @@ oracle_train_model_nsynthinstrument = {
     "args": {"num_classes": num_classes},
 }
 
+update_trainer_nsynthinstrument = dict(
+    train_data_source=train_nsynthinstrument_data_source,
+    val_data_source=val_nsynthinstrument_data_source,
+    metrics_config=classification_metrics_nsynthinstrument,
+    train_data_transform=mert_data_transform_nsynth,
+    val_data_transform=mert_data_transform_nsynth,
+    early_stopping_patience=early_stopping_patience,
+)
+
 # Scenario 1
 oracle_trainer_nsynthinstrument = deepcopy(oracle_trainer)
 oracle_trainer_nsynthinstrument["args"][
     "train_model"
 ] = oracle_train_model_nsynthinstrument
-oracle_trainer_nsynthinstrument["args"][
-    "train_data_source"
-] = train_nsynthinstrument_data_source
-oracle_trainer_nsynthinstrument["args"][
-    "val_data_source"
-] = val_nsynthinstrument_data_source
-oracle_trainer_nsynthinstrument["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
-oracle_trainer_nsynthinstrument["args"][
-    "early_stopping_patience"
-] = early_stopping_patience
+oracle_trainer_nsynthinstrument["args"].update(update_trainer_nsynthinstrument)
 
 
 # Finetuning
@@ -130,18 +128,10 @@ continual_learning_trainer_nsynthinstrument_scenario1 = deepcopy(
     continual_learning_trainer
 )
 continual_learning_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_trainer_nsynthinstrument_scenario1["args"][
-    "train_data_source"
-] = train_nsynthinstrument_data_source
-continual_learning_trainer_nsynthinstrument_scenario1["args"][
-    "val_data_source"
-] = val_nsynthinstrument_data_source
-continual_learning_trainer_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
-continual_learning_trainer_nsynthinstrument_scenario1["args"][
-    "early_stopping_patience"
-] = early_stopping_patience
+continual_learning_trainer_nsynthinstrument_scenario1["args"].update(
+    update_trainer_nsynthinstrument
+)
+
 
 continual_learning_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_trainer_nsynthinstrument_scenario1
@@ -161,18 +151,10 @@ continual_learning_replay_trainer_nsynthinstrument_scenario1 = deepcopy(
 continual_learning_replay_trainer_nsynthinstrument_scenario1["args"][
     "tasks"
 ] = scenario1
-continual_learning_replay_trainer_nsynthinstrument_scenario1["args"][
-    "train_data_source"
-] = train_nsynthinstrument_data_source
-continual_learning_replay_trainer_nsynthinstrument_scenario1["args"][
-    "val_data_source"
-] = val_nsynthinstrument_data_source
-continual_learning_replay_trainer_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
-continual_learning_replay_trainer_nsynthinstrument_scenario1["args"][
-    "early_stopping_patience"
-] = early_stopping_patience
+continual_learning_replay_trainer_nsynthinstrument_scenario1["args"].update(
+    update_trainer_nsynthinstrument
+)
+
 
 continual_learning_replay_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_replay_trainer_nsynthinstrument_scenario1
@@ -194,18 +176,9 @@ continual_learning_icarl_trainer_nsynthinstrument_scenario1 = deepcopy(
     continual_learning_icarl_trainer
 )
 continual_learning_icarl_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_icarl_trainer_nsynthinstrument_scenario1["args"][
-    "train_data_source"
-] = train_nsynthinstrument_data_source
-continual_learning_icarl_trainer_nsynthinstrument_scenario1["args"][
-    "val_data_source"
-] = val_nsynthinstrument_data_source
-continual_learning_icarl_trainer_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
-continual_learning_icarl_trainer_nsynthinstrument_scenario1["args"][
-    "early_stopping_patience"
-] = early_stopping_patience
+continual_learning_icarl_trainer_nsynthinstrument_scenario1["args"].update(
+    update_trainer_nsynthinstrument
+)
 
 continual_learning_icarl_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_icarl_trainer_nsynthinstrument_scenario1
@@ -223,19 +196,9 @@ continual_learning_vq_trainer_nsynthinstrument_scenario1 = deepcopy(
     continual_learning_vq_trainer
 )
 continual_learning_vq_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_vq_trainer_nsynthinstrument_scenario1["args"][
-    "train_data_source"
-] = train_nsynthinstrument_data_source
-continual_learning_vq_trainer_nsynthinstrument_scenario1["args"][
-    "val_data_source"
-] = val_nsynthinstrument_data_source
-continual_learning_vq_trainer_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
-continual_learning_vq_trainer_nsynthinstrument_scenario1["args"][
-    "early_stopping_patience"
-] = early_stopping_patience
-
+continual_learning_vq_trainer_nsynthinstrument_scenario1["args"].update(
+    update_trainer_nsynthinstrument
+)
 
 continual_learning_vq_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_vq_trainer_nsynthinstrument_scenario1
@@ -253,19 +216,9 @@ continual_learning_dkvb_trainer_nsynthinstrument_scenario1 = deepcopy(
     continual_learning_dkvb_trainer
 )
 continual_learning_dkvb_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_dkvb_trainer_nsynthinstrument_scenario1["args"][
-    "train_data_source"
-] = train_nsynthinstrument_data_source
-continual_learning_dkvb_trainer_nsynthinstrument_scenario1["args"][
-    "val_data_source"
-] = val_nsynthinstrument_data_source
-continual_learning_dkvb_trainer_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
-continual_learning_dkvb_trainer_nsynthinstrument_scenario1["args"][
-    "early_stopping_patience"
-] = early_stopping_patience
-
+continual_learning_dkvb_trainer_nsynthinstrument_scenario1["args"].update(
+    update_trainer_nsynthinstrument
+)
 
 continual_learning_dkvb_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_dkvb_trainer_nsynthinstrument_scenario1
@@ -283,18 +236,10 @@ continual_learning_gem_trainer_nsynthinstrument_scenario1 = deepcopy(
     continual_learning_gem_trainer
 )
 continual_learning_gem_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_gem_trainer_nsynthinstrument_scenario1["args"][
-    "train_data_source"
-] = train_nsynthinstrument_data_source
-continual_learning_gem_trainer_nsynthinstrument_scenario1["args"][
-    "val_data_source"
-] = val_nsynthinstrument_data_source
-continual_learning_gem_trainer_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
-continual_learning_gem_trainer_nsynthinstrument_scenario1["args"][
-    "early_stopping_patience"
-] = early_stopping_patience
+continual_learning_gem_trainer_nsynthinstrument_scenario1["args"].update(
+    update_trainer_nsynthinstrument
+)
+
 
 continual_learning_gem_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_gem_trainer_nsynthinstrument_scenario1
@@ -312,19 +257,9 @@ continual_learning_ewc_trainer_nsynthinstrument_scenario1 = deepcopy(
     continual_learning_ewc_trainer
 )
 continual_learning_ewc_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_ewc_trainer_nsynthinstrument_scenario1["args"][
-    "train_data_source"
-] = train_nsynthinstrument_data_source
-continual_learning_ewc_trainer_nsynthinstrument_scenario1["args"][
-    "val_data_source"
-] = val_nsynthinstrument_data_source
-continual_learning_ewc_trainer_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
-continual_learning_ewc_trainer_nsynthinstrument_scenario1["args"][
-    "early_stopping_patience"
-] = early_stopping_patience
-
+continual_learning_ewc_trainer_nsynthinstrument_scenario1["args"].update(
+    update_trainer_nsynthinstrument
+)
 
 continual_learning_ewc_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_ewc_trainer_nsynthinstrument_scenario1
@@ -342,18 +277,10 @@ continual_learning_l2p_trainer_nsynthinstrument_scenario1 = deepcopy(
     continual_learning_l2p_trainer
 )
 continual_learning_l2p_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2p_trainer_nsynthinstrument_scenario1["args"][
-    "train_data_source"
-] = train_nsynthinstrument_data_source
-continual_learning_l2p_trainer_nsynthinstrument_scenario1["args"][
-    "val_data_source"
-] = val_nsynthinstrument_data_source
-continual_learning_l2p_trainer_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
-continual_learning_l2p_trainer_nsynthinstrument_scenario1["args"][
-    "early_stopping_patience"
-] = early_stopping_patience
+continual_learning_l2p_trainer_nsynthinstrument_scenario1["args"].update(
+    update_trainer_nsynthinstrument
+)
+
 
 continual_learning_l2p_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_l2p_trainer_nsynthinstrument_scenario1
@@ -372,16 +299,9 @@ continual_learning_l2center_trainer_nsynthinstrument_scenario1 = deepcopy(
 continual_learning_l2center_trainer_nsynthinstrument_scenario1["args"][
     "tasks"
 ] = scenario1
-continual_learning_l2center_trainer_nsynthinstrument_scenario1["args"][
-    "train_data_source"
-] = train_nsynthinstrument_data_source
-continual_learning_l2center_trainer_nsynthinstrument_scenario1["args"][
-    "val_data_source"
-] = val_nsynthinstrument_data_source
-continual_learning_l2center_trainer_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
-
+continual_learning_l2center_trainer_nsynthinstrument_scenario1["args"].update(
+    update_trainer_nsynthinstrument
+)
 
 continual_learning_l2center_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_l2center_trainer_nsynthinstrument_scenario1
@@ -422,16 +342,17 @@ continual_learning_cosinecenter_trainer_nsynthinstrument_scenario3["args"][
 
 ###########               EVALUATORS                ###########
 
+update_evaluator_nsynthinstrument = dict(
+    data_source=test_nsynthinstrument_data_source,
+    metrics_config=classification_metrics_nsynthinstrument,
+    data_transform=mert_data_transform_nsynth,
+)
+
 # Oracle
 oracle_evaluator_nsynthinstrument = deepcopy(oracle_evaluator)
 oracle_evaluator_nsynthinstrument["args"]["model"] = oracle_train_model_nsynthinstrument
 oracle_evaluator_nsynthinstrument["args"]["tasks"] = all_tasks
-oracle_evaluator_nsynthinstrument["args"][
-    "data_source"
-] = test_nsynthinstrument_data_source
-oracle_evaluator_nsynthinstrument["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
+oracle_evaluator_nsynthinstrument["args"].update(update_evaluator_nsynthinstrument)
 
 oracle_evaluator_nsynthinstrument_scenario1 = deepcopy(
     oracle_evaluator_nsynthinstrument
@@ -449,12 +370,9 @@ oracle_evaluator_nsynthinstrument_scenario3["args"]["tasks"] = scenario3
 ## Finetuning
 continual_learning_evaluator_nsynthinstrument_scenario1 = deepcopy(evaluator)
 continual_learning_evaluator_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_evaluator_nsynthinstrument_scenario1["args"][
-    "data_source"
-] = test_nsynthinstrument_data_source
-continual_learning_evaluator_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
+continual_learning_evaluator_nsynthinstrument_scenario1["args"].update(
+    update_evaluator_nsynthinstrument
+)
 
 continual_learning_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_evaluator_nsynthinstrument_scenario1
@@ -470,12 +388,9 @@ continual_learning_vq_evaluator_nsynthinstrument_scenario1 = deepcopy(
     continual_learning_evaluator_vq
 )
 continual_learning_vq_evaluator_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_vq_evaluator_nsynthinstrument_scenario1["args"][
-    "data_source"
-] = test_nsynthinstrument_data_source
-continual_learning_vq_evaluator_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
+continual_learning_vq_evaluator_nsynthinstrument_scenario1["args"].update(
+    update_evaluator_nsynthinstrument
+)
 
 continual_learning_vq_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_vq_evaluator_nsynthinstrument_scenario1
@@ -494,12 +409,9 @@ continual_learning_dkvb_evaluator_nsynthinstrument_scenario1 = deepcopy(
 continual_learning_dkvb_evaluator_nsynthinstrument_scenario1["args"][
     "tasks"
 ] = scenario1
-continual_learning_dkvb_evaluator_nsynthinstrument_scenario1["args"][
-    "data_source"
-] = test_nsynthinstrument_data_source
-continual_learning_dkvb_evaluator_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
+continual_learning_dkvb_evaluator_nsynthinstrument_scenario1["args"].update(
+    update_evaluator_nsynthinstrument
+)
 
 continual_learning_dkvb_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_dkvb_evaluator_nsynthinstrument_scenario1
@@ -519,12 +431,9 @@ continual_learning_l2p_evaluator_nsynthinstrument_scenario1 = deepcopy(
     continual_learning_evaluator_l2p
 )
 continual_learning_l2p_evaluator_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2p_evaluator_nsynthinstrument_scenario1["args"][
-    "data_source"
-] = test_nsynthinstrument_data_source
-continual_learning_l2p_evaluator_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
+continual_learning_l2p_evaluator_nsynthinstrument_scenario1["args"].update(
+    update_evaluator_nsynthinstrument
+)
 
 continual_learning_l2p_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_l2p_evaluator_nsynthinstrument_scenario1
@@ -543,12 +452,9 @@ continual_learning_l2center_evaluator_nsynthinstrument_scenario1 = deepcopy(
 continual_learning_l2center_evaluator_nsynthinstrument_scenario1["args"][
     "tasks"
 ] = scenario1
-continual_learning_l2center_evaluator_nsynthinstrument_scenario1["args"][
-    "data_source"
-] = test_nsynthinstrument_data_source
-continual_learning_l2center_evaluator_nsynthinstrument_scenario1["args"][
-    "metrics_config"
-] = classification_metrics_nsynthinstrument
+continual_learning_l2center_evaluator_nsynthinstrument_scenario1["args"].update(
+    update_evaluator_nsynthinstrument
+)
 
 continual_learning_l2center_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_l2center_evaluator_nsynthinstrument_scenario1
@@ -560,6 +466,31 @@ continual_learning_l2center_evaluator_nsynthinstrument_scenario3 = deepcopy(
     continual_learning_l2center_evaluator_nsynthinstrument_scenario1
 )
 continual_learning_l2center_evaluator_nsynthinstrument_scenario3["args"][
+    "tasks"
+] = scenario3
+
+
+# CosineCenter
+continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1 = deepcopy(
+    continual_learning_evaluator_cosinecenter
+)
+continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1["args"][
+    "tasks"
+] = scenario1
+continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1["args"].update(
+    update_evaluator_nsynthinstrument
+)
+
+continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario2 = deepcopy(
+    continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1
+)
+continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario2["args"][
+    "tasks"
+] = scenario2
+continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario3 = deepcopy(
+    continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1
+)
+continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario3["args"][
     "tasks"
 ] = scenario3
 
@@ -738,7 +669,7 @@ mert95m_cosinecenter_cl_nsynthinstrument_scenario1 = {
         "trainer": continual_learning_cosinecenter_trainer_nsynthinstrument_scenario1,
     },
     "evaluate": {
-        "evaluator": continual_learning_l2center_evaluator_nsynthinstrument_scenario1,
+        "evaluator": continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1,
     },
 }
 
@@ -871,7 +802,7 @@ mert95m_cosinecenter_cl_nsynthinstrument_scenario2 = {
         "trainer": continual_learning_cosinecenter_trainer_nsynthinstrument_scenario2,
     },
     "evaluate": {
-        "evaluator": continual_learning_l2center_evaluator_nsynthinstrument_scenario2,
+        "evaluator": continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario2,
     },
 }
 
@@ -1004,6 +935,6 @@ mert95m_cosinecenter_cl_nsynthinstrument_scenario3 = {
         "trainer": continual_learning_cosinecenter_trainer_nsynthinstrument_scenario3,
     },
     "evaluate": {
-        "evaluator": continual_learning_l2center_evaluator_nsynthinstrument_scenario3,
+        "evaluator": continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario3,
     },
 }

@@ -30,21 +30,21 @@ def execute_experiment_check(
     experiment_subtype: str,
     **experiment,
 ):
-    try:
-        train(experiment_name, **experiment["train"])
-        evaluate(
-            experiment_name,
-            experiment_type,
-            experiment_subtype,
-            **experiment["evaluate"],
-        )
-        with open("finished_experiments.txt", "a") as f:
-            f.write(f"{experiment_name}\n")
-    except Exception as e:
-        with open("errors.txt", "a") as f:
-            f.write("-" * 15 + f"{experiment_name}" + "-" * 15 + "\n")
-            f.write(str(e))
-            f.write(traceback.format_exc())
+    # try:
+    train(experiment_name, **experiment["train"])
+    evaluate(
+        experiment_name,
+        experiment_type,
+        experiment_subtype,
+        **experiment["evaluate"],
+    )
+    with open("finished_experiments.txt", "a") as f:
+        f.write(f"{experiment_name}\n")
+    # except Exception as e:
+    #     with open("errors.txt", "a") as f:
+    #         f.write("-" * 15 + f"{experiment_name}" + "-" * 15 + "\n")
+    #         f.write(str(e))
+    #         f.write(traceback.format_exc())
 
 
 if __name__ == "__main__":

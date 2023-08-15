@@ -11,7 +11,7 @@ python execute_experiment.py --experiment mert95m_icarl_cl_gtzan_scenario1
 # python execute_experiment.py --experiment mert95m_dkvb_cl_gtzan_scenario1
 python execute_experiment.py --experiment mert95m_gem_cl_gtzan_scenario1
 python execute_experiment.py --experiment mert95m_ewc_cl_gtzan_scenario1
-# python execute_experiment.py --experiment mert95m_l2p_cl_gtzan_scenario1
+python execute_experiment.py --experiment mert95m_l2p_cl_gtzan_scenario1
 python execute_experiment.py --experiment mert95m_l2center_cl_gtzan_scenario1
 python execute_experiment.py --experiment mert95m_cosinecenter_cl_gtzan_scenario1
 
@@ -25,7 +25,7 @@ python execute_experiment.py --experiment mert95m_icarl_cl_vocalsetsinger_scenar
 # python execute_experiment.py --experiment mert95m_dkvb_cl_vocalsetsinger_scenario1
 python execute_experiment.py --experiment mert95m_gem_cl_vocalsetsinger_scenario1
 python execute_experiment.py --experiment mert95m_ewc_cl_vocalsetsinger_scenario1
-# python execute_experiment.py --experiment mert95m_l2p_cl_vocalsetsinger_scenario1
+python execute_experiment.py --experiment mert95m_l2p_cl_vocalsetsinger_scenario1
 python execute_experiment.py --experiment mert95m_l2center_cl_vocalsetsinger_scenario1
 python execute_experiment.py --experiment mert95m_cosinecenter_cl_vocalsetsinger_scenario1
 
@@ -38,7 +38,7 @@ python execute_experiment.py --experiment mert95m_icarl_cl_vocalsettech_scenario
 # python execute_experiment.py --experiment mert95m_dkvb_cl_vocalsettech_scenario1
 python execute_experiment.py --experiment mert95m_gem_cl_vocalsettech_scenario1
 python execute_experiment.py --experiment mert95m_ewc_cl_vocalsettech_scenario1
-# python execute_experiment.py --experiment mert95m_l2p_cl_vocalsettech_scenario1
+python execute_experiment.py --experiment mert95m_l2p_cl_vocalsettech_scenario1
 python execute_experiment.py --experiment mert95m_l2center_cl_vocalsettech_scenario1
 python execute_experiment.py --experiment mert95m_cosinecenter_cl_vocalsettech_scenario1
 
@@ -68,7 +68,7 @@ python execute_experiment.py --experiment mert95m_icarl_cl_gtzan_scenario2
 # python execute_experiment.py --experiment mert95m_dkvb_cl_gtzan_scenario2
 python execute_experiment.py --experiment mert95m_gem_cl_gtzan_scenario2
 python execute_experiment.py --experiment mert95m_ewc_cl_gtzan_scenario2
-# python execute_experiment.py --experiment mert95m_l2p_cl_gtzan_scenario2
+python execute_experiment.py --experiment mert95m_l2p_cl_gtzan_scenario2
 python execute_experiment.py --experiment mert95m_l2center_cl_gtzan_scenario2
 python execute_experiment.py --experiment mert95m_cosinecenter_cl_gtzan_scenario2
 
@@ -82,7 +82,7 @@ python execute_experiment.py --experiment mert95m_icarl_cl_vocalsetsinger_scenar
 # python execute_experiment.py --experiment mert95m_dkvb_cl_vocalsetsinger_scenario2
 python execute_experiment.py --experiment mert95m_gem_cl_vocalsetsinger_scenario2
 python execute_experiment.py --experiment mert95m_ewc_cl_vocalsetsinger_scenario2
-# python execute_experiment.py --experiment mert95m_l2p_cl_vocalsetsinger_scenario2
+python execute_experiment.py --experiment mert95m_l2p_cl_vocalsetsinger_scenario2
 python execute_experiment.py --experiment mert95m_l2center_cl_vocalsetsinger_scenario2
 python execute_experiment.py --experiment mert95m_cosinecenter_cl_vocalsetsinger_scenario2
 
@@ -96,7 +96,7 @@ python execute_experiment.py --experiment mert95m_icarl_cl_vocalsettech_scenario
 # python execute_experiment.py --experiment mert95m_dkvb_cl_vocalsettech_scenario2
 python execute_experiment.py --experiment mert95m_gem_cl_vocalsettech_scenario2
 python execute_experiment.py --experiment mert95m_ewc_cl_vocalsettech_scenario2
-# python execute_experiment.py --experiment mert95m_l2p_cl_vocalsettech_scenario2
+python execute_experiment.py --experiment mert95m_l2p_cl_vocalsettech_scenario2
 python execute_experiment.py --experiment mert95m_l2center_cl_vocalsettech_scenario2
 python execute_experiment.py --experiment mert95m_cosinecenter_cl_vocalsettech_scenario2
 
@@ -126,7 +126,7 @@ python execute_experiment.py --experiment mert95m_icarl_cl_gtzan_scenario3
 # python execute_experiment.py --experiment mert95m_dkvb_cl_gtzan_scenario3
 python execute_experiment.py --experiment mert95m_gem_cl_gtzan_scenario3
 python execute_experiment.py --experiment mert95m_ewc_cl_gtzan_scenario3
-# python execute_experiment.py --experiment mert95m_l2p_cl_gtzan_scenario3
+python execute_experiment.py --experiment mert95m_l2p_cl_gtzan_scenario3
 python execute_experiment.py --experiment mert95m_l2center_cl_gtzan_scenario3
 python execute_experiment.py --experiment mert95m_cosinecenter_cl_gtzan_scenario3
 
@@ -140,7 +140,7 @@ python execute_experiment.py --experiment mert95m_icarl_cl_vocalsetsinger_scenar
 # python execute_experiment.py --experiment mert95m_dkvb_cl_vocalsetsinger_scenario3
 python execute_experiment.py --experiment mert95m_gem_cl_vocalsetsinger_scenario3
 python execute_experiment.py --experiment mert95m_ewc_cl_vocalsetsinger_scenario3
-# python execute_experiment.py --experiment mert95m_l2p_cl_vocalsetsinger_scenario3
+python execute_experiment.py --experiment mert95m_l2p_cl_vocalsetsinger_scenario3
 python execute_experiment.py --experiment mert95m_l2center_cl_vocalsetsinger_scenario3
 python execute_experiment.py --experiment mert95m_cosinecenter_cl_vocalsetsinger_scenario3
 
@@ -154,7 +154,7 @@ python execute_experiment.py --experiment mert95m_icarl_cl_vocalsettech_scenario
 # python execute_experiment.py --experiment mert95m_dkvb_cl_vocalsettech_scenario3
 python execute_experiment.py --experiment mert95m_gem_cl_vocalsettech_scenario3
 python execute_experiment.py --experiment mert95m_ewc_cl_vocalsettech_scenario3
-# python execute_experiment.py --experiment mert95m_l2p_cl_vocalsettech_scenario3
+python execute_experiment.py --experiment mert95m_l2p_cl_vocalsettech_scenario3
 python execute_experiment.py --experiment mert95m_l2center_cl_vocalsettech_scenario3
 python execute_experiment.py --experiment mert95m_cosinecenter_cl_vocalsettech_scenario3
 

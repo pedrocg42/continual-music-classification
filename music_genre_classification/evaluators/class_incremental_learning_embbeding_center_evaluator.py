@@ -65,12 +65,12 @@ class ClassIncrementalLearningL2CenterEvaluator(ClassIncrementalLearningEvaluato
             preds = self.model.match_embeddings(mean_embedding)
 
             # For each song we select the most repeated class
-            pred = preds.softmax(dim=0)
+            preds = preds.softmax(dim=1)
             label = labels[0] if len(labels.shape) > 0 else labels
 
             results.append(
                 dict(
-                    pred=pred,
+                    pred=preds,
                     label=label,
                 )
             )
