@@ -35,7 +35,7 @@ class MertGenreClassificationDataset(Dataset):
         else:
             wav = temp_wav[: len(wav)]
         # Get chunks
-        chunks = wav[: num_chunks * self.chunk_lengh].reshape(-1, self.chunk_lengh)
+        chunks = wav.reshape(-1, self.chunk_lengh)
         # Get labels
         labels = torch.tensor([label] * num_chunks).long()
         return chunks, labels
