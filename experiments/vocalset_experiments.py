@@ -31,13 +31,11 @@ scenario2 = [
 ]
 
 scenario3 = [
-    [
-        ["female8", "male7", "male8", "female1"],
-        ["male10", "female7", "male6", "male1"],
-        ["female9", "female5", "male9", "female4"],
-        ["female3", "male4", "male5", "female6"],
-        ["male11", "female2", "male2", "male3"],
-    ]
+    ["female8", "male7", "male8", "female1"],
+    ["male10", "female7", "male6", "male1"],
+    ["female9", "female5", "male9", "female4"],
+    ["female3", "male4", "male5", "female6"],
+    ["male11", "female2", "male2", "male3"],
 ]
 
 ###############################################################
@@ -51,7 +49,7 @@ train_vocalsetsinger_data_source = {
     "name": "VocalSetSingerDataSource",
     "args": {
         "split": "train",
-        "chunk_length": 5,
+        "chunk_length": 3,
         "is_eval": False,
     },
 }

@@ -49,7 +49,7 @@ train_vocalsettech_data_source = {
     "name": "VocalSetTechDataSource",
     "args": {
         "split": "train",
-        "chunk_length": 5,
+        "chunk_length": 3,
         "is_eval": False,
     },
 }

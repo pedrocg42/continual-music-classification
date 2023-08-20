@@ -1,10 +1,12 @@
 from loguru import logger
 
 import config
-from music_genre_classification.evaluators.evaluator import Evaluator
+from music_genre_classification.evaluators.class_incremental_learning_evaluator import (
+    ClassIncrementalLearningEvaluator,
+)
 
 
-class ClassIncrementalLearningOracleEvaluator(Evaluator):
+class ClassIncrementalLearningOracleEvaluator(ClassIncrementalLearningEvaluator):
     def __init__(
         self,
         tasks: list[str | list[str]],
@@ -29,10 +31,6 @@ class ClassIncrementalLearningOracleEvaluator(Evaluator):
             experiment_subtype=experiment_subtype,
             dataset_name=self.data_source.name,
         )
-        self.experiment_tracker.configure_task(
-            train_task_number=0,
-            train_task_name="all",
-        )
 
         self.model_saver.configure(
             self.model,
@@ -43,6 +41,14 @@ class ClassIncrementalLearningOracleEvaluator(Evaluator):
         self.model_saver.load_model()
         self.model.to(config.device)
         self.data_transform.to(config.device)
+
+    def configure_task(self, task_id: int, task: list[str] | str):
+        self.data_transform.to(config.device)
+
+        self.experiment_tracker.configure_task(
+            train_task_number=task_id,
+            train_task_name=task,
+        )
 
     def evaluate(
         self,
@@ -57,9 +63,14 @@ class ClassIncrementalLearningOracleEvaluator(Evaluator):
             experiment_subtype=experiment_subtype,
         )
 
-        # Extracting results for all tasks
-        logger.info("Started evaluation of all tasks")
-        data_loader = self.data_source.get_dataset(tasks=self.tasks, task="all")
-        results = self.predict(data_loader)
-        metrics = self.extract_metrics(results)
-        self.experiment_tracker.log_task_metrics(metrics, "all")
+        accumulated_tasks = []
+        for task_id, task in enumerate(self.tasks):
+            accumulated_tasks += task
+            logger.info(f"Started evaluation of {accumulated_tasks=}")
+            self.configure_task(task_id=task_id, task=task)
+            data_loader = self.data_source.get_dataset(
+                tasks=["all"], task=accumulated_tasks
+            )
+            results = self.predict(data_loader)
+            metrics = self.extract_metrics(results)
+            self.experiment_tracker.log_task_metrics(metrics, accumulated_tasks)
