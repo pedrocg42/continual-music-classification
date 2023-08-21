@@ -91,30 +91,37 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
                 ]
             )
 
-            class_mean = np.mean(vectors, axis=0)
+            if len(inputs) > self.memories_per_class:
+                class_mean = np.mean(vectors, axis=0)
 
-            # Select
-            selected_exemplars = []
-            exemplar_vectors = []  # [n, feature_dim]
-            for k in range(1, self.memories_per_class + 1):
-                S = np.sum(
-                    exemplar_vectors, axis=0
-                )  # [feature_dim] sum of selected exemplars vectors
-                mu_p = (vectors + S) / k  # [n, feature_dim] sum to all vectors
-                i = np.argmin(np.sqrt(np.sum((class_mean - mu_p) ** 2, axis=1)))
-                selected_exemplars.append(
-                    np.array(inputs[i])
-                )  # New object to avoid passing by inference
-                exemplar_vectors.append(
-                    np.array(vectors[i])
-                )  # New object to avoid passing by inference
+                # Select
+                selected_exemplars = []
+                exemplar_vectors = []  # [n, feature_dim]
+                for k in range(1, self.memories_per_class + 1):
+                    S = np.sum(
+                        exemplar_vectors, axis=0
+                    )  # [feature_dim] sum of selected exemplars vectors
+                    mu_p = (vectors + S) / k  # [n, feature_dim] sum to all vectors
+                    i = np.argmin(np.sqrt(np.sum((class_mean - mu_p) ** 2, axis=1)))
+                    selected_exemplars.append(
+                        np.array(inputs[i])
+                    )  # New object to avoid passing by inference
+                    exemplar_vectors.append(
+                        np.array(vectors[i])
+                    )  # New object to avoid passing by inference
 
-                vectors = np.delete(
-                    vectors, i, axis=0
-                )  # Remove it to avoid duplicative selection
-                inputs = np.delete(
-                    inputs, i, axis=0
-                )  # Remove it to avoid duplicative selection
+                    vectors = np.delete(
+                        vectors, i, axis=0
+                    )  # Remove it to avoid duplicative selection
+                    inputs = np.delete(
+                        inputs, i, axis=0
+                    )  # Remove it to avoid duplicative selection
+            else:
+                logger.warning(
+                    f"Not enough inputs from {task_class=}. Found and selected {len(inputs)} but {self.memories_per_class} were required"
+                )
+                selected_exemplars = inputs
+                exemplar_vectors = vectors
 
             selected_exemplars = np.array(selected_exemplars)
             exemplar_targets = np.full(self.memories_per_class, class_idx)

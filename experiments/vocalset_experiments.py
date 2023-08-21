@@ -245,7 +245,7 @@ continual_learning_gem_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scena
 continual_learning_ewc_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_ewc_trainer
 )
-continual_learning_gem_trainer_vocalsetsinger_scenario1["args"].update(
+continual_learning_ewc_trainer_vocalsetsinger_scenario1["args"].update(
     update_trainer_vocalsetsinger
 )
 continual_learning_ewc_trainer_vocalsetsinger_scenario1["args"]["tasks"] = scenario1

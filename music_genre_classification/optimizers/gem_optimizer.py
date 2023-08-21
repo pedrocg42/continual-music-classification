@@ -91,6 +91,7 @@ class GemOptimizer(TorchBaseOptimizer):
                 )
 
             self.G = torch.stack(G)  # (experiences, parameters)
+        self.G.cpu()
 
     @torch.no_grad()
     def after_backward(self, model: nn.Module, task_id: int, **kwargs):
@@ -103,7 +104,7 @@ class GemOptimizer(TorchBaseOptimizer):
                 [
                     p.grad.flatten()
                     if p.grad is not None
-                    else torch.zeros(p.numel(), device=config.device)
+                    else torch.zeros(p.numel(), device=torch.cpu)
                     for p in model.parameters()
                 ],
                 dim=0,
@@ -114,13 +115,17 @@ class GemOptimizer(TorchBaseOptimizer):
             to_project = False
 
         if to_project:
-            v_star = self.solve_quadprog(g).to(config.device)
+            v_star = self.solve_quadprog(g).to(torch.cpu)
 
             num_pars = 0  # reshape v_star into the parameter matrices
             for p in model.parameters():
                 curr_pars = p.numel()
                 if p.grad is not None:
-                    p.grad.copy_(v_star[num_pars : num_pars + curr_pars].view(p.size()))
+                    p.grad.copy_(
+                        v_star[num_pars : num_pars + curr_pars]
+                        .view(p.size())
+                        .to(config.device)
+                    )
                 num_pars += curr_pars
 
             assert num_pars == v_star.numel(), "Error in projecting gradient"
