@@ -291,7 +291,6 @@ update_evaluator_gtzan = dict(
 ## Oracle
 oracle_evaluator_gtzan = deepcopy(oracle_evaluator)
 oracle_evaluator_gtzan["args"]["model"] = oracle_train_model_gtzan
-oracle_evaluator_gtzan["args"]["tasks"] = all_tasks
 oracle_evaluator_gtzan["args"].update(update_evaluator_gtzan)
 
 oracle_evaluator_gtzan_scenario1 = deepcopy(oracle_evaluator_gtzan)

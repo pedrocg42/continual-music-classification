@@ -7,14 +7,6 @@ from music_genre_classification.evaluators.class_incremental_learning_evaluator 
 
 
 class ClassIncrementalLearningOracleEvaluator(ClassIncrementalLearningEvaluator):
-    def __init__(
-        self,
-        tasks: list[str | list[str]],
-        **kwargs,
-    ):
-        super().__init__(**kwargs)
-        self.tasks = tasks
-
     def configure(
         self,
         experiment_name: str,
@@ -43,8 +35,6 @@ class ClassIncrementalLearningOracleEvaluator(ClassIncrementalLearningEvaluator)
         self.data_transform.to(config.device)
 
     def configure_task(self, task_id: int, task: list[str] | str):
-        self.data_transform.to(config.device)
-
         self.experiment_tracker.configure_task(
             train_task_number=task_id,
             train_task_name=task,

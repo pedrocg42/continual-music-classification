@@ -81,9 +81,11 @@ class GemOptimizer(TorchBaseOptimizer):
                 G.append(
                     torch.cat(
                         [
-                            p.grad.flatten()
+                            p.grad.flatten().detach().cpu().clone()
                             if p.grad is not None
-                            else torch.zeros(p.numel(), device=config.device)
+                            else torch.zeros(
+                                p.numel(), device="cpu", requires_grad=False
+                            )
                             for p in model.parameters()
                         ],
                         dim=0,
@@ -92,6 +94,7 @@ class GemOptimizer(TorchBaseOptimizer):
 
             self.G = torch.stack(G)  # (experiences, parameters)
         self.G.cpu()
+        torch.cuda.empty_cache()
 
     @torch.no_grad()
     def after_backward(self, model: nn.Module, task_id: int, **kwargs):
