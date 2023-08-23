@@ -15,8 +15,8 @@ class GemContinualLearningTrainer(ClassIncrementalLearningTrainer):
             if self.model_saver.model_exists():
                 logger.info(f"Model already exists for and task {task}")
                 self.looper.optimizer.after_training_task(
+                    task,
                     self.train_data_loader,
-                    task_id,
                 )
                 continue
             logger.info(f"Starting training of task {task}")
@@ -25,6 +25,6 @@ class GemContinualLearningTrainer(ClassIncrementalLearningTrainer):
                 if early_stopping:
                     break
             self.looper.optimizer.after_training_task(
+                task,
                 self.train_data_loader,
-                task_id,
             )
