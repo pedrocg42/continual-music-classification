@@ -89,7 +89,7 @@ class Trainer(ABC):
         self.val_data_transform.to(config.device)
 
     def log_start(self):
-        print(self.model)
+        # print(self.model)
         logger.info(
             f"> > Total parameters: {sum(param.numel() for param in self.model.parameters())}"
         )

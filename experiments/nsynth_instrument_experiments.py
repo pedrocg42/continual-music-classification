@@ -44,7 +44,7 @@ scenario3 = [
 ###############################################################
 
 num_classes = 11
-early_stopping_patience = early_stopping_patience
+early_stopping_patience = 3
 
 # Data sources
 train_nsynthinstrument_data_source = {

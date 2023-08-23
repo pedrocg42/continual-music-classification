@@ -124,7 +124,7 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
                 exemplar_vectors = vectors
 
             selected_exemplars = np.array(selected_exemplars)
-            exemplar_targets = np.full(self.memories_per_class, class_idx)
+            exemplar_targets = np.full(len(selected_exemplars), class_idx)
             self.data_memory = (
                 np.concatenate((self.data_memory, selected_exemplars))
                 if len(self.data_memory) != 0
