@@ -62,7 +62,6 @@ class GemOptimizer(TorchBaseOptimizer):
         model: nn.Module,
         criteria: Criteria,
         data_transform: TrainDataTransform,
-        task_id: int,
         **kwargs,
     ):
         """
@@ -70,13 +69,15 @@ class GemOptimizer(TorchBaseOptimizer):
         experiences.
         """
 
-        if task_id > 0:
+        if len(self.known_classes) > 0:
+            model.prepare_train()
             G = []
-            for i in range(task_id):
-                model.train()
+            for i in range(len(self.known_classes)):
                 self.optimizer.zero_grad()
-                xref = data_transform(self.memory_x[i].to(config.device))
-                yref = self.memory_y[i].to(config.device)
+                xref = data_transform(
+                    self.memory_x[i].to(config.device, non_blocking=True)
+                )
+                yref = self.memory_y[i].to(config.device, non_blocking=True)
                 out = model(xref)
                 loss = criteria(out, yref)
                 loss.backward()
@@ -148,7 +149,7 @@ class GemOptimizer(TorchBaseOptimizer):
         task: list[str],
         dataloader: DataLoader,
     ):
-        self.memories_per_class = self.num_memories // len(self.known_classes + task)
+:        self.memories_per_class = self.num_memories // len(self.known_classes + task)
         if len(self.known_classes):
             self.reduce_exemplar(task)
         self.known_classes += task
@@ -163,8 +164,9 @@ class GemOptimizer(TorchBaseOptimizer):
     @torch.no_grad()
     def update_memory(self, dataloader: DataLoader, task: list[str]):
         """
-        Update replay memory with memories from current experience.
+        Update memory with memories from current experience.
         """
+        logger.info(f"Update memories...({self.memories_per_class} per class)")
         class_ids = []
         for class_name in task:
             class_id = self.known_classes.index(class_name)

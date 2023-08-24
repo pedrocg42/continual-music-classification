@@ -231,7 +231,7 @@ continual_learning_gem_trainer["args"]["looper"][
 ] = "GemMusicGenreClassificationLooper"
 continual_learning_gem_trainer["args"]["looper"]["args"]["optimizer"] = {
     "name": "GemOptimizer",
-    "args": {"patterns_per_experience": 10, "memory_strength": 0.5},
+    "args": {"num_memories": 100, "memory_strength": 0.5},
 }
 continual_learning_gem_trainer["args"]["train_model"] = train_model
 

@@ -17,9 +17,7 @@ class GemMusicGenreClassificationLooper(MusicGenreClassificationLooper):
         labels: torch.Tensor,
         data_transform: torch.nn.Module,
     ):
-        self.optimizer.before_training_iteration(
-            model, self.criteria, data_transform, self.task_id
-        )
+        self.optimizer.before_training_iteration(model, self.criteria, data_transform)
         waveforms = waveforms.to(config.device, non_blocking=True)
         labels = labels.to(config.device, non_blocking=True)
 

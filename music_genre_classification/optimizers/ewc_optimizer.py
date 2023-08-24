@@ -32,13 +32,6 @@ class EwcOptimizer(TorchBaseOptimizer):
         optimizer_config: dict = {"lr": 0.001},
         mode: str = "separate",
     ):
-        """
-        :param patterns_per_experience: number of patterns per experience in the
-            memory.
-        :param memory_strength: offset to add to the projection direction
-            in order to favour backward transfer (gamma in original paper).
-        """
-
         super().__init__()
 
         self.ewc_lambda = ewc_lambda
