@@ -149,7 +149,7 @@ class GemOptimizer(TorchBaseOptimizer):
         task: list[str],
         dataloader: DataLoader,
     ):
-:        self.memories_per_class = self.num_memories // len(self.known_classes + task)
+        self.memories_per_class = self.num_memories // len(self.known_classes + task)
         if len(self.known_classes):
             self.reduce_exemplar(task)
         self.known_classes += task
