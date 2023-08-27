@@ -36,6 +36,7 @@ class NSynthInstrumentTechDataSource(TrainDataSource):
     def __init__(
         self,
         split: str,
+        num_items_per_class: int = -1,
         instruments: list[str] = INSTRUMENTS,
         is_eval: bool = False,
         chunk_length: float = 5.0,
@@ -48,10 +49,11 @@ class NSynthInstrumentTechDataSource(TrainDataSource):
         # Split parameters
         self.split = split
         self.is_eval = is_eval
+        self.num_items_per_class = num_items_per_class
 
         # Audio parameters
-        self.sample_rate = 44100
-        self.song_length = 6  # Average time per clip, useful for training
+        self.sample_rate = 16000
+        self.song_length = 4  # Average time per clip, useful for training
         self.chunk_length = chunk_length
 
         self._get_songs()
@@ -96,6 +98,62 @@ class NSynthInstrumentTechDataSource(TrainDataSource):
                         raise NotImplementedError()
                 song_labels.append(label)
             self.labels_splits[split] = np.array(song_labels)
+
+            if split == "train" and self.num_items_per_class > 0:
+                instrument_subtypes = []
+                for song in self.songs_splits[split]:
+                    splitted_name = os.path.basename(song).split("_")
+                    match len(splitted_name):
+                        case 3:
+                            label = splitted_name[1]
+                        case 4:
+                            label = splitted_name[2]
+                        case _:
+                            raise NotImplementedError()
+                    instrument_subtypes.append(label)
+                instrument_subtypes = np.array(instrument_subtypes)
+
+                song_paths = []
+                song_labels = []
+                for instrument in self.instruments:
+                    mask = self.labels_splits[split] == instrument
+                    temp_paths = self.songs_splits[split][mask]
+                    temp_labels = self.labels_splits[split][mask]
+                    temp_subtypes = instrument_subtypes[mask]
+                    already_included_samples = 0
+                    for i in range(101):
+                        unique_subtypes, unique_subtypes_counts = np.unique(
+                            temp_subtypes, return_counts=True
+                        )
+                        num_items_per_subtype = (
+                            self.num_items_per_class - already_included_samples
+                        ) // len(unique_subtypes)
+                        if all(unique_subtypes_counts > num_items_per_subtype):
+                            for subtype in unique_subtypes:
+                                mask = np.where(temp_subtypes == subtype)[0]
+                                np.random.shuffle(mask)
+                                song_paths.append(
+                                    temp_paths[mask[:num_items_per_subtype]]
+                                )
+                                song_labels.append(
+                                    temp_labels[mask[:num_items_per_subtype]]
+                                )
+                            break
+                        else:
+                            # Including all items from subtypes with not enough samples
+                            for subtype in unique_subtypes[
+                                unique_subtypes_counts < num_items_per_subtype
+                            ]:
+                                mask = temp_subtypes == subtype
+                                already_included_samples += np.count_nonzero(mask)
+                                song_paths.append(temp_paths[mask])
+                                song_labels.append(temp_labels[mask])
+                                # Removing samples from already included class
+                                temp_paths = temp_paths[~mask]
+                                temp_labels = temp_labels[~mask]
+                                temp_subtypes = temp_subtypes[~mask]
+                self.songs_splits[split] = np.concatenate(song_paths)
+                self.labels_splits[split] = np.concatenate(song_labels)
 
     def get_dataset(
         self,

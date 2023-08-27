@@ -42,15 +42,14 @@ class MertGenreClassificationDataset(Dataset):
 
     def get_random_chunk_from_song(self, wav: torch.Tensor, label: int):
         # Get random initial index safely
-        if wav.shape[0] >= self.chunk_lengh:
+        if wav.shape[0] > self.chunk_lengh:
             initial_index = np.random.randint(0, wav.shape[0] - self.chunk_lengh)
-        else:
-            temp_wav = wav
-            wav = torch.zeros(self.chunk_lengh)
-            wav[: len(temp_wav)] = temp_wav
-            initial_index = 0
-        # Get chunk
-        chunk = wav[initial_index : initial_index + self.chunk_lengh]
+            chunk = wav[initial_index : initial_index + self.chunk_lengh]
+        if wav.shape[0] == self.chunk_lengh:
+            chunk = wav
+        elif wav.shape[0] < self.chunk_lengh:
+            chunk = torch.zeros(self.chunk_lengh)
+            chunk[: len(wav)] = wav
         return chunk, torch.tensor(label).long()
 
     def __getitem__(self, index):

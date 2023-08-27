@@ -51,6 +51,7 @@ train_nsynthinstrument_data_source = {
     "name": "NSynthInstrumentTechDataSource",
     "args": {
         "split": "train",
+        "num_items_per_class": 5000,
         "chunk_length": 4,
         "is_eval": False,
     },
