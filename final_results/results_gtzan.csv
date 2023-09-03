@@ -74,6 +74,11 @@ mert95m_gem_cl_gtzan_scenario2,CL,GEM,GTZAN,1,classical-hiphop,jazz-rock-classic
 mert95m_gem_cl_gtzan_scenario2,CL,GEM,GTZAN,2,reggae-country,jazz-rock-classical-hiphop-reggae-country,0.3757225573062897,0.3757225573062897,0.3757225573062897,0.3757225573062897
 mert95m_gem_cl_gtzan_scenario2,CL,GEM,GTZAN,3,metal-blues,jazz-rock-classical-hiphop-reggae-country-metal-blues,0.4199134111404419,0.4199134111404419,0.4199134111404419,0.4199134111404419
 mert95m_gem_cl_gtzan_scenario2,CL,GEM,GTZAN,4,pop-disco,jazz-rock-classical-hiphop-reggae-country-metal-blues-pop-disco,0.3206896483898163,0.3206896483898163,0.3206896483898163,0.3206896483898163
+mert95m_gem_cl_gtzan_scenario3,CL,GEM,GTZAN,0,hiphop-metal,hiphop-metal,1.0,1.0,1.0,1.0
+mert95m_gem_cl_gtzan_scenario3,CL,GEM,GTZAN,1,reggae-pop,hiphop-metal-reggae-pop,0.6818181872367859,0.6818181872367859,0.6818181872367859,0.6818181872367859
+mert95m_gem_cl_gtzan_scenario3,CL,GEM,GTZAN,2,classical-rock,hiphop-metal-reggae-pop-classical-rock,0.4797687828540802,0.4797687828540802,0.4797687828540802,0.4797687828540802
+mert95m_gem_cl_gtzan_scenario3,CL,GEM,GTZAN,3,disco-blues,hiphop-metal-reggae-pop-classical-rock-disco-blues,0.3433476388454437,0.3433476388454437,0.3433476388454437,0.3433476388454437
+mert95m_gem_cl_gtzan_scenario3,CL,GEM,GTZAN,4,country-jazz,hiphop-metal-reggae-pop-classical-rock-disco-blues-country-jazz,0.2551724016666412,0.2551724016666412,0.2551724016666412,0.2551724016666412
 
 mert95m_ewc_cl_gtzan_scenario1,CL,EWC,GTZAN,0,metal-pop,metal-pop,1.0,1.0,1.0,1.0
 mert95m_ewc_cl_gtzan_scenario1,CL,EWC,GTZAN,1,country-disco,metal-pop-country-disco,0.4396551847457886,0.4396551847457886,0.4396551847457886,0.4396551847457886

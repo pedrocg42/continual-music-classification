@@ -58,12 +58,27 @@ mert95m_icarl_cl_vocalsettech_scenario2,CL,iCaRL,VocalSetTech,1,vibrato-inhaled,
 mert95m_icarl_cl_vocalsettech_scenario2,CL,iCaRL,VocalSetTech,2,breathy-straight,belt-trill-vibrato-inhaled-breathy-straight,0.6158940196037292,0.520048201084137,0.7445908188819885,0.5521011352539062
 mert95m_icarl_cl_vocalsettech_scenario2,CL,iCaRL,VocalSetTech,3,vocal_fry-lip_trill,belt-trill-vibrato-inhaled-breathy-straight-vocal_fry-lip_trill,0.3259259164333343,0.2884427905082702,0.3479536175727844,0.3675000071525574
 mert95m_icarl_cl_vocalsettech_scenario2,CL,iCaRL,VocalSetTech,4,spoken-trillo,belt-trill-vibrato-inhaled-breathy-straight-vocal_fry-lip_trill-spoken-trillo,0.1655172407627105,0.0943397879600524,0.0593108497560024,0.2840000092983246
+mert95m_icarl_cl_vocalsettech_scenario3,CL,iCaRL,VocalSetTech,0,spoken-breathy,spoken-breathy,1.0,1.0,1.0,1.0
+mert95m_icarl_cl_vocalsettech_scenario3,CL,iCaRL,VocalSetTech,1,straight-inhaled,spoken-breathy-straight-inhaled,0.859649121761322,0.8547670841217041,0.8717261552810669,0.8540109992027283
+mert95m_icarl_cl_vocalsettech_scenario3,CL,iCaRL,VocalSetTech,2,lip_trill-trillo,spoken-breathy-straight-inhaled-lip_trill-trillo,0.5604838728904724,0.4927750825881958,0.6825658082962036,0.6868131756782532
+mert95m_icarl_cl_vocalsettech_scenario3,CL,iCaRL,VocalSetTech,3,vibrato-vocal_fry,spoken-breathy-straight-inhaled-lip_trill-trillo-vibrato-vocal_fry,0.3555555641651153,0.2179345786571502,0.2222626805305481,0.4069503247737884
+mert95m_icarl_cl_vocalsettech_scenario3,CL,iCaRL,VocalSetTech,4,trill-belt,spoken-breathy-straight-inhaled-lip_trill-trillo-vibrato-vocal_fry-trill-belt,0.3149425387382507,0.2080600559711456,0.294425904750824,0.4129726886749267
 
 mert95m_gem_cl_vocalsettech_scenario1,CL,GEM,VocalSetTech,0,vibrato-straight,vibrato-straight,0.921052634716034,0.9145267009735109,0.941747546195984,0.9016393423080444
 mert95m_gem_cl_vocalsettech_scenario1,CL,GEM,VocalSetTech,1,belt-breathy,vibrato-straight-belt-breathy,0.460317462682724,0.4005695283412933,0.4061316251754761,0.5376472473144531
 mert95m_gem_cl_vocalsettech_scenario1,CL,GEM,VocalSetTech,2,lip_trill-spoken,vibrato-straight-belt-breathy-lip_trill-spoken,0.4822006523609161,0.3792313933372497,0.3207283020019531,0.5199999809265137
 mert95m_gem_cl_vocalsettech_scenario1,CL,GEM,VocalSetTech,3,inhaled-trill,vibrato-straight-belt-breathy-lip_trill-spoken-inhaled-trill,0.1727019548416137,0.1689170002937317,0.1904500126838684,0.3155082464218139
 mert95m_gem_cl_vocalsettech_scenario1,CL,GEM,VocalSetTech,4,trillo-vocal_fry,vibrato-straight-belt-breathy-lip_trill-spoken-inhaled-trill-trillo-vocal_fry,0.2045976966619491,0.1154961958527565,0.0747531875967979,0.2560784220695495
+mert95m_gem_cl_vocalsettech_scenario2,CL,GEM,VocalSetTech,0,belt-trill,belt-trill,1.0,1.0,1.0,1.0
+mert95m_gem_cl_vocalsettech_scenario2,CL,GEM,VocalSetTech,1,vibrato-inhaled,belt-trill-vibrato-inhaled,0.5652173757553101,0.6221637725830078,0.6342592239379883,0.6138524413108826
+mert95m_gem_cl_vocalsettech_scenario2,CL,GEM,VocalSetTech,2,breathy-straight,belt-trill-vibrato-inhaled-breathy-straight,0.447019875049591,0.2437791973352432,0.3021083474159241,0.3295820653438568
+mert95m_gem_cl_vocalsettech_scenario2,CL,GEM,VocalSetTech,3,vocal_fry-lip_trill,belt-trill-vibrato-inhaled-breathy-straight-vocal_fry-lip_trill,0.2518518567085266,0.1748569160699844,0.2317186892032623,0.2444640100002288
+mert95m_gem_cl_vocalsettech_scenario2,CL,GEM,VocalSetTech,4,spoken-trillo,belt-trill-vibrato-inhaled-breathy-straight-vocal_fry-lip_trill-spoken-trillo,0.3011494278907776,0.2212688624858856,0.3233519196510315,0.3781176507472992
+mert95m_gem_cl_vocalsettech_scenario3,CL,GEM,VocalSetTech,0,spoken-breathy,spoken-breathy,1.0,1.0,1.0,1.0
+mert95m_gem_cl_vocalsettech_scenario3,CL,GEM,VocalSetTech,1,straight-inhaled,spoken-breathy-straight-inhaled,0.6666666865348816,0.46570706367492676,0.4820336699485779,0.48302197456359863
+mert95m_gem_cl_vocalsettech_scenario3,CL,GEM,VocalSetTech,2,lip_trill-trillo,spoken-breathy-straight-inhaled-lip_trill-trillo,0.5040322542190552,0.44957730174064636,0.44645261764526367,0.4936996400356293
+mert95m_gem_cl_vocalsettech_scenario3,CL,GEM,VocalSetTech,3,vibrato-vocal_fry,spoken-breathy-straight-inhaled-lip_trill-trillo-vibrato-vocal_fry,0.2916666567325592,0.12805745005607605,0.08928096294403076,0.23404854536056519
+mert95m_gem_cl_vocalsettech_scenario3,CL,GEM,VocalSetTech,4,trill-belt,spoken-breathy-straight-inhaled-lip_trill-trillo-vibrato-vocal_fry-trill-belt,0.2850574851036072,0.1551707684993744,0.11428913474082947,0.25296175479888916
 
 mert95m_ewc_cl_vocalsettech_scenario1,CL,EWC,VocalSetTech,0,vibrato-straight,vibrato-straight,0.9276315569877625,0.9219530820846558,0.9460784196853638,0.9098360538482666
 mert95m_ewc_cl_vocalsettech_scenario1,CL,EWC,VocalSetTech,1,belt-breathy,vibrato-straight-belt-breathy,0.380952388048172,0.2730002999305725,0.1907733082771301,0.4800000190734863
