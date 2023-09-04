@@ -106,6 +106,11 @@ mert95m_l2p_cl_nsynthinstrument_scenario2,CL,L2P,NSynthInstrument,1,mallet-guita
 mert95m_l2p_cl_nsynthinstrument_scenario2,CL,L2P,NSynthInstrument,2,reed-string-bass,keyboard-synth_lead-mallet-guitar-reed-string-bass,0.4384154379367828,0.4384154379367828,0.4384154379367828,0.4384154379367828
 mert95m_l2p_cl_nsynthinstrument_scenario2,CL,L2P,NSynthInstrument,3,vocal-brass,keyboard-synth_lead-mallet-guitar-reed-string-bass-vocal-brass,0.1077914461493492,0.1077914461493492,0.1077914461493492,0.1077914461493492
 mert95m_l2p_cl_nsynthinstrument_scenario2,CL,L2P,NSynthInstrument,4,organ-flute,keyboard-synth_lead-mallet-guitar-reed-string-bass-vocal-brass-organ-flute,0.1396484375,0.1396484375,0.1396484375,0.1396484375
+mert95m_l2p_cl_nsynthinstrument_scenario3,CL,L2P,NSynthInstrument,0,guitar-synth_lead-organ,guitar-synth_lead-organ,0.97053724527359,0.97053724527359,0.97053724527359,0.97053724527359
+mert95m_l2p_cl_nsynthinstrument_scenario3,CL,L2P,NSynthInstrument,1,string-brass,guitar-synth_lead-organ-string-brass,0.3053788244724273,0.3053788244724273,0.3053788244724273,0.3053788244724273
+mert95m_l2p_cl_nsynthinstrument_scenario3,CL,L2P,NSynthInstrument,2,mallet-reed,guitar-synth_lead-organ-string-brass-mallet-reed,0.2017543911933899,0.2017543911933899,0.2017543911933899,0.2017543911933899
+mert95m_l2p_cl_nsynthinstrument_scenario3,CL,L2P,NSynthInstrument,3,keyboard-bass,guitar-synth_lead-organ-string-brass-mallet-reed-keyboard-bass,0.3517880737781524,0.3517880737781524,0.3517880737781524,0.3517880737781524
+mert95m_l2p_cl_nsynthinstrument_scenario3,CL,L2P,NSynthInstrument,4,flute-vocal,guitar-synth_lead-organ-string-brass-mallet-reed-keyboard-bass-flute-vocal,0.078369140625,0.078369140625,0.078369140625,0.078369140625
 
 mert95m_l2center_cl_nsynthinstrument_scenario1,CL,L2Center,NSynthInstrument,0,bass-brass,bass-brass,0.8803957104682922,0.8803957104682922,0.8803957104682922,0.8803957104682922
 mert95m_l2center_cl_nsynthinstrument_scenario1,CL,L2Center,NSynthInstrument,1,flute-guitar,bass-brass-flute-guitar,0.4963991641998291,0.4963991641998291,0.4963991641998291,0.4963991641998291
@@ -117,6 +122,11 @@ mert95m_l2center_cl_nsynthinstrument_scenario2,CL,L2Center,NSynthInstrument,1,ma
 mert95m_l2center_cl_nsynthinstrument_scenario2,CL,L2Center,NSynthInstrument,2,reed-string-bass,keyboard-synth_lead-mallet-guitar-reed-string-bass,0.325565904378891,0.325565904378891,0.325565904378891,0.325565904378891
 mert95m_l2center_cl_nsynthinstrument_scenario2,CL,L2Center,NSynthInstrument,3,vocal-brass,keyboard-synth_lead-mallet-guitar-reed-string-bass-vocal-brass,0.2987697720527649,0.2987697720527649,0.2987697720527649,0.2987697720527649
 mert95m_l2center_cl_nsynthinstrument_scenario2,CL,L2Center,NSynthInstrument,4,organ-flute,keyboard-synth_lead-mallet-guitar-reed-string-bass-vocal-brass-organ-flute,0.309814453125,0.309814453125,0.309814453125,0.309814453125
+mert95m_l2center_cl_nsynthinstrument_scenario3,CL,L2Center,NSynthInstrument,0,guitar-synth_lead-organ,guitar-synth_lead-organ,0.6585788726806641,0.6585788726806641,0.6585788726806641,0.6585788726806641
+mert95m_l2center_cl_nsynthinstrument_scenario3,CL,L2Center,NSynthInstrument,1,string-brass,guitar-synth_lead-organ-string-brass,0.5459803342819214,0.5459803342819214,0.5459803342819214,0.5459803342819214
+mert95m_l2center_cl_nsynthinstrument_scenario3,CL,L2Center,NSynthInstrument,2,mallet-reed,guitar-synth_lead-organ-string-brass-mallet-reed,0.4201292693614959,0.4201292693614959,0.4201292693614959,0.4201292693614959
+mert95m_l2center_cl_nsynthinstrument_scenario3,CL,L2Center,NSynthInstrument,3,keyboard-bass,guitar-synth_lead-organ-string-brass-mallet-reed-keyboard-bass,0.3303311169147491,0.3303311169147491,0.3303311169147491,0.3303311169147491
+mert95m_l2center_cl_nsynthinstrument_scenario3,CL,L2Center,NSynthInstrument,4,flute-vocal,guitar-synth_lead-organ-string-brass-mallet-reed-keyboard-bass-flute-vocal,0.309814453125,0.309814453125,0.309814453125,0.309814453125
 
 mert95m_cosinecenter_cl_nsynthinstrument_scenario1,CL,CosineCenter,NSynthInstrument,0,bass-brass,bass-brass,0.9019784331321716,0.9019784331321716,0.9019784331321716,0.9019784331321716
 mert95m_cosinecenter_cl_nsynthinstrument_scenario1,CL,CosineCenter,NSynthInstrument,1,flute-guitar,bass-brass-flute-guitar,0.5138888955116272,0.5138888955116272,0.5138888955116272,0.5138888955116272
@@ -128,3 +138,8 @@ mert95m_cosinecenter_cl_nsynthinstrument_scenario2,CL,CosineCenter,NSynthInstrum
 mert95m_cosinecenter_cl_nsynthinstrument_scenario2,CL,CosineCenter,NSynthInstrument,2,reed-string-bass,keyboard-synth_lead-mallet-guitar-reed-string-bass,0.3265645802021026,0.3265645802021026,0.3265645802021026,0.3265645802021026
 mert95m_cosinecenter_cl_nsynthinstrument_scenario2,CL,CosineCenter,NSynthInstrument,3,vocal-brass,keyboard-synth_lead-mallet-guitar-reed-string-bass-vocal-brass,0.3034563660621643,0.3034563660621643,0.3034563660621643,0.3034563660621643
 mert95m_cosinecenter_cl_nsynthinstrument_scenario2,CL,CosineCenter,NSynthInstrument,4,organ-flute,keyboard-synth_lead-mallet-guitar-reed-string-bass-vocal-brass-organ-flute,0.3095703125,0.3095703125,0.3095703125,0.3095703125
+mert95m_cosinecenter_cl_nsynthinstrument_scenario3,CL,CosineCenter,NSynthInstrument,0,guitar-synth_lead-organ,guitar-synth_lead-organ,0.9367417693138123,0.9367417693138123,0.9367417693138123,0.9367417693138123
+mert95m_cosinecenter_cl_nsynthinstrument_scenario3,CL,CosineCenter,NSynthInstrument,1,string-brass,guitar-synth_lead-organ-string-brass,0.7293233275413513,0.7293233275413513,0.7293233275413513,0.7293233275413513
+mert95m_cosinecenter_cl_nsynthinstrument_scenario3,CL,CosineCenter,NSynthInstrument,2,mallet-reed,guitar-synth_lead-organ-string-brass-mallet-reed,0.5840258598327637,0.5840258598327637,0.5840258598327637,0.5840258598327637
+mert95m_cosinecenter_cl_nsynthinstrument_scenario3,CL,CosineCenter,NSynthInstrument,3,keyboard-bass,guitar-synth_lead-organ-string-brass-mallet-reed-keyboard-bass,0.3409271538257599,0.3409271538257599,0.3409271538257599,0.3409271538257599
+mert95m_cosinecenter_cl_nsynthinstrument_scenario3,CL,CosineCenter,NSynthInstrument,4,flute-vocal,guitar-synth_lead-organ-string-brass-mallet-reed-keyboard-bass-flute-vocal,0.3095703125,0.3095703125,0.3095703125,0.3095703125
