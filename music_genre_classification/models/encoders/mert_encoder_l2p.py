@@ -44,21 +44,24 @@ class MertEncoderL2P(nn.Module):
     def forward(self, inputs: torch.Tensor):
         query = self.query(inputs)
         prompt, key_loss = self.prompt_pool(query)
-        prompt = prompt.view(prompt.shape[0], -1, self.output_size)
+        prompt = prompt.view(prompt.shape[0], -1, self.output_size) # B, N, L, D -> B, N*L, D
         outputs = self.forward_encoder(
             **inputs, prompt=prompt, output_hidden_states=True
         )
         all_layer_hidden_states = torch.stack(outputs.hidden_states).permute(
             (1, 0, 2, 3)
-        )  # C, B, S, H -> B, C, S, H
+        )  # H, B, T, D -> B, H, T, D
         prompt_hidden_states = all_layer_hidden_states[:, :, : self.num_prompts, :]
-        outputs = torch.mean(prompt_hidden_states, dim=-2)  # B, C, S, H -> B, C, H
+        outputs = torch.mean(prompt_hidden_states, dim=-2)  # B, H, T, D -> B, C, H
         return outputs, key_loss
 
     @torch.no_grad()
     def query(self, inputs: torch.Tensor):
-        outputs = self.encoder(**inputs)
-        return outputs.last_hidden_state.mean(dim=-2)
+        outputs = self.encoder(**inputs, output_hidden_states=True)
+        all_layer_hidden_states = torch.stack(outputs.hidden_states).permute(
+            (1, 0, 2, 3)
+        )  # H, B, T, D -> B, H, T, D
+        return all_layer_hidden_states.mean(dim=2).mean(dim=1)  # B, H, T, D -> B, D
 
     def forward_encoder(
         self,
@@ -145,12 +148,14 @@ class PromptPool(nn.Module):
         pool_size: int = None,  # M
         top_k: int = None,  # N
         embedding_dim: int = 768,
+        distance: str = "cosine",  # euclidean
     ):
         super().__init__()
 
         self.length = length
         self.pool_size = pool_size
         self.top_k = top_k
+        self.distance = distance
 
         # Probability distribution over the prompt pool
         self.h_sum = torch.zeros(self.pool_size)
@@ -162,12 +167,20 @@ class PromptPool(nn.Module):
             uniform_init(self.pool_size, self.length, embedding_dim)
         )
 
-    def forward(self, query: torch.Tensor) -> tuple[torch.Tensor]:
-        prompt_key_norm = F.normalize(self.prompt_keys, dim=-1)
-        query_norm = F.normalize(query, dim=-1)
+    def forward(self, query: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        if self.distance == "cosine":
+            prompt_key_norm = F.normalize(self.prompt_keys, dim=-1)
+            query_norm = F.normalize(query, dim=-1)
+            similarity = query_norm @ prompt_key_norm.T  # bs, pool_size
+            distance = 1 - similarity
+        elif self.distance == "euclidean":
+            distance = torch.cdist(query[None], self.prompt_keys[None])[0]
+        else:
+            raise ValueError(f"Not supported distance {self.distance}")
 
-        distance = query_norm @ prompt_key_norm.T  # bs, pool_size
-        (distance_top_k, distance_top_k_idx) = torch.topk(distance, self.top_k)
+        (distance_top_k, distance_top_k_idx) = torch.topk(
+            distance, self.top_k, largest=False
+        )
 
         one_hot_idx = F.one_hot(
             distance_top_k_idx, self.pool_size
@@ -177,11 +190,11 @@ class PromptPool(nn.Module):
             "b n s, s l d -> b n l d", one_hot_idx, self.prompt_values
         )
 
-        self.h_sum += one_hot_idx.sum(axis=0).sum(axis=0).detach().cpu()
+        self.h_sum += one_hot_idx.detach().cpu().sum(axis=0).sum(axis=0)
         self.num_searches += query.shape[0] * self.top_k
         self.h = self.h_sum / self.num_searches
 
         # Put pull_constraint loss calculation inside
-        key_loss = torch.sum(torch.abs(distance_top_k)) / query.shape[0]
+        key_loss = torch.sum(distance_top_k) / query.shape[0]
 
         return (quantized_values, key_loss)
