@@ -136,3 +136,4 @@ tools/data_augmentation.ipynb
 
 # Data
 data/
+*.npy
