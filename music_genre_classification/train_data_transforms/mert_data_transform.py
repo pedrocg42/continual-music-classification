@@ -33,3 +33,4 @@ class MertDataTransform(TrainDataTransform):
 
     def to(self, device: torch.device, **kwargs) -> None:
         self.resampler.to(device)
+        return self

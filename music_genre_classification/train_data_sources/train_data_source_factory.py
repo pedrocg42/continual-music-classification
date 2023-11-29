@@ -8,6 +8,7 @@ class TrainDataSourceFactory:
     Factory class for creating train data sources.
     """
 
+    @staticmethod
     def build(config: dict) -> TrainDataSource:
         if config["name"] == "GtzanDataSource":
             from music_genre_classification.train_data_sources import GtzanDataSource

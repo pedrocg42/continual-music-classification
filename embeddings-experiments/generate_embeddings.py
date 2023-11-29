@@ -64,7 +64,7 @@ def generate_embeddings(
         np.save(f"{output_name}_{split}_embeddings.npy", embeddings)
         np.save(f"{output_name}_{split}_labels.npy", labels)
 
-    logger.info(f"Finished embeddings extraction")
+    logger.info("Finished embeddings extraction")
 
 
 if __name__ == "__main__":
