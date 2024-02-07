@@ -44,7 +44,9 @@ class MertEncoderL2P(nn.Module):
     def forward(self, inputs: torch.Tensor):
         query = self.query(inputs)
         prompt, key_loss = self.prompt_pool(query)
-        prompt = prompt.view(prompt.shape[0], -1, self.output_size) # B, N, L, D -> B, N*L, D
+        prompt = prompt.view(
+            prompt.shape[0], -1, self.output_size
+        )  # B, N, L, D -> B, N*L, D
         outputs = self.forward_encoder(
             **inputs, prompt=prompt, output_hidden_states=True
         )
@@ -148,7 +150,7 @@ class PromptPool(nn.Module):
         pool_size: int = None,  # M
         top_k: int = None,  # N
         embedding_dim: int = 768,
-        distance: str = "cosine",  # euclidean
+        distance: str = "euclidean",  # euclidean
     ):
         super().__init__()
 
@@ -181,6 +183,7 @@ class PromptPool(nn.Module):
         (distance_top_k, distance_top_k_idx) = torch.topk(
             distance, self.top_k, largest=False
         )
+        print(distance_top_k.mean())
 
         one_hot_idx = F.one_hot(
             distance_top_k_idx, self.pool_size
@@ -189,10 +192,12 @@ class PromptPool(nn.Module):
         quantized_values = einsum(
             "b n s, s l d -> b n l d", one_hot_idx, self.prompt_values
         )
+        print(quantized_values.mean(), quantized_values.std())
 
         self.h_sum += one_hot_idx.detach().cpu().sum(axis=0).sum(axis=0)
         self.num_searches += query.shape[0] * self.top_k
         self.h = self.h_sum / self.num_searches
+        print(self.h)
 
         # Put pull_constraint loss calculation inside
         key_loss = torch.sum(distance_top_k) / query.shape[0]

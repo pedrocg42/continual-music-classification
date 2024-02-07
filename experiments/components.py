@@ -6,7 +6,7 @@ from copy import deepcopy
 
 # Training parameters
 num_epochs = 200
-early_stopping_patience = 20
+early_stopping_patience = 5
 early_stopping_metric = "Accuracy"
 epochs_keys_init = 10
 batch_size = 64
