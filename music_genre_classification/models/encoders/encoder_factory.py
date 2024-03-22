@@ -15,6 +15,10 @@ class EncoderFactory:
             from music_genre_classification.models.encoders import MertEncoderL2P
 
             return MertEncoderL2P(**config.get("args", {}))
+        if config["name"] == "ClmrEncoder":
+            from music_genre_classification.models.encoders import ClmrEncoder
+
+            return ClmrEncoder(**config.get("args", {}))
         elif config["name"] == "ResNet50DinoEncoder":
             from music_genre_classification.models.encoders import ResNet50DinoEncoder
 

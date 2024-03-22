@@ -1,3 +1,4 @@
+from music_genre_classification.models.encoders.clmr_encoder import ClmrEncoder
 from music_genre_classification.models.encoders.encoder_factory import EncoderFactory
 from music_genre_classification.models.encoders.mert_encoder import MertEncoder
 from music_genre_classification.models.encoders.mert_encoder_l2p import MertEncoderL2P
@@ -6,10 +7,12 @@ from music_genre_classification.models.encoders.resnet50_dino_encoder import (
 )
 from music_genre_classification.models.encoders.resnet50_encoder import ResNet50Encoder
 
+
 __all__ = [
     "EncoderFactory",
     "ResNet50Encoder",
     "ResNet50DinoEncoder",
     "MertEncoder",
     "MertEncoderL2P",
+    "ClmrEncoder",
 ]
