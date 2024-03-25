@@ -14,7 +14,7 @@ batch_size = 64
 
 # Data transforms
 mert_data_transform = {
-    "name": "MertDataTransform",
+    "name": "ResamplerDataTransform",
     "args": {
         "input_sample_rate": 22050,
         "output_sample_rate": 22050,
@@ -22,7 +22,7 @@ mert_data_transform = {
 }
 
 mert_data_transform_vocalset = {
-    "name": "MertDataTransform",
+    "name": "ResamplerDataTransform",
     "args": {
         "input_sample_rate": 44100,
         "output_sample_rate": 22050,
@@ -30,7 +30,7 @@ mert_data_transform_vocalset = {
 }
 
 mert_data_transform_nsynth = {
-    "name": "MertDataTransform",
+    "name": "ResamplerDataTransform",
     "args": {
         "input_sample_rate": 16000,
         "output_sample_rate": 22050,
@@ -40,14 +40,16 @@ mert_data_transform_nsynth = {
 
 # Train models
 train_model = {
-    "name": "TorchMertClassIncrementalModel",
-    "encoder": {
-        "name": "ClmrEncoder",
-        "args": {
-            "pretrained": True,
+    "name": "TorchClmrClassIncrementalModel",
+    "args": {
+        "encoder": {
+            "name": "ClmrEncoder",
+            "args": {
+                "pretrained": True,
+            },
         },
+        "frozen_encoder": True,
     },
-    "frozen_encoder": True,
 }
 
 train_model_l2p = {

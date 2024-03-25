@@ -66,7 +66,7 @@ train_nsynthinstrument_data_source = {
     "args": {
         "split": "train",
         "num_items_per_class": 5000,
-        "chunk_length": 4,
+        "chunk_length": 2.6780,  # 59049 samples
         "is_eval": False,
     },
 }
@@ -117,8 +117,16 @@ classification_metrics_nsynthinstrument = [
 ###########                TRAINERS                 ###########
 
 oracle_train_model_nsynthinstrument = {
-    "name": "TorchMertClassificationModel",
-    "args": {"num_classes": num_classes},
+    "name": "TorchClmrClassificationModel",
+    "args": {
+        "num_classes": num_classes,
+        "encoder": {
+            "name": "ClmrEncoder",
+            "args": {
+                "pretrained": True,
+            },
+        },
+    },
 }
 
 update_trainer_nsynthinstrument = dict(

@@ -63,7 +63,7 @@ train_vocalsettech_data_source = {
     "name": "VocalSetTechDataSource",
     "args": {
         "split": "train",
-        "chunk_length": 3,
+        "chunk_length": 2.6780,  # 59049 samples
         "is_eval": False,
     },
 }
@@ -114,8 +114,16 @@ classification_metrics_vocalsettech = [
 ###########                TRAINERS                 ###########
 
 oracle_train_model_vocalsettech = {
-    "name": "TorchMertClassificationModel",
-    "args": {"num_classes": num_classes},
+    "name": "TorchClmrClassificationModel",
+    "args": {
+        "num_classes": num_classes,
+        "encoder": {
+            "name": "ClmrEncoder",
+            "args": {
+                "pretrained": True,
+            },
+        },
+    },
 }
 
 update_trainer_vocalsettech = dict(

@@ -5,50 +5,10 @@ import torch.nn as nn
 
 import config
 from music_genre_classification.models.bottlenecks import BottleneckFactory
+from music_genre_classification.models.decoders.mert_classification_decoder import (
+    MertClassificationDecoder,
+)
 from music_genre_classification.models.encoders import EncoderFactory
-
-
-class MertClassificationDecoder(nn.Module):
-    def __init__(
-        self,
-        conv1_dict: dict[str, int],
-        in_features: int,
-        num_classes: int,
-        hidden_units: int = 512,
-        dropout: float | None = 0.25,
-    ) -> None:
-        super().__init__()
-        self.conv1d = nn.Conv1d(
-            in_channels=conv1_dict["in_channels"],
-            out_channels=conv1_dict["out_channels"],
-            kernel_size=conv1_dict["kernel_size"],
-        )
-        self.flatten = nn.Flatten()
-
-        self.dropout = nn.Dropout(p=dropout)
-        self.hidden_fc = nn.Linear(in_features=in_features, out_features=hidden_units)
-        self.normalization = nn.BatchNorm1d(num_features=hidden_units)
-        self.activation = nn.ReLU()
-
-        self.fc = nn.Linear(in_features=hidden_units, out_features=num_classes)
-
-    def forward(self, inputs: torch.Tensor) -> torch.Tensor:
-        outputs = self.conv1d(inputs)
-        outputs = self.flatten(outputs)
-
-        outputs = self.dropout(outputs)
-        outputs = self.hidden_fc(outputs)
-        outputs = self.normalization(outputs)
-        outputs = self.activation(outputs)
-
-        outputs = self.dropout(outputs)
-        outputs = self.fc(outputs)
-        return outputs
-
-    def forward_features(self, inputs: torch.Tensor) -> torch.Tensor:
-        outputs = self.conv1d(inputs)
-        outputs = self.flatten(outputs)
-        return outputs
 
 
 class TorchClassificationModel(nn.Module):
@@ -100,9 +60,11 @@ class TorchClassificationModel(nn.Module):
                 decoder.append(
                     nn.Linear(
                         in_features=in_features,
-                        out_features=layer_dict["out_features"]
-                        if "out_features" in layer_dict
-                        else self.num_classes,
+                        out_features=(
+                            layer_dict["out_features"]
+                            if "out_features" in layer_dict
+                            else self.num_classes
+                        ),
                     )
                 )
                 in_features = layer_dict["out_features"]

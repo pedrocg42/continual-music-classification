@@ -24,6 +24,14 @@ class TrainModelFactory:
             from music_genre_classification.models import TorchMertClassIncrementalModel
 
             return TorchMertClassIncrementalModel(**config.get("args", {}))
+        if config["name"] == "TorchClmrClassificationModel":
+            from music_genre_classification.models import TorchClmrClassificationModel
+
+            return TorchClmrClassificationModel(**config.get("args", {}))
+        if config["name"] == "TorchClmrClassIncrementalModel":
+            from music_genre_classification.models import TorchClmrClassIncrementalModel
+
+            return TorchClmrClassIncrementalModel(**config.get("args", {}))
         if config["name"] == "TorchBottleneckClassificationModel":
             from music_genre_classification.models import (
                 TorchBottleneckClassificationModel,

@@ -62,7 +62,7 @@ train_gtzan_data_source = {
     "name": "GtzanDataSource",
     "args": {
         "split": "train",
-        "chunk_length": 5,
+        "chunk_length": 2.6780,  # 59049 samples
         "is_eval": False,
     },
 }
@@ -74,8 +74,16 @@ test_gtzan_data_source["args"]["split"] = "test"
 test_gtzan_data_source["args"]["is_eval"] = True
 
 oracle_train_model_gtzan = {
-    "name": "TorchMertClassificationModel",
-    "args": {"num_classes": num_classes},
+    "name": "TorchClmrClassificationModel",
+    "args": {
+        "num_classes": num_classes,
+        "encoder": {
+            "name": "ClmrEncoder",
+            "args": {
+                "pretrained": True,
+            },
+        },
+    },
 }
 
 # Metrics

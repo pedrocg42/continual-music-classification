@@ -33,7 +33,7 @@
             "justMyCode": true,
             "args": [
                 "--experiment",
-                "mert95m_cosinecenter_cl_vocalsetsinger_scenario2"
+                "clmrsamplecnnxl_base_oracle_gtzan_scenario1"
             ]
         }
     ]

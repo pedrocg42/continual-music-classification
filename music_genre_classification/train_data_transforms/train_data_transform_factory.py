@@ -11,5 +11,11 @@ class TrainDataTransformFactory:
             )
 
             return MertDataTransform(**config.get("args", {}))
+        if config["name"] == "ResamplerDataTransform":
+            from music_genre_classification.train_data_transforms import (
+                ResamplerDataTransform,
+            )
+
+            return ResamplerDataTransform(**config.get("args", {}))
         else:
             raise ValueError(f"Unknown TrainDataSource type: {config['name']}")
