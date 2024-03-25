@@ -33,7 +33,7 @@
             "justMyCode": true,
             "args": [
                 "--experiment",
-                "clmrsamplecnnxl_base_oracle_gtzan_scenario1"
+                "clmrsamplecnn_base_oracle_gtzan_scenario1"
             ]
         }
     ]

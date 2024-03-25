@@ -367,8 +367,8 @@ continual_learning_l2center_evaluator_vocalsettech_scenario3["args"][
 
 ###########                BASELINES                ###########
 
-clmrsamplecnnxl_base_oracle_vocalsettech_scenario1 = {
-    "experiment_name": "clmrsamplecnnxl_base_oracle_vocalsettech_all",
+clmrsamplecnn_base_oracle_vocalsettech_scenario1 = {
+    "experiment_name": "clmrsamplecnn_base_oracle_vocalsettech_all",
     "experiment_type": "Baseline",
     "experiment_subtype": "Oracle",
     # data
@@ -380,8 +380,8 @@ clmrsamplecnnxl_base_oracle_vocalsettech_scenario1 = {
     },
 }
 
-clmrsamplecnnxl_base_oracle_vocalsettech_scenario2 = {
-    "experiment_name": "clmrsamplecnnxl_base_oracle_vocalsettech_all",
+clmrsamplecnn_base_oracle_vocalsettech_scenario2 = {
+    "experiment_name": "clmrsamplecnn_base_oracle_vocalsettech_all",
     "experiment_type": "Baseline",
     "experiment_subtype": "Oracle",
     # data
@@ -393,8 +393,8 @@ clmrsamplecnnxl_base_oracle_vocalsettech_scenario2 = {
     },
 }
 
-clmrsamplecnnxl_base_oracle_vocalsettech_scenario3 = {
-    "experiment_name": "clmrsamplecnnxl_base_oracle_vocalsettech_all",
+clmrsamplecnn_base_oracle_vocalsettech_scenario3 = {
+    "experiment_name": "clmrsamplecnn_base_oracle_vocalsettech_all",
     "experiment_type": "Baseline",
     "experiment_subtype": "Oracle",
     # data
@@ -411,8 +411,8 @@ clmrsamplecnnxl_base_oracle_vocalsettech_scenario3 = {
 
 # SCENARIO 1
 
-clmrsamplecnnxl_finetuning_cl_vocalsettech_scenario1 = {
-    "experiment_name": "clmrsamplecnnxl_finetuning_cl_vocalsettech_scenario1",
+clmrsamplecnn_finetuning_cl_vocalsettech_scenario1 = {
+    "experiment_name": "clmrsamplecnn_finetuning_cl_vocalsettech_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "Finetuning",
     # data
@@ -424,8 +424,8 @@ clmrsamplecnnxl_finetuning_cl_vocalsettech_scenario1 = {
     },
 }
 
-clmrsamplecnnxl_replay_cl_vocalsettech_scenario1 = {
-    "experiment_name": "clmrsamplecnnxl_replay_cl_vocalsettech_scenario1",
+clmrsamplecnn_replay_cl_vocalsettech_scenario1 = {
+    "experiment_name": "clmrsamplecnn_replay_cl_vocalsettech_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "Replay",
     # data
@@ -437,8 +437,8 @@ clmrsamplecnnxl_replay_cl_vocalsettech_scenario1 = {
     },
 }
 
-clmrsamplecnnxl_icarl_cl_vocalsettech_scenario1 = {
-    "experiment_name": "clmrsamplecnnxl_icarl_cl_vocalsettech_scenario1",
+clmrsamplecnn_icarl_cl_vocalsettech_scenario1 = {
+    "experiment_name": "clmrsamplecnn_icarl_cl_vocalsettech_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "iCaRL",
     # data
@@ -450,8 +450,8 @@ clmrsamplecnnxl_icarl_cl_vocalsettech_scenario1 = {
     },
 }
 
-clmrsamplecnnxl_gem_cl_vocalsettech_scenario1 = {
-    "experiment_name": "clmrsamplecnnxl_gem_cl_vocalsettech_scenario1",
+clmrsamplecnn_gem_cl_vocalsettech_scenario1 = {
+    "experiment_name": "clmrsamplecnn_gem_cl_vocalsettech_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "GEM",
     # data
@@ -463,8 +463,8 @@ clmrsamplecnnxl_gem_cl_vocalsettech_scenario1 = {
     },
 }
 
-clmrsamplecnnxl_ewc_cl_vocalsettech_scenario1 = {
-    "experiment_name": "clmrsamplecnnxl_ewc_cl_vocalsettech_scenario1",
+clmrsamplecnn_ewc_cl_vocalsettech_scenario1 = {
+    "experiment_name": "clmrsamplecnn_ewc_cl_vocalsettech_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "EWC",
     # data
@@ -476,8 +476,8 @@ clmrsamplecnnxl_ewc_cl_vocalsettech_scenario1 = {
     },
 }
 
-clmrsamplecnnxl_l2p_cl_vocalsettech_scenario1 = {
-    "experiment_name": "clmrsamplecnnxl_l2p_cl_vocalsettech_scenario1",
+clmrsamplecnn_l2p_cl_vocalsettech_scenario1 = {
+    "experiment_name": "clmrsamplecnn_l2p_cl_vocalsettech_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "L2P",
     # data
@@ -489,8 +489,8 @@ clmrsamplecnnxl_l2p_cl_vocalsettech_scenario1 = {
     },
 }
 
-clmrsamplecnnxl_l2center_cl_vocalsettech_scenario1 = {
-    "experiment_name": "clmrsamplecnnxl_l2center_cl_vocalsettech_scenario1",
+clmrsamplecnn_l2center_cl_vocalsettech_scenario1 = {
+    "experiment_name": "clmrsamplecnn_l2center_cl_vocalsettech_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "L2Center",
     # data
@@ -505,8 +505,8 @@ clmrsamplecnnxl_l2center_cl_vocalsettech_scenario1 = {
 
 # SCENARIO 2
 
-clmrsamplecnnxl_finetuning_cl_vocalsettech_scenario2 = {
-    "experiment_name": "clmrsamplecnnxl_finetuning_cl_vocalsettech_scenario2",
+clmrsamplecnn_finetuning_cl_vocalsettech_scenario2 = {
+    "experiment_name": "clmrsamplecnn_finetuning_cl_vocalsettech_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "Finetuning",
     # data
@@ -518,8 +518,8 @@ clmrsamplecnnxl_finetuning_cl_vocalsettech_scenario2 = {
     },
 }
 
-clmrsamplecnnxl_replay_cl_vocalsettech_scenario2 = {
-    "experiment_name": "clmrsamplecnnxl_replay_cl_vocalsettech_scenario2",
+clmrsamplecnn_replay_cl_vocalsettech_scenario2 = {
+    "experiment_name": "clmrsamplecnn_replay_cl_vocalsettech_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "Replay",
     # data
@@ -531,8 +531,8 @@ clmrsamplecnnxl_replay_cl_vocalsettech_scenario2 = {
     },
 }
 
-clmrsamplecnnxl_icarl_cl_vocalsettech_scenario2 = {
-    "experiment_name": "clmrsamplecnnxl_icarl_cl_vocalsettech_scenario2",
+clmrsamplecnn_icarl_cl_vocalsettech_scenario2 = {
+    "experiment_name": "clmrsamplecnn_icarl_cl_vocalsettech_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "iCaRL",
     # data
@@ -544,8 +544,8 @@ clmrsamplecnnxl_icarl_cl_vocalsettech_scenario2 = {
     },
 }
 
-clmrsamplecnnxl_gem_cl_vocalsettech_scenario2 = {
-    "experiment_name": "clmrsamplecnnxl_gem_cl_vocalsettech_scenario2",
+clmrsamplecnn_gem_cl_vocalsettech_scenario2 = {
+    "experiment_name": "clmrsamplecnn_gem_cl_vocalsettech_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "GEM",
     # data
@@ -557,8 +557,8 @@ clmrsamplecnnxl_gem_cl_vocalsettech_scenario2 = {
     },
 }
 
-clmrsamplecnnxl_ewc_cl_vocalsettech_scenario2 = {
-    "experiment_name": "clmrsamplecnnxl_ewc_cl_vocalsettech_scenario2",
+clmrsamplecnn_ewc_cl_vocalsettech_scenario2 = {
+    "experiment_name": "clmrsamplecnn_ewc_cl_vocalsettech_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "EWC",
     # data
@@ -570,8 +570,8 @@ clmrsamplecnnxl_ewc_cl_vocalsettech_scenario2 = {
     },
 }
 
-clmrsamplecnnxl_l2p_cl_vocalsettech_scenario2 = {
-    "experiment_name": "clmrsamplecnnxl_l2p_cl_vocalsettech_scenario2",
+clmrsamplecnn_l2p_cl_vocalsettech_scenario2 = {
+    "experiment_name": "clmrsamplecnn_l2p_cl_vocalsettech_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "L2P",
     # data
@@ -583,8 +583,8 @@ clmrsamplecnnxl_l2p_cl_vocalsettech_scenario2 = {
     },
 }
 
-clmrsamplecnnxl_l2center_cl_vocalsettech_scenario2 = {
-    "experiment_name": "clmrsamplecnnxl_l2center_cl_vocalsettech_scenario2",
+clmrsamplecnn_l2center_cl_vocalsettech_scenario2 = {
+    "experiment_name": "clmrsamplecnn_l2center_cl_vocalsettech_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "L2Center",
     # data
@@ -599,8 +599,8 @@ clmrsamplecnnxl_l2center_cl_vocalsettech_scenario2 = {
 
 # SCENARIO 3
 
-clmrsamplecnnxl_finetuning_cl_vocalsettech_scenario3 = {
-    "experiment_name": "clmrsamplecnnxl_finetuning_cl_vocalsettech_scenario3",
+clmrsamplecnn_finetuning_cl_vocalsettech_scenario3 = {
+    "experiment_name": "clmrsamplecnn_finetuning_cl_vocalsettech_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "Finetuning",
     # data
@@ -612,8 +612,8 @@ clmrsamplecnnxl_finetuning_cl_vocalsettech_scenario3 = {
     },
 }
 
-clmrsamplecnnxl_replay_cl_vocalsettech_scenario3 = {
-    "experiment_name": "clmrsamplecnnxl_replay_cl_vocalsettech_scenario3",
+clmrsamplecnn_replay_cl_vocalsettech_scenario3 = {
+    "experiment_name": "clmrsamplecnn_replay_cl_vocalsettech_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "Replay",
     # data
@@ -625,8 +625,8 @@ clmrsamplecnnxl_replay_cl_vocalsettech_scenario3 = {
     },
 }
 
-clmrsamplecnnxl_icarl_cl_vocalsettech_scenario3 = {
-    "experiment_name": "clmrsamplecnnxl_icarl_cl_vocalsettech_scenario3",
+clmrsamplecnn_icarl_cl_vocalsettech_scenario3 = {
+    "experiment_name": "clmrsamplecnn_icarl_cl_vocalsettech_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "iCaRL",
     # data
@@ -638,8 +638,8 @@ clmrsamplecnnxl_icarl_cl_vocalsettech_scenario3 = {
     },
 }
 
-clmrsamplecnnxl_gem_cl_vocalsettech_scenario3 = {
-    "experiment_name": "clmrsamplecnnxl_gem_cl_vocalsettech_scenario3",
+clmrsamplecnn_gem_cl_vocalsettech_scenario3 = {
+    "experiment_name": "clmrsamplecnn_gem_cl_vocalsettech_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "GEM",
     # data
@@ -651,8 +651,8 @@ clmrsamplecnnxl_gem_cl_vocalsettech_scenario3 = {
     },
 }
 
-clmrsamplecnnxl_ewc_cl_vocalsettech_scenario3 = {
-    "experiment_name": "clmrsamplecnnxl_ewc_cl_vocalsettech_scenario3",
+clmrsamplecnn_ewc_cl_vocalsettech_scenario3 = {
+    "experiment_name": "clmrsamplecnn_ewc_cl_vocalsettech_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "EWC",
     # data
@@ -664,8 +664,8 @@ clmrsamplecnnxl_ewc_cl_vocalsettech_scenario3 = {
     },
 }
 
-clmrsamplecnnxl_l2p_cl_vocalsettech_scenario3 = {
-    "experiment_name": "clmrsamplecnnxl_l2p_cl_vocalsettech_scenario3",
+clmrsamplecnn_l2p_cl_vocalsettech_scenario3 = {
+    "experiment_name": "clmrsamplecnn_l2p_cl_vocalsettech_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "L2P",
     # data
@@ -677,8 +677,8 @@ clmrsamplecnnxl_l2p_cl_vocalsettech_scenario3 = {
     },
 }
 
-clmrsamplecnnxl_l2center_cl_vocalsettech_scenario3 = {
-    "experiment_name": "clmrsamplecnnxl_l2center_cl_vocalsettech_scenario3",
+clmrsamplecnn_l2center_cl_vocalsettech_scenario3 = {
+    "experiment_name": "clmrsamplecnn_l2center_cl_vocalsettech_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "L2Center",
     # data
