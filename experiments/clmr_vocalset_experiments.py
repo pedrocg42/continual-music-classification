@@ -369,8 +369,8 @@ continual_learning_l2center_evaluator_vocalsetsinger_scenario3["args"][
 
 ###########                BASELINES                ###########
 
-mert95m_base_oracle_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_base_oracle_vocalsetsinger_all",
+clmrsamplecnnxl_base_oracle_vocalsetsinger_scenario1 = {
+    "experiment_name": "clmrsamplecnnxl_base_oracle_vocalsetsinger_all",
     "experiment_type": "Baseline",
     "experiment_subtype": "Oracle",
     # data
@@ -382,8 +382,8 @@ mert95m_base_oracle_vocalsetsinger_scenario1 = {
     },
 }
 
-mert95m_base_oracle_vocalsetsinger_scenario2 = {
-    "experiment_name": "mert95m_base_oracle_vocalsetsinger_all",
+clmrsamplecnnxl_base_oracle_vocalsetsinger_scenario2 = {
+    "experiment_name": "clmrsamplecnnxl_base_oracle_vocalsetsinger_all",
     "experiment_type": "Baseline",
     "experiment_subtype": "Oracle",
     # data
@@ -396,8 +396,8 @@ mert95m_base_oracle_vocalsetsinger_scenario2 = {
 }
 
 
-mert95m_base_oracle_vocalsetsinger_scenario3 = {
-    "experiment_name": "mert95m_base_oracle_vocalsetsinger_all",
+clmrsamplecnnxl_base_oracle_vocalsetsinger_scenario3 = {
+    "experiment_name": "clmrsamplecnnxl_base_oracle_vocalsetsinger_all",
     "experiment_type": "Baseline",
     "experiment_subtype": "Oracle",
     # data
@@ -414,8 +414,8 @@ mert95m_base_oracle_vocalsetsinger_scenario3 = {
 
 # SCENARIO 1
 
-mert95m_finetuning_cl_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_finetuning_cl_vocalsetsinger_scenario1",
+clmrsamplecnnxl_finetuning_cl_vocalsetsinger_scenario1 = {
+    "experiment_name": "clmrsamplecnnxl_finetuning_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "Finetuning",
     # data
@@ -427,8 +427,8 @@ mert95m_finetuning_cl_vocalsetsinger_scenario1 = {
     },
 }
 
-mert95m_replay_cl_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_replay_cl_vocalsetsinger_scenario1",
+clmrsamplecnnxl_replay_cl_vocalsetsinger_scenario1 = {
+    "experiment_name": "clmrsamplecnnxl_replay_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "Replay",
     # data
@@ -440,8 +440,8 @@ mert95m_replay_cl_vocalsetsinger_scenario1 = {
     },
 }
 
-mert95m_icarl_cl_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_icarl_cl_vocalsetsinger_scenario1",
+clmrsamplecnnxl_icarl_cl_vocalsetsinger_scenario1 = {
+    "experiment_name": "clmrsamplecnnxl_icarl_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "iCaRL",
     # data
@@ -453,8 +453,8 @@ mert95m_icarl_cl_vocalsetsinger_scenario1 = {
     },
 }
 
-mert95m_gem_cl_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_gem_cl_vocalsetsinger_scenario1",
+clmrsamplecnnxl_gem_cl_vocalsetsinger_scenario1 = {
+    "experiment_name": "clmrsamplecnnxl_gem_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "GEM",
     # data
@@ -466,8 +466,8 @@ mert95m_gem_cl_vocalsetsinger_scenario1 = {
     },
 }
 
-mert95m_ewc_cl_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_ewc_cl_vocalsetsinger_scenario1",
+clmrsamplecnnxl_ewc_cl_vocalsetsinger_scenario1 = {
+    "experiment_name": "clmrsamplecnnxl_ewc_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "EWC",
     # data
@@ -479,8 +479,8 @@ mert95m_ewc_cl_vocalsetsinger_scenario1 = {
     },
 }
 
-mert95m_l2p_cl_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_l2p_cl_vocalsetsinger_scenario1",
+clmrsamplecnnxl_l2p_cl_vocalsetsinger_scenario1 = {
+    "experiment_name": "clmrsamplecnnxl_l2p_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "L2P",
     # data
@@ -492,8 +492,8 @@ mert95m_l2p_cl_vocalsetsinger_scenario1 = {
     },
 }
 
-mert95m_l2center_cl_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_l2center_cl_vocalsetsinger_scenario1",
+clmrsamplecnnxl_l2center_cl_vocalsetsinger_scenario1 = {
+    "experiment_name": "clmrsamplecnnxl_l2center_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
     "experiment_subtype": "L2Center",
     # data
@@ -508,8 +508,8 @@ mert95m_l2center_cl_vocalsetsinger_scenario1 = {
 
 # SCENARIO 2
 
-mert95m_finetuning_cl_vocalsetsinger_scenario2 = {
-    "experiment_name": "mert95m_finetuning_cl_vocalsetsinger_scenario2",
+clmrsamplecnnxl_finetuning_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "clmrsamplecnnxl_finetuning_cl_vocalsetsinger_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "Finetuning",
     # data
@@ -521,8 +521,8 @@ mert95m_finetuning_cl_vocalsetsinger_scenario2 = {
     },
 }
 
-mert95m_replay_cl_vocalsetsinger_scenario2 = {
-    "experiment_name": "mert95m_replay_cl_vocalsetsinger_scenario2",
+clmrsamplecnnxl_replay_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "clmrsamplecnnxl_replay_cl_vocalsetsinger_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "Replay",
     # data
@@ -534,8 +534,8 @@ mert95m_replay_cl_vocalsetsinger_scenario2 = {
     },
 }
 
-mert95m_icarl_cl_vocalsetsinger_scenario2 = {
-    "experiment_name": "mert95m_icarl_cl_vocalsetsinger_scenario2",
+clmrsamplecnnxl_icarl_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "clmrsamplecnnxl_icarl_cl_vocalsetsinger_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "iCaRL",
     # data
@@ -548,8 +548,8 @@ mert95m_icarl_cl_vocalsetsinger_scenario2 = {
 }
 
 
-mert95m_gem_cl_vocalsetsinger_scenario2 = {
-    "experiment_name": "mert95m_gem_cl_vocalsetsinger_scenario2",
+clmrsamplecnnxl_gem_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "clmrsamplecnnxl_gem_cl_vocalsetsinger_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "GEM",
     # data
@@ -561,8 +561,8 @@ mert95m_gem_cl_vocalsetsinger_scenario2 = {
     },
 }
 
-mert95m_ewc_cl_vocalsetsinger_scenario2 = {
-    "experiment_name": "mert95m_ewc_cl_vocalsetsinger_scenario2",
+clmrsamplecnnxl_ewc_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "clmrsamplecnnxl_ewc_cl_vocalsetsinger_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "EWC",
     # data
@@ -574,8 +574,8 @@ mert95m_ewc_cl_vocalsetsinger_scenario2 = {
     },
 }
 
-mert95m_l2p_cl_vocalsetsinger_scenario2 = {
-    "experiment_name": "mert95m_l2p_cl_vocalsetsinger_scenario2",
+clmrsamplecnnxl_l2p_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "clmrsamplecnnxl_l2p_cl_vocalsetsinger_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "L2P",
     # data
@@ -587,8 +587,8 @@ mert95m_l2p_cl_vocalsetsinger_scenario2 = {
     },
 }
 
-mert95m_l2center_cl_vocalsetsinger_scenario2 = {
-    "experiment_name": "mert95m_l2center_cl_vocalsetsinger_scenario2",
+clmrsamplecnnxl_l2center_cl_vocalsetsinger_scenario2 = {
+    "experiment_name": "clmrsamplecnnxl_l2center_cl_vocalsetsinger_scenario2",
     "experiment_type": "CL",
     "experiment_subtype": "L2Center",
     # data
@@ -603,8 +603,8 @@ mert95m_l2center_cl_vocalsetsinger_scenario2 = {
 
 # SCENARIO 3
 
-mert95m_finetuning_cl_vocalsetsinger_scenario3 = {
-    "experiment_name": "mert95m_finetuning_cl_vocalsetsinger_scenario3",
+clmrsamplecnnxl_finetuning_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "clmrsamplecnnxl_finetuning_cl_vocalsetsinger_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "Finetuning",
     # data
@@ -616,8 +616,8 @@ mert95m_finetuning_cl_vocalsetsinger_scenario3 = {
     },
 }
 
-mert95m_replay_cl_vocalsetsinger_scenario3 = {
-    "experiment_name": "mert95m_replay_cl_vocalsetsinger_scenario3",
+clmrsamplecnnxl_replay_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "clmrsamplecnnxl_replay_cl_vocalsetsinger_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "Replay",
     # data
@@ -629,8 +629,8 @@ mert95m_replay_cl_vocalsetsinger_scenario3 = {
     },
 }
 
-mert95m_icarl_cl_vocalsetsinger_scenario3 = {
-    "experiment_name": "mert95m_icarl_cl_vocalsetsinger_scenario3",
+clmrsamplecnnxl_icarl_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "clmrsamplecnnxl_icarl_cl_vocalsetsinger_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "iCaRL",
     # data
@@ -642,8 +642,8 @@ mert95m_icarl_cl_vocalsetsinger_scenario3 = {
     },
 }
 
-mert95m_gem_cl_vocalsetsinger_scenario3 = {
-    "experiment_name": "mert95m_gem_cl_vocalsetsinger_scenario3",
+clmrsamplecnnxl_gem_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "clmrsamplecnnxl_gem_cl_vocalsetsinger_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "GEM",
     # data
@@ -655,8 +655,8 @@ mert95m_gem_cl_vocalsetsinger_scenario3 = {
     },
 }
 
-mert95m_ewc_cl_vocalsetsinger_scenario3 = {
-    "experiment_name": "mert95m_ewc_cl_vocalsetsinger_scenario3",
+clmrsamplecnnxl_ewc_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "clmrsamplecnnxl_ewc_cl_vocalsetsinger_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "EWC",
     # data
@@ -668,8 +668,8 @@ mert95m_ewc_cl_vocalsetsinger_scenario3 = {
     },
 }
 
-mert95m_l2p_cl_vocalsetsinger_scenario3 = {
-    "experiment_name": "mert95m_l2p_cl_vocalsetsinger_scenario3",
+clmrsamplecnnxl_l2p_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "clmrsamplecnnxl_l2p_cl_vocalsetsinger_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "L2P",
     # data
@@ -681,8 +681,8 @@ mert95m_l2p_cl_vocalsetsinger_scenario3 = {
     },
 }
 
-mert95m_l2center_cl_vocalsetsinger_scenario3 = {
-    "experiment_name": "mert95m_l2center_cl_vocalsetsinger_scenario3",
+clmrsamplecnnxl_l2center_cl_vocalsetsinger_scenario3 = {
+    "experiment_name": "clmrsamplecnnxl_l2center_cl_vocalsetsinger_scenario3",
     "experiment_type": "CL",
     "experiment_subtype": "L2Center",
     # data
