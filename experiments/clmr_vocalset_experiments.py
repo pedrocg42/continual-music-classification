@@ -1,6 +1,20 @@
 from copy import deepcopy
 
-from experiments.components import *
+from experiments.components_clmr import (
+    oracle_trainer,
+    oracle_evaluator,
+    continual_learning_trainer,
+    continual_learning_replay_trainer,
+    continual_learning_ewc_trainer,
+    continual_learning_gem_trainer,
+    continual_learning_icarl_trainer,
+    continual_learning_l2p_trainer,
+    continual_learning_l2center_trainer,
+    continual_learning_evaluator_l2center,
+    continual_learning_evaluator_l2p,
+    evaluator,
+    mert_data_transform_vocalset,
+)
 
 ###############################################################
 ###########                SCENARIOS                ###########
@@ -178,49 +192,6 @@ continual_learning_icarl_trainer_vocalsetsinger_scenario3 = deepcopy(
 )
 continual_learning_icarl_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
 
-
-# VQ
-continual_learning_vq_trainer_vocalsetsinger_scenario1 = deepcopy(
-    continual_learning_vq_trainer
-)
-continual_learning_vq_trainer_vocalsetsinger_scenario1["args"].update(
-    update_trainer_vocalsetsinger
-)
-continual_learning_vq_trainer_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-
-
-continual_learning_vq_trainer_vocalsetsinger_scenario2 = deepcopy(
-    continual_learning_vq_trainer_vocalsetsinger_scenario1
-)
-continual_learning_vq_trainer_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
-
-continual_learning_vq_trainer_vocalsetsinger_scenario3 = deepcopy(
-    continual_learning_vq_trainer_vocalsetsinger_scenario1
-)
-continual_learning_vq_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
-
-
-# DKVB
-continual_learning_dkvb_trainer_vocalsetsinger_scenario1 = deepcopy(
-    continual_learning_dkvb_trainer
-)
-continual_learning_dkvb_trainer_vocalsetsinger_scenario1["args"].update(
-    update_trainer_vocalsetsinger
-)
-continual_learning_dkvb_trainer_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-
-
-continual_learning_dkvb_trainer_vocalsetsinger_scenario2 = deepcopy(
-    continual_learning_dkvb_trainer_vocalsetsinger_scenario1
-)
-continual_learning_dkvb_trainer_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
-
-continual_learning_dkvb_trainer_vocalsetsinger_scenario3 = deepcopy(
-    continual_learning_dkvb_trainer_vocalsetsinger_scenario1
-)
-continual_learning_dkvb_trainer_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
-
-
 ## GEM
 continual_learning_gem_trainer_vocalsetsinger_scenario1 = deepcopy(
     continual_learning_gem_trainer
@@ -306,28 +277,6 @@ continual_learning_l2center_trainer_vocalsetsinger_scenario3["args"][
     "tasks"
 ] = scenario3
 
-# CosineCenter
-continual_learning_cosinecenter_trainer_vocalsetsinger_scenario1 = deepcopy(
-    continual_learning_l2center_trainer_vocalsetsinger_scenario1
-)
-continual_learning_cosinecenter_trainer_vocalsetsinger_scenario1["args"][
-    "train_model"
-] = train_model_cosinecenter
-
-continual_learning_cosinecenter_trainer_vocalsetsinger_scenario2 = deepcopy(
-    continual_learning_cosinecenter_trainer_vocalsetsinger_scenario1
-)
-continual_learning_cosinecenter_trainer_vocalsetsinger_scenario2["args"][
-    "tasks"
-] = scenario2
-
-continual_learning_cosinecenter_trainer_vocalsetsinger_scenario3 = deepcopy(
-    continual_learning_cosinecenter_trainer_vocalsetsinger_scenario1
-)
-continual_learning_cosinecenter_trainer_vocalsetsinger_scenario3["args"][
-    "tasks"
-] = scenario3
-
 
 ###########               EVALUATORS                ###########
 
@@ -367,45 +316,6 @@ continual_learning_evaluator_vocalsetsinger_scenario3 = deepcopy(
     continual_learning_evaluator_vocalsetsinger_scenario1
 )
 continual_learning_evaluator_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
-
-
-## VQ
-continual_learning_vq_evaluator_vocalsetsinger_scenario1 = deepcopy(
-    continual_learning_evaluator_vq
-)
-continual_learning_vq_evaluator_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_vq_evaluator_vocalsetsinger_scenario1["args"].update(
-    update_evaluator_vocalsetsinger
-)
-
-
-continual_learning_vq_evaluator_vocalsetsinger_scenario2 = deepcopy(
-    continual_learning_vq_evaluator_vocalsetsinger_scenario1
-)
-continual_learning_vq_evaluator_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
-continual_learning_vq_evaluator_vocalsetsinger_scenario3 = deepcopy(
-    continual_learning_vq_evaluator_vocalsetsinger_scenario1
-)
-continual_learning_vq_evaluator_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
-
-
-## DKVB
-continual_learning_dkvb_evaluator_vocalsetsinger_scenario1 = deepcopy(
-    continual_learning_evaluator_dkvb
-)
-continual_learning_dkvb_evaluator_vocalsetsinger_scenario1["args"]["tasks"] = scenario1
-continual_learning_dkvb_evaluator_vocalsetsinger_scenario1["args"].update(
-    update_evaluator_vocalsetsinger
-)
-
-continual_learning_dkvb_evaluator_vocalsetsinger_scenario2 = deepcopy(
-    continual_learning_dkvb_evaluator_vocalsetsinger_scenario1
-)
-continual_learning_dkvb_evaluator_vocalsetsinger_scenario2["args"]["tasks"] = scenario2
-continual_learning_dkvb_evaluator_vocalsetsinger_scenario3 = deepcopy(
-    continual_learning_dkvb_evaluator_vocalsetsinger_scenario1
-)
-continual_learning_dkvb_evaluator_vocalsetsinger_scenario3["args"]["tasks"] = scenario3
 
 
 # L2P
@@ -449,31 +359,6 @@ continual_learning_l2center_evaluator_vocalsetsinger_scenario3 = deepcopy(
     continual_learning_l2center_evaluator_vocalsetsinger_scenario1
 )
 continual_learning_l2center_evaluator_vocalsetsinger_scenario3["args"][
-    "tasks"
-] = scenario3
-
-## CosineCenter
-continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario1 = deepcopy(
-    continual_learning_evaluator_cosinecenter
-)
-continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario1["args"][
-    "tasks"
-] = scenario1
-continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario1["args"].update(
-    update_evaluator_vocalsetsinger
-)
-
-
-continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario2 = deepcopy(
-    continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario1
-)
-continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario2["args"][
-    "tasks"
-] = scenario2
-continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario3 = deepcopy(
-    continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario1
-)
-continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario3["args"][
     "tasks"
 ] = scenario3
 
@@ -568,32 +453,6 @@ mert95m_icarl_cl_vocalsetsinger_scenario1 = {
     },
 }
 
-mert95m_vq_cl_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_vq_cl_vocalsetsinger_scenario1",
-    "experiment_type": "CL",
-    "experiment_subtype": "VQ",
-    # data
-    "train": {
-        "trainer": continual_learning_vq_trainer_vocalsetsinger_scenario1,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_vq_evaluator_vocalsetsinger_scenario1,
-    },
-}
-
-mert95m_dkvb_cl_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_dkvb_cl_vocalsetsinger_scenario1",
-    "experiment_type": "CL",
-    "experiment_subtype": "DKVB",
-    # data
-    "train": {
-        "trainer": continual_learning_dkvb_trainer_vocalsetsinger_scenario1,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_dkvb_evaluator_vocalsetsinger_scenario1,
-    },
-}
-
 mert95m_gem_cl_vocalsetsinger_scenario1 = {
     "experiment_name": "mert95m_gem_cl_vocalsetsinger_scenario1",
     "experiment_type": "CL",
@@ -646,18 +505,6 @@ mert95m_l2center_cl_vocalsetsinger_scenario1 = {
     },
 }
 
-mert95m_cosinecenter_cl_vocalsetsinger_scenario1 = {
-    "experiment_name": "mert95m_cosinecenter_cl_vocalsetsinger_scenario1",
-    "experiment_type": "CL",
-    "experiment_subtype": "CosineCenter",
-    # data
-    "train": {
-        "trainer": continual_learning_cosinecenter_trainer_vocalsetsinger_scenario1,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario1,
-    },
-}
 
 # SCENARIO 2
 
@@ -700,31 +547,6 @@ mert95m_icarl_cl_vocalsetsinger_scenario2 = {
     },
 }
 
-mert95m_vq_cl_vocalsetsinger_scenario2 = {
-    "experiment_name": "mert95m_vq_cl_vocalsetsinger_scenario2",
-    "experiment_type": "CL",
-    "experiment_subtype": "VQ",
-    # data
-    "train": {
-        "trainer": continual_learning_vq_trainer_vocalsetsinger_scenario2,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_vq_evaluator_vocalsetsinger_scenario2,
-    },
-}
-
-mert95m_dkvb_cl_vocalsetsinger_scenario2 = {
-    "experiment_name": "mert95m_dkvb_cl_vocalsetsinger_scenario2",
-    "experiment_type": "CL",
-    "experiment_subtype": "DKVB",
-    # data
-    "train": {
-        "trainer": continual_learning_dkvb_trainer_vocalsetsinger_scenario2,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_dkvb_evaluator_vocalsetsinger_scenario2,
-    },
-}
 
 mert95m_gem_cl_vocalsetsinger_scenario2 = {
     "experiment_name": "mert95m_gem_cl_vocalsetsinger_scenario2",
@@ -778,19 +600,6 @@ mert95m_l2center_cl_vocalsetsinger_scenario2 = {
     },
 }
 
-mert95m_cosinecenter_cl_vocalsetsinger_scenario2 = {
-    "experiment_name": "mert95m_cosinecenter_cl_vocalsetsinger_scenario2",
-    "experiment_type": "CL",
-    "experiment_subtype": "CosineCenter",
-    # data
-    "train": {
-        "trainer": continual_learning_cosinecenter_trainer_vocalsetsinger_scenario2,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario2,
-    },
-}
-
 
 # SCENARIO 3
 
@@ -830,32 +639,6 @@ mert95m_icarl_cl_vocalsetsinger_scenario3 = {
     },
     "evaluate": {
         "evaluator": continual_learning_evaluator_vocalsetsinger_scenario3,
-    },
-}
-
-mert95m_vq_cl_vocalsetsinger_scenario3 = {
-    "experiment_name": "mert95m_vq_cl_vocalsetsinger_scenario3",
-    "experiment_type": "CL",
-    "experiment_subtype": "VQ",
-    # data
-    "train": {
-        "trainer": continual_learning_vq_trainer_vocalsetsinger_scenario3,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_vq_evaluator_vocalsetsinger_scenario3,
-    },
-}
-
-mert95m_dkvb_cl_vocalsetsinger_scenario3 = {
-    "experiment_name": "mert95m_dkvb_cl_vocalsetsinger_scenario3",
-    "experiment_type": "CL",
-    "experiment_subtype": "DKVB",
-    # data
-    "train": {
-        "trainer": continual_learning_dkvb_trainer_vocalsetsinger_scenario3,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_dkvb_evaluator_vocalsetsinger_scenario3,
     },
 }
 
@@ -908,18 +691,5 @@ mert95m_l2center_cl_vocalsetsinger_scenario3 = {
     },
     "evaluate": {
         "evaluator": continual_learning_l2center_evaluator_vocalsetsinger_scenario3,
-    },
-}
-
-mert95m_cosinecenter_cl_vocalsetsinger_scenario3 = {
-    "experiment_name": "mert95m_cosinecenter_cl_vocalsetsinger_scenario3",
-    "experiment_type": "CL",
-    "experiment_subtype": "CosineCenter",
-    # data
-    "train": {
-        "trainer": continual_learning_cosinecenter_trainer_vocalsetsinger_scenario3,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_cosinecenter_evaluator_vocalsetsinger_scenario3,
     },
 }
