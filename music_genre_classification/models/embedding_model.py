@@ -8,9 +8,11 @@ from music_genre_classification.models.encoders import EncoderFactory
 
 
 class TorchEmbeddingModel(nn.Module):
-    def __init__(self, encoder: dict, **kwargs):
+    def __init__(self, encoder: dict, average_hidden: bool = True, **kwargs):
         super().__init__()
         self.encoder = EncoderFactory.build(encoder)
+        self.average_hidden = average_hidden
+
         self.register_buffer(
             "reference_embeddings", torch.zeros(0, self.encoder.output_size)
         )
@@ -24,7 +26,8 @@ class TorchEmbeddingModel(nn.Module):
 
     def forward_features(self, inputs: torch.Tensor) -> torch.Tensor:
         embeddings = self.encoder(inputs)
-        embeddings = torch.mean(embeddings, dim=1)
+        if self.average_hidden:
+            embeddings = torch.mean(embeddings, dim=1)
         return embeddings
 
     def match_embeddings(self, embeddings: torch.Tensor) -> torch.Tensor:

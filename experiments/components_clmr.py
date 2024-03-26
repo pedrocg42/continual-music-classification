@@ -78,6 +78,7 @@ train_model_l2center = {
             },
         },
         "frozen_encoder": True,
+        "average_hidden": False,
     },
 }
 

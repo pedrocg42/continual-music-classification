@@ -27,7 +27,7 @@ class MusicContinualLearningEmbeddingLooper(ABC):
         model: nn.Module,
         data_loader: DataLoader | Dataset,
         data_transform: nn.Module,
-    ) -> dict():
+    ) -> dict[str, torch.Tensor]:
         logger.info(f"Training epoch")
         model.prepare_train()
         results_epoch = []
@@ -60,7 +60,6 @@ class MusicContinualLearningEmbeddingLooper(ABC):
         data_transform: nn.Module,
     ):
         inputs = inputs.to(config.device, non_blocking=True)
-        labels = labels.to(config.device, non_blocking=True)
 
         # Inference
         transformed = data_transform(inputs, augment=True)
