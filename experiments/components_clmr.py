@@ -52,22 +52,6 @@ train_model = {
     },
 }
 
-train_model_l2p = {
-    "name": "TorchL2PClassIncrementalModel",
-    "args": {
-        "encoder": {
-            "name": "MertEncoderL2P",
-            "args": {
-                "pretrained": True,
-                "prompt_pool_size": 20,  # M
-                "prompt_length": 5,  # L_p
-                "selection_size": 8,  # N
-            },
-        },
-        "frozen_encoder": False,
-    },
-}
-
 train_model_l2center = {
     "name": "TorchEmbeddingModel",
     "args": {

@@ -106,7 +106,7 @@ train_model_l2p = {
                 "pretrained": True,
                 "prompt_pool_size": 20,  # M
                 "prompt_length": 5,  # L_p
-                "selection_size": 8,  # N
+                "selection_size": 5,  # N
             },
         },
         "frozen_encoder": False,
