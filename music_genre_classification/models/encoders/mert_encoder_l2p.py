@@ -21,13 +21,11 @@ class MertEncoderL2P(nn.Module):
         self.pretrained = pretrained
 
         # Loading model weights
-        self.encoder = AutoModel.from_pretrained(
+        self.encoder: nn.Module = AutoModel.from_pretrained(
             "m-a-p/MERT-v1-95M", trust_remote_code=True
         )
         self.output_size = 768
-        # Freeze encoder
-        for param in self.encoder.parameters():
-            param.requires_grad = False
+        self.freeze_encoder()
 
         # Prompt pool
         self.prompt_pool_size = prompt_pool_size
@@ -40,6 +38,12 @@ class MertEncoderL2P(nn.Module):
             embedding_dim=self.output_size,
         )
         self.num_prompts = self.selection_size * self.prompt_length
+
+    def freeze_encoder(self):
+        # Freeze encoder
+        for param in self.encoder.parameters():
+            param.requires_grad = False
+        self.encoder.eval()
 
     def forward(self, inputs: torch.Tensor):
         query = self.query(inputs)
@@ -192,12 +196,12 @@ class PromptPool(nn.Module):
         quantized_values = einsum(
             "b n s, s l d -> b n l d", one_hot_idx, self.prompt_values
         )
-        print(quantized_values.mean(), quantized_values.std())
+        # print(quantized_values.mean(), quantized_values.std())
 
         self.h_sum += one_hot_idx.detach().cpu().sum(axis=0).sum(axis=0)
         self.num_searches += query.shape[0] * self.top_k
         self.h = self.h_sum / self.num_searches
-        print(self.h)
+        # print(self.h)
 
         # Put pull_constraint loss calculation inside
         key_loss = torch.sum(distance_top_k) / query.shape[0]

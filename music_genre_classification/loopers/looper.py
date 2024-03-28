@@ -45,6 +45,9 @@ class Looper(ABC):
         for i, (inputs, labels) in enumerate(pbar):
             if self.debug and i > self.max_steps:
                 break
+            if len(inputs) == 1:
+                logger.warning("Last batch with length 1 is not allowed")
+                break
             results_epoch.append(
                 self.train_batch(model, inputs, labels, data_transform)
             )
