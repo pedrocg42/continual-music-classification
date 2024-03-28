@@ -174,17 +174,6 @@ continual_learning_icarl_trainer_vocalsettech_scenario3 = deepcopy(
 )
 continual_learning_icarl_trainer_vocalsettech_scenario3["args"]["tasks"] = scenario3
 
-
-continual_learning_dkvb_trainer_vocalsettech_scenario2 = deepcopy(
-    continual_learning_dkvb_trainer_vocalsettech_scenario1
-)
-continual_learning_dkvb_trainer_vocalsettech_scenario2["args"]["tasks"] = scenario2
-continual_learning_dkvb_trainer_vocalsettech_scenario3 = deepcopy(
-    continual_learning_dkvb_trainer_vocalsettech_scenario1
-)
-continual_learning_dkvb_trainer_vocalsettech_scenario3["args"]["tasks"] = scenario3
-
-
 ## GEM
 continual_learning_gem_trainer_vocalsettech_scenario1 = deepcopy(
     continual_learning_gem_trainer
@@ -321,16 +310,6 @@ continual_learning_evaluator_vocalsettech_scenario3 = deepcopy(
     continual_learning_evaluator_vocalsettech_scenario1
 )
 continual_learning_evaluator_vocalsettech_scenario3["args"]["tasks"] = scenario3
-
-continual_learning_dkvb_evaluator_vocalsettech_scenario2 = deepcopy(
-    continual_learning_dkvb_evaluator_vocalsettech_scenario1
-)
-continual_learning_dkvb_evaluator_vocalsettech_scenario2["args"]["tasks"] = scenario2
-continual_learning_dkvb_evaluator_vocalsettech_scenario3 = deepcopy(
-    continual_learning_dkvb_evaluator_vocalsettech_scenario1
-)
-continual_learning_dkvb_evaluator_vocalsettech_scenario3["args"]["tasks"] = scenario3
-
 
 ## L2P
 continual_learning_l2p_evaluator_vocalsettech_scenario1 = deepcopy(

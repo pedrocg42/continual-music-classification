@@ -591,19 +591,6 @@ mert95m_icarl_cl_vocalsetsinger_scenario2 = {
     },
 }
 
-mert95m_dkvb_cl_vocalsetsinger_scenario2 = {
-    "experiment_name": "mert95m_dkvb_cl_vocalsetsinger_scenario2",
-    "experiment_type": "CL",
-    "experiment_subtype": "DKVB",
-    # data
-    "train": {
-        "trainer": continual_learning_dkvb_trainer_vocalsetsinger_scenario2,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_dkvb_evaluator_vocalsetsinger_scenario2,
-    },
-}
-
 mert95m_gem_cl_vocalsetsinger_scenario2 = {
     "experiment_name": "mert95m_gem_cl_vocalsetsinger_scenario2",
     "experiment_type": "CL",

@@ -8,10 +8,8 @@ from experiments.components_clmr import (
     continual_learning_ewc_trainer,
     continual_learning_gem_trainer,
     continual_learning_icarl_trainer,
-    continual_learning_l2p_trainer,
     continual_learning_l2center_trainer,
     continual_learning_evaluator_l2center,
-    continual_learning_evaluator_l2p,
     evaluator,
     mert_data_transform_vocalset,
 )
@@ -236,27 +234,6 @@ continual_learning_ewc_trainer_vocalsettech_scenario3 = deepcopy(
 )
 continual_learning_ewc_trainer_vocalsettech_scenario3["args"]["tasks"] = scenario3
 
-
-## L2P
-continual_learning_l2p_trainer_vocalsettech_scenario1 = deepcopy(
-    continual_learning_l2p_trainer
-)
-continual_learning_l2p_trainer_vocalsettech_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2p_trainer_vocalsettech_scenario1["args"].update(
-    update_trainer_vocalsettech
-)
-
-
-continual_learning_l2p_trainer_vocalsettech_scenario2 = deepcopy(
-    continual_learning_l2p_trainer_vocalsettech_scenario1
-)
-continual_learning_l2p_trainer_vocalsettech_scenario2["args"]["tasks"] = scenario2
-continual_learning_l2p_trainer_vocalsettech_scenario3 = deepcopy(
-    continual_learning_l2p_trainer_vocalsettech_scenario1
-)
-continual_learning_l2p_trainer_vocalsettech_scenario3["args"]["tasks"] = scenario3
-
-
 ## L2Center
 continual_learning_l2center_trainer_vocalsettech_scenario1 = deepcopy(
     continual_learning_l2center_trainer
@@ -313,27 +290,6 @@ continual_learning_evaluator_vocalsettech_scenario3 = deepcopy(
     continual_learning_evaluator_vocalsettech_scenario1
 )
 continual_learning_evaluator_vocalsettech_scenario3["args"]["tasks"] = scenario3
-
-
-## L2P
-continual_learning_l2p_evaluator_vocalsettech_scenario1 = deepcopy(
-    continual_learning_evaluator_l2p
-)
-continual_learning_l2p_evaluator_vocalsettech_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2p_evaluator_vocalsettech_scenario1["args"].update(
-    update_evaluator_vocalsettech
-)
-
-
-continual_learning_l2p_evaluator_vocalsettech_scenario2 = deepcopy(
-    continual_learning_l2p_evaluator_vocalsettech_scenario1
-)
-continual_learning_l2p_evaluator_vocalsettech_scenario2["args"]["tasks"] = scenario2
-continual_learning_l2p_evaluator_vocalsettech_scenario3 = deepcopy(
-    continual_learning_l2p_evaluator_vocalsettech_scenario1
-)
-continual_learning_l2p_evaluator_vocalsettech_scenario3["args"]["tasks"] = scenario3
-
 
 ## L2Center
 continual_learning_l2center_evaluator_vocalsettech_scenario1 = deepcopy(
@@ -476,19 +432,6 @@ clmrsamplecnn_ewc_cl_vocalsettech_scenario1 = {
     },
 }
 
-clmrsamplecnn_l2p_cl_vocalsettech_scenario1 = {
-    "experiment_name": "clmrsamplecnn_l2p_cl_vocalsettech_scenario1",
-    "experiment_type": "CL",
-    "experiment_subtype": "L2P",
-    # data
-    "train": {
-        "trainer": continual_learning_l2p_trainer_vocalsettech_scenario1,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_l2p_evaluator_vocalsettech_scenario1,
-    },
-}
-
 clmrsamplecnn_l2center_cl_vocalsettech_scenario1 = {
     "experiment_name": "clmrsamplecnn_l2center_cl_vocalsettech_scenario1",
     "experiment_type": "CL",
@@ -570,19 +513,6 @@ clmrsamplecnn_ewc_cl_vocalsettech_scenario2 = {
     },
 }
 
-clmrsamplecnn_l2p_cl_vocalsettech_scenario2 = {
-    "experiment_name": "clmrsamplecnn_l2p_cl_vocalsettech_scenario2",
-    "experiment_type": "CL",
-    "experiment_subtype": "L2P",
-    # data
-    "train": {
-        "trainer": continual_learning_l2p_trainer_vocalsettech_scenario2,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_l2p_evaluator_vocalsettech_scenario2,
-    },
-}
-
 clmrsamplecnn_l2center_cl_vocalsettech_scenario2 = {
     "experiment_name": "clmrsamplecnn_l2center_cl_vocalsettech_scenario2",
     "experiment_type": "CL",
@@ -661,19 +591,6 @@ clmrsamplecnn_ewc_cl_vocalsettech_scenario3 = {
     },
     "evaluate": {
         "evaluator": continual_learning_evaluator_vocalsettech_scenario3,
-    },
-}
-
-clmrsamplecnn_l2p_cl_vocalsettech_scenario3 = {
-    "experiment_name": "clmrsamplecnn_l2p_cl_vocalsettech_scenario3",
-    "experiment_type": "CL",
-    "experiment_subtype": "L2P",
-    # data
-    "train": {
-        "trainer": continual_learning_l2p_trainer_vocalsettech_scenario3,
-    },
-    "evaluate": {
-        "evaluator": continual_learning_l2p_evaluator_vocalsettech_scenario3,
     },
 }
 

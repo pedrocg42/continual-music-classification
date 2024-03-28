@@ -144,19 +144,6 @@ continual_learning_ewc_trainer["args"]["looper"]["args"]["optimizer"] = {
 }
 continual_learning_ewc_trainer["args"]["train_model"] = train_model
 
-## L2P
-continual_learning_l2p_trainer = deepcopy(trainer)
-continual_learning_l2p_trainer["args"]["train_model"] = train_model_l2p
-continual_learning_l2p_trainer["args"]["batch_size"] = 16
-continual_learning_l2p_trainer["args"]["looper"] = {
-    "name": "L2PMusicGenreClassificationLooper",
-    "args": {
-        "criteria": {"name": "TorchCrossEntropyCriteria"},
-        "optimizer": {"name": "TorchAdamOptimizer"},
-        "lamb": 0.5,
-    },
-}
-
 ## Embedding center
 continual_learning_l2center_trainer = deepcopy(trainer)
 continual_learning_l2center_trainer["name"] = "ContinualLearningTrainerL2Center"
@@ -182,10 +169,6 @@ evaluator = {
 oracle_evaluator = deepcopy(evaluator)
 oracle_evaluator["name"] = "ClassIncrementalLearningOracleEvaluator"
 oracle_evaluator["args"]["tasks"] = ["all"]
-
-continual_learning_evaluator_l2p = deepcopy(evaluator)
-continual_learning_evaluator_l2p["args"]["model"] = train_model_l2p
-continual_learning_evaluator_l2p["name"] = "ClassIncrementalLearningL2PEvaluator"
 
 continual_learning_evaluator_l2center = deepcopy(evaluator)
 continual_learning_evaluator_l2center["args"]["model"] = train_model_l2center
