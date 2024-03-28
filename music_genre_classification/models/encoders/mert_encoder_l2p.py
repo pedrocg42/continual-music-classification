@@ -187,7 +187,7 @@ class PromptPool(nn.Module):
         (distance_top_k, distance_top_k_idx) = torch.topk(
             distance, self.top_k, largest=False
         )
-        print(distance_top_k.mean())
+        # print(distance_top_k.mean())
 
         one_hot_idx = F.one_hot(
             distance_top_k_idx, self.pool_size
