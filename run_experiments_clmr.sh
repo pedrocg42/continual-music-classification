@@ -1,4 +1,5 @@
-export DATASETS_PATH=/home/pcordoba/data/audio/music
+# Introduce the path to datasets folder (comment if not needed)
+export DATASETS_PATH=<datasets_path>
 
 # Scenario 1
 
@@ -12,7 +13,6 @@ python execute_experiment.py --experiment clmrsamplecnn_gem_cl_gtzan_scenario1
 python execute_experiment.py --experiment clmrsamplecnn_ewc_cl_gtzan_scenario1
 python execute_experiment.py --experiment clmrsamplecnn_l2p_cl_gtzan_scenario1
 python execute_experiment.py --experiment clmrsamplecnn_l2center_cl_gtzan_scenario1
-python execute_experiment.py --experiment clmrsamplecnn_cosinecenter_cl_gtzan_scenario1
 
 
 # VocalSet Singer
@@ -49,7 +49,6 @@ python execute_experiment.py --experiment clmrsamplecnn_gem_cl_nsynthinstrument_
 python execute_experiment.py --experiment clmrsamplecnn_ewc_cl_nsynthinstrument_scenario1
 python execute_experiment.py --experiment clmrsamplecnn_l2p_cl_nsynthinstrument_scenario1
 python execute_experiment.py --experiment clmrsamplecnn_l2center_cl_nsynthinstrument_scenario1
-python execute_experiment.py --experiment clmrsamplecnn_cosinecenter_cl_nsynthinstrument_scenario1
 
 
 # Scenario 2
@@ -64,7 +63,6 @@ python execute_experiment.py --experiment clmrsamplecnn_gem_cl_gtzan_scenario2
 python execute_experiment.py --experiment clmrsamplecnn_ewc_cl_gtzan_scenario2
 python execute_experiment.py --experiment clmrsamplecnn_l2p_cl_gtzan_scenario2
 python execute_experiment.py --experiment clmrsamplecnn_l2center_cl_gtzan_scenario2
-python execute_experiment.py --experiment clmrsamplecnn_cosinecenter_cl_gtzan_scenario2
 
 
 # VocalSet Singer
@@ -77,7 +75,6 @@ python execute_experiment.py --experiment clmrsamplecnn_gem_cl_vocalsetsinger_sc
 python execute_experiment.py --experiment clmrsamplecnn_ewc_cl_vocalsetsinger_scenario2
 python execute_experiment.py --experiment clmrsamplecnn_l2p_cl_vocalsetsinger_scenario2
 python execute_experiment.py --experiment clmrsamplecnn_l2center_cl_vocalsetsinger_scenario2
-python execute_experiment.py --experiment clmrsamplecnn_cosinecenter_cl_vocalsetsinger_scenario2
 
 
 # VocalSet Tech
@@ -90,7 +87,6 @@ python execute_experiment.py --experiment clmrsamplecnn_gem_cl_vocalsettech_scen
 python execute_experiment.py --experiment clmrsamplecnn_ewc_cl_vocalsettech_scenario2
 python execute_experiment.py --experiment clmrsamplecnn_l2p_cl_vocalsettech_scenario2
 python execute_experiment.py --experiment clmrsamplecnn_l2center_cl_vocalsettech_scenario2
-python execute_experiment.py --experiment clmrsamplecnn_cosinecenter_cl_vocalsettech_scenario2
 
 
 # NSynth Instrument
@@ -104,7 +100,6 @@ python execute_experiment.py --experiment clmrsamplecnn_gem_cl_nsynthinstrument_
 python execute_experiment.py --experiment clmrsamplecnn_ewc_cl_nsynthinstrument_scenario2
 python execute_experiment.py --experiment clmrsamplecnn_l2p_cl_nsynthinstrument_scenario2
 python execute_experiment.py --experiment clmrsamplecnn_l2center_cl_nsynthinstrument_scenario2
-python execute_experiment.py --experiment clmrsamplecnn_cosinecenter_cl_nsynthinstrument_scenario2
 
 
 # Scenario 3
@@ -119,7 +114,6 @@ python execute_experiment.py --experiment clmrsamplecnn_gem_cl_gtzan_scenario3
 python execute_experiment.py --experiment clmrsamplecnn_ewc_cl_gtzan_scenario3
 python execute_experiment.py --experiment clmrsamplecnn_l2p_cl_gtzan_scenario3
 python execute_experiment.py --experiment clmrsamplecnn_l2center_cl_gtzan_scenario3
-python execute_experiment.py --experiment clmrsamplecnn_cosinecenter_cl_gtzan_scenario3
 
 
 # VocalSet Singer
@@ -132,7 +126,6 @@ python execute_experiment.py --experiment clmrsamplecnn_gem_cl_vocalsetsinger_sc
 python execute_experiment.py --experiment clmrsamplecnn_ewc_cl_vocalsetsinger_scenario3
 python execute_experiment.py --experiment clmrsamplecnn_l2p_cl_vocalsetsinger_scenario3
 python execute_experiment.py --experiment clmrsamplecnn_l2center_cl_vocalsetsinger_scenario3
-python execute_experiment.py --experiment clmrsamplecnn_cosinecenter_cl_vocalsetsinger_scenario3
 
 
 # VocalSet Tech
@@ -145,7 +138,6 @@ python execute_experiment.py --experiment clmrsamplecnn_gem_cl_vocalsettech_scen
 python execute_experiment.py --experiment clmrsamplecnn_ewc_cl_vocalsettech_scenario3
 python execute_experiment.py --experiment clmrsamplecnn_l2p_cl_vocalsettech_scenario3
 python execute_experiment.py --experiment clmrsamplecnn_l2center_cl_vocalsettech_scenario3
-python execute_experiment.py --experiment clmrsamplecnn_cosinecenter_cl_vocalsettech_scenario3
 
 
 # NSynth Instrument
@@ -159,7 +151,6 @@ python execute_experiment.py --experiment clmrsamplecnn_dkvb_cl_nsynthinstrument
 python execute_experiment.py --experiment clmrsamplecnn_ewc_cl_nsynthinstrument_scenario3
 python execute_experiment.py --experiment clmrsamplecnn_l2p_cl_nsynthinstrument_scenario3
 python execute_experiment.py --experiment clmrsamplecnn_l2center_cl_nsynthinstrument_scenario3
-python execute_experiment.py --experiment clmrsamplecnn_cosinecenter_cl_nsynthinstrument_scenario3
 
 
 # Turn off VM (comment if not needed)
