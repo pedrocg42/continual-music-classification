@@ -1,17 +1,37 @@
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: check-json
+      - id: check-yaml
+      - id: check-toml
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - id: check-added-large-files
   - repo: local
     hooks:
-      - id: black
-        name: black
-        entry: black .
+      - id: commitizen
+        name: My commitizen check
+        entry: cz
+        args: ['check', '--commit-msg-file', '.git/COMMIT_EDITMSG']
+        pass_filenames: false
+        language: system
+        stages: [commit-msg]
+        require_serial: true
+        fail_fast: true
+
+      - id: ruff-format
+        name: ruff-format
+        entry: ruff format .
         language: system
         types: [ python ]
         require_serial: true
         fail_fast: true
 
-      - id: isort
-        name: isort
-        entry: isort .
+      - id: ruff
+        name: ruff
+        entry: ruff check --fix .
         language: system
         types: [ python ]
         require_serial: true

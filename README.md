@@ -37,7 +37,7 @@ To setup a project, run the following configuration instructions:
 
 ### Python virtual environment
 
-Create a virtual environment using either virtualenv or conda and run the following:
+Create a virtual environment using uv run the following:
 
 ```sh
 curl -LsSf https://astral.sh/uv/install.sh | sh
