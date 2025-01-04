@@ -43,7 +43,7 @@ Create a virtual environment using either virtualenv or conda and run the follow
 curl -LsSf https://astral.sh/uv/install.sh | sh
 uv venv
 source .venv/bin/activate
-uv pip install -r requirements/requirements-gpu.txt
+uv pip install -e .
 ```
 
 In order to indicate where the data has to be read from you need to set a environment variable:
