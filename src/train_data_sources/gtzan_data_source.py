@@ -67,12 +67,8 @@ class GtzanDataSource(TrainDataSource):
         self.songs_splits = {}
         self.labels_splits = {}
         # Read annotations
-        song_list = np.array(
-            glob(os.path.join(self.dataset_path, "genres", "*", "*.wav"))
-        )
-        song_labels = np.array(
-            [os.path.basename(song).split(".")[0] for song in song_list]
-        )
+        song_list = np.array(glob(os.path.join(self.dataset_path, "genres", "*", "*.wav")))
+        song_labels = np.array([os.path.basename(song).split(".")[0] for song in song_list])
 
         # Filtered songs
         list_accepted_songs = []
@@ -81,34 +77,22 @@ class GtzanDataSource(TrainDataSource):
             ("valid", "val"),
             ("test", "test"),
         ]:
-            with open(
-                os.path.join(self.dataset_path, f"{split_filename}_filtered.txt"), "r"
-            ) as f:
+            with open(os.path.join(self.dataset_path, f"{split_filename}_filtered.txt")) as f:
                 list_accepted_songs = f.readlines()
-            list_accepted_songs = np.array(
-                [
-                    os.path.basename(song).split(".wav")[0]
-                    for song in list_accepted_songs
-                ]
-            )
-            mask = np.array(
-                [
-                    True
-                    if os.path.basename(song).split(".wav")[0] in list_accepted_songs
-                    else False
-                    for song in song_list
-                ]
-            )
+            list_accepted_songs = np.array([os.path.basename(song).split(".wav")[0] for song in list_accepted_songs])
+            mask = np.array([os.path.basename(song).split(".wav")[0] in list_accepted_songs for song in song_list])
             self.songs_splits[split] = song_list[mask]
             self.labels_splits[split] = song_labels[mask]
 
     def get_dataset(
         self,
         task: str | list[str] = None,
-        tasks: list[list[str]] = ["all"],
+        tasks: list[list[str]] = None,
         memory_dataset: Dataset = None,
         is_eval: bool | None = None,
     ) -> Dataset:
+        if tasks is None:
+            tasks = ["all"]
         self.build_label_encoder_and_decoder(tasks)
 
         songs = self.songs_splits[self.split]
@@ -140,17 +124,19 @@ class GtzanDataSource(TrainDataSource):
     def get_dataloader(
         self,
         task: list[str] | str = None,
-        tasks: list[list[str]] = ["all"],
+        tasks: list[list[str]] = None,
         batch_size: int = 32,
         num_workers: int = 0,
         **kwargs,
     ) -> DataLoader:
+        if tasks is None:
+            tasks = ["all"]
         dataset = self.get_dataset(task=task, tasks=tasks, **kwargs)
 
         data_loader = DataLoader(
             dataset=dataset,
             batch_size=batch_size,
-            shuffle=True if (self.split == "train") else False,
+            shuffle=(self.split == "train"),
             drop_last=False,
             num_workers=num_workers,
             pin_memory=True,

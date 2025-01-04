@@ -1,5 +1,3 @@
-from abc import ABC
-
 import torch
 from loguru import logger
 from tqdm import tqdm
@@ -13,7 +11,7 @@ from src.train_data_sources import TrainDataSourceFactory
 from src.train_data_transforms import TrainDataTransformFactory
 
 
-class Evaluator(ABC):
+class Evaluator:
     def __init__(
         self,
         model: dict,

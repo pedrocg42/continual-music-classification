@@ -84,23 +84,16 @@ class VocalSetTechDataSource(TrainDataSource):
         self._get_songs()
 
     def build_label_encoder_and_decoder(self, tasks: list[list[str]]) -> None:
-        if tasks == "all" or tasks[0] == "all":
-            ordered_techs = self.techs
-        else:
-            ordered_techs = np.array(flatten_list(tasks)).reshape(-1)
+        ordered_techs = self.techs if tasks == "all" or tasks[0] == "all" else np.array(flatten_list(tasks)).reshape(-1)
         self.tech_to_index = {tech: i for i, tech in enumerate(ordered_techs)}
         self.index_to_tech = {i: tech for i, tech in enumerate(ordered_techs)}
 
     def _get_songs(self):
         # Read annotations
-        self.songs = np.array(
-            glob(os.path.join(self.dataset_path, "*", "*", "*", "*.wav"))
-        )
+        self.songs = np.array(glob(os.path.join(self.dataset_path, "*", "*", "*", "*.wav")))
 
         # Only using audios of the selected techniques
-        self.labels = np.array(
-            [os.path.normpath(song).split(os.sep)[-2] for song in self.songs]
-        )
+        self.labels = np.array([os.path.normpath(song).split(os.sep)[-2] for song in self.songs])
         mask = np.isin(self.labels, self.techs)
         self.songs = self.songs[mask]
         self.labels = np.array(self.labels[mask])
@@ -127,9 +120,7 @@ class VocalSetTechDataSource(TrainDataSource):
             "test": [],
         }
 
-        singers = np.array(
-            [os.path.normpath(song).split(os.sep)[-4] for song in self.songs]
-        )
+        singers = np.array([os.path.normpath(song).split(os.sep)[-4] for song in self.songs])
 
         mask_test = np.isin(singers, self.split_singers_config["test"])
         self.songs_splits["test"] = self.songs[mask_test]
@@ -157,10 +148,12 @@ class VocalSetTechDataSource(TrainDataSource):
     def get_dataset(
         self,
         task: str | list[str] = None,
-        tasks: list[list[str]] = ["all"],
+        tasks: list[list[str]] = None,
         memory_dataset: Dataset = None,
         is_eval: bool | None = None,
     ) -> Dataset:
+        if tasks is None:
+            tasks = ["all"]
         self.build_label_encoder_and_decoder(tasks)
 
         songs = self.songs_splits[self.split]
@@ -192,17 +185,19 @@ class VocalSetTechDataSource(TrainDataSource):
     def get_dataloader(
         self,
         task: list[str] | str = None,
-        tasks: list[list[str]] = ["all"],
+        tasks: list[list[str]] = None,
         batch_size: int = 32,
         num_workers: int = 0,
         **kwargs,
     ) -> DataLoader:
+        if tasks is None:
+            tasks = ["all"]
         dataset = self.get_dataset(task=task, tasks=tasks, **kwargs)
 
         data_loader = DataLoader(
             dataset=dataset,
             batch_size=batch_size,
-            shuffle=True if (self.split == "train") else False,
+            shuffle=(self.split == "train"),
             drop_last=False,
             num_workers=num_workers,
             pin_memory=True,

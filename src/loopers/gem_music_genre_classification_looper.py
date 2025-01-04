@@ -1,7 +1,4 @@
-import numpy as np
 import torch
-from loguru import logger
-from tqdm import tqdm
 
 import config
 from src.loopers.music_genre_classification_looper import (

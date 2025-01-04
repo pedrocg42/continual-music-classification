@@ -43,9 +43,7 @@ class Trainer(ABC):
         # Data
         self.train_data_source = TrainDataSourceFactory.build(train_data_source)
         self.train_data_loader = None
-        self.train_data_transform = TrainDataTransformFactory.build(
-            train_data_transform
-        )
+        self.train_data_transform = TrainDataTransformFactory.build(train_data_transform)
 
         self.val_data_source = TrainDataSourceFactory.build(val_data_source)
         self.val_data_loader = None
@@ -90,9 +88,7 @@ class Trainer(ABC):
 
     def log_start(self):
         # print(self.model)
-        logger.info(
-            f"> > Total parameters: {sum(param.numel() for param in self.model.parameters())}"
-        )
+        logger.info(f"> > Total parameters: {sum(param.numel() for param in self.model.parameters())}")
 
     def early_stopping(self, metrics: dict, epoch: int = 0):
         if metrics[self.early_stopping_metric] > self.best_metric or epoch == 0:
@@ -130,10 +126,6 @@ class Trainer(ABC):
     def extract_metrics(self, results_epoch: list[dict]) -> dict[str, float]:
         pass
 
-    def log_metrics(
-        self, metrics_results: dict[str, float], epoch: int, mode: str = "train"
-    ):
+    def log_metrics(self, metrics_results: dict[str, float], epoch: int, mode: str = "train"):
         for metric_name, metric_result in metrics_results.items():
-            self.experiment_tracker.log_metric(
-                f"{metric_name.title()}/{mode}", metric_result, epoch
-            )
+            self.experiment_tracker.log_metric(f"{metric_name.title()}/{mode}", metric_result, epoch)

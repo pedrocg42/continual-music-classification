@@ -3,16 +3,12 @@ import torch.nn as nn
 
 
 class ResNet50DinoEncoder(nn.Module):
-    def __init__(
-        self, pretrained: bool = True, one_channel: bool = True, **kwargs
-    ) -> None:
+    def __init__(self, pretrained: bool = True, one_channel: bool = True, **kwargs) -> None:
         super().__init__()
 
         self.pretrained = pretrained
         self.one_channel = one_channel
-        encoder_raw = torch.hub.load(
-            "facebookresearch/dino:main", "dino_resnet50", pretrained=self.pretrained
-        )
+        encoder_raw = torch.hub.load("facebookresearch/dino:main", "dino_resnet50", pretrained=self.pretrained)
 
         self.encoder = nn.Sequential(
             encoder_raw.conv1,
@@ -33,7 +29,5 @@ class ResNet50DinoEncoder(nn.Module):
         return self.encoder(input)
 
     def three_to_one_input_channels(self, dim: int = 1):
-        self.encoder[0].weight.data = self.encoder[0].weight.data.sum(
-            dim=1, keepdim=True
-        )
+        self.encoder[0].weight.data = self.encoder[0].weight.data.sum(dim=1, keepdim=True)
         self.encoder[0].in_channels = 1

@@ -1,4 +1,3 @@
-import torch
 from loguru import logger
 
 import config
@@ -38,12 +37,8 @@ class ContinualLearningTrainerL2Center(ClassIncrementalLearningTrainer):
             self.initialize_model()
 
         # Configure data loaders
-        self.train_data_loader = self.train_data_source.get_dataset(
-            tasks=self.tasks, task=task, is_eval=True
-        )
-        self.val_data_loader = self.val_data_source.get_dataset(
-            tasks=self.tasks, task=task, is_eval=True
-        )
+        self.train_data_loader = self.train_data_source.get_dataset(tasks=self.tasks, task=task, is_eval=True)
+        self.val_data_loader = self.val_data_source.get_dataset(tasks=self.tasks, task=task, is_eval=True)
 
         # Configure model saver and load model if exists
         self.model_saver.configure(

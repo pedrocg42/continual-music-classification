@@ -31,9 +31,7 @@ class ClassIncrementalLearningEvaluator(Evaluator):
             dataset_name=self.data_source.name,
         )
 
-    def configure_task(
-        self, task_id: int, task: list[str] | str
-    ):
+    def configure_task(self, task_id: int, task: list[str] | str):
         self.model.update_decoder(task_id, task)
 
         # Updating metrics
@@ -76,9 +74,7 @@ class ClassIncrementalLearningEvaluator(Evaluator):
             self.configure_task(task_id=task_id, task=task)
 
             logger.info(f"Started evaluation of {accumulated_tasks=}")
-            data_loader = self.data_source.get_dataset(
-                tasks=self.tasks, task=accumulated_tasks
-            )
+            data_loader = self.data_source.get_dataset(tasks=self.tasks, task=accumulated_tasks)
             results = self.predict(data_loader)
             metrics = self.extract_metrics(results)
             self.experiment_tracker.log_task_metrics(metrics, accumulated_tasks)

@@ -1,6 +1,6 @@
 from src.models.classification_model import (
-    TorchClassIncrementalModel,
     TorchClassificationModel,
+    TorchClassIncrementalModel,
 )
 from src.models.decoders.clrm_classification_decoder import (
     ClmrClassificationDecoder,
@@ -10,15 +10,12 @@ from src.models.decoders.clrm_classification_decoder import (
 class TorchClmrClassificationModel(TorchClassificationModel):
     def __init__(
         self,
-        encoder: dict[str, str | dict] = {
-            "name": "MertEncoder",
-            "args": {
-                "pretrained": True,
-            },
-        },
+        encoder: dict[str, str | dict] = None,
         frozen_encoder: bool = True,
-        **kwargs
+        **kwargs,
     ):
+        if encoder is None:
+            encoder = {"name": "MertEncoder", "args": {"pretrained": True}}
         super().__init__(encoder=encoder, frozen_encoder=frozen_encoder, **kwargs)
 
     def initialize_encoder(self):
@@ -38,15 +35,12 @@ class TorchClmrClassificationModel(TorchClassificationModel):
 class TorchClmrClassIncrementalModel(TorchClassIncrementalModel):
     def __init__(
         self,
-        encoder: dict[str, str | dict] = {
-            "name": "ClmrEncoder",
-            "args": {
-                "pretrained": True,
-            },
-        },
+        encoder: dict[str, str | dict] = None,
         frozen_encoder: bool = True,
-        **kwargs
+        **kwargs,
     ):
+        if encoder is None:
+            encoder = {"name": "ClmrEncoder", "args": {"pretrained": True}}
         super().__init__(encoder=encoder, frozen_encoder=frozen_encoder, **kwargs)
 
     def initialize_encoder(self):

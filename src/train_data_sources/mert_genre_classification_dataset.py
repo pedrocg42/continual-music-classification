@@ -13,7 +13,7 @@ class MertGenreClassificationDataset(Dataset):
         song_length: float,
         audio_length: float,
         input_sample_rate: int,
-        **kwargs
+        **kwargs,
     ):
         self.songs = songs
         self.labels = labels
@@ -64,7 +64,7 @@ class MertGenreClassificationDataset(Dataset):
         # Get audio
         try:
             wav, _ = torchaudio.load(song_path)
-        except:
+        except Exception:
             wav = torch.zeros((1, 10 * self.chunk_lengh))
         # Removing channel dimension
         wav = wav.squeeze(0)

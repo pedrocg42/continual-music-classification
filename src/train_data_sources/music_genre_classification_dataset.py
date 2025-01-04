@@ -4,15 +4,7 @@ from torch.utils.data import Dataset
 
 
 class MusicGenreClassificationDataset(Dataset):
-    def __init__(
-        self,
-        songs: list,
-        labels: list,
-        split: str,
-        sample_rate: int,
-        song_length: float,
-        **kwargs
-    ):
+    def __init__(self, songs: list, labels: list, split: str, sample_rate: int, song_length: float, **kwargs):
         self.songs = songs
         self.labels = labels
         self.split = split
@@ -30,7 +22,7 @@ class MusicGenreClassificationDataset(Dataset):
             output_wav = torch.zeros((1, self.chunk_lengh))
             wav, _ = torchaudio.load(song_path)
             output_wav[:, : wav.shape[1]] = wav[:, : self.chunk_lengh]
-        except:
+        except Exception:
             return (
                 torch.zeros((1, self.chunk_lengh)),
                 torch.tensor(label),

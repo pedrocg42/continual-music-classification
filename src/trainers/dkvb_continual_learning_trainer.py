@@ -39,9 +39,7 @@ class DkvbContinualLearningTrainer(ContinualLearningTrainer):
     def initialize_keys(self):
         logger.info("Initializing keys")
         for epoch in range(self.epochs_keys_init):
-            self.looper.key_init_epoch(
-                epoch, self.model, self.train_data_loader, self.train_data_transform
-            )
+            self.looper.key_init_epoch(epoch, self.model, self.train_data_loader, self.train_data_transform)
 
     def train(
         self,

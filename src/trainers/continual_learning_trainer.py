@@ -33,9 +33,7 @@ class ContinualLearningTrainer(Trainer):
         self.train_data_loader = self.train_data_source.get_dataloader(
             tasks=self.tasks, task=task, batch_size=self.batch_size
         )
-        self.val_data_loader = self.val_data_source.get_dataset(
-            tasks=self.tasks, task=task, is_eval=True
-        )
+        self.val_data_loader = self.val_data_source.get_dataset(tasks=self.tasks, task=task, is_eval=True)
 
         # Configure model saver and load model if exists
         self.model_saver.configure(
@@ -70,16 +68,10 @@ class ContinualLearningTrainer(Trainer):
                     break
 
     def extract_metrics(self, results_epoch: list[dict]):
-        preds = torch.vstack(
-            [results_batch["preds"] for results_batch in results_epoch]
-        )
-        labels = torch.hstack(
-            [results_batch["labels"] for results_batch in results_epoch]
-        )
+        preds = torch.vstack([results_batch["preds"] for results_batch in results_epoch])
+        labels = torch.hstack([results_batch["labels"] for results_batch in results_epoch])
         metrics_results = {}
-        metrics_results["loss"] = np.array(
-            [results_batch["loss"] for results_batch in results_epoch]
-        ).mean()
+        metrics_results["loss"] = np.array([results_batch["loss"] for results_batch in results_epoch]).mean()
         for metric_name, metric in self.metrics.items():
             metric.num_classes = self.model.num_classes
             metrics_results[metric_name] = metric(preds, labels).item()

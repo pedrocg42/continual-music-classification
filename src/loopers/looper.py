@@ -1,5 +1,3 @@
-from abc import ABC
-
 import numpy as np
 import torch
 import torch.nn as nn
@@ -13,7 +11,7 @@ from src.criterias import CriteriaFactory
 from src.optimizers import OptimizerFactory
 
 
-class Looper(ABC):
+class Looper:
     def __init__(
         self,
         criteria: dict,
@@ -48,9 +46,7 @@ class Looper(ABC):
             if len(inputs) == 1:
                 logger.warning("Last batch with length 1 is not allowed")
                 break
-            results_epoch.append(
-                self.train_batch(model, inputs, labels, data_transform)
-            )
+            results_epoch.append(self.train_batch(model, inputs, labels, data_transform))
             self.update_pbar(pbar, results_epoch)
         return results_epoch
 
@@ -132,6 +128,4 @@ class Looper(ABC):
         )
 
     def update_pbar(self, pbar: tqdm, results_epoch: dict[str, float]):
-        pbar.set_postfix(
-            {"loss": np.mean([result_epoch["loss"] for result_epoch in results_epoch])}
-        )
+        pbar.set_postfix({"loss": np.mean([result_epoch["loss"] for result_epoch in results_epoch])})

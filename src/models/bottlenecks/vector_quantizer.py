@@ -1,5 +1,3 @@
-from typing import Union
-
 import torch
 import torch.nn as nn
 from vector_quantize_pytorch import VectorQuantize
@@ -49,9 +47,7 @@ class VectorQuantizer(nn.Module):
             )  # B, Dim, H, W -> B, Dim, N
             embeddings = torch.permute(embeddings, (0, 2, 1))  # B, Dim, N -> B, N, Dim
 
-        quantized, _, _ = self.vector_quantizer(
-            embeddings
-        )  # quantized, indices, commitment loss
+        quantized, _, _ = self.vector_quantizer(embeddings)  # quantized, indices, commitment loss
 
         if four_dim_features:
             quantized = torch.permute(quantized, (0, 2, 1))  # B, N, Dim -> B, Dim, N

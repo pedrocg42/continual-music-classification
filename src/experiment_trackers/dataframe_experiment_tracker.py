@@ -14,11 +14,7 @@ class DataframeExperimentTracker(ExperimentTracker):
         super().__init__(**kwargs)
 
         self.dataframe_path = os.path.join(config.results_path, "results.csv")
-        self.dataframe = (
-            pd.read_csv(self.dataframe_path)
-            if os.path.exists(self.dataframe_path)
-            else pd.DataFrame()
-        )
+        self.dataframe = pd.read_csv(self.dataframe_path) if os.path.exists(self.dataframe_path) else pd.DataFrame()
 
     def configure(
         self,
@@ -38,11 +34,7 @@ class DataframeExperimentTracker(ExperimentTracker):
         train_task_name: str = "all",
     ):
         self.train_task_number = train_task_number
-        self.train_task_name = (
-            "-".join(train_task_name)
-            if isinstance(train_task_name, list)
-            else train_task_name
-        )
+        self.train_task_name = "-".join(train_task_name) if isinstance(train_task_name, list) else train_task_name
 
         self.row = {
             "experiment_name": self.experiment_name,

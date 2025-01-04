@@ -43,4 +43,4 @@ class EvaluatorFactory:
 
             return ClassIncrementalLearningL2CenterEvaluator(**config["args"])
 
-        raise Exception("No evaluator named %s" % config["name"])
+        raise Exception("No evaluator named {}".format(config["name"]))

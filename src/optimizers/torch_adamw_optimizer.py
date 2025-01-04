@@ -1,4 +1,4 @@
-from typing import Iterable
+from collections.abc import Iterable
 
 from torch import Tensor
 from torch.optim import AdamW

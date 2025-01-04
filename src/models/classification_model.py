@@ -18,18 +18,13 @@ class TorchClassificationModel(nn.Module):
         num_classes: int,
         pooling_type: str | None = None,
         dropout: float = 0.3,
-        head_config: list[dict] = [
-            {
-                "layer_type": "conv1d",
-                "in_channels": 13,
-                "out_channels": 1,
-                "kernel_size": 1,
-            },
-        ],
+        head_config: list[dict] = None,
         frozen_encoder: bool = False,
         frozen_decoder: bool = False,
-        **kwargs
+        **kwargs,
     ):
+        if head_config is None:
+            head_config = [{"layer_type": "conv1d", "in_channels": 13, "out_channels": 1, "kernel_size": 1}]
         super().__init__()
         self.encoder = EncoderFactory.build(encoder)
         self.num_classes = num_classes
@@ -60,11 +55,7 @@ class TorchClassificationModel(nn.Module):
                 decoder.append(
                     nn.Linear(
                         in_features=in_features,
-                        out_features=(
-                            layer_dict["out_features"]
-                            if "out_features" in layer_dict
-                            else self.num_classes
-                        ),
+                        out_features=(layer_dict.get("out_features", self.num_classes)),
                     )
                 )
                 in_features = layer_dict["out_features"]
@@ -228,9 +219,7 @@ class TorchBottleneckClassIncrementalModel(TorchClassIncrementalModel):
 
             old_values = copy.deepcopy(self.bottleneck.dkvb.values.data)
 
-            new_values = nn.Parameter(
-                torch.randn(*old_values.shape[:2], self.num_classes)
-            )
+            new_values = nn.Parameter(torch.randn(*old_values.shape[:2], self.num_classes))
             new_values[:, :, : old_values.shape[-1]].data = old_values
 
             del self.bottleneck.dkvb.values
@@ -254,15 +243,12 @@ class TorchBottleneckClassIncrementalModel(TorchClassIncrementalModel):
 class TorchMertClassificationModel(TorchClassificationModel):
     def __init__(
         self,
-        encoder: dict[str, str | dict] = {
-            "name": "MertEncoder",
-            "args": {
-                "pretrained": True,
-            },
-        },
+        encoder: dict[str, str | dict] = None,
         frozen_encoder: bool = True,
-        **kwargs
+        **kwargs,
     ):
+        if encoder is None:
+            encoder = {"name": "MertEncoder", "args": {"pretrained": True}}
         super().__init__(encoder=encoder, frozen_encoder=frozen_encoder, **kwargs)
 
     def initialize_encoder(self):
@@ -283,15 +269,12 @@ class TorchMertClassificationModel(TorchClassificationModel):
 class TorchMertClassIncrementalModel(TorchClassIncrementalModel):
     def __init__(
         self,
-        encoder: dict[str, str | dict] = {
-            "name": "MertEncoder",
-            "args": {
-                "pretrained": True,
-            },
-        },
+        encoder: dict[str, str | dict] = None,
         frozen_encoder: bool = True,
-        **kwargs
+        **kwargs,
     ):
+        if encoder is None:
+            encoder = {"name": "MertEncoder", "args": {"pretrained": True}}
         super().__init__(encoder=encoder, frozen_encoder=frozen_encoder, **kwargs)
 
     def initialize_encoder(self):

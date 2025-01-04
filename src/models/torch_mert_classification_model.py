@@ -1,7 +1,8 @@
 from torch import Tensor
+
 from src.models.classification_model import (
-    TorchClassIncrementalModel,
     TorchClassificationModel,
+    TorchClassIncrementalModel,
 )
 from src.models.decoders.mert_classification_decoder import (
     MertClassificationDecoder,
@@ -11,15 +12,12 @@ from src.models.decoders.mert_classification_decoder import (
 class TorchMertClassificationModel(TorchClassificationModel):
     def __init__(
         self,
-        encoder: dict[str, str | dict] = {
-            "name": "MertEncoder",
-            "args": {
-                "pretrained": True,
-            },
-        },
+        encoder: dict[str, str | dict] = None,
         frozen_encoder: bool = True,
-        **kwargs
+        **kwargs,
     ):
+        if encoder is None:
+            encoder = {"name": "MertEncoder", "args": {"pretrained": True}}
         super().__init__(encoder=encoder, frozen_encoder=frozen_encoder, **kwargs)
 
     def initialize_encoder(self):
@@ -40,15 +38,12 @@ class TorchMertClassificationModel(TorchClassificationModel):
 class TorchMertClassIncrementalModel(TorchClassIncrementalModel):
     def __init__(
         self,
-        encoder: dict[str, str | dict] = {
-            "name": "MertEncoder",
-            "args": {
-                "pretrained": True,
-            },
-        },
+        encoder: dict[str, str | dict] = None,
         frozen_encoder: bool = True,
-        **kwargs
+        **kwargs,
     ):
+        if encoder is None:
+            encoder = {"name": "MertEncoder", "args": {"pretrained": True}}
         super().__init__(encoder=encoder, frozen_encoder=frozen_encoder, **kwargs)
 
     def initialize_encoder(self):

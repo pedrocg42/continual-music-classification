@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
 
-from src.models import TrainModel
-
 
 class ModelSaver(ABC):
     @abstractmethod

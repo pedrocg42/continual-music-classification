@@ -7,7 +7,6 @@ from src.models.encoders.resnet50_dino_encoder import (
 )
 from src.models.encoders.resnet50_encoder import ResNet50Encoder
 
-
 __all__ = [
     "EncoderFactory",
     "ResNet50Encoder",

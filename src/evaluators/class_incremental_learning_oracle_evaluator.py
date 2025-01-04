@@ -58,9 +58,7 @@ class ClassIncrementalLearningOracleEvaluator(ClassIncrementalLearningEvaluator)
             accumulated_tasks += task
             logger.info(f"Started evaluation of {accumulated_tasks=}")
             self.configure_task(task_id=task_id, task=task)
-            data_loader = self.data_source.get_dataset(
-                tasks=["all"], task=accumulated_tasks
-            )
+            data_loader = self.data_source.get_dataset(tasks=["all"], task=accumulated_tasks)
             results = self.predict(data_loader)
             metrics = self.extract_metrics(results)
             self.experiment_tracker.log_task_metrics(metrics, accumulated_tasks)

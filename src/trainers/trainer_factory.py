@@ -54,4 +54,4 @@ class TrainerFactory:
 
             return ContinualLearningTrainerL2Center(**config["args"])
 
-        raise Exception("No trainer named %s" % config["name"])
+        raise Exception("No trainer named {}".format(config["name"]))

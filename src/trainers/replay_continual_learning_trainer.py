@@ -3,13 +3,13 @@ import copy
 import numpy as np
 import torch
 from loguru import logger
+from tqdm import tqdm
 
 import config
 from src.train_data_sources.memory_dataset import MemoryDataset
 from src.trainers.class_incremental_learning_trainer import (
     ClassIncrementalLearningTrainer,
 )
-from tqdm import tqdm
 
 
 class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
@@ -69,27 +69,14 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
                 dummy_data[mask][: self.memories_per_class],
                 dummy_targets[mask][: self.memories_per_class],
             )
-            self.data_memory = (
-                np.concatenate((self.data_memory, dd))
-                if len(self.data_memory) != 0
-                else dd
-            )
-            self.targets_memory = (
-                np.concatenate((self.targets_memory, dt))
-                if len(self.targets_memory) != 0
-                else dt
-            )
+            self.data_memory = np.concatenate((self.data_memory, dd)) if len(self.data_memory) != 0 else dd
+            self.targets_memory = np.concatenate((self.targets_memory, dt)) if len(self.targets_memory) != 0 else dt
 
     def construct_exemplar(self, task: str | list[str]):
         logger.info(f"Constructing exemplars...({self.memories_per_class} per class)")
         for class_idx, task_class in enumerate(task):
             inputs, _, vectors = self.extract_vectors(task_class)
-            vectors = (
-                vectors
-                / (np.linalg.norm(vectors.T, axis=0) + np.finfo(np.float32).eps)[
-                    :, np.newaxis
-                ]
-            )
+            vectors = vectors / (np.linalg.norm(vectors.T, axis=0) + np.finfo(np.float32).eps)[:, np.newaxis]
 
             if len(inputs) > self.memories_per_class:
                 class_mean = np.mean(vectors, axis=0)
@@ -98,27 +85,18 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
                 selected_exemplars = []
                 exemplar_vectors = []  # [n, feature_dim]
                 for k in range(1, self.memories_per_class + 1):
-                    S = np.sum(
-                        exemplar_vectors, axis=0
-                    )  # [feature_dim] sum of selected exemplars vectors
+                    S = np.sum(exemplar_vectors, axis=0)  # [feature_dim] sum of selected exemplars vectors
                     mu_p = (vectors + S) / k  # [n, feature_dim] sum to all vectors
                     i = np.argmin(np.sqrt(np.sum((class_mean - mu_p) ** 2, axis=1)))
-                    selected_exemplars.append(
-                        np.array(inputs[i])
-                    )  # New object to avoid passing by inference
-                    exemplar_vectors.append(
-                        np.array(vectors[i])
-                    )  # New object to avoid passing by inference
+                    selected_exemplars.append(np.array(inputs[i]))  # New object to avoid passing by inference
+                    exemplar_vectors.append(np.array(vectors[i]))  # New object to avoid passing by inference
 
-                    vectors = np.delete(
-                        vectors, i, axis=0
-                    )  # Remove it to avoid duplicative selection
-                    inputs = np.delete(
-                        inputs, i, axis=0
-                    )  # Remove it to avoid duplicative selection
+                    vectors = np.delete(vectors, i, axis=0)  # Remove it to avoid duplicative selection
+                    inputs = np.delete(inputs, i, axis=0)  # Remove it to avoid duplicative selection
             else:
                 logger.warning(
-                    f"Not enough inputs from {task_class=}. Found and selected {len(inputs)} but {self.memories_per_class} were required"
+                    f"Not enough inputs from {task_class=}. "
+                    f"Found and selected {len(inputs)} but {self.memories_per_class} were required"
                 )
                 selected_exemplars = inputs
                 exemplar_vectors = vectors
@@ -136,18 +114,14 @@ class ReplayContinualLearningTrainer(ClassIncrementalLearningTrainer):
                 else exemplar_targets
             )
 
-            self.memory_dataset = MemoryDataset(
-                data=self.data_memory, targets=self.targets_memory
-            )
+            self.memory_dataset = MemoryDataset(data=self.data_memory, targets=self.targets_memory)
 
     @torch.no_grad()
     def extract_vectors(self, task: list[str] | str):
         self.model.eval()
 
         # Getting data loader
-        data_loader = self.train_data_source.get_dataset(
-            tasks=self.tasks, task=task, is_eval=True
-        )
+        data_loader = self.train_data_source.get_dataset(tasks=self.tasks, task=task, is_eval=True)
 
         inputs_list, targets_list, vectors_list = [], [], []
         for inputs, targets in tqdm(data_loader, colour="cyan"):

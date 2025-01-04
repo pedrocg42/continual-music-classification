@@ -63,12 +63,8 @@ class NSynthInstrumentTechDataSource(TrainDataSource):
             ordered_instruments = self.instruments
         else:
             ordered_instruments = np.array(flatten_list(tasks)).reshape(-1)
-        self.instrument_to_index = {
-            instrument: i for i, instrument in enumerate(ordered_instruments)
-        }
-        self.index_to_instrument = {
-            i: instrument for i, instrument in enumerate(ordered_instruments)
-        }
+        self.instrument_to_index = {instrument: i for i, instrument in enumerate(ordered_instruments)}
+        self.index_to_instrument = {i: instrument for i, instrument in enumerate(ordered_instruments)}
 
     def _get_songs(self):
         self.songs_splits = {}
@@ -81,9 +77,7 @@ class NSynthInstrumentTechDataSource(TrainDataSource):
         ]:
             # Read annotations
             self.songs_splits[split] = np.array(
-                glob(
-                    os.path.join(self.dataset_path, folder_split_name, "audio", "*.wav")
-                )
+                glob(os.path.join(self.dataset_path, folder_split_name, "audio", "*.wav"))
             )
 
             song_labels = []
@@ -121,29 +115,21 @@ class NSynthInstrumentTechDataSource(TrainDataSource):
                     temp_labels = self.labels_splits[split][mask]
                     temp_subtypes = instrument_subtypes[mask]
                     already_included_samples = 0
-                    for i in range(101):
-                        unique_subtypes, unique_subtypes_counts = np.unique(
-                            temp_subtypes, return_counts=True
+                    for _i in range(101):
+                        unique_subtypes, unique_subtypes_counts = np.unique(temp_subtypes, return_counts=True)
+                        num_items_per_subtype = (self.num_items_per_class - already_included_samples) // len(
+                            unique_subtypes
                         )
-                        num_items_per_subtype = (
-                            self.num_items_per_class - already_included_samples
-                        ) // len(unique_subtypes)
                         if all(unique_subtypes_counts > num_items_per_subtype):
                             for subtype in unique_subtypes:
                                 mask = np.where(temp_subtypes == subtype)[0]
                                 np.random.shuffle(mask)
-                                song_paths.append(
-                                    temp_paths[mask[:num_items_per_subtype]]
-                                )
-                                song_labels.append(
-                                    temp_labels[mask[:num_items_per_subtype]]
-                                )
+                                song_paths.append(temp_paths[mask[:num_items_per_subtype]])
+                                song_labels.append(temp_labels[mask[:num_items_per_subtype]])
                             break
                         else:
                             # Including all items from subtypes with not enough samples
-                            for subtype in unique_subtypes[
-                                unique_subtypes_counts < num_items_per_subtype
-                            ]:
+                            for subtype in unique_subtypes[unique_subtypes_counts < num_items_per_subtype]:
                                 mask = temp_subtypes == subtype
                                 already_included_samples += np.count_nonzero(mask)
                                 song_paths.append(temp_paths[mask])
@@ -158,10 +144,12 @@ class NSynthInstrumentTechDataSource(TrainDataSource):
     def get_dataset(
         self,
         task: str | list[str] = None,
-        tasks: list[list[str]] = ["all"],
+        tasks: list[list[str]] = None,
         memory_dataset: Dataset = None,
         is_eval: bool | None = None,
     ) -> Dataset:
+        if tasks is None:
+            tasks = ["all"]
         self.build_label_encoder_and_decoder(tasks)
 
         songs = self.songs_splits[self.split]
@@ -174,9 +162,7 @@ class NSynthInstrumentTechDataSource(TrainDataSource):
             elif isinstance(task, list):
                 songs = songs[np.isin(labels, task)]
                 labels = labels[np.isin(labels, task)]
-        labels = np.array(
-            [self.instrument_to_index[instrument] for instrument in labels]
-        )
+        labels = np.array([self.instrument_to_index[instrument] for instrument in labels])
 
         dataset = MertGenreClassificationDataset(
             songs=songs,
@@ -195,17 +181,19 @@ class NSynthInstrumentTechDataSource(TrainDataSource):
     def get_dataloader(
         self,
         task: list[str] | str = None,
-        tasks: list[list[str]] = ["all"],
+        tasks: list[list[str]] = None,
         batch_size: int = 32,
         num_workers: int = 0,
         **kwargs,
     ) -> DataLoader:
+        if tasks is None:
+            tasks = ["all"]
         dataset = self.get_dataset(task=task, tasks=tasks, **kwargs)
 
         data_loader = DataLoader(
             dataset=dataset,
             batch_size=batch_size,
-            shuffle=True if (self.split == "train") else False,
+            shuffle=(self.split == "train"),
             drop_last=False,
             num_workers=num_workers,
             pin_memory=True,

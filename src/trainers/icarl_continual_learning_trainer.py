@@ -1,9 +1,3 @@
-import copy
-
-import numpy as np
-import torch
-from loguru import logger
-
 from src.trainers.replay_continual_learning_trainer import (
     ReplayContinualLearningTrainer,
 )

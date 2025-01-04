@@ -45,12 +45,14 @@ class VocalSetSingerDataSource(TrainDataSource):
     def __init__(
         self,
         split: str,
-        splits_config: dict[str, float] = dict(train=0.48, val=0.32, test=0.2),
+        splits_config: dict[str, float] = None,
         singers: list[str] = SINGERS,
         is_eval: bool = False,
         chunk_length: float = 5.0,
         **kwargs,
     ):
+        if splits_config is None:
+            splits_config = dict(train=0.48, val=0.32, test=0.2)
         self.name = "VocalSetSinger"
         self.dataset_path = os.path.join(config.dataset_path, "VocalSet", "FULL")
         self.singers = singers
@@ -77,13 +79,9 @@ class VocalSetSingerDataSource(TrainDataSource):
 
     def _get_songs(self):
         # Read annotations
-        self.songs = np.array(
-            glob(os.path.join(self.dataset_path, "*", "*", "*", "*.wav"))
-        )
+        self.songs = np.array(glob(os.path.join(self.dataset_path, "*", "*", "*", "*.wav")))
 
-        self.labels = np.array(
-            [os.path.normpath(song).split(os.sep)[-4] for song in self.songs]
-        )
+        self.labels = np.array([os.path.normpath(song).split(os.sep)[-4] for song in self.songs])
 
         # Shuffling
         idx = np.arange(len(self.songs))
@@ -111,10 +109,7 @@ class VocalSetSingerDataSource(TrainDataSource):
             labels_singer = self.labels[self.labels == singer]
 
             train_idx = round(len(songs_singer) * self.splits_config["train"])
-            val_idx = round(
-                len(songs_singer)
-                * (self.splits_config["train"] + self.splits_config["val"])
-            )
+            val_idx = round(len(songs_singer) * (self.splits_config["train"] + self.splits_config["val"]))
 
             self.songs_splits["train"].append(songs_singer[:train_idx])
             self.songs_splits["val"].append(songs_singer[train_idx:val_idx])
@@ -133,10 +128,12 @@ class VocalSetSingerDataSource(TrainDataSource):
     def get_dataset(
         self,
         task: str | list[str] = None,
-        tasks: list[list[str]] = ["all"],
+        tasks: list[list[str]] = None,
         memory_dataset: Dataset = None,
         is_eval: bool | None = None,
     ) -> Dataset:
+        if tasks is None:
+            tasks = ["all"]
         self.build_label_encoder_and_decoder(tasks)
 
         songs = self.songs_splits[self.split]
@@ -168,17 +165,19 @@ class VocalSetSingerDataSource(TrainDataSource):
     def get_dataloader(
         self,
         task: list[str] | str = None,
-        tasks: list[list[str]] = ["all"],
+        tasks: list[list[str]] = None,
         batch_size: int = 32,
         num_workers: int = 0,
         **kwargs,
     ) -> DataLoader:
+        if tasks is None:
+            tasks = ["all"]
         dataset = self.get_dataset(task=task, tasks=tasks, **kwargs)
 
         data_loader = DataLoader(
             dataset=dataset,
             batch_size=batch_size,
-            shuffle=True if (self.split == "train") else False,
+            shuffle=(self.split == "train"),
             drop_last=False,
             num_workers=num_workers,
             pin_memory=True,

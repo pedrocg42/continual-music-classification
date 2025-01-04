@@ -101,9 +101,7 @@ class AudioResamplePipeline(nn.Module):
             TimeMasking(time_mask_param=80),
         )
 
-        self.mel_scale = MelScale(
-            n_mels=n_mel, sample_rate=resample_freq, n_stft=n_fft // 2 + 1
-        )
+        self.mel_scale = MelScale(n_mels=n_mel, sample_rate=resample_freq, n_stft=n_fft // 2 + 1)
 
     def forward(self, waveform: torch.Tensor) -> torch.Tensor:
         # Resample the input

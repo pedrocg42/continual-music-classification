@@ -13,9 +13,7 @@ class TorchEmbeddingModel(nn.Module):
         self.encoder = EncoderFactory.build(encoder)
         self.average_hidden = average_hidden
 
-        self.register_buffer(
-            "reference_embeddings", torch.zeros(0, self.encoder.output_size)
-        )
+        self.register_buffer("reference_embeddings", torch.zeros(0, self.encoder.output_size))
         self.initialize()
 
     def initialize_encoder(self):
@@ -31,9 +29,7 @@ class TorchEmbeddingModel(nn.Module):
         return embeddings
 
     def match_embeddings(self, embeddings: torch.Tensor) -> torch.Tensor:
-        similarities = -torch.cdist(embeddings[None], self.reference_embeddings[None])[
-            0
-        ]
+        similarities = -torch.cdist(embeddings[None], self.reference_embeddings[None])[0]
         return similarities
 
     def forward(self, inputs: torch.Tensor):

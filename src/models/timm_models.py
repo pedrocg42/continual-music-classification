@@ -5,9 +5,7 @@ from src.models.torch_base_model import TorchBaseModel
 
 
 class ClassificationTimmModel(TorchBaseModel):
-    def __init__(
-        self, model_name: str, num_classes: int, pretrained: bool, **kwargs
-    ) -> None:
+    def __init__(self, model_name: str, num_classes: int, pretrained: bool, **kwargs) -> None:
         super().__init__()
 
         self.model_name = model_name

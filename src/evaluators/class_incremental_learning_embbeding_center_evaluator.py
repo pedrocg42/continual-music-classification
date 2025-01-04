@@ -18,9 +18,7 @@ class ClassIncrementalLearningL2CenterEvaluator(ClassIncrementalLearningEvaluato
         self.num_classes += len(task)
 
         self.model.to(config.device)
-        self.model.reference_embeddings = torch.zeros(
-            (self.num_classes, self.model.encoder.output_size)
-        )
+        self.model.reference_embeddings = torch.zeros((self.num_classes, self.model.encoder.output_size))
 
         self.model_saver.configure(
             self.model,

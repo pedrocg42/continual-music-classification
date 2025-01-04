@@ -1,4 +1,4 @@
-from typing import Dict, Iterable
+from collections.abc import Iterable
 
 import numpy as np
 import quadprog
@@ -31,7 +31,7 @@ class GemOptimizer(TorchBaseOptimizer):
         self,
         num_memories: int,
         memory_strength: float,
-        optimizer_config: dict = {"lr": 0.001},
+        optimizer_config: dict = None,
     ):
         """
         :param memories_per_class: number of memories per experience in the
@@ -40,6 +40,8 @@ class GemOptimizer(TorchBaseOptimizer):
             in order to favour backward transfer (gamma in original paper).
         """
 
+        if optimizer_config is None:
+            optimizer_config = {"lr": 0.001}
         super().__init__()
 
         self.num_memories = num_memories
@@ -47,8 +49,8 @@ class GemOptimizer(TorchBaseOptimizer):
         self.memory_strength = memory_strength
         self.optimizer_config = optimizer_config
 
-        self.memory_x: Dict[int, Tensor] = dict()
-        self.memory_y: Dict[int, Tensor] = dict()
+        self.memory_x: dict[int, Tensor] = dict()
+        self.memory_y: dict[int, Tensor] = dict()
 
         self.G: Tensor = torch.empty(0)
 
@@ -74,9 +76,7 @@ class GemOptimizer(TorchBaseOptimizer):
             G = []
             for i in range(len(self.known_classes)):
                 self.optimizer.zero_grad()
-                xref = data_transform(
-                    self.memory_x[i].to(config.device, non_blocking=True)
-                )
+                xref = data_transform(self.memory_x[i].to(config.device, non_blocking=True))
                 yref = self.memory_y[i].to(config.device, non_blocking=True)
                 out = model(xref)
                 loss = criteria(out, yref)
@@ -114,11 +114,7 @@ class GemOptimizer(TorchBaseOptimizer):
             for p in model.parameters():
                 if p.grad is not None:
                     curr_pars = p.numel()
-                    p.grad.copy_(
-                        v_star[num_pars : num_pars + curr_pars]
-                        .view(p.size())
-                        .to(config.device)
-                    )
+                    p.grad.copy_(v_star[num_pars : num_pars + curr_pars].view(p.size()).to(config.device))
                     num_pars += curr_pars
 
             assert num_pars == v_star.numel(), "Error in projecting gradient"
@@ -157,7 +153,7 @@ class GemOptimizer(TorchBaseOptimizer):
 
     def reduce_exemplar(self, task):
         logger.info(f"Reducing memories...({self.memories_per_class} per classes)")
-        for task_id in self.memory_x.keys():
+        for task_id in self.memory_x:
             self.memory_x[task_id] = self.memory_x[task_id][: self.memories_per_class]
             self.memory_y[task_id] = self.memory_y[task_id][: self.memories_per_class]
 
@@ -178,47 +174,30 @@ class GemOptimizer(TorchBaseOptimizer):
             x, y = mbatch[0], mbatch[1]
             for class_id in class_ids:
                 mask = y == class_id
-                if len(self.memory_x[class_id]) < self.memories_per_class and torch.any(
-                    mask
-                ):
+                if len(self.memory_x[class_id]) < self.memories_per_class and torch.any(mask):
                     x_class = x[mask]
                     y_class = y[mask]
-                    if (
-                        len(self.memory_x[class_id]) + len(x_class)
-                        <= self.memories_per_class
-                    ):
+                    if len(self.memory_x[class_id]) + len(x_class) <= self.memories_per_class:
                         if len(self.memory_x[class_id]) == 0:
                             self.memory_x[class_id] = x_class.clone()
                             self.memory_y[class_id] = y_class.clone()
                         else:
-                            self.memory_x[class_id] = torch.cat(
-                                (self.memory_x[class_id], x_class), dim=0
-                            )
-                            self.memory_y[class_id] = torch.cat(
-                                (self.memory_y[class_id], y_class), dim=0
-                            )
+                            self.memory_x[class_id] = torch.cat((self.memory_x[class_id], x_class), dim=0)
+                            self.memory_y[class_id] = torch.cat((self.memory_y[class_id], y_class), dim=0)
                     else:
                         diff = self.memories_per_class - len(self.memory_x[class_id])
                         if len(self.memory_x[class_id]) == 0:
                             self.memory_x[class_id] = x_class[:diff].clone()
                             self.memory_y[class_id] = y_class[:diff].clone()
                         else:
-                            self.memory_x[class_id] = torch.cat(
-                                (self.memory_x[class_id], x_class[:diff]), dim=0
-                            )
-                            self.memory_y[class_id] = torch.cat(
-                                (self.memory_y[class_id], y_class[:diff]), dim=0
-                            )
-            if all(
-                [
-                    len(self.memory_x[class_id]) >= self.memories_per_class
-                    for class_id in class_ids
-                ]
-            ):
+                            self.memory_x[class_id] = torch.cat((self.memory_x[class_id], x_class[:diff]), dim=0)
+                            self.memory_y[class_id] = torch.cat((self.memory_y[class_id], y_class[:diff]), dim=0)
+            if all([len(self.memory_x[class_id]) >= self.memories_per_class for class_id in class_ids]):
                 break
 
         for class_id in class_ids:
             if self.memory_x[class_id].size(0) < self.memories_per_class:
                 logger.warning(
-                    f"Unable to find {self.memories_per_class} for class {self.known_classes[class_id]} - Collected {self.memory_x[class_id].size(0)} memories"
+                    f"Unable to find {self.memories_per_class} for class {self.known_classes[class_id]}"
+                    f"- Collected {self.memory_x[class_id].size(0)} memories"
                 )

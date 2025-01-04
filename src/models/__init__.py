@@ -17,8 +17,8 @@ from src.models.timm_models import (
 )
 from src.models.torch_base_model import TorchBaseModel
 from src.models.torch_clmr_classification_model import (
-    TorchClmrClassIncrementalModel,
     TorchClmrClassificationModel,
+    TorchClmrClassIncrementalModel,
 )
 from src.models.torch_l2p_class_incremental_model import (
     TorchL2PClassIncrementalModel,

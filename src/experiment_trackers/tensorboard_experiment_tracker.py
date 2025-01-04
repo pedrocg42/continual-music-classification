@@ -28,9 +28,7 @@ class TensorboardExperimentTracker(ExperimentTracker):
         self.build_model_name()
 
         logger.info(" > Creating TensorBoard writer")
-        self.writer = SummaryWriter(
-            log_dir=os.path.join(self.logs_folder, self.model_name)
-        )
+        self.writer = SummaryWriter(log_dir=os.path.join(self.logs_folder, self.model_name))
 
     def build_model_name(
         self,

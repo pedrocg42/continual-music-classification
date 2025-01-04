@@ -1,6 +1,6 @@
 import itertools
 from collections import defaultdict
-from typing import Iterable
+from collections.abc import Iterable
 
 import torch
 import torch.nn as nn
@@ -29,9 +29,11 @@ class EwcOptimizer(TorchBaseOptimizer):
     def __init__(
         self,
         ewc_lambda: float = 0.1,
-        optimizer_config: dict = {"lr": 0.001},
+        optimizer_config: dict = None,
         mode: str = "separate",
     ):
+        if optimizer_config is None:
+            optimizer_config = {"lr": 0.001}
         super().__init__()
 
         self.ewc_lambda = ewc_lambda
@@ -66,9 +68,7 @@ class EwcOptimizer(TorchBaseOptimizer):
                 new_shape = cur_param.shape
                 if imp.shape != new_shape:
                     # Only for last fc layer
-                    penalty += (
-                        imp * (cur_param[: imp.shape[0]] - saved_param).pow(2)
-                    ).sum()
+                    penalty += (imp * (cur_param[: imp.shape[0]] - saved_param).pow(2)).sum()
                 else:
                     penalty += (imp * (cur_param - saved_param).pow(2)).sum()
 
@@ -124,9 +124,7 @@ class EwcOptimizer(TorchBaseOptimizer):
             loss = criteria(out, y)
             loss.backward()
 
-            for (k1, p), (k2, imp) in zip(
-                model.named_parameters(), importances.items()
-            ):
+            for (k1, p), (k2, imp) in zip(model.named_parameters(), importances.items()):
                 assert k1 == k2
                 if p.grad is not None:
                     imp.data += p.grad.data.clone().pow(2)
@@ -168,8 +166,7 @@ class EwcOptimizer(TorchBaseOptimizer):
                 self.importances[task_id][k1] = dict(
                     f"imp_{k1}",
                     curr_imp.shape,
-                    init_tensor=self.decay_factor * old_imp.expand(curr_imp.shape)
-                    + curr_imp.data,
+                    init_tensor=self.decay_factor * old_imp.expand(curr_imp.shape) + curr_imp.data,
                     device=curr_imp.device,
                 )
 
@@ -182,12 +179,7 @@ class EwcOptimizer(TorchBaseOptimizer):
 
     @staticmethod
     def zeroslike_params_dict(model: nn.Module) -> dict[str, dict]:
-        return dict(
-            [
-                (k, torch.zeros_like(p, dtype=p.dtype, device=p.device))
-                for k, p in model.named_parameters()
-            ]
-        )
+        return dict([(k, torch.zeros_like(p, dtype=p.dtype, device=p.device)) for k, p in model.named_parameters()])
 
     @staticmethod
     def copy_params_dict(model: nn.Module) -> dict[str, dict]:

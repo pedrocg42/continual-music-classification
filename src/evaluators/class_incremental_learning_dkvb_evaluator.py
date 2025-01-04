@@ -1,5 +1,3 @@
-from loguru import logger
-
 import config
 from src.evaluators.class_incremental_learning_evaluator import (
     ClassIncrementalLearningEvaluator,

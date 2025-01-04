@@ -65,9 +65,7 @@ class ContinualLearningEvaluator(Evaluator):
             # Extracting results per task
             for test_task in self.tasks:
                 logger.info(f"Started evaluation of {test_task=}")
-                data_loader = self.data_source.get_dataset(
-                    tasks=self.tasks, task=test_task
-                )
+                data_loader = self.data_source.get_dataset(tasks=self.tasks, task=test_task)
                 results = self.predict(data_loader)
                 metrics = self.extract_metrics(results)
                 self.experiment_tracker.log_task_metrics(metrics, test_task)

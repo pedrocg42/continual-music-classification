@@ -1,11 +1,10 @@
-from abc import ABC
-
 import torch
 from loguru import logger
 from torchmetrics import Metric
 from tqdm import tqdm
 
 import config
+from src.evaluators.evaluator import Evaluator
 from src.experiment_trackers import ExperimentTracker
 from src.model_savers import ModelSaver
 from src.models import TrainModel
@@ -13,7 +12,7 @@ from src.train_data_sources import TrainDataSource
 from src.train_data_transforms import TrainDataTransform
 
 
-class TasksEvaluator(ABC):
+class TasksEvaluator(Evaluator):
     def __init__(
         self,
         model: TrainModel,

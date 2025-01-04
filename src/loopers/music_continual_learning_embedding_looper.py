@@ -1,6 +1,3 @@
-from abc import ABC
-
-import numpy as np
 import torch
 import torch.nn as nn
 from loguru import logger
@@ -11,7 +8,7 @@ from tqdm import tqdm
 import config
 
 
-class MusicContinualLearningEmbeddingLooper(ABC):
+class MusicContinualLearningEmbeddingLooper:
     def __init__(self):
         # Debug
         self.debug = False
@@ -28,7 +25,7 @@ class MusicContinualLearningEmbeddingLooper(ABC):
         data_loader: DataLoader | Dataset,
         data_transform: nn.Module,
     ) -> dict[str, torch.Tensor]:
-        logger.info(f"Training epoch")
+        logger.info("Training epoch")
         model.prepare_train()
         results_epoch = []
         pbar = tqdm(
@@ -39,9 +36,7 @@ class MusicContinualLearningEmbeddingLooper(ABC):
         for i, (inputs, labels) in enumerate(pbar):
             if self.debug and i > self.max_steps:
                 break
-            results_epoch.append(
-                self.train_batch(model, inputs, labels, data_transform)
-            )
+            results_epoch.append(self.train_batch(model, inputs, labels, data_transform))
         embeddings = torch.concat([epoch_dict["preds"] for epoch_dict in results_epoch])
         labels = torch.concat([epoch_dict["labels"] for epoch_dict in results_epoch])
 

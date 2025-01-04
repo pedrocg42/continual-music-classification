@@ -1,11 +1,10 @@
-from typing import Optional, Tuple, Union
+from typing import Optional, Union
 
 import torch
 import torch.nn.functional as F
 from torch import einsum, nn
 from transformers import AutoModel
 from transformers.modeling_outputs import BaseModelOutput
-from vector_quantize_pytorch import VectorQuantize
 
 
 class MertEncoderL2P(nn.Module):
@@ -21,9 +20,7 @@ class MertEncoderL2P(nn.Module):
         self.pretrained = pretrained
 
         # Loading model weights
-        self.encoder: nn.Module = AutoModel.from_pretrained(
-            "m-a-p/MERT-v1-95M", trust_remote_code=True
-        )
+        self.encoder: nn.Module = AutoModel.from_pretrained("m-a-p/MERT-v1-95M", trust_remote_code=True)
         self.output_size = 768
         self.freeze_encoder()
 
@@ -48,15 +45,9 @@ class MertEncoderL2P(nn.Module):
     def forward(self, inputs: torch.Tensor):
         query = self.query(inputs)
         prompt, key_loss = self.prompt_pool(query)
-        prompt = prompt.view(
-            prompt.shape[0], -1, self.output_size
-        )  # B, N, L, D -> B, N*L, D
-        outputs = self.forward_encoder(
-            **inputs, prompt=prompt, output_hidden_states=True
-        )
-        all_layer_hidden_states = torch.stack(outputs.hidden_states).permute(
-            (1, 0, 2, 3)
-        )  # H, B, T, D -> B, H, T, D
+        prompt = prompt.view(prompt.shape[0], -1, self.output_size)  # B, N, L, D -> B, N*L, D
+        outputs = self.forward_encoder(**inputs, prompt=prompt, output_hidden_states=True)
+        all_layer_hidden_states = torch.stack(outputs.hidden_states).permute((1, 0, 2, 3))  # H, B, T, D -> B, H, T, D
         prompt_hidden_states = all_layer_hidden_states[:, :, : self.num_prompts, :]
         outputs = torch.mean(prompt_hidden_states, dim=-2)  # B, H, T, D -> B, C, H
         return outputs, key_loss
@@ -64,9 +55,7 @@ class MertEncoderL2P(nn.Module):
     @torch.no_grad()
     def query(self, inputs: torch.Tensor):
         outputs = self.encoder(**inputs, output_hidden_states=True)
-        all_layer_hidden_states = torch.stack(outputs.hidden_states).permute(
-            (1, 0, 2, 3)
-        )  # H, B, T, D -> B, H, T, D
+        all_layer_hidden_states = torch.stack(outputs.hidden_states).permute((1, 0, 2, 3))  # H, B, T, D -> B, H, T, D
         return all_layer_hidden_states.mean(dim=2).mean(dim=1)  # B, H, T, D -> B, D
 
     def forward_encoder(
@@ -78,34 +67,22 @@ class MertEncoderL2P(nn.Module):
         output_attentions: Optional[bool] = None,
         output_hidden_states: Optional[bool] = None,
         return_dict: Optional[bool] = None,
-    ) -> Union[Tuple, BaseModelOutput]:
+    ) -> Union[tuple, BaseModelOutput]:
         output_attentions = (
-            output_attentions
-            if output_attentions is not None
-            else self.encoder.config.output_attentions
+            output_attentions if output_attentions is not None else self.encoder.config.output_attentions
         )
         output_hidden_states = (
-            output_hidden_states
-            if output_hidden_states is not None
-            else self.encoder.config.output_hidden_states
+            output_hidden_states if output_hidden_states is not None else self.encoder.config.output_hidden_states
         )
-        return_dict = (
-            return_dict
-            if return_dict is not None
-            else self.encoder.config.use_return_dict
-        )
+        return_dict = return_dict if return_dict is not None else self.encoder.config.use_return_dict
 
         extract_features = self.encoder.feature_extractor(input_values)
         extract_features = extract_features.transpose(1, 2)
 
         # add additional cqt features for transformer input
         if self.encoder.config.feature_extractor_cqt:
-            features_cqt = self.encoder.feature_extractor_cqt(input_values).transpose(
-                1, 2
-            )
-            features_cqt = features_cqt[
-                :, : extract_features.shape[1], :
-            ]  # align shape
+            features_cqt = self.encoder.feature_extractor_cqt(input_values).transpose(1, 2)
+            features_cqt = features_cqt[:, : extract_features.shape[1], :]  # align shape
             extract_features = torch.cat([extract_features, features_cqt], 2)
 
         if attention_mask is not None:
@@ -117,9 +94,7 @@ class MertEncoderL2P(nn.Module):
         hidden_states = self.encoder.feature_projection(extract_features)
 
         hidden_states = torch.cat([prompt, hidden_states], dim=1)
-        hidden_states = self.encoder._mask_hidden_states(
-            hidden_states, mask_time_indices=mask_time_indices
-        )
+        hidden_states = self.encoder._mask_hidden_states(hidden_states, mask_time_indices=mask_time_indices)
 
         encoder_outputs = self.encoder.encoder(
             hidden_states,
@@ -169,9 +144,7 @@ class PromptPool(nn.Module):
         self.h = torch.zeros(pool_size)
 
         self.prompt_keys = nn.Parameter(uniform_init(self.pool_size, embedding_dim))
-        self.prompt_values = nn.Parameter(
-            uniform_init(self.pool_size, self.length, embedding_dim)
-        )
+        self.prompt_values = nn.Parameter(uniform_init(self.pool_size, self.length, embedding_dim))
 
     def forward(self, query: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
         if self.distance == "cosine":
@@ -184,18 +157,12 @@ class PromptPool(nn.Module):
         else:
             raise ValueError(f"Not supported distance {self.distance}")
 
-        (distance_top_k, distance_top_k_idx) = torch.topk(
-            distance, self.top_k, largest=False
-        )
+        (distance_top_k, distance_top_k_idx) = torch.topk(distance, self.top_k, largest=False)
         # print(distance_top_k.mean())
 
-        one_hot_idx = F.one_hot(
-            distance_top_k_idx, self.pool_size
-        ).float()  # bs, top_k, pool_size
+        one_hot_idx = F.one_hot(distance_top_k_idx, self.pool_size).float()  # bs, top_k, pool_size
 
-        quantized_values = einsum(
-            "b n s, s l d -> b n l d", one_hot_idx, self.prompt_values
-        )
+        quantized_values = einsum("b n s, s l d -> b n l d", one_hot_idx, self.prompt_values)
         # print(quantized_values.mean(), quantized_values.std())
 
         self.h_sum += one_hot_idx.detach().cpu().sum(axis=0).sum(axis=0)

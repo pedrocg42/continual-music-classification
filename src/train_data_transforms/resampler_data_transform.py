@@ -1,7 +1,6 @@
 import torch
 import torchaudio.transforms as T
 
-import config
 from src.train_data_transforms.train_data_transform import (
     TrainDataTransform,
 )

@@ -5,11 +5,14 @@ class ExperimentTracker(ABC):
     def __init__(self, **kwargs) -> None:
         self.experiment_name = None
 
+    @abstractmethod
     def configure(self):
-        pass
+        raise NotImplementedError("ExperimentTracker must implement configure method")
 
+    @abstractmethod
     def log_metric(self):
-        pass
+        raise NotImplementedError("ExperimentTracker must implement log_metric method")
 
+    @abstractmethod
     def log_metrics(self):
-        pass
+        raise NotImplementedError("ExperimentTracker must implement log_metrics method")

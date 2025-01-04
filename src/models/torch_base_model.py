@@ -21,9 +21,7 @@ class TorchBaseModel(TrainModel):
         self.model.eval()
 
     def state_dict(self, destination=None, prefix="", keep_vars=False):
-        return self.model.state_dict(
-            destination=destination, prefix=prefix, keep_vars=keep_vars
-        )
+        return self.model.state_dict(destination=destination, prefix=prefix, keep_vars=keep_vars)
 
     def load_state_dict(self, state_dict, strict: bool = True):
         self.model.load_state_dict(state_dict, strict=strict)
