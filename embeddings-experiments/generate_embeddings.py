@@ -2,11 +2,11 @@ import numpy as np
 import torch
 from fire import Fire
 
-from music_genre_classification.models.embedding_model import TorchEmbeddingModel
-from music_genre_classification.train_data_sources.train_data_source_factory import (
+from src.models.embedding_model import TorchEmbeddingModel
+from src.train_data_sources.train_data_source_factory import (
     TrainDataSourceFactory,
 )
-from music_genre_classification.train_data_transforms.mert_data_transform import (
+from src.train_data_transforms.mert_data_transform import (
     MertDataTransform,
 )
 import config

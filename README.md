@@ -40,7 +40,10 @@ To setup a project, run the following configuration instructions:
 Create a virtual environment using either virtualenv or conda and run the following:
 
 ```sh
-pip install -r requirements/requirements-gpu.txt
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv venv
+source .venv/bin/activate
+uv pip install -r requirements/requirements-gpu.txt
 ```
 
 In order to indicate where the data has to be read from you need to set a environment variable:
@@ -62,13 +65,13 @@ The datasets used for our experimentation are currently publicily available at:
 
 We follow an experimentation protocol where the experiments are defined as python configurations, you can find these configurations in the [experiments folder](experiments).
 
-In order to launch all experiments for both MERT:
+In order to launch all experiments for MERT:
 
 ```sh
 bash run_experiments_mert.sh
 ```
 
-In order to launch all experiments for both CLMR:
+In order to launch all experiments for CLMR:
 
 ```sh
 bash run_experiments_clmr.sh

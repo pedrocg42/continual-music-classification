@@ -1,0 +1,54 @@
+[project]
+name = "continual-music-classification"
+version = "0.1.0"
+requires-python = ">=3.12.0"
+dependencies = [
+    "fire",
+    "loguru",
+    "pandas",
+    "timm",
+    "torch",
+    "torchaudio",
+    "torchmetrics",
+    "torchvision",
+    "soundfile",
+    "tqdm",
+    "vector_quantize_pytorch",
+    "discrete_key_value_bottleneck_pytorch",
+    "transformers",
+    "nnAudio",
+    "tensorboard",
+    "quadprog",  # GEM
+]
+
+[project.optional-dependencies]
+plot = [
+    "matplotlib",
+]
+dev = [
+    "ruff",
+    "ipykernel",
+]
+
+[build-system]
+requires = ["setuptools>=61.2", "wheel"]
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+exclude = ["images*", "results*", "experiments*", "final_results*", "final_results_clmr*", "music_genre_classification*"]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu124", marker = "platform_system != 'Darwin'"},
+]
+torchvision = [
+  { index = "pytorch-cu124", marker = "platform_system != 'Darwin'"},
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true

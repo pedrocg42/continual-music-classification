@@ -1,5 +1,0 @@
-black
-mypy
-isort
-matplotlib
-ipykernel

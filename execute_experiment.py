@@ -1,9 +1,9 @@
 from fire import Fire
 import traceback
 
-from music_genre_classification.evaluators import EvaluatorFactory
-from music_genre_classification.my_utils import parse_experiment
-from music_genre_classification.trainers import TrainerFactory
+from src.evaluators import EvaluatorFactory
+from src.my_utils import parse_experiment
+from src.trainers import TrainerFactory
 
 
 def train(experiment_name: str, trainer: dict):
