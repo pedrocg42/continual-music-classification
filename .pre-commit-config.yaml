@@ -23,7 +23,7 @@ repos:
 
       - id: ruff-format
         name: ruff-format
-        entry: ruff format .
+        entry: ruff format src
         language: system
         types: [ python ]
         require_serial: true
@@ -31,7 +31,7 @@ repos:
 
       - id: ruff
         name: ruff
-        entry: ruff check --fix .
+        entry: ruff check src
         language: system
         types: [ python ]
         require_serial: true
