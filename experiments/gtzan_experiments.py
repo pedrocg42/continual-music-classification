@@ -121,122 +121,78 @@ continual_learning_trainer_gtzan_scenario1 = deepcopy(continual_learning_trainer
 continual_learning_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
 continual_learning_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
-continual_learning_trainer_gtzan_scenario2 = deepcopy(
-    continual_learning_trainer_gtzan_scenario1
-)
+continual_learning_trainer_gtzan_scenario2 = deepcopy(continual_learning_trainer_gtzan_scenario1)
 continual_learning_trainer_gtzan_scenario2["args"]["tasks"] = scenario2
-continual_learning_trainer_gtzan_scenario3 = deepcopy(
-    continual_learning_trainer_gtzan_scenario1
-)
+continual_learning_trainer_gtzan_scenario3 = deepcopy(continual_learning_trainer_gtzan_scenario1)
 continual_learning_trainer_gtzan_scenario3["args"]["tasks"] = scenario3
 
 ## Replay
-continual_learning_replay_trainer_gtzan_scenario1 = deepcopy(
-    continual_learning_replay_trainer
-)
+continual_learning_replay_trainer_gtzan_scenario1 = deepcopy(continual_learning_replay_trainer)
 continual_learning_replay_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
 continual_learning_replay_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
-continual_learning_replay_trainer_gtzan_scenario2 = deepcopy(
-    continual_learning_replay_trainer_gtzan_scenario1
-)
+continual_learning_replay_trainer_gtzan_scenario2 = deepcopy(continual_learning_replay_trainer_gtzan_scenario1)
 continual_learning_replay_trainer_gtzan_scenario2["args"]["tasks"] = scenario2
-continual_learning_replay_trainer_gtzan_scenario3 = deepcopy(
-    continual_learning_replay_trainer_gtzan_scenario1
-)
+continual_learning_replay_trainer_gtzan_scenario3 = deepcopy(continual_learning_replay_trainer_gtzan_scenario1)
 continual_learning_replay_trainer_gtzan_scenario3["args"]["tasks"] = scenario3
 
 
 # iCaRL
-continual_learning_icarl_trainer_gtzan_scenario1 = deepcopy(
-    continual_learning_icarl_trainer
-)
+continual_learning_icarl_trainer_gtzan_scenario1 = deepcopy(continual_learning_icarl_trainer)
 continual_learning_icarl_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
 continual_learning_icarl_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
-continual_learning_icarl_trainer_gtzan_scenario2 = deepcopy(
-    continual_learning_icarl_trainer_gtzan_scenario1
-)
+continual_learning_icarl_trainer_gtzan_scenario2 = deepcopy(continual_learning_icarl_trainer_gtzan_scenario1)
 continual_learning_icarl_trainer_gtzan_scenario2["args"]["tasks"] = scenario2
-continual_learning_icarl_trainer_gtzan_scenario3 = deepcopy(
-    continual_learning_icarl_trainer_gtzan_scenario1
-)
+continual_learning_icarl_trainer_gtzan_scenario3 = deepcopy(continual_learning_icarl_trainer_gtzan_scenario1)
 continual_learning_icarl_trainer_gtzan_scenario3["args"]["tasks"] = scenario3
 
 # GEM
-continual_learning_gem_trainer_gtzan_scenario1 = deepcopy(
-    continual_learning_gem_trainer
-)
+continual_learning_gem_trainer_gtzan_scenario1 = deepcopy(continual_learning_gem_trainer)
 continual_learning_gem_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
 continual_learning_gem_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
-continual_learning_gem_trainer_gtzan_scenario2 = deepcopy(
-    continual_learning_gem_trainer_gtzan_scenario1
-)
+continual_learning_gem_trainer_gtzan_scenario2 = deepcopy(continual_learning_gem_trainer_gtzan_scenario1)
 continual_learning_gem_trainer_gtzan_scenario2["args"]["tasks"] = scenario2
-continual_learning_gem_trainer_gtzan_scenario3 = deepcopy(
-    continual_learning_gem_trainer_gtzan_scenario1
-)
+continual_learning_gem_trainer_gtzan_scenario3 = deepcopy(continual_learning_gem_trainer_gtzan_scenario1)
 continual_learning_gem_trainer_gtzan_scenario3["args"]["tasks"] = scenario3
 
 
 # EWC
-continual_learning_ewc_trainer_gtzan_scenario1 = deepcopy(
-    continual_learning_ewc_trainer
-)
+continual_learning_ewc_trainer_gtzan_scenario1 = deepcopy(continual_learning_ewc_trainer)
 continual_learning_ewc_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
 continual_learning_ewc_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
-continual_learning_ewc_trainer_gtzan_scenario2 = deepcopy(
-    continual_learning_ewc_trainer_gtzan_scenario1
-)
+continual_learning_ewc_trainer_gtzan_scenario2 = deepcopy(continual_learning_ewc_trainer_gtzan_scenario1)
 continual_learning_ewc_trainer_gtzan_scenario2["args"]["tasks"] = scenario2
-continual_learning_ewc_trainer_gtzan_scenario3 = deepcopy(
-    continual_learning_ewc_trainer_gtzan_scenario1
-)
+continual_learning_ewc_trainer_gtzan_scenario3 = deepcopy(continual_learning_ewc_trainer_gtzan_scenario1)
 continual_learning_ewc_trainer_gtzan_scenario3["args"]["tasks"] = scenario3
 
 
 # L2P
-continual_learning_l2p_trainer_gtzan_scenario1 = deepcopy(
-    continual_learning_l2p_trainer
-)
+continual_learning_l2p_trainer_gtzan_scenario1 = deepcopy(continual_learning_l2p_trainer)
 continual_learning_l2p_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
 continual_learning_l2p_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
-continual_learning_l2p_trainer_gtzan_scenario2 = deepcopy(
-    continual_learning_l2p_trainer_gtzan_scenario1
-)
+continual_learning_l2p_trainer_gtzan_scenario2 = deepcopy(continual_learning_l2p_trainer_gtzan_scenario1)
 continual_learning_l2p_trainer_gtzan_scenario2["args"]["tasks"] = scenario2
-continual_learning_l2p_trainer_gtzan_scenario3 = deepcopy(
-    continual_learning_l2p_trainer_gtzan_scenario1
-)
+continual_learning_l2p_trainer_gtzan_scenario3 = deepcopy(continual_learning_l2p_trainer_gtzan_scenario1)
 continual_learning_l2p_trainer_gtzan_scenario3["args"]["tasks"] = scenario3
 
 
 # L2Center
-continual_learning_l2center_trainer_gtzan_scenario1 = deepcopy(
-    continual_learning_l2center_trainer
-)
+continual_learning_l2center_trainer_gtzan_scenario1 = deepcopy(continual_learning_l2center_trainer)
 continual_learning_l2center_trainer_gtzan_scenario1["args"]["tasks"] = scenario1
 continual_learning_l2center_trainer_gtzan_scenario1["args"].update(update_trainer_gtzan)
 
-continual_learning_l2center_trainer_gtzan_scenario2 = deepcopy(
-    continual_learning_l2center_trainer_gtzan_scenario1
-)
+continual_learning_l2center_trainer_gtzan_scenario2 = deepcopy(continual_learning_l2center_trainer_gtzan_scenario1)
 continual_learning_l2center_trainer_gtzan_scenario2["args"]["tasks"] = scenario2
-continual_learning_l2center_trainer_gtzan_scenario3 = deepcopy(
-    continual_learning_l2center_trainer_gtzan_scenario1
-)
+continual_learning_l2center_trainer_gtzan_scenario3 = deepcopy(continual_learning_l2center_trainer_gtzan_scenario1)
 continual_learning_l2center_trainer_gtzan_scenario3["args"]["tasks"] = scenario3
 
 ## CosineCenter
-continual_learning_cosinecenter_trainer_gtzan_scenario1 = deepcopy(
-    continual_learning_l2center_trainer_gtzan_scenario1
-)
-continual_learning_cosinecenter_trainer_gtzan_scenario1["args"][
-    "train_model"
-] = train_model_cosinecenter
+continual_learning_cosinecenter_trainer_gtzan_scenario1 = deepcopy(continual_learning_l2center_trainer_gtzan_scenario1)
+continual_learning_cosinecenter_trainer_gtzan_scenario1["args"]["train_model"] = train_model_cosinecenter
 
 continual_learning_cosinecenter_trainer_gtzan_scenario2 = deepcopy(
     continual_learning_cosinecenter_trainer_gtzan_scenario1
@@ -273,60 +229,38 @@ continual_learning_evaluator_gtzan_scenario1 = deepcopy(evaluator)
 continual_learning_evaluator_gtzan_scenario1["args"]["tasks"] = scenario1
 continual_learning_evaluator_gtzan_scenario1["args"].update(update_evaluator_gtzan)
 
-continual_learning_evaluator_gtzan_scenario2 = deepcopy(
-    continual_learning_evaluator_gtzan_scenario1
-)
+continual_learning_evaluator_gtzan_scenario2 = deepcopy(continual_learning_evaluator_gtzan_scenario1)
 continual_learning_evaluator_gtzan_scenario2["args"]["tasks"] = scenario2
 
-continual_learning_evaluator_gtzan_scenario3 = deepcopy(
-    continual_learning_evaluator_gtzan_scenario1
-)
+continual_learning_evaluator_gtzan_scenario3 = deepcopy(continual_learning_evaluator_gtzan_scenario1)
 continual_learning_evaluator_gtzan_scenario3["args"]["tasks"] = scenario3
 
 ## L2P
-continual_learning_l2p_evaluator_gtzan_scenario1 = deepcopy(
-    continual_learning_evaluator_l2p
-)
+continual_learning_l2p_evaluator_gtzan_scenario1 = deepcopy(continual_learning_evaluator_l2p)
 continual_learning_l2p_evaluator_gtzan_scenario1["args"]["tasks"] = scenario1
 continual_learning_l2p_evaluator_gtzan_scenario1["args"].update(update_evaluator_gtzan)
 
-continual_learning_l2p_evaluator_gtzan_scenario2 = deepcopy(
-    continual_learning_l2p_evaluator_gtzan_scenario1
-)
+continual_learning_l2p_evaluator_gtzan_scenario2 = deepcopy(continual_learning_l2p_evaluator_gtzan_scenario1)
 continual_learning_l2p_evaluator_gtzan_scenario2["args"]["tasks"] = scenario2
 
-continual_learning_l2p_evaluator_gtzan_scenario3 = deepcopy(
-    continual_learning_l2p_evaluator_gtzan_scenario1
-)
+continual_learning_l2p_evaluator_gtzan_scenario3 = deepcopy(continual_learning_l2p_evaluator_gtzan_scenario1)
 continual_learning_l2p_evaluator_gtzan_scenario3["args"]["tasks"] = scenario3
 
 # L2Center
-continual_learning_l2center_evaluator_gtzan_scenario1 = deepcopy(
-    continual_learning_evaluator_l2center
-)
+continual_learning_l2center_evaluator_gtzan_scenario1 = deepcopy(continual_learning_evaluator_l2center)
 continual_learning_l2center_evaluator_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2center_evaluator_gtzan_scenario1["args"].update(
-    update_evaluator_gtzan
-)
+continual_learning_l2center_evaluator_gtzan_scenario1["args"].update(update_evaluator_gtzan)
 
-continual_learning_l2center_evaluator_gtzan_scenario2 = deepcopy(
-    continual_learning_l2center_evaluator_gtzan_scenario1
-)
+continual_learning_l2center_evaluator_gtzan_scenario2 = deepcopy(continual_learning_l2center_evaluator_gtzan_scenario1)
 continual_learning_l2center_evaluator_gtzan_scenario2["args"]["tasks"] = scenario2
 
-continual_learning_l2center_evaluator_gtzan_scenario3 = deepcopy(
-    continual_learning_l2center_evaluator_gtzan_scenario1
-)
+continual_learning_l2center_evaluator_gtzan_scenario3 = deepcopy(continual_learning_l2center_evaluator_gtzan_scenario1)
 continual_learning_l2center_evaluator_gtzan_scenario3["args"]["tasks"] = scenario3
 
 # CosineCenter
-continual_learning_cosinecenter_evaluator_gtzan_scenario1 = deepcopy(
-    continual_learning_evaluator_cosinecenter
-)
+continual_learning_cosinecenter_evaluator_gtzan_scenario1 = deepcopy(continual_learning_evaluator_cosinecenter)
 continual_learning_cosinecenter_evaluator_gtzan_scenario1["args"]["tasks"] = scenario1
-continual_learning_cosinecenter_evaluator_gtzan_scenario1["args"].update(
-    update_evaluator_gtzan
-)
+continual_learning_cosinecenter_evaluator_gtzan_scenario1["args"].update(update_evaluator_gtzan)
 
 continual_learning_cosinecenter_evaluator_gtzan_scenario2 = deepcopy(
     continual_learning_cosinecenter_evaluator_gtzan_scenario1

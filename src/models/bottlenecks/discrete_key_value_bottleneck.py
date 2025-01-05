@@ -1,5 +1,3 @@
-from typing import Union
-
 import torch
 import torch.nn as nn
 from discrete_key_value_bottleneck_pytorch import DiscreteKeyValueBottleneck
@@ -15,7 +13,7 @@ class DKVB(nn.Module):
         num_codebooks: int = 256,
         vq_decay: float = 0.95,
         threshold_ema_dead_code: int = 1e-4,
-        value_dimension: Union[int, str] = "same",
+        value_dimension: int | str = "same",
         **kwargs,
     ):
         super().__init__()

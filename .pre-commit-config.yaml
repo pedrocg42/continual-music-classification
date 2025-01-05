@@ -3,7 +3,6 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
-      - id: check-json
       - id: check-yaml
       - id: check-toml
       - id: debug-statements

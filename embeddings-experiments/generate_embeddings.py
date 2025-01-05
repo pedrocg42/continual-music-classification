@@ -1,7 +1,10 @@
 import numpy as np
 import torch
 from fire import Fire
+from loguru import logger
+from tqdm import tqdm
 
+import config
 from src.models.embedding_model import TorchEmbeddingModel
 from src.train_data_sources.train_data_source_factory import (
     TrainDataSourceFactory,
@@ -9,15 +12,11 @@ from src.train_data_sources.train_data_source_factory import (
 from src.train_data_transforms.mert_data_transform import (
     MertDataTransform,
 )
-import config
-from loguru import logger
-from tqdm import tqdm
 
 torch.set_grad_enabled(False)
 
 
 def generate_embeddings():
-
     dataset_configs = {
         "gtzan": {
             "data_config": dict(name="GtzanDataSource"),
@@ -43,17 +42,17 @@ def generate_embeddings():
 
 
 def generate_dataset_embeddings(
-    encoder_config: dict = dict(name="MertEncoder"),
-    data_config: dict = dict(name="GtzanDataSource"),
+    encoder_config: dict = None,
+    data_config: dict = None,
     input_sample_rate: int = 22050,
     output_name: str = "gtzan",
 ):
-    embedding_model = (
-        TorchEmbeddingModel(encoder=encoder_config).to(config.device).eval()
-    )
-    data_transform = MertDataTransform(input_sample_rate=input_sample_rate).to(
-        config.device
-    )
+    if data_config is None:
+        data_config = dict(name="GtzanDataSource")
+    if encoder_config is None:
+        encoder_config = dict(name="MertEncoder")
+    embedding_model = TorchEmbeddingModel(encoder=encoder_config).to(config.device).eval()
+    data_transform = MertDataTransform(input_sample_rate=input_sample_rate).to(config.device)
 
     for split in ["train", "val", "test"]:
         logger.info(f"Starting embedding extraction of split: {split}")
@@ -76,9 +75,7 @@ def generate_dataset_embeddings(
             chunks_transformed = data_transform(chunks)
             chunks_embeddings = embedding_model.forward_features(chunks_transformed)
 
-            embeddings.append(
-                chunks_embeddings.cpu().numpy().mean(axis=0, keepdims=True)
-            )
+            embeddings.append(chunks_embeddings.cpu().numpy().mean(axis=0, keepdims=True))
             labels.append(chunks_labels[0].numpy())
 
         embeddings = np.concatenate(embeddings)

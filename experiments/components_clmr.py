@@ -123,9 +123,7 @@ continual_learning_icarl_trainer["args"]["looper"] = {
 ## GEM
 continual_learning_gem_trainer = deepcopy(trainer)
 continual_learning_gem_trainer["name"] = "GemContinualLearningTrainer"
-continual_learning_gem_trainer["args"]["looper"][
-    "name"
-] = "GemMusicGenreClassificationLooper"
+continual_learning_gem_trainer["args"]["looper"]["name"] = "GemMusicGenreClassificationLooper"
 continual_learning_gem_trainer["args"]["looper"]["args"]["optimizer"] = {
     "name": "GemOptimizer",
     "args": {"num_memories": 100, "memory_strength": 0.5},
@@ -135,9 +133,7 @@ continual_learning_gem_trainer["args"]["train_model"] = train_model
 ## EWC
 continual_learning_ewc_trainer = deepcopy(trainer)
 continual_learning_ewc_trainer["name"] = "EwcContinualLearningTrainer"
-continual_learning_ewc_trainer["args"]["looper"][
-    "name"
-] = "EwcMusicGenreClassificationLooper"
+continual_learning_ewc_trainer["args"]["looper"]["name"] = "EwcMusicGenreClassificationLooper"
 continual_learning_ewc_trainer["args"]["looper"]["args"]["optimizer"] = {
     "name": "EwcOptimizer",
     "args": {"ewc_lambda": 0.1},
@@ -172,6 +168,4 @@ oracle_evaluator["args"]["tasks"] = ["all"]
 
 continual_learning_evaluator_l2center = deepcopy(evaluator)
 continual_learning_evaluator_l2center["args"]["model"] = train_model_l2center
-continual_learning_evaluator_l2center["name"] = (
-    "ClassIncrementalLearningL2CenterEvaluator"
-)
+continual_learning_evaluator_l2center["name"] = "ClassIncrementalLearningL2CenterEvaluator"

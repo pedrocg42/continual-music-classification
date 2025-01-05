@@ -201,9 +201,7 @@ continual_learning_vq_trainer["args"].update(
         "freeze_decoder_after_first_episode": False,
     }
 )
-continual_learning_vq_trainer["args"]["looper"][
-    "name"
-] = "DkvbMusicGenreClassificationLooper"
+continual_learning_vq_trainer["args"]["looper"]["name"] = "DkvbMusicGenreClassificationLooper"
 continual_learning_vq_trainer["args"]["train_model"] = train_model_vq
 
 ## DKVB
@@ -215,20 +213,14 @@ continual_learning_dkvb_trainer["args"].update(
         "freeze_decoder_after_first_episode": False,
     }
 )
-continual_learning_dkvb_trainer["args"]["looper"][
-    "name"
-] = "DkvbMusicGenreClassificationLooper"
+continual_learning_dkvb_trainer["args"]["looper"]["name"] = "DkvbMusicGenreClassificationLooper"
 continual_learning_dkvb_trainer["args"]["train_model"] = train_model_dkvb
-continual_learning_dkvb_trainer["args"]["looper"]["args"]["optimizer"]["args"] = {
-    "lr": 10.0
-}
+continual_learning_dkvb_trainer["args"]["looper"]["args"]["optimizer"]["args"] = {"lr": 10.0}
 
 ## GEM
 continual_learning_gem_trainer = deepcopy(trainer)
 continual_learning_gem_trainer["name"] = "GemContinualLearningTrainer"
-continual_learning_gem_trainer["args"]["looper"][
-    "name"
-] = "GemMusicGenreClassificationLooper"
+continual_learning_gem_trainer["args"]["looper"]["name"] = "GemMusicGenreClassificationLooper"
 continual_learning_gem_trainer["args"]["looper"]["args"]["optimizer"] = {
     "name": "GemOptimizer",
     "args": {"num_memories": 100, "memory_strength": 0.5},
@@ -238,9 +230,7 @@ continual_learning_gem_trainer["args"]["train_model"] = train_model
 ## EWC
 continual_learning_ewc_trainer = deepcopy(trainer)
 continual_learning_ewc_trainer["name"] = "EwcContinualLearningTrainer"
-continual_learning_ewc_trainer["args"]["looper"][
-    "name"
-] = "EwcMusicGenreClassificationLooper"
+continual_learning_ewc_trainer["args"]["looper"]["name"] = "EwcMusicGenreClassificationLooper"
 continual_learning_ewc_trainer["args"]["looper"]["args"]["optimizer"] = {
     "name": "EwcOptimizer",
     "args": {"ewc_lambda": 0.1},
@@ -300,12 +290,8 @@ continual_learning_evaluator_l2p["name"] = "ClassIncrementalLearningL2PEvaluator
 
 continual_learning_evaluator_l2center = deepcopy(evaluator)
 continual_learning_evaluator_l2center["args"]["model"] = train_model_l2center
-continual_learning_evaluator_l2center[
-    "name"
-] = "ClassIncrementalLearningL2CenterEvaluator"
+continual_learning_evaluator_l2center["name"] = "ClassIncrementalLearningL2CenterEvaluator"
 
 continual_learning_evaluator_cosinecenter = deepcopy(evaluator)
 continual_learning_evaluator_cosinecenter["args"]["model"] = train_model_cosinecenter
-continual_learning_evaluator_cosinecenter[
-    "name"
-] = "ClassIncrementalLearningL2CenterEvaluator"
+continual_learning_evaluator_cosinecenter["name"] = "ClassIncrementalLearningL2CenterEvaluator"

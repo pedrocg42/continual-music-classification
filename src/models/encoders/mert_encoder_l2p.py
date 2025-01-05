@@ -1,5 +1,3 @@
-from typing import Optional, Union
-
 import torch
 import torch.nn.functional as F
 from torch import einsum, nn
@@ -62,12 +60,12 @@ class MertEncoderL2P(nn.Module):
         self,
         input_values: torch.Tensor,
         prompt: torch.Tensor,
-        attention_mask: Optional[torch.Tensor] = None,
-        mask_time_indices: Optional[torch.FloatTensor] = None,
-        output_attentions: Optional[bool] = None,
-        output_hidden_states: Optional[bool] = None,
-        return_dict: Optional[bool] = None,
-    ) -> Union[tuple, BaseModelOutput]:
+        attention_mask: torch.Tensor | None = None,
+        mask_time_indices: torch.FloatTensor | None = None,
+        output_attentions: bool | None = None,
+        output_hidden_states: bool | None = None,
+        return_dict: bool | None = None,
+    ) -> tuple | BaseModelOutput:
         output_attentions = (
             output_attentions if output_attentions is not None else self.encoder.config.output_attentions
         )

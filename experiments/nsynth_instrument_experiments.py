@@ -118,68 +118,44 @@ update_trainer_nsynthinstrument = dict(
 
 # Scenario 1
 oracle_trainer_nsynthinstrument = deepcopy(oracle_trainer)
-oracle_trainer_nsynthinstrument["args"][
-    "train_model"
-] = oracle_train_model_nsynthinstrument
+oracle_trainer_nsynthinstrument["args"]["train_model"] = oracle_train_model_nsynthinstrument
 oracle_trainer_nsynthinstrument["args"].update(update_trainer_nsynthinstrument)
 
 
 # Finetuning
-continual_learning_trainer_nsynthinstrument_scenario1 = deepcopy(
-    continual_learning_trainer
-)
+continual_learning_trainer_nsynthinstrument_scenario1 = deepcopy(continual_learning_trainer)
 continual_learning_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_trainer_nsynthinstrument_scenario1["args"].update(
-    update_trainer_nsynthinstrument
-)
+continual_learning_trainer_nsynthinstrument_scenario1["args"].update(update_trainer_nsynthinstrument)
 
 
-continual_learning_trainer_nsynthinstrument_scenario2 = deepcopy(
-    continual_learning_trainer_nsynthinstrument_scenario1
-)
+continual_learning_trainer_nsynthinstrument_scenario2 = deepcopy(continual_learning_trainer_nsynthinstrument_scenario1)
 continual_learning_trainer_nsynthinstrument_scenario2["args"]["tasks"] = scenario2
 
-continual_learning_trainer_nsynthinstrument_scenario3 = deepcopy(
-    continual_learning_trainer_nsynthinstrument_scenario1
-)
+continual_learning_trainer_nsynthinstrument_scenario3 = deepcopy(continual_learning_trainer_nsynthinstrument_scenario1)
 continual_learning_trainer_nsynthinstrument_scenario3["args"]["tasks"] = scenario3
 
 
 ## Replay
-continual_learning_replay_trainer_nsynthinstrument_scenario1 = deepcopy(
-    continual_learning_replay_trainer
-)
-continual_learning_replay_trainer_nsynthinstrument_scenario1["args"][
-    "tasks"
-] = scenario1
-continual_learning_replay_trainer_nsynthinstrument_scenario1["args"].update(
-    update_trainer_nsynthinstrument
-)
+continual_learning_replay_trainer_nsynthinstrument_scenario1 = deepcopy(continual_learning_replay_trainer)
+continual_learning_replay_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
+continual_learning_replay_trainer_nsynthinstrument_scenario1["args"].update(update_trainer_nsynthinstrument)
 
 
 continual_learning_replay_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_replay_trainer_nsynthinstrument_scenario1
 )
-continual_learning_replay_trainer_nsynthinstrument_scenario2["args"][
-    "tasks"
-] = scenario2
+continual_learning_replay_trainer_nsynthinstrument_scenario2["args"]["tasks"] = scenario2
 
 continual_learning_replay_trainer_nsynthinstrument_scenario3 = deepcopy(
     continual_learning_replay_trainer_nsynthinstrument_scenario1
 )
-continual_learning_replay_trainer_nsynthinstrument_scenario3["args"][
-    "tasks"
-] = scenario3
+continual_learning_replay_trainer_nsynthinstrument_scenario3["args"]["tasks"] = scenario3
 
 
 ## iCaRL
-continual_learning_icarl_trainer_nsynthinstrument_scenario1 = deepcopy(
-    continual_learning_icarl_trainer
-)
+continual_learning_icarl_trainer_nsynthinstrument_scenario1 = deepcopy(continual_learning_icarl_trainer)
 continual_learning_icarl_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_icarl_trainer_nsynthinstrument_scenario1["args"].update(
-    update_trainer_nsynthinstrument
-)
+continual_learning_icarl_trainer_nsynthinstrument_scenario1["args"].update(update_trainer_nsynthinstrument)
 
 continual_learning_icarl_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_icarl_trainer_nsynthinstrument_scenario1
@@ -192,13 +168,9 @@ continual_learning_icarl_trainer_nsynthinstrument_scenario3 = deepcopy(
 continual_learning_icarl_trainer_nsynthinstrument_scenario3["args"]["tasks"] = scenario3
 
 ## GEM
-continual_learning_gem_trainer_nsynthinstrument_scenario1 = deepcopy(
-    continual_learning_gem_trainer
-)
+continual_learning_gem_trainer_nsynthinstrument_scenario1 = deepcopy(continual_learning_gem_trainer)
 continual_learning_gem_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_gem_trainer_nsynthinstrument_scenario1["args"].update(
-    update_trainer_nsynthinstrument
-)
+continual_learning_gem_trainer_nsynthinstrument_scenario1["args"].update(update_trainer_nsynthinstrument)
 
 
 continual_learning_gem_trainer_nsynthinstrument_scenario2 = deepcopy(
@@ -213,13 +185,9 @@ continual_learning_gem_trainer_nsynthinstrument_scenario3["args"]["tasks"] = sce
 
 
 ## EWC
-continual_learning_ewc_trainer_nsynthinstrument_scenario1 = deepcopy(
-    continual_learning_ewc_trainer
-)
+continual_learning_ewc_trainer_nsynthinstrument_scenario1 = deepcopy(continual_learning_ewc_trainer)
 continual_learning_ewc_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_ewc_trainer_nsynthinstrument_scenario1["args"].update(
-    update_trainer_nsynthinstrument
-)
+continual_learning_ewc_trainer_nsynthinstrument_scenario1["args"].update(update_trainer_nsynthinstrument)
 
 continual_learning_ewc_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_ewc_trainer_nsynthinstrument_scenario1
@@ -233,13 +201,9 @@ continual_learning_ewc_trainer_nsynthinstrument_scenario3["args"]["tasks"] = sce
 
 
 ## L2P
-continual_learning_l2p_trainer_nsynthinstrument_scenario1 = deepcopy(
-    continual_learning_l2p_trainer
-)
+continual_learning_l2p_trainer_nsynthinstrument_scenario1 = deepcopy(continual_learning_l2p_trainer)
 continual_learning_l2p_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2p_trainer_nsynthinstrument_scenario1["args"].update(
-    update_trainer_nsynthinstrument
-)
+continual_learning_l2p_trainer_nsynthinstrument_scenario1["args"].update(update_trainer_nsynthinstrument)
 
 
 continual_learning_l2p_trainer_nsynthinstrument_scenario2 = deepcopy(
@@ -253,52 +217,36 @@ continual_learning_l2p_trainer_nsynthinstrument_scenario3 = deepcopy(
 continual_learning_l2p_trainer_nsynthinstrument_scenario3["args"]["tasks"] = scenario3
 
 ## L2Center
-continual_learning_l2center_trainer_nsynthinstrument_scenario1 = deepcopy(
-    continual_learning_l2center_trainer
-)
-continual_learning_l2center_trainer_nsynthinstrument_scenario1["args"][
-    "tasks"
-] = scenario1
-continual_learning_l2center_trainer_nsynthinstrument_scenario1["args"].update(
-    update_trainer_nsynthinstrument
-)
+continual_learning_l2center_trainer_nsynthinstrument_scenario1 = deepcopy(continual_learning_l2center_trainer)
+continual_learning_l2center_trainer_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
+continual_learning_l2center_trainer_nsynthinstrument_scenario1["args"].update(update_trainer_nsynthinstrument)
 
 continual_learning_l2center_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_l2center_trainer_nsynthinstrument_scenario1
 )
-continual_learning_l2center_trainer_nsynthinstrument_scenario2["args"][
-    "tasks"
-] = scenario2
+continual_learning_l2center_trainer_nsynthinstrument_scenario2["args"]["tasks"] = scenario2
 
 continual_learning_l2center_trainer_nsynthinstrument_scenario3 = deepcopy(
     continual_learning_l2center_trainer_nsynthinstrument_scenario1
 )
-continual_learning_l2center_trainer_nsynthinstrument_scenario3["args"][
-    "tasks"
-] = scenario3
+continual_learning_l2center_trainer_nsynthinstrument_scenario3["args"]["tasks"] = scenario3
 
 
 ## CosineCenter
 continual_learning_cosinecenter_trainer_nsynthinstrument_scenario1 = deepcopy(
     continual_learning_l2center_trainer_nsynthinstrument_scenario1
 )
-continual_learning_cosinecenter_trainer_nsynthinstrument_scenario1["args"][
-    "train_model"
-] = train_model_cosinecenter
+continual_learning_cosinecenter_trainer_nsynthinstrument_scenario1["args"]["train_model"] = train_model_cosinecenter
 
 continual_learning_cosinecenter_trainer_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_cosinecenter_trainer_nsynthinstrument_scenario1
 )
-continual_learning_cosinecenter_trainer_nsynthinstrument_scenario2["args"][
-    "tasks"
-] = scenario2
+continual_learning_cosinecenter_trainer_nsynthinstrument_scenario2["args"]["tasks"] = scenario2
 
 continual_learning_cosinecenter_trainer_nsynthinstrument_scenario3 = deepcopy(
     continual_learning_cosinecenter_trainer_nsynthinstrument_scenario1
 )
-continual_learning_cosinecenter_trainer_nsynthinstrument_scenario3["args"][
-    "tasks"
-] = scenario3
+continual_learning_cosinecenter_trainer_nsynthinstrument_scenario3["args"]["tasks"] = scenario3
 
 ###########               EVALUATORS                ###########
 
@@ -314,25 +262,17 @@ oracle_evaluator_nsynthinstrument["args"]["model"] = oracle_train_model_nsynthin
 oracle_evaluator_nsynthinstrument["args"]["tasks"] = all_tasks
 oracle_evaluator_nsynthinstrument["args"].update(update_evaluator_nsynthinstrument)
 
-oracle_evaluator_nsynthinstrument_scenario1 = deepcopy(
-    oracle_evaluator_nsynthinstrument
-)
+oracle_evaluator_nsynthinstrument_scenario1 = deepcopy(oracle_evaluator_nsynthinstrument)
 oracle_evaluator_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-oracle_evaluator_nsynthinstrument_scenario2 = deepcopy(
-    oracle_evaluator_nsynthinstrument
-)
+oracle_evaluator_nsynthinstrument_scenario2 = deepcopy(oracle_evaluator_nsynthinstrument)
 oracle_evaluator_nsynthinstrument_scenario2["args"]["tasks"] = scenario2
-oracle_evaluator_nsynthinstrument_scenario3 = deepcopy(
-    oracle_evaluator_nsynthinstrument
-)
+oracle_evaluator_nsynthinstrument_scenario3 = deepcopy(oracle_evaluator_nsynthinstrument)
 oracle_evaluator_nsynthinstrument_scenario3["args"]["tasks"] = scenario3
 
 ## Finetuning
 continual_learning_evaluator_nsynthinstrument_scenario1 = deepcopy(evaluator)
 continual_learning_evaluator_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_evaluator_nsynthinstrument_scenario1["args"].update(
-    update_evaluator_nsynthinstrument
-)
+continual_learning_evaluator_nsynthinstrument_scenario1["args"].update(update_evaluator_nsynthinstrument)
 
 continual_learning_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_evaluator_nsynthinstrument_scenario1
@@ -344,13 +284,9 @@ continual_learning_evaluator_nsynthinstrument_scenario3 = deepcopy(
 continual_learning_evaluator_nsynthinstrument_scenario3["args"]["tasks"] = scenario3
 
 ## L2P
-continual_learning_l2p_evaluator_nsynthinstrument_scenario1 = deepcopy(
-    continual_learning_evaluator_l2p
-)
+continual_learning_l2p_evaluator_nsynthinstrument_scenario1 = deepcopy(continual_learning_evaluator_l2p)
 continual_learning_l2p_evaluator_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2p_evaluator_nsynthinstrument_scenario1["args"].update(
-    update_evaluator_nsynthinstrument
-)
+continual_learning_l2p_evaluator_nsynthinstrument_scenario1["args"].update(update_evaluator_nsynthinstrument)
 
 continual_learning_l2p_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_l2p_evaluator_nsynthinstrument_scenario1
@@ -363,53 +299,35 @@ continual_learning_l2p_evaluator_nsynthinstrument_scenario3["args"]["tasks"] = s
 
 
 # L2Center
-continual_learning_l2center_evaluator_nsynthinstrument_scenario1 = deepcopy(
-    continual_learning_evaluator_l2center
-)
-continual_learning_l2center_evaluator_nsynthinstrument_scenario1["args"][
-    "tasks"
-] = scenario1
-continual_learning_l2center_evaluator_nsynthinstrument_scenario1["args"].update(
-    update_evaluator_nsynthinstrument
-)
+continual_learning_l2center_evaluator_nsynthinstrument_scenario1 = deepcopy(continual_learning_evaluator_l2center)
+continual_learning_l2center_evaluator_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
+continual_learning_l2center_evaluator_nsynthinstrument_scenario1["args"].update(update_evaluator_nsynthinstrument)
 
 continual_learning_l2center_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_l2center_evaluator_nsynthinstrument_scenario1
 )
-continual_learning_l2center_evaluator_nsynthinstrument_scenario2["args"][
-    "tasks"
-] = scenario2
+continual_learning_l2center_evaluator_nsynthinstrument_scenario2["args"]["tasks"] = scenario2
 continual_learning_l2center_evaluator_nsynthinstrument_scenario3 = deepcopy(
     continual_learning_l2center_evaluator_nsynthinstrument_scenario1
 )
-continual_learning_l2center_evaluator_nsynthinstrument_scenario3["args"][
-    "tasks"
-] = scenario3
+continual_learning_l2center_evaluator_nsynthinstrument_scenario3["args"]["tasks"] = scenario3
 
 
 # CosineCenter
 continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1 = deepcopy(
     continual_learning_evaluator_cosinecenter
 )
-continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1["args"][
-    "tasks"
-] = scenario1
-continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1["args"].update(
-    update_evaluator_nsynthinstrument
-)
+continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1["args"]["tasks"] = scenario1
+continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1["args"].update(update_evaluator_nsynthinstrument)
 
 continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario2 = deepcopy(
     continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1
 )
-continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario2["args"][
-    "tasks"
-] = scenario2
+continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario2["args"]["tasks"] = scenario2
 continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario3 = deepcopy(
     continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario1
 )
-continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario3["args"][
-    "tasks"
-] = scenario3
+continual_learning_cosinecenter_evaluator_nsynthinstrument_scenario3["args"]["tasks"] = scenario3
 
 ###############################################################
 ###########               EXPERIMENTS               ###########

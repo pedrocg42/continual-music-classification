@@ -124,7 +124,7 @@ class EwcOptimizer(TorchBaseOptimizer):
             loss = criteria(out, y)
             loss.backward()
 
-            for (k1, p), (k2, imp) in zip(model.named_parameters(), importances.items()):
+            for (k1, p), (k2, imp) in zip(model.named_parameters(), importances.items(), strict=False):
                 assert k1 == k2
                 if p.grad is not None:
                     imp.data += p.grad.data.clone().pow(2)

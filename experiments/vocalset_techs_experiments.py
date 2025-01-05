@@ -121,29 +121,19 @@ oracle_trainer_vocalsettech["args"].update(update_trainer_vocalsettech)
 ## Finetuning
 continual_learning_trainer_vocalsettech_scenario1 = deepcopy(continual_learning_trainer)
 continual_learning_trainer_vocalsettech_scenario1["args"]["tasks"] = scenario1
-continual_learning_trainer_vocalsettech_scenario1["args"].update(
-    update_trainer_vocalsettech
-)
+continual_learning_trainer_vocalsettech_scenario1["args"].update(update_trainer_vocalsettech)
 
 
-continual_learning_trainer_vocalsettech_scenario2 = deepcopy(
-    continual_learning_trainer_vocalsettech_scenario1
-)
+continual_learning_trainer_vocalsettech_scenario2 = deepcopy(continual_learning_trainer_vocalsettech_scenario1)
 continual_learning_trainer_vocalsettech_scenario2["args"]["tasks"] = scenario2
-continual_learning_trainer_vocalsettech_scenario3 = deepcopy(
-    continual_learning_trainer_vocalsettech_scenario1
-)
+continual_learning_trainer_vocalsettech_scenario3 = deepcopy(continual_learning_trainer_vocalsettech_scenario1)
 continual_learning_trainer_vocalsettech_scenario3["args"]["tasks"] = scenario3
 
 
 ## Replay
-continual_learning_replay_trainer_vocalsettech_scenario1 = deepcopy(
-    continual_learning_replay_trainer
-)
+continual_learning_replay_trainer_vocalsettech_scenario1 = deepcopy(continual_learning_replay_trainer)
 continual_learning_replay_trainer_vocalsettech_scenario1["args"]["tasks"] = scenario1
-continual_learning_replay_trainer_vocalsettech_scenario1["args"].update(
-    update_trainer_vocalsettech
-)
+continual_learning_replay_trainer_vocalsettech_scenario1["args"].update(update_trainer_vocalsettech)
 
 continual_learning_replay_trainer_vocalsettech_scenario2 = deepcopy(
     continual_learning_replay_trainer_vocalsettech_scenario1
@@ -156,13 +146,9 @@ continual_learning_replay_trainer_vocalsettech_scenario3["args"]["tasks"] = scen
 
 
 ## iCaRL
-continual_learning_icarl_trainer_vocalsettech_scenario1 = deepcopy(
-    continual_learning_icarl_trainer
-)
+continual_learning_icarl_trainer_vocalsettech_scenario1 = deepcopy(continual_learning_icarl_trainer)
 continual_learning_icarl_trainer_vocalsettech_scenario1["args"]["tasks"] = scenario1
-continual_learning_icarl_trainer_vocalsettech_scenario1["args"].update(
-    update_trainer_vocalsettech
-)
+continual_learning_icarl_trainer_vocalsettech_scenario1["args"].update(update_trainer_vocalsettech)
 
 
 continual_learning_icarl_trainer_vocalsettech_scenario2 = deepcopy(
@@ -175,73 +161,45 @@ continual_learning_icarl_trainer_vocalsettech_scenario3 = deepcopy(
 continual_learning_icarl_trainer_vocalsettech_scenario3["args"]["tasks"] = scenario3
 
 ## GEM
-continual_learning_gem_trainer_vocalsettech_scenario1 = deepcopy(
-    continual_learning_gem_trainer
-)
+continual_learning_gem_trainer_vocalsettech_scenario1 = deepcopy(continual_learning_gem_trainer)
 continual_learning_gem_trainer_vocalsettech_scenario1["args"]["tasks"] = scenario1
-continual_learning_gem_trainer_vocalsettech_scenario1["args"].update(
-    update_trainer_vocalsettech
-)
+continual_learning_gem_trainer_vocalsettech_scenario1["args"].update(update_trainer_vocalsettech)
 
 
-continual_learning_gem_trainer_vocalsettech_scenario2 = deepcopy(
-    continual_learning_gem_trainer_vocalsettech_scenario1
-)
+continual_learning_gem_trainer_vocalsettech_scenario2 = deepcopy(continual_learning_gem_trainer_vocalsettech_scenario1)
 continual_learning_gem_trainer_vocalsettech_scenario2["args"]["tasks"] = scenario2
-continual_learning_gem_trainer_vocalsettech_scenario3 = deepcopy(
-    continual_learning_gem_trainer_vocalsettech_scenario1
-)
+continual_learning_gem_trainer_vocalsettech_scenario3 = deepcopy(continual_learning_gem_trainer_vocalsettech_scenario1)
 continual_learning_gem_trainer_vocalsettech_scenario3["args"]["tasks"] = scenario3
 
 
 ## EWC
-continual_learning_ewc_trainer_vocalsettech_scenario1 = deepcopy(
-    continual_learning_ewc_trainer
-)
+continual_learning_ewc_trainer_vocalsettech_scenario1 = deepcopy(continual_learning_ewc_trainer)
 continual_learning_ewc_trainer_vocalsettech_scenario1["args"]["tasks"] = scenario1
-continual_learning_ewc_trainer_vocalsettech_scenario1["args"].update(
-    update_trainer_vocalsettech
-)
+continual_learning_ewc_trainer_vocalsettech_scenario1["args"].update(update_trainer_vocalsettech)
 
 
-continual_learning_ewc_trainer_vocalsettech_scenario2 = deepcopy(
-    continual_learning_ewc_trainer_vocalsettech_scenario1
-)
+continual_learning_ewc_trainer_vocalsettech_scenario2 = deepcopy(continual_learning_ewc_trainer_vocalsettech_scenario1)
 continual_learning_ewc_trainer_vocalsettech_scenario2["args"]["tasks"] = scenario2
-continual_learning_ewc_trainer_vocalsettech_scenario3 = deepcopy(
-    continual_learning_ewc_trainer_vocalsettech_scenario1
-)
+continual_learning_ewc_trainer_vocalsettech_scenario3 = deepcopy(continual_learning_ewc_trainer_vocalsettech_scenario1)
 continual_learning_ewc_trainer_vocalsettech_scenario3["args"]["tasks"] = scenario3
 
 
 ## L2P
-continual_learning_l2p_trainer_vocalsettech_scenario1 = deepcopy(
-    continual_learning_l2p_trainer
-)
+continual_learning_l2p_trainer_vocalsettech_scenario1 = deepcopy(continual_learning_l2p_trainer)
 continual_learning_l2p_trainer_vocalsettech_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2p_trainer_vocalsettech_scenario1["args"].update(
-    update_trainer_vocalsettech
-)
+continual_learning_l2p_trainer_vocalsettech_scenario1["args"].update(update_trainer_vocalsettech)
 
 
-continual_learning_l2p_trainer_vocalsettech_scenario2 = deepcopy(
-    continual_learning_l2p_trainer_vocalsettech_scenario1
-)
+continual_learning_l2p_trainer_vocalsettech_scenario2 = deepcopy(continual_learning_l2p_trainer_vocalsettech_scenario1)
 continual_learning_l2p_trainer_vocalsettech_scenario2["args"]["tasks"] = scenario2
-continual_learning_l2p_trainer_vocalsettech_scenario3 = deepcopy(
-    continual_learning_l2p_trainer_vocalsettech_scenario1
-)
+continual_learning_l2p_trainer_vocalsettech_scenario3 = deepcopy(continual_learning_l2p_trainer_vocalsettech_scenario1)
 continual_learning_l2p_trainer_vocalsettech_scenario3["args"]["tasks"] = scenario3
 
 
 ## L2Center
-continual_learning_l2center_trainer_vocalsettech_scenario1 = deepcopy(
-    continual_learning_l2center_trainer
-)
+continual_learning_l2center_trainer_vocalsettech_scenario1 = deepcopy(continual_learning_l2center_trainer)
 continual_learning_l2center_trainer_vocalsettech_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2center_trainer_vocalsettech_scenario1["args"].update(
-    update_trainer_vocalsettech
-)
+continual_learning_l2center_trainer_vocalsettech_scenario1["args"].update(update_trainer_vocalsettech)
 
 
 continual_learning_l2center_trainer_vocalsettech_scenario2 = deepcopy(
@@ -257,22 +215,16 @@ continual_learning_l2center_trainer_vocalsettech_scenario3["args"]["tasks"] = sc
 continual_learning_cosinecenter_trainer_vocalsettech_scenario1 = deepcopy(
     continual_learning_l2center_trainer_vocalsettech_scenario1
 )
-continual_learning_cosinecenter_trainer_vocalsettech_scenario1["args"][
-    "train_model"
-] = train_model_cosinecenter
+continual_learning_cosinecenter_trainer_vocalsettech_scenario1["args"]["train_model"] = train_model_cosinecenter
 
 continual_learning_cosinecenter_trainer_vocalsettech_scenario2 = deepcopy(
     continual_learning_cosinecenter_trainer_vocalsettech_scenario1
 )
-continual_learning_cosinecenter_trainer_vocalsettech_scenario2["args"][
-    "tasks"
-] = scenario2
+continual_learning_cosinecenter_trainer_vocalsettech_scenario2["args"]["tasks"] = scenario2
 continual_learning_cosinecenter_trainer_vocalsettech_scenario3 = deepcopy(
     continual_learning_cosinecenter_trainer_vocalsettech_scenario1
 )
-continual_learning_cosinecenter_trainer_vocalsettech_scenario3["args"][
-    "tasks"
-] = scenario3
+continual_learning_cosinecenter_trainer_vocalsettech_scenario3["args"]["tasks"] = scenario3
 
 ###########               EVALUATORS                ###########
 
@@ -297,28 +249,18 @@ oracle_evaluator_vocalsettech_scenario3["args"]["tasks"] = scenario3
 ## Finetuning
 continual_learning_evaluator_vocalsettech_scenario1 = deepcopy(evaluator)
 continual_learning_evaluator_vocalsettech_scenario1["args"]["tasks"] = scenario1
-continual_learning_evaluator_vocalsettech_scenario1["args"].update(
-    update_evaluator_vocalsettech
-)
+continual_learning_evaluator_vocalsettech_scenario1["args"].update(update_evaluator_vocalsettech)
 
 
-continual_learning_evaluator_vocalsettech_scenario2 = deepcopy(
-    continual_learning_evaluator_vocalsettech_scenario1
-)
+continual_learning_evaluator_vocalsettech_scenario2 = deepcopy(continual_learning_evaluator_vocalsettech_scenario1)
 continual_learning_evaluator_vocalsettech_scenario2["args"]["tasks"] = scenario2
-continual_learning_evaluator_vocalsettech_scenario3 = deepcopy(
-    continual_learning_evaluator_vocalsettech_scenario1
-)
+continual_learning_evaluator_vocalsettech_scenario3 = deepcopy(continual_learning_evaluator_vocalsettech_scenario1)
 continual_learning_evaluator_vocalsettech_scenario3["args"]["tasks"] = scenario3
 
 ## L2P
-continual_learning_l2p_evaluator_vocalsettech_scenario1 = deepcopy(
-    continual_learning_evaluator_l2p
-)
+continual_learning_l2p_evaluator_vocalsettech_scenario1 = deepcopy(continual_learning_evaluator_l2p)
 continual_learning_l2p_evaluator_vocalsettech_scenario1["args"]["tasks"] = scenario1
-continual_learning_l2p_evaluator_vocalsettech_scenario1["args"].update(
-    update_evaluator_vocalsettech
-)
+continual_learning_l2p_evaluator_vocalsettech_scenario1["args"].update(update_evaluator_vocalsettech)
 
 
 continual_learning_l2p_evaluator_vocalsettech_scenario2 = deepcopy(
@@ -332,53 +274,33 @@ continual_learning_l2p_evaluator_vocalsettech_scenario3["args"]["tasks"] = scena
 
 
 ## L2Center
-continual_learning_l2center_evaluator_vocalsettech_scenario1 = deepcopy(
-    continual_learning_evaluator_l2center
-)
-continual_learning_l2center_evaluator_vocalsettech_scenario1["args"][
-    "tasks"
-] = scenario1
-continual_learning_l2center_evaluator_vocalsettech_scenario1["args"].update(
-    update_evaluator_vocalsettech
-)
+continual_learning_l2center_evaluator_vocalsettech_scenario1 = deepcopy(continual_learning_evaluator_l2center)
+continual_learning_l2center_evaluator_vocalsettech_scenario1["args"]["tasks"] = scenario1
+continual_learning_l2center_evaluator_vocalsettech_scenario1["args"].update(update_evaluator_vocalsettech)
 
 
 continual_learning_l2center_evaluator_vocalsettech_scenario2 = deepcopy(
     continual_learning_l2center_evaluator_vocalsettech_scenario1
 )
-continual_learning_l2center_evaluator_vocalsettech_scenario2["args"][
-    "tasks"
-] = scenario2
+continual_learning_l2center_evaluator_vocalsettech_scenario2["args"]["tasks"] = scenario2
 continual_learning_l2center_evaluator_vocalsettech_scenario3 = deepcopy(
     continual_learning_l2center_evaluator_vocalsettech_scenario1
 )
-continual_learning_l2center_evaluator_vocalsettech_scenario3["args"][
-    "tasks"
-] = scenario3
+continual_learning_l2center_evaluator_vocalsettech_scenario3["args"]["tasks"] = scenario3
 
 ## CosineCenter
-continual_learning_cosinecenter_evaluator_vocalsettech_scenario1 = deepcopy(
-    continual_learning_evaluator_cosinecenter
-)
-continual_learning_cosinecenter_evaluator_vocalsettech_scenario1["args"][
-    "tasks"
-] = scenario1
-continual_learning_cosinecenter_evaluator_vocalsettech_scenario1["args"].update(
-    update_evaluator_vocalsettech
-)
+continual_learning_cosinecenter_evaluator_vocalsettech_scenario1 = deepcopy(continual_learning_evaluator_cosinecenter)
+continual_learning_cosinecenter_evaluator_vocalsettech_scenario1["args"]["tasks"] = scenario1
+continual_learning_cosinecenter_evaluator_vocalsettech_scenario1["args"].update(update_evaluator_vocalsettech)
 
 continual_learning_cosinecenter_evaluator_vocalsettech_scenario2 = deepcopy(
     continual_learning_cosinecenter_evaluator_vocalsettech_scenario1
 )
-continual_learning_cosinecenter_evaluator_vocalsettech_scenario2["args"][
-    "tasks"
-] = scenario2
+continual_learning_cosinecenter_evaluator_vocalsettech_scenario2["args"]["tasks"] = scenario2
 continual_learning_cosinecenter_evaluator_vocalsettech_scenario3 = deepcopy(
     continual_learning_cosinecenter_evaluator_vocalsettech_scenario1
 )
-continual_learning_cosinecenter_evaluator_vocalsettech_scenario3["args"][
-    "tasks"
-] = scenario3
+continual_learning_cosinecenter_evaluator_vocalsettech_scenario3["args"]["tasks"] = scenario3
 
 ###############################################################
 ###########               EXPERIMENTS               ###########

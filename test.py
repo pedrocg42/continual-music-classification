@@ -9,14 +9,10 @@ from transformers import AutoModel, Wav2Vec2FeatureExtractor
 # loading our model weights
 model = AutoModel.from_pretrained("m-a-p/MERT-v1-95M", trust_remote_code=True)
 # loading the corresponding preprocessor config
-processor = Wav2Vec2FeatureExtractor.from_pretrained(
-    "m-a-p/MERT-v1-95M", trust_remote_code=True
-)
+processor = Wav2Vec2FeatureExtractor.from_pretrained("m-a-p/MERT-v1-95M", trust_remote_code=True)
 
 # load demo audio and set processor
-dataset = load_dataset(
-    "hf-internal-testing/librispeech_asr_demo", "clean", split="validation"
-)
+dataset = load_dataset("hf-internal-testing/librispeech_asr_demo", "clean", split="validation")
 dataset = dataset.sort("id")
 sampling_rate = dataset.features["audio"].sampling_rate
 
@@ -32,9 +28,7 @@ else:
 if resampler is None:
     input_audio = dataset[0]["audio"]["array"]
 else:
-    input_audio = resampler(
-        torch.from_numpy(dataset[0]["audio"]["array"].astype(np.float32))
-    )
+    input_audio = resampler(torch.from_numpy(dataset[0]["audio"]["array"].astype(np.float32)))
     # input_audio = resampler(
     #     torch.from_numpy(
     #         np.array(
@@ -58,7 +52,5 @@ print(time_reduced_hidden_states.shape)  # [13, 768]
 
 # you can even use a learnable weighted average representation
 aggregator = nn.Conv1d(in_channels=13, out_channels=1, kernel_size=1)
-weighted_avg_hidden_states = aggregator(
-    time_reduced_hidden_states.unsqueeze(0)
-).squeeze()
+weighted_avg_hidden_states = aggregator(time_reduced_hidden_states.unsqueeze(0)).squeeze()
 print(weighted_avg_hidden_states.shape)  # [768]

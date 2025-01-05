@@ -1,5 +1,4 @@
 from fire import Fire
-import traceback
 
 from src.evaluators import EvaluatorFactory
 from src.my_utils import parse_experiment
