@@ -56,14 +56,16 @@ def build_data_loader(dataset_name: str, split: str) -> torch.utils.data.DataLoa
         case "google-landmark-v2":
             # manual dataset
             pass
-    data_loader = torch.utils.data.DataLoader(dataset, batch_size=4, shuffle=True, num_workers=1, collate_fn=collate_fn)
+    data_loader = torch.utils.data.DataLoader(
+        dataset, batch_size=64, shuffle=True, num_workers=os.cpu_count() // 2, collate_fn=collate_fn
+    )
     data_loader_w_progress = tqdm(data_loader, desc=f"Extracting {split} embeddings")
     return data_loader_w_progress
 
 
 def generate_embeddings():
     for model_name in ["resnet18", "resnet34", "resnet50", "vit", "vit-dino"]:
-        for dataset_name in ["core50", "core50"]:
+        for dataset_name in ["cifar100", "core50"]:
             logger.info(f"Starting embedding extraction for model {model_name} of dataset: {dataset_name}")
             generate_dataset_embeddings(model_name, dataset_name)
             logger.info(f"Finished embedding extraction for model {model_name} of dataset: {dataset_name}")
